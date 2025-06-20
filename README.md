@@ -25,18 +25,29 @@ Crafted by **Arglax**, this guide will walk you through how to apply these tweak
 2. On your device, select **"File Transfer" or "Android Auto"** mode (not "Charge only").
 3. Open **File Explorer** on your PC.
 4. Navigate to the following folder in your Android device:
+# 📂 File Location on Android Device
+
+To access or modify configuration files for **Wuthering Waves**, navigate to the following folder on your Android device:
+
+```
 Internal Storage/
 └── Android/
-└── data/
-└── com.kurogame.wutheringwaves.global/
-└── files/
-└── UE4Game/
-└── Client/
-└── Client/
-└── Saved/
-└── Config/
-└── Android/
+    └── data/
+        └── com.kurogame.wutheringwaves.global/
+            └── files/
+                └── UE4Game/
+                    └── Client/
+                        └── Client/
+                            └── Saved/
+                                └── Config/
+                                    └── Android/
+```
 
+This is the target directory where `Engine.ini` and `DeviceProfiles.ini` files are located or should be placed.
+
+> 📌 **Note:** You might need a file manager with root or advanced access to view or modify these files.
+
+---
 5. Inside the `Android/` folder, **paste** the provided:
 - `Engine.ini`
 - `DeviceProfiles.ini`
