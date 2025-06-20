@@ -49,36 +49,6 @@ Internal Storage/
 
 ---
 
-## ❓ Frequently Asked Questions
-
-### ❓ Can I install this without a PC?
-**Yes**, but it’s outside the scope of this guide. You may explore alternatives like:
-- [AlteriaX’s Repo](https://github.com/AlteriaX/WuWa-Configs/blob/main/README.md)
-
----
-
-### 💥 My game crashes after applying the config!
-Some devices may not support ultra settings.
-
-**Fix:**
-- Delete `Engine.ini` and `DeviceProfiles.ini` from the same folder
-- Restart WuWa – it will regenerate safe defaults
-
----
-
-### 🐢 Game is laggy or has low FPS
-Try adjusting the config:
-
-- Open `Engine.ini`
-- Search for any value labeled:
-- `DensityScale`
-- `ResolutionScale`
-- Change values:
-- `DensityScale` → `1`
-- `ResolutionScale` → lower it (e.g., `0.85` or `0.75`)
-
----
-
 ## 📬 Need Help?
 
 Chat me on **Discord** for support, updates, and discussion:
