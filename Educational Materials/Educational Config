@@ -1,0 +1,448 @@
+; ============================
+; Arglax's Engine.ini SAMPLE Configuration Overview
+; ============================
+
+; This configuration file has been customized for ultra-high quality, high performance and stability on Android devices using Unreal Engine.
+; It includes multithreading optimizations, memory management, streaming performance, shader compilation behavior,
+; garbage collection, AI enhancements, and more. Each section influences specific subsystems of the engine.
+; Uses Poco X6 Pro 5G as the basis model.
+; This config file is aided by ChatGPT and GPT-derivative: Unreal Engine 4 Expert and are fully tested and tweaked by Arglax.
+
+; DISCLAIMER: This configuration is intended solely to enhance the visual quality and performance of Wuthering Waves. While it has been tested and is considered safe, by using this configuration, you acknowledge that I am not responsible for any potential issues that may arise—including but not limited to crashes, data loss, hardware damage, or account penalties. Use at your own discretion.
+; This config, when used as is, may NOT work
+
+; ============================
+; CATEGORY OVERVIEW
+; ============================
+
+; [Core.System]                    			  	  - Sets engine and plugin content paths and startup flags.
+; [Physics]                        			  	  - Controls physics threading, substepping, ragdolls.
+; [SystemSettings]                    				  - Core rendering, quality, and graphical CVars (applied at runtime).
+; [SystemSettingsEditor]            				  - Editor-specific rendering and performance CVars.
+; [/Script/Engine.StreamingSettings]				  - Controls streaming priorities, time limits, and other engine-level overrides.
+; [TextureStreaming]                				  - Additional controls for texture streaming pool size, mip bias, etc.
+; [DevOptions.Shaders]            				  - Shader compiler options (DXC, precompilation).
+; [ShaderPipelineCache.CacheFile]  				  - (optional) Shader pipeline cache configuration.
+; [SystemSettings.ShaderPipelineCache] 			          - Handles runtime shader cache prewarming.
+; [UnrealEd.EditorEngine]           				  - Editor behavior overrides.
+; [/Script/Engine.Engine]           				  - Engine-wide rendering and gameplay system flags.
+; [/Script/Engine.GarbageCollectionSettings] 			  - Memory cleanup and GC tuning.
+; [/Script/AndroidRuntimeSettings.AndroidRuntimeSettings] 	  - Android-only packaging and runtime behavior.
+; [CrashReportClient]              				  - Crash report behavior and user data toggles.
+; [DerivedDataBackendGraph]        				  - Asset data cache and disk usage control.
+; [VertexCompress]                 				  - Custom compression behavior for mesh vertex data.
+; [NPCs]                           				  - Custom category for AI update threading, optimizations.
+; [Startup]                        				  - Launch flags and behavior overrides (e.g., threading, GPU crash control).
+; [Log]                            				  - Controls logging verbosity globally or per-subsystem.
+; [StudioTelemetry.Log]            				  - (Optional) Custom telemetry tagging or suppression.
+
+
+; ----------------------------------------
+
+[Core.System]
+Paths=../../../Client/Plugins/ActionRoguelike/Metadata/PipelineCaches
+Paths=../../../Client/Plugins/AudioMaterialPlugin/Content
+Paths=../../../Client/Plugins/BlockoutToolsPlugin/Content
+Paths=../../../Client/Plugins/ComfyTextures/Content
+Paths=../../../Client/Plugins/CrashSight/Content
+Paths=../../../Client/Plugins/Kuro/KuroAutomationTool/Content
+Paths=../../../Client/Plugins/Kuro/KuroCloudGame/Content
+Paths=../../../Client/Plugins/Kuro/KuroGachaTools/Content
+Paths=../../../Client/Plugins/Kuro/KuroGameplay/Content
+Paths=../../../Client/Plugins/Kuro/KuroHotPatch/Content
+Paths=../../../Client/Plugins/Kuro/KuroImposter/Content
+Paths=../../../Client/Plugins/Kuro/KuroPSOTools/Content
+Paths=../../../Client/Plugins/Kuro/KuroPushSdk/Content
+Paths=../../../Client/Plugins/Kuro/TASdkPlugin/Content
+Paths=../../../Client/Plugins/Kuro/WeLingPipeSDK/Content
+Paths=../../../Client/Plugins/MagtModule/Content
+Paths=../../../Client/Plugins/Puerts/Puerts/Content
+Paths=../../../Client/Plugins/Puerts/ReactUMG/Content
+Paths=../../../Client/Plugins/SpinePlugin/Content
+Paths=../../../Client/Plugins/TpSafe/Content
+Paths=../../../Engine/Content
+Paths=../../../Engine/Plugins/AFME/Content
+Paths=../../../Engine/Plugins/Animation/ACLPlugin/Content
+Paths=../../../Engine/Plugins/AssetChecker/Content
+Paths=../../../Engine/Plugins/BlueprintFileUtils/Content
+Paths=../../../Engine/Plugins/Developer/PixelDebug/Content
+Paths=../../../Engine/Plugins/Editor/GeometryMode/Content
+Paths=../../../Engine/Plugins/Editor/SpeedTreeImporter/Content
+Paths=../../../Engine/Plugins/Experimental/ChaosClothEditor/Content
+Paths=../../../Engine/Plugins/Experimental/ChaosNiagara/Content
+Paths=../../../Engine/Plugins/Experimental/ChaosSolverPlugin/Content
+Paths=../../../Engine/Plugins/Experimental/ControlRig/Content
+Paths=../../../Engine/Plugins/Experimental/FieldSystemPlugin/Content
+Paths=../../../Engine/Plugins/Experimental/PythonScriptPlugin/Content
+Paths=../../../Engine/Plugins/FX/HoudiniNiagara/Content
+Paths=../../../Engine/Plugins/FX/Niagara/Content
+Paths=../../../Engine/Plugins/GSR/Content
+Paths=../../../Engine/Plugins/KuroiOSDelegate/Content
+Paths=../../../Engine/Plugins/MagicLeap/MagicLeap/Content
+Paths=../../../Engine/Plugins/MagicLeap/MagicLeapPassableWorld/Content
+Paths=../../../Engine/Plugins/Media/MediaCompositing/Content
+Paths=../../../Engine/Plugins/MegascansPlugin/Content
+Paths=../../../Engine/Plugins/MovieScene/SequencerScripting/Content
+Paths=../../../Engine/Plugins/PWPlugin/Content
+Paths=../../../Engine/Plugins/PrefabSystem/Content
+Paths=../../../Engine/Plugins/Runtime/AudioSynesthesia/Content
+Paths=../../../Engine/Plugins/Runtime/HoudiniEngine/Content
+Paths=../../../Engine/Plugins/Runtime/Intel/XeSS/Content
+Paths=../../../Engine/Plugins/Runtime/Nvidia/DLSS/Content
+Paths=../../../Engine/Plugins/Runtime/Nvidia/NRD/Content
+Paths=../../../Engine/Plugins/Runtime/Nvidia/Streamline/Content
+Paths=../../../Engine/Plugins/Runtime/Nvidia/Streamline_Old/Content
+Paths=../../../Engine/Plugins/Runtime/Synthesis/Content
+Paths=../../../Engine/Plugins/SequenceDialogue/Content
+Paths=../../../Engine/Plugins/ThirdParty/ImpostorBaker/Content
+Paths=../../../Engine/Plugins/ThirdParty/QuickEditor/Content
+Paths=%GAMEDIR%Content
+TimeBetweenPurgingPendingKillObjects=60
+MaxObjectsNotConsideredByGC=0
+SizeOfPermanentObjectPool=0
+launch=high
+launch=nogpucrashdebugging
+launch=noailogging
+launch=noverifyex
+launch=noverifygc
+launch=nothreadtimeout
+launch=novsync
+;==========================================================
+; ----------------------------------------
+; [SystemSettings] - 
+; ----------------------------------------
+[SystemSettings]
+
+; Animation & Frame Rate
+bSmoothFrameRate=True                   ; True/False                              || Enables frame rate smoothing (reduces jitter and stutter)
+t.MaxFPS=120                            ; Integer >=30                              || Sets the maximum frames per second (match screen refresh rate if possible)
+t.MinFPS=60                             ; Integer >=0                               || Minimum frame rate to maintain (can affect smoothing and animation consistency)
+
+; Anti-Aliasing
+r.AntiAliasingMethod=2                      ; 0=None, 1=FXAA, 2=TAA                   || Temporal AA provides best quality (but most expensive)
+r.SceneColorFringeQuality=0                ; 0=Off, 1=Low                            || Chromatic aberration effect quality (set to 0 to disable)
+r.TemporalAA.MobileFrameWeight=0.15        ; Float 0.0–1.0                           || Contribution of previous frames (lower = sharper, less ghosting)
+r.TemporalAA.MobileStaticFrameWeight=0.10  ; Float 0.0–1.0                           || Weight for static geometry TAA smoothing
+r.TemporalAA.MobileUpsampling=0            ; 0=Off, 1=On                             || Enables upsampling on mobile for improved sharpness
+r.TemporalAA.Quality=4                     ; 0=Off, 1–4=Low->Ultra                    || Overall TAA quality setting
+r.TemporalAA.Upsampling=1                  ; 0=Off, 1=On                             || Enables general TAA-based upsampling (works with FSR2)
+
+; Color & Tonemapping
+r.Color.Max=1.51                           ; Float                                    || Maximum intensity for color grading curves
+r.Color.Mid=0.46                           ; Float                                    || Midpoint intensity adjustment
+r.Color.Min=0.00001                        ; Float                                    || Minimum brightness threshold
+r.ColorGrading=1                           ; 0=Off, 1=On                              || Enables full color grading pipeline
+r.ColorGradingIntensity=4                  ; Float >=1                                 || Global intensity multiplier for color grading effects
+r.Contrast=2.5                             ; Float >=1                                 || Scene contrast enhancement factor
+r.Tonemapper.Quality=5                     ; 0=Off, 1–5=Low->High                      || Quality level for tone mapping
+r.Tonemapper.Sharpen=2.2                   ; Float 0.0–3.0                            || Sharpness applied after tone mapping
+
+; Decals & Refraction
+r.Decal.Quality=2                          ; 0=Off, 1–2=Low->High                      || Controls resolution and filtering of screen-space decals
+r.RefractionDownsampleQuality=2           ; 0=Off, 1–2=Low->High                      || Controls refraction sampling quality (affects performance)
+r.RefractionQuality=2                     ; 0=Off, 1–2=Low->High                      || Refraction rendering quality
+r.RefractionSSRQuality=2                  ; 0=Off, 1–2=Low->High                      || Enables SSR-based refraction (e.g., glass effects)
+
+; Depth & Detail
+r.DepthOfFieldQuality=0                   ; 0=Off, 1–2=Low->High                      || Controls quality of DoF (set to 0 to disable for performance)
+r.DetailMode=2                            ; 0=Low, 1=Med, 2=High                     || Enables highest level of detail for materials, meshes, etc.
+r.DiffuseIndirect.Denoiser=0              ; 0=Off, 1=On                              || Enables denoising of diffuse indirect lighting (can blur indirect bounce light)
+r.LODFadeTime=0.6                         ; Float >=0                                 || Time it takes for LOD transitions to fade (reduces pop-in)
+
+; Effects
+fx.Niagara.EmitterViewDistanceScale=10.0      ; Float >=1.0                              || Max view distance scale for Niagara emitters
+fx.Niagara.MaxCPUParticlesSpawnedPerFrame=5000 ; Integer >=0                            || Max CPU particles that can spawn per frame (avoid spikes)
+fx.Niagara.MaxGPUParticlesSpawnedPerFrame=100000 ; Integer >=0                          || Max GPU particles per frame (requires Vulkan)
+r.EmitterSpawnRateScale=4                     ; Float >=1.0                              || Global multiplier for particle emitter spawn rates
+r.Niagara.AsyncGpuTickEnabled=1               ; 0=Off, 1=On                             || Enables async ticking of Niagara GPU systems
+r.Niagara.DeferTickToRHIThread=1              ; 0=Off, 1=On                             || Offloads tick execution to RHI thread for GPU optimization
+r.Niagara.EffectQuality=4                     ; 0=Low, 1–4=Max                          || Niagara simulation and visual fidelity level
+r.Niagara.GPUCompute=1                        ; 0=Off, 1=On                             || Enables Niagara's GPU compute shaders (Vulkan-only)
+r.Niagara.GPUParticle.SimulateOnGPU=1         ; 0=Off, 1=On                             || Forces particles to simulate on GPU
+r.Niagara.GPUParticles=1                      ; 0=Off, 1=On                             || Enables all GPU particle simulation
+r.ParticleLightQuality=2                      ; 0=Off, 1–2=Low->High                     || Particle-based light emission quality (expensive)
+r.ParticleLODBias=0                           ; Integer >=0                              || Global LOD bias applied to particle systems (0 = full quality)
+
+; FidelityFX & Upscaling
+r.FidelityFX.FI.Enabled=1                    ; 0=Off, 1=On                               || Enables Frame Interpolation (FI) for FSR 3 (requires Vulkan & compatible device)
+r.FidelityFX.FSR.DenoiserIntensity=0         ; Float 0.0–1.0                              || Controls how strong the FSR denoiser effect is (0 = sharpest)
+r.FidelityFX.FSR.RCAS.Sharpness=1.0          ; Float 0.0–1.0                              || RCAS (contrast adaptive sharpening) strength after upscaling
+r.FidelityFX.FSR.Radius=1.0                  ; Float >0.0                                 || Radius for upscaling neighborhood (default = 1.0)
+r.FidelityFX.FSR.SecondaryUpscale=1          ; 0=Off, 1=On                               || Enables second pass upscaling (for double scaling or post-AA boost)
+r.FidelityFX.FSR.UseFP16=1                   ; 0=Off, 1=On                               || Uses FP16 for faster performance with FSR on supported hardware
+r.FidelityFX.FSR2.AdjustMipBias=1            ; 0=Off, 1=On                               || Automatically adjusts MIP bias to improve FSR2 texture quality
+r.FidelityFX.FSR2.Enabled=1                  ; 0=Off, 1=On                               || Enables FidelityFX Super Resolution 2 (temporal upscaling)
+r.FidelityFX.FSR2.QualityMode=1              ; 0=Ultra Performance, 1=Performance, 2=Balanced, 3=Quality || Selects FSR2 upscaling quality
+r.FidelityFX.FSR2.Sharpness=1.0              ; Float 0.0–1.0                              || Post-sharpening strength for FSR2
+r.FidelityFX.FSR3.FI=1                       ; 0=Off, 1=On                               || Enables Frame Interpolation in FSR3
+r.FidelityFX.FSR3.MSSR=1                     ; 0=Off, 1=On                               || Enables Motion-Search-based Super Resolution for frame interpolation
+r.FidelityFX.FSR3.QualityMode=1              ; 0=Ultra Performance, 1=Performance, 2=Balanced, 3=Quality || Selects FSR3 mode quality
+
+; Foliage
+foliage.DensityScale=4                       ; Float >=0.0                                 || Multiplies the overall foliage density (visual richness)
+foliage.DensityType=2                        ; 0=Simple, 1=Clustered, 2=Dynamic LOD        || Type of foliage density calculation
+foliage.DisableDitheredLODTransitions=0      ; 0=Enable fade, 1=Disable fade               || Enables smooth LOD fading for foliage
+foliage.DisableDynamicMovement=0             ; 0=Allow movement, 1=Static                  || Allows foliage to move with wind/forces
+foliage.DisableDynamicShadows=0              ; 0=Shadows on, 1=Off                         || Enables or disables dynamic shadows on foliage
+foliage.DisableInteraction=0                 ; 0=Enable interaction, 1=Disable             || Allows player/world to interact with foliage
+foliage.DisablePhysics=0                     ; 0=Physics on, 1=Off                         || Enables physics simulation on foliage
+foliage.DisableWind=0                        ; 0=Wind on, 1=No wind                        || Allows wind to affect foliage
+foliage.EnableBranchBending=1                ; 0=Off, 1=On                                 || Enables branch-level bending effects
+foliage.EnableLeafAngle=1                    ; 0=Off, 1=On                                 || Allows leaves to rotate for lighting realism
+foliage.EnablePhysics=1                      ; 0=Off, 1=On                                 || Enables physics-based foliage movement
+foliage.EnableTrunkBending=1                 ; 0=Off, 1=On                                 || Enables trunk bending (trees in wind)
+foliage.ForceStaticMesh=0                    ; 0=Allow instancing, 1=Force StaticMesh      || Forces all foliage to use static meshes (less performance)
+foliage.ShadowDistanceScale=2                ; Float >=0.0                                 || Scales how far foliage shadows are drawn
+foliage.UseStaticLighting=0                  ; 0=Dynamic lights, 1=Static only             || Enables static lighting (faster but not reactive)
+foliage.UseVertexShaderLODs=1                ; 0=CPU LOD, 1=GPU Vertex Shader LOD          || Offloads LOD computation to vertex shader (faster)
+foliage.WindScale=1.2                        ; Float >=0.0                                 || Global multiplier for wind intensity on foliage
+r.FoliageUpdateFrequency=0                   ; Integer                                     || Controls how often foliage updates per frame (0 = every frame)
+
+; Grass
+grass.AnimationRate=30                       ; Integer >=0                                  || Animation frame rate for dynamic grass
+grass.CardinalForce=1                        ; 0=Off, 1=On                                  || Enables cardinal force (directional grass sway)
+grass.CullDistanceScale=10                   ; Float >=1.0                                  || Multiplies cull distance (higher = visible farther away)
+grass.DensityScale=4                         ; Float >=0.0                                  || Multiplier for total grass instance density
+grass.DisableDynamicMovement=0               ; 0=Enable movement, 1=Disable                 || Allows grass to move from wind or interaction
+grass.DisableStaticLighting=0                ; 0=Allow dynamic, 1=Force static              || Uses static lightmaps instead of dynamic lighting
+grass.DisableWind=0                          ; 0=Wind enabled, 1=No wind                    || Enables or disables grass wind simulation
+grass.EnablePhysics=1                        ; 0=Off, 1=On                                  || Enables physics on grass (wind, player interaction)
+grass.ForceDisableInteraction=0              ; 0=Allow interaction, 1=Disable               || Turns off player/world interaction
+grass.ForceStaticLighting=0                  ; 0=Use dynamic, 1=Force static                || Forces use of static baked lighting
+grass.ForceStaticMesh=0                      ; 0=Instanced, 1=Use StaticMesh                || Uses individual StaticMesh (heavier on performance)
+grass.LODDistributionSetting=1               ; 0=Legacy, 1=New Distribution Model           || Controls grass LOD distribution method
+grass.MaxPhysicsFrameTime=4                  ; Float >=0.0                                  || Max time allowed for physics processing on grass
+grass.MaxTessellation=1                      ; Integer >=0                                  || Max tessellation level used on grass mesh (higher = smoother)
+grass.MaxUpdateFrequency=60                  ; Integer >=1                                  || Max number of grass updates per second
+grass.MinLOD=0                               ; Integer >=0                                  || Lowest allowed LOD index (0 = full quality)
+grass.ParticleDistance=700                   ; Float                                        || Distance at which grass-related particles appear
+grass.Quality=5                              ; 0=Lowest, 5=Highest                          || Grass rendering quality level
+grass.Shadow.Enable=1                        ; 0=No shadows, 1=Shadows on                   || Enables dynamic shadows on grass
+grass.StiffnessForce=0.55                    ; Float >=0.0                                  || Controls how stiff grass blades behave under wind
+grass.WindForce=1.6                          ; Float >=0.0                                  || Controls wind strength for grass movement
+grassLODBias=0                               ; Integer                                     || Global bias applied to grass LOD level (0 = default)
+
+; Kuro Custom Settings
+r.AFME.Enable=1                                        ; 0=Off, 1=On                               || Enables AFME system (custom rendering extension)
+r.AFME.Kuro.Enable=1                                   ; 0=Off, 1=On                               || Enables Kuro-specific effects under AFME
+r.Kuro.KuroBloomStreak=1                               ; 0=Off, 1=On                               || Enables stylized bloom streaks (custom Kuro post-process)
+r.KuroMaterialQualityLevel=2                           ; 0=Low, 1=Medium, 2=High                   || Kuro's custom material quality setting
+r.KuroMobile.LensFlareQuality=2                        ; 0=Low, 1=Medium, 2=High                   || Lens flare rendering quality for Kuro Mobile system
+r.Mobile.Kuro.LandscapeCaptureSize=0                   ; 0=Low, 1=Medium, 2=High                   || Landscape capture buffer size (used in Kuro reflection systems)
+wp.Runtime.KuroRuntimeStreamingRangeOverallScale=1.4   ; Float >=1.0                                || Scales the LOD streaming range for all assets globally (Kuro runtime)
+
+; Lighting
+r.AmbientOcclusionLevels=2                             ; Integer >=0                                || Number of AO levels to render (more = better quality)
+r.BloomQuality=5                                       ; 0=Off, 1–5=Low->Ultra                      || Controls bloom effect quality (higher = smoother glow)
+r.CapsuleShadowsFullResolution=1                       ; 0=Half res, 1=Full res                    || Enables high-quality capsule shadows for characters
+r.ContactShadows=1                                     ; 0=Off, 1=On                               || Enables contact shadows (soft shadows near object intersections)
+r.ContactShadows.Length=0.02                           ; Float                                     || Distance range used to trace contact shadows
+r.ContactShadows.RayLength=5                           ; Float                                     || Ray length for contact shadow tracing
+r.CSM.MaxCascades=8                                    ; Integer 1–8                               || Number of shadow cascades (higher = smoother long-distance shadows)
+r.CSM.TransitionScale=1.0                              ; Float >=0.0                                || Controls how smoothly shadows blend between cascades
+r.HZBOcclusion=1                                       ; 0=Off, 1=On                               || Enables HZB occlusion culling for better shadow performance
+r.LensFlareQuality=2                                   ; 0=Off, 1–2=Low->High                       || Lens flare effect quality
+r.LightCulling.Quality=2                               ; 0=Fast, 1=Medium, 2=High                   || Quality level of light culling (improves performance with many lights)
+r.LightFunctionQuality=2                               ; 0=Off, 1–2=Low->High                       || Controls how well light functions (patterns, masks) are rendered
+r.LightMaxDrawDistanceScale=10                         ; Float >=1.0                                || Multiplier for how far lights can render in the scene
+r.LightShaftQuality=1                                  ; 0=Off, 1=On                               || Enables light shafts (god rays) from directional lights
+r.MaterialQualityLevel=2                               ; 0=Low, 1=Medium, 2=High                   || Global material quality override
+r.ReflectionCaptureResolution = 256		       ; 64-256 Low->Ultra			   || Quality of reflection capture
+r.ReflectionCaptureSupersampleFactor=2                 ; Integer >=1                                || Increases reflection capture resolution (smoother reflections)
+r.ReflectionEnvironment=1                              ; 0=Off, 1=On                               || Enables dynamic reflection environment lighting
+r.ReflectionEnvironmentLightmapMixBasedOnRoughness=1   ; 0=Off, 1=On                               || Blends reflection lighting with lightmaps based on material roughness
+r.ReflectionEnvironmentLightmapMixing=1                ; 0=Off, 1=On                               || Enables mixing reflection environment with static lighting
+r.Shadow.DistanceScale=10                              ; Float >=1.0                                || Global multiplier for how far shadows are rendered
+r.Shadow.Denoiser=1                                    ; 0=Off, 1=On                               || Enables shadow denoising (reduces flicker and noise)
+r.Shadow.FadeResolution=256                            ; Integer >=128                              || Resolution below which shadows fade out
+r.Shadow.FilterMethod=1                                ; 0=Simple, 1=PCF, 2=ESM, 3=VSM             || Sets filtering method used for shadows
+r.Shadow.MaxNumDynamicPointLights=2                    ; Integer >=0                                || Max number of dynamic point lights that can cast shadows
+r.Shadow.MaxNumPointLights=2                           ; Integer >=0                                || Max number of total point lights allowed
+r.Shadow.MaxResolution=2048                            ; Integer >=256                              || Maximum texture resolution for dynamic shadow maps
+r.Shadow.PerObject=1                                   ; 0=Off, 1=On                                || Enables per-object shadow casting
+r.Shadow.RadiusThreshold=0.01                          ; Float 0.0–1.0                              || Shadow fade threshold for small objects (lower = higher quality)
+r.Shadow.RadiusThresholdCSM0=0.02                      ; Float                                      || Fade threshold for cascade 0
+r.Shadow.RadiusThresholdCSM1=0.03                      ; Float                                      || Fade threshold for cascade 1
+r.Shadow.RadiusThresholdCSM2=0.03                      ; Float                                      || Fade threshold for cascade 2
+r.Shadow.RadiusThresholdCSM3=0.03                      ; Float                                      || Fade threshold for cascade 3
+r.Shadow.RadiusThresholdCSM4=0.04                      ; Float                                      || Fade threshold for cascade 4
+r.Shadow.RadiusThresholdCSM5=0.06                      ; Float                                      || Fade threshold for cascade 5
+r.Shadow.Sharpen=0.7                                   ; Float 0.0–1.0                              || Sharpness of shadow edges (higher = crisper)
+r.Shadow.TransitionScale=2                             ; Float >=0.0                                || Controls blending transition between light and shadow areas
+
+
+; Mesh & LOD
+r.DisableLODFade=1                      ; 0=Fade enabled, 1=Fade disabled           || Disables LOD fading (saves GPU, but can cause popping)
+r.DitheredLODTransition=0               ; 0=Off, 1=On                               || Disables smooth transition between LODs (reduces shader cost)
+r.Foliage.DitheredLOD=0                 ; 0=Off, 1=On                               || Disables dithered transitions for foliage meshes
+r.Foliage.MaxTriangulatedLOD=0          ; Integer >=0                                || Forces maximum LOD to use for foliage triangulation (0 = full detail)
+r.Foliage.MinLOD=0.1                    ; Float >=0.0                                || Minimum LOD for foliage (higher = lower quality but better performance)
+r.FoliageLODDistanceScale=10            ; Float >=1.0                                || Scales LOD distance for foliage (higher = more detailed farther away)
+r.LODDistanceFactor=5                   ; Float >=1.0                                || Global LOD distance multiplier for all meshes
+r.SkeletalMeshLODRadiusScale=0.02       ; Float >=0.0                                || Controls how quickly skeletal mesh LODs transition based on camera distance
+r.StaticMeshLODDistanceScale=0.5        ; Float >0.0                                || Lower = closer LOD transition (higher performance cost, better visuals)
+
+; Mobile Rendering
+r.Mobile.GTAO.Quality=4                		 ; 0=Off, 1–4=Low->High                      	|| Controls the quality of Mobile Ground-Truth Ambient Occlusion
+r.Mobile.HighQualitySkyCaptureFiltering=1 	 ; 0=Off, 1=On                            	|| Enables high-quality filtering of sky capture cubemaps
+r.Mobile.SSRLowPrecisionDepth=0       		 ; 0=Full precision, 1=Low precision        	|| Enables depth optimization for SSR (can reduce accuracy)
+r.Mobile.WaterSSRResDiv=1.0            		 ; Float >=1.0                               	|| Divides SSR resolution on water surfaces (1 = full resolution)
+r.MobileHDR=1                          		 ; 0=Off, 1=On                               	|| Enables full HDR pipeline for mobile rendering
+r.MobileMSAA=1                         		 ; 0=Off, 1–4                                	|| Enables MSAA (Multi-Sample Anti-Aliasing) on mobile (1–4x supported)
+
+; Rendering Pipeline
+r.AllowGlobalClipPlane=1              ; 0=Off, 1=On                               || Enables global clip plane support (needed for planar reflections and water clipping)
+r.EarlyZPass=3                        ; 0=Off, 1=Opaque Only, 2=All Opaques, 3=Auto || Controls depth prepass rendering (3 is usually optimal)
+r.EarlyZPassMovable=1                 ; 0=Off, 1=On                               || Includes movable objects in early Z pass
+r.OpacityMaskClipValue=0.01           ; 0.0–1.0                                   || Sets the alpha cutoff threshold for masked materials
+r.RenderCopyMainPass=1                ; 0=Off, 1=On                               || Copies main pass results (used for screen-space effects like SSR)
+r.RenderInMainPass=1                  ; 0=Off, 1=On                               || Renders objects in the main pass (required for standard forward/deferred rendering)
+r.RenderThread=1                      ; 0=Off, 1=On                               || Enables the use of the rendering thread (multi-threaded rendering)
+r.UseGPUScene=1                       ; 0=Off, 1=On                               || Enables GPU scene management (improves draw call performance)
+r.ViewDistanceScale=6                 ; Float >=1.0                                || Scales the global view distance (higher = more distant objects visible)
+
+
+; Optimization & Threading
+r.MultiThreaded=1                    ; 0=Single-threaded, 1=Multi-threaded       || Enables engine-wide multithreading (game thread, render thread, etc.)
+r.OneFrameThreadLag=1                ; 0=Off, 1=On                               || Enables 1-frame lag between game and render threads (improves frame pacing)
+r.OptimizeForUAVPerformance=1        ; 0=Off, 1=On                               || Optimizes unordered access view (UAV) performance, especially on mobile GPUs
+r.ParallelDecals=1                   ; 0=Off, 1=On                               || Allows decals to be rendered in parallel (can improve performance with many decals)
+r.UsePerformanceProfiling=1          ; 0=Off, 1=On                               || Enables performance profiling tools in runtime (for GPU/CPU metric tracking)
+
+; Screen Space Reflections
+r.SSR.HalfResSceneColor=0            ; 0=Full res, 1=Half res                    || Controls resolution of SSR’s scene color buffer
+r.SSR.MaxRoughness=0.7               ; 0.0–1.0                                   || Maximum roughness for SSR to appear (lower = sharper surfaces only)
+r.SSR.Quality=4                      ; 0=Off, 1–4=Low->High                       || Overall SSR quality level
+r.SSR.Temporal=1                     ; 0=Off, 1=On                               || Enables temporal filtering for SSR (reduces flickering)
+
+; Streaming
+r.Streaming.AmortizeCPUToGPUCopy=1        ; 0=Off, 1=On                               || Reduces GPU copy spikes by spreading CPU->GPU texture uploads over time
+r.Streaming.Boost=2                       ; Float >=1.0                                || Multiplier that increases streaming priority (default=1.0)
+r.Streaming.DefragDynamicBounds=0         ; 0=Off, 1=On                               || Enables defragmentation of dynamic streaming bounds (experimental)
+r.Streaming.LimitPoolSizeToVRAM=1         ; 0=Off, 1=On                               || Limits texture pool size based on actual VRAM available
+
+; Misc
+r.FieldSystem.Enable=1                    ; 0=Off, 1=On                               || Enables the Chaos Field System (used for physics/environment interaction)
+r.FoliageInteractionScale=1.0             ; Float >=0.0                                || Strength of foliage interaction (e.g., how strongly foliage bends from contact)
+r.ForceCPUAccessToGPUSkin=1               ; 0=Off, 1=On                               || Forces CPU access to GPU skin data (needed for custom motion blur or effects)
+r.FullPrecisionInPS=0                     ; 0=Half precision, 1=Full precision        || Forces full floating-point precision in pixel shaders (useful for visual accuracy)
+r.Mobile.EnableModulatedShadows=0    	     ; 0=Off, 1=On				      || Allow modulated shadows
+r.Mobile.ModulatedShadowsCastDynamic=0 	  ; 0=Off, 1=On				      || Allow dynamic objects to cast modulated shadows
+r.Niagara.AllowGPUParticles=1             ; 0=Off, 1=On                               || Allows GPU-based Niagara particle systems
+r.Shadow.CachePreshadow=0                 ; 0=Off, 1=On                               || Enables caching of preshadows (may reduce shadow pop-in at cost of memory)
+r.Shadow.CacheWholeSceneShadows=0         ; 0=Off, 1=On                               || Enables shadow caching for the entire scene (performance vs memory trade-off)
+r.Shadow.CSMDepthBias=100         		  ;  0 to 1500				      || Shadow bias, 0 is full shadow, 1500 almost only head shadow
+r.Shadow.FoliageMovableShadow=1           ; 0=Off, 1=On                               || Enables dynamic shadows for movable foliage (expensive on mobile)
+r.Shadow.ForceUpdateEveryFrame=1          ; 0=Off, 1=On                               || Forces shadows to update every frame (useful for fast-moving lights)
+r.Shadow.StableCSM=0                      ; 0=Fast but unstable, 1=Stable             || Enables more stable cascaded shadows (0 is better for performance)
+r.VertexFog=1                             ; 0=Off, 1=On                               || Enables fog calculated per-vertex instead of per-pixel (performance optimization)
+r.Water.SingleLayer.Reflection=1          ; 0=Off, 1=On                               || Enables reflections on single-layer water rendering (mobile-specific)
+r.Wind.Enable=1                           ; 0=Off, 1=On                               || Enables global wind simulation affecting foliage and FX
+r.WindStrength=1.0                        ; Float >=0.0                                || Global multiplier for wind strength (affects foliage and visual effects)
+
+
+[Water]
+r.Water.SingleLayer=0                          ; 0=Full, 1=Faster                         || Enables or disables the mobile single-layer water renderer
+r.Water.EnableUnderwaterPostProcess=1          ; 0=Off, 1=On                              || Enables underwater post-process effects like fog and blur
+r.Water.EnableShallowWaterSimulation=1         ; 0=Off, 1=On                              || Simulates shallow water ripples and surface flow
+r.Water.EnableCaustics=1                       ; 0=Off, 1=On                              || Enables sunlight caustic lighting on underwater surfaces
+r.Water.EnableHeightBlending=1                 ; 0=Off, 1=On                              || Blends water edges smoothly with the shoreline terrain
+r.Water.EnableDisplacement=1                   ; 0=Off, 1=On                              || Enables vertex displacement for wave deformation
+r.Water.WaveDisplacement=1                     ; 0=Off, 1=On                              || Simulates animated wave geometry (requires displacement)
+r.Water.EnableLOD=1                            ; 0=Off, 1=On                              || Enables LOD system for water to improve performance at distance
+r.Water.EnableVelocityMap=1                    ; 0=Off, 1=On                              || Enables flow/river velocity mapping for water currents
+
+r.SceneColorFormat=3                           ; 0=8bit, 1=10bit, 2=11:11:10, 3=FP16      || Controls precision of the scene color buffer (required for caustics, underwater effects)
+r.SceneColorFringe.Max=1                       ; 0.0–1.0                                  || Sharpens the final underwater image to reduce post-process blur
+
+
+; Transparency and Specular Quality
+r.DynamicPointLightsUseStaticBranch=1         ; 0=Off, 1=On                              || Enables static branching for dynamic point lights (non-mobile too)
+r.Mobile.DynamicPointLightsUseStaticBranch=0  ; 0=Dynamic shader, 1=Static branch        || Optimizes mobile shaders with point light static branching
+r.Mobile.Specular=1                           ; 0=Off, 1=On                              || Enables specular highlights in the mobile forward renderer
+r.SeparateTranslucency=1                      ; 0=Disabled, 1=Enabled                    || Renders translucent objects in a separate pass to avoid artifacts
+r.SeparateTranslucencyScreenPercentage=100    ; 1–100                                    || Screen percentage used for separate translucency rendering
+r.Specular=1                                  ; 0=Off, 1=On                              || Enables specular lighting in general (PC/mobile)
+r.SSS.SampleSet=2                             ; 0=Low, 1=Medium, 2=High                  || Quality preset for subsurface scattering sample count
+r.SSS.Scale=1                                 ; 0.0–1.0                                  || Scales the intensity of subsurface scattering
+r.TranslucencyLightingVolumeDim=64            ; Power of 2, default=32                   || Resolution of the translucency lighting volume grid (higher = more detail)
+r.TranslucencyVolumeBlur=1                    ; 0=Off, 1=On                              || Enables blur for translucency lighting volume
+
+; ----------------------------------------
+; [Physics] - Physics Simulation & Threading
+; ----------------------------------------
+
+[Physics]
+p.BatchPhysicsTasks=1                 ; 0=Off, 1=On                               || Enables batching of physics tasks for better performance
+p.MaxAsyncTasks=16                    ; Integer >=1                                || Maximum number of async tasks used for physics processing
+p.MaxMultiThreadedTasks=8            ; Integer >=1                                || Max number of multi-threaded physics tasks
+p.MaxPhysicsDeltaTime=0.01666        ; Float (seconds)                           || Max time step for physics simulation (1/60s for 60FPS lock)
+p.MaxSimulationSubsteps=4            ; Integer >=1                                || Max number of substeps per frame (used with substepping)
+p.MaxSimulationThreads=8             ; Integer >=1                                || Number of threads to use for physics sim
+p.MaxSubsteps=4                      ; Integer >=1                                || Max substeps allowed for any single simulation update
+p.MinFrameRate=60                    ; Integer >=0                                || Minimum frame rate physics system should aim for
+p.Physics.MaxSubsteps=4              ; Integer >=1                                || Physics-specific override for max substeps
+p.Physics.Substepping=1              ; 0=Off, 1=On                               || Enables physics substepping for smoother simulation
+p.PhysicsSubstepping=1               ; 0=Off, 1=On                               || Deprecated alias (kept for compatibility)
+p.RagdollLODThreshold=0              ; Integer >=0                                || Distance threshold for switching ragdoll LODs (0 = max detail)
+
+[Plugins]
+EnabledPlugins=Water                 ; Plugin name                               || Enables Unreal's Water plugin (used for rivers, oceans, etc.)
+EnabledPlugins=Landmass              ; Plugin name                               || Enables Landmass plugin (used for terrain + water interaction)
+
+
+; ----------------------------------------
+; [NPCs] - AI Performance & Threading
+; ----------------------------------------
+[NPCs]
+AIUpdateRate=5                               ; Integer >=1                                || Controls how often AI logic ticks (lower = more frequent updates)
+bAllowBackgroundLogicProcessing=True         ; True/False                                || Allows AI logic to run in background threads
+bEnableAIOptimization=True                   ; True/False                                || Enables internal AI performance optimizations
+bEnableDynamicMaxFPS=True                    ; True/False                                || Dynamically adjusts AI FPS budget to match performance
+bEnableMultithreadedPathFollowing=True       ; True/False                                || Allows AI path-following to use multiple threads
+bEnableParallelAIUpdates=True                ; True/False                                || Enables multi-threaded AI tick/update processing
+bEnableParallelNavMeshGeneration=True        ; True/False                                || Allows navigation mesh generation to be multi-threaded
+
+; ----------------------------------------
+; [/Script/Engine.RendererSettings] - Rendering Overrides
+; ----------------------------------------
+[/Script/Engine.RendererSettings]
+r.CapsuleShadows=1                            ; 0=Off, 1=On                               || Enables capsule shadows (for characters, typically)
+r.CapsuleShadowsFullResolution=1              ; 0=Half, 1=Full                            || Full-res capsule shadows for sharper results
+r.MaxAnisotropy=16                            ; Integer >=1, max=16                       || Texture filtering sharpness — 16 = highest
+r.Mobile.AllowDistanceFieldShadows=1          ; 0=Off, 1=On                               || Allows DFAO/DFAO shadows on mobile (if supported)
+r.Mobile.AllowMovableDirectionalLights=1      ; 0=Off, 1=On                               || Enables dynamic directional lights on mobile
+r.Mobile.AllowMovableLightShadows=1           ; 0=Off, 1=On                               || Enables shadows from movable lights on mobile
+r.Mobile.AllowMovableSpotlights=1             ; 0=Off, 1=On                               || Enables support for movable spotlights on mobile
+r.Mobile.DisableVertexFog=1                   ; 0=On, 1=Off                               || Disables vertex fog for performance or visual clarity
+r.Mobile.EnableCSMShaderCulling=1             ; 0=Off, 1=On                               || Enables shader culling for cascaded shadows on mobile
+r.Mobile.EnableMovableSpotlights=1            ; 0=Off, 1=On                               || Explicit toggle for movable spotlights (duplicate-safe)
+r.Mobile.EnableStaticAndCSMShadowReceivers=1  ; 0=Off, 1=On                               || Enables static + CSM receiver shadows on mobile
+r.Mobile.HighQualityMaterial=2                ; 0=Low, 1=Medium, 2=High                   || Mobile material quality level
+r.Mobile.ShadowQuality=4                      ; 0=Low, 1–4=Highest                        || Quality level for mobile shadows
+r.Mobile.UseSharedMovablePointLightShader=0   ; 0=Per-light shader, 1=Shared shader       || Optimizes movable point light rendering
+r.Mobile.WaterQuality=2                       ; 0=Low, 1=Medium, 2=High                   || Water rendering quality level on mobile
+r.Shadow.CSM.TransitionScale=1.0              ; Float >=0.0                               || Controls softness of CSM cascade transitions
+r.Shadow.FadeResolution=256                   ; Integer >=128                             || Resolution below which shadows start to fade
+r.Shadow.MaxNumDynamicPointLights=2           ; Integer >=0                               || Max dynamic point lights casting shadows
+r.ShadowQuality=4                             ; 0=Off, 1–4=Low->Ultra                      || Global shadow quality override
+r.Streaming.FullyLoadUsedTextures=1           ; 0=Off, 1=On                               || Fully load textures known to be in use (no streaming delay)
+r.Streaming.HLODStrategy=2                    ; 0=Default, 1–2                            || HLOD streaming strategy (2 = aggressive/correct for mobile)
+r.Streaming.MipBias=0                         ; Integer                                   || Mip bias to force sharper or blurrier textures
+r.Streaming.PoolSize=800                      ; Integer (MB)                              || Texture streaming pool size (in MB)
+r.TextureStreaming=True                       ; True/False                                || Enables texture streaming system
+
+
+
+[/Script/AndroidRuntimeSettings.AndroidRuntimeSettings]
+bBuildForVulkan=True                          ; True/False                                || Builds Android version with Vulkan RHI enabled
+bSupportsVulkan=True                          ; True/False                                || Declares Vulkan support to the Android OS/runtime
+
+[/Script/Water.WaterSubsystem]
+bEnableUnderwaterPostProcess=true             ; True/False                                || Enables underwater visual effects (fog, blur, etc.)
+
+; ----------------------------------------
+; [Core.Log] - Logging Control
+; ----------------------------------------
+[Core.Log]
+global=none                                   ; Log level                                  || Disables global logging (recommended for mobile performance)
