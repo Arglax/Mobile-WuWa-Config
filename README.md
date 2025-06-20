@@ -9,8 +9,7 @@ Requirements:
 2. Cable adapter
 3. Your mobile device
 
-===============================
-Setting Up:
+==========Setting Up==============
 
 1. Connect your mobile device to your PC/Laptop.
 2. Make sure to select Android File Transfer/Android Auto as connection.
