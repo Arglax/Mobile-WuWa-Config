@@ -1,52 +1,94 @@
-# WuWa-Config
-This repository includes all custom-built configurations in improving your Android's Wuthering Waves experience.
+# 🎮 WuWa-Config: Ultimate Mobile Configuration for Wuthering Waves
 
-# How to Modify Config Files
-Hello, Arglax here. This will be my text-based tutorial in configuring WuWa for mobile.
+Welcome to **WuWa-Config**, a custom-built set of configuration files designed to **boost graphics, stability, and performance** in *Wuthering Waves* on Android devices.
 
-Requirements: 
-1. Windows PC/Laptop
-2. Cable adapter
-3. Your mobile device
+Crafted with love by **Arglax**, this guide will walk you through how to apply these tweaks to unlock your device's full visual and gameplay potential.
 
-==========Setting Up==============
+---
 
-1. Connect your mobile device to your PC/Laptop.
-2. Make sure to select Android File Transfer/Android Auto as connection.
-	- most of the time, the default usb connection is "Charge Only"
-3. Open File Explorer in your PC
-	- If your mobile connection pops up, choose the one with File Explorer
-4. On your PC, navigate to your mobile phone.
-Select these in order:
-1. Internal Storage
-2. Android
-3. Data
-4. com.kurogame.wutheringwaves.global
-5. Files
-6. (Optional) Paste the VulkanProgramBinaryCache Folder here
-7. UE4Game
-8. Client
-9. Client
-10. Saved
-11. Config
-12. Android
+## 📁 What’s Inside
 
-Then, paste the Engine.ini and DeviceProfiles.ini here. Feel free to overwrite/Copy and Replace.
+- `Engine.ini` – Core rendering and graphics tweaks  
+- `DeviceProfiles.ini` – Device-specific enhancements
+---
 
-Now open your WuWa and congrats you're done!
-================================
-FAQs:
-Q: Is there a way that will not require a PC to modify the config files?
+## 🛠️ How to Install (Beginner Friendly)
 
-A: Yes but that is out of my scope. You can research about it or try this repos: https://github.com/AlteriaX/WuWa-Configs/blob/main/README.md
+### ✅ Requirements:
+- A **Windows PC or laptop**
+- A **USB cable** to connect your mobile device
+- Your **Android phone or tablet**
 
-Q: My WuWa just keeps on crashing
+### 🔧 Step-by-Step Instructions:
 
-A: Do not use my config. Delete the DeviceProfiles.ini and Engine.ini from your Android Folder and then restart the game.
+1. **Connect** your mobile device to your PC via USB.
+2. On your device, select **"File Transfer" or "Android Auto"** mode (not "Charge only").
+3. Open **File Explorer** on your PC.
+4. Navigate to the following folder in your Android device:
+Internal Storage/
+└── Android/
+└── data/
+└── com.kurogame.wutheringwaves.global/
+└── files/
+└── UE4Game/
+└── Client/
+└── Client/
+└── Saved/
+└── Config/
+└── Android/
 
-Q: Game FPS is low/ Experiencing stuttering
+5. Inside the `Android/` folder, **paste** the provided:
+- `Engine.ini`
+- `DeviceProfiles.ini`
 
-A: Go to Engine.ini and modify everything with "DensityScale". Change values to 1. You can also change all resolution scale factor to a lower value like 0.85
+> 🔁 You may **overwrite existing files** if prompted.
 
+6. *(Optional)* Also paste the `VulkanProgramBinaryCache` folder one level above if included.
 
-For more questions, just chat me in Discord: https://discord.gg/4DYe8srs
+7. **Launch Wuthering Waves** and enjoy your new visuals!
+
+---
+
+## ❓ Frequently Asked Questions
+
+### ❓ Can I install this without a PC?
+**Yes**, but it’s outside the scope of this guide. You may explore alternatives like:
+- [AlteriaX’s Repo](https://github.com/AlteriaX/WuWa-Configs/blob/main/README.md)
+
+---
+
+### 💥 My game crashes after applying the config!
+Some devices may not support ultra settings.
+
+**Fix:**
+- Delete `Engine.ini` and `DeviceProfiles.ini` from the same folder
+- Restart WuWa – it will regenerate safe defaults
+
+---
+
+### 🐢 Game is laggy or has low FPS
+Try adjusting the config:
+
+- Open `Engine.ini`
+- Search for any value labeled:
+- `DensityScale`
+- `ResolutionScale`
+- Change values:
+- `DensityScale` → `1`
+- `ResolutionScale` → lower it (e.g., `0.85` or `0.75`)
+
+---
+
+## 📬 Need Help?
+
+Chat me on **Discord** for support, updates, and discussion:
+👉 [https://discord.gg/4DYe8srs](https://discord.gg/4DYe8srs)
+
+---
+
+## 📝 Credits
+
+Maintained by **Arglax**  
+Optimized for **flagship Android devices with Vulkan support**
+
+---
