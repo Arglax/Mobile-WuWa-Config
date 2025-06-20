@@ -2,7 +2,7 @@
 
 Welcome to **WuWa-Config**, a custom-built set of configuration files designed to **boost graphics, stability, and performance** in *Wuthering Waves* on Android devices.
 
-Crafted with love by **Arglax**, this guide will walk you through how to apply these tweaks to unlock your device's full visual and gameplay potential.
+Crafted by **Arglax**, this guide will walk you through how to apply these tweaks to unlock your device's full visual and gameplay potential.
 
 ---
 
