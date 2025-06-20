@@ -37,12 +37,15 @@ Now open your WuWa and congrats you're done!
 ================================
 FAQs:
 Q: Is there a way that will not require a PC to modify the config files?
+
 A: Yes but that is out of my scope. You can research about it or try this repos: https://github.com/AlteriaX/WuWa-Configs/blob/main/README.md
 
 Q: My WuWa just keeps on crashing
+
 A: Do not use my config. Delete the DeviceProfiles.ini and Engine.ini from your Android Folder and then restart the game.
 
 Q: Game FPS is low/ Experiencing stuttering
+
 A: Go to Engine.ini and modify everything with "DensityScale". Change values to 1. You can also change all resolution scale factor to a lower value like 0.85
 
 
