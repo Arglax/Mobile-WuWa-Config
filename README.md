@@ -8,6 +8,7 @@ Requirements:
 1. Windows PC/Laptop
 2. Cable adapter
 3. Your mobile device
+
 ===============================
 Setting Up:
 
