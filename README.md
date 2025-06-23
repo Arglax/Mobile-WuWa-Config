@@ -72,4 +72,7 @@ Chat me on **Discord** for support, updates, and discussion:
 Maintained by **Arglax**  
 Optimized for **flagship Android devices with Vulkan support**
 
+## 🔎 Tags (for SEO indexing)
+
+`Wuthering Waves config`, `WuWa graphics optimization`, `Android ini mod`, `Vulkan shader cache`, `increase WuWa FPS`, `WuWa Engine.ini tweak`, `DeviceProfiles.ini tutorial`, `WuWa config Poco X6 Pro`, `WuWa lag fix Android`, `Mobile gaming performance`, `Arglax WuWa`
 ---
