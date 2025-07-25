@@ -1,3 +1,5 @@
+This config is currently under development for Version 2.5. You may still use this, however, you might experience visual bugs.
+
 # 🌌 Ultra-High Graphics Engine.ini for Unreal Engine Mobile
 
 Welcome to the **ultimate graphical enhancement config** for Unreal Engine mobile games.  
