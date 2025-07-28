@@ -1,4 +1,6 @@
-This config is currently under development for Version 2.5. You may still use this, however, you might experience visual bugs.
+#This config may no longer work well with Poco X6 Pro. Suggested devices include POCO X7/F6 Pro and better.
+Recommended to use Minimal High Quality and Performance config for Poco X6 Pro.
+
 
 # 🌌 Ultra-High Graphics Engine.ini for Unreal Engine Mobile
 
