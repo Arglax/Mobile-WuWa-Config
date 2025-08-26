@@ -1,3 +1,15 @@
+# ⚠️ Announcement
+
+> 🛠️ The **config files** will be updated after the **Version 2.6 update**  
+> 📅 Release target: **August 30, 2025 (Philippine Time)**  
+> 🎮 Both **Vulkan** and **Non-Vulkan** versions will be included!
+
+[![Status](https://img.shields.io/badge/Update-Scheduled-blue)](#)
+[![Version](https://img.shields.io/badge/Target_Version-2.6-green)](#)
+[![Platform](https://img.shields.io/badge/Support-Vulkan_|_Non--Vulkan-orange)](#)
+
+
+
 # 🎮 WuWa-Config: Ultimate Mobile Configuration for Wuthering Waves
 
 Welcome to **WuWa-Config**, a custom-built set of configuration files designed to **boost graphics, stability, and performance** in *Wuthering Waves* on Android devices.
