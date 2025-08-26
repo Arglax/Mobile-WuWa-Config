@@ -4,40 +4,61 @@
 > 📅 Release target: **August 30, 2025 (Philippine Time)**  
 > 🎮 Both **Vulkan** and **Non-Vulkan** versions will be included!
 
+> A new discord server is now available (this is extremely new, but I will try to cater for requests and consolidate issues that is not reflected in this repos)
+
 [![Status](https://img.shields.io/badge/Update-Scheduled-blue)](#)
 [![Version](https://img.shields.io/badge/Target_Version-2.6-green)](#)
 [![Platform](https://img.shields.io/badge/Support-Vulkan_|_Non--Vulkan-orange)](#)
 
-
+---
 
 # 🎮 WuWa-Config: Ultimate Mobile Configuration for Wuthering Waves
 
-Welcome to **WuWa-Config**, a custom-built set of configuration files designed to **boost graphics, stability, and performance** in *Wuthering Waves* on Android devices.
+[![Stars](https://img.shields.io/github/stars/Arglax/WuWa-Config?style=social)](https://github.com/Arglax/WuWa-Config/stargazers)  
+[![License](https://img.shields.io/github/license/Arglax/WuWa-Config)](https://github.com/Arglax/WuWa-Config/blob/main/LICENSE)  
+[![Discord](https://img.shields.io/discord/1234567890?label=Discord&logo=discord&logoColor=white&color=7289DA)](https://discord.gg/XFwmCuyF)
 
-Crafted by **Arglax**, this guide will walk you through how to apply these tweaks to unlock your device's full visual and gameplay potential.
+**WuWa-Config** is a custom-built set of configuration files designed to **boost graphics, stability, and performance** in *Wuthering Waves* on Android devices.
+
+Crafted by **Arglax**, this guide will help you unlock your device’s full visual and gameplay potential.
+
+---
+
+## 📖 Table of Contents
+- [What’s Inside](#-whats-inside)
+- [How to Install](#-how-to-install-beginner-friendly)
+- [File Location](#-file-location-on-android-device)
+- [Need Help?](#-need-help)
+- [Credits](#-credits)
+- [Tags](#-tags-for-seo-indexing)
 
 ---
 
 ## 📁 What’s Inside
 
 - `Engine.ini` – Core rendering and graphics tweaks  
-- `DeviceProfiles.ini` – Device-specific enhancements
+- `DeviceProfiles.ini` – Device-specific enhancements  
+
 ---
 
 ## 🛠️ How to Install (Beginner Friendly)
 
 ### ✅ Requirements:
 - A **Windows PC or laptop**
-- A **USB cable** to connect your mobile device
-- Your **Android phone or tablet**
+- A **USB cable**
+- Your **Android device**
+
+---
 
 ### 🔧 Step-by-Step Instructions:
 
-1. **Connect** your mobile device to your PC via USB.
-2. On your device, select **"File Transfer" or "Android Auto"** mode (not "Charge only").
-3. Open **File Explorer** on your PC.
-4. Navigate to the following folder in your Android device:
-# 📂 File Location on Android Device
+1. **Connect** your Android device to your PC via USB.  
+2. Select **"File Transfer" (MTP)** mode on your phone.  
+3. Open **File Explorer** on your PC.  
+4. Navigate to the following folder:
+
+<details>
+<summary>📂 File Location Path</summary>
 
 To access or modify configuration files for **Wuthering Waves**, navigate to the following folder on your Android device:
 
@@ -55,27 +76,23 @@ Internal Storage/
                                     └── Android/
 ```
 
-This is the target directory where `Engine.ini` and `DeviceProfiles.ini` files are located or should be placed.
+</details>
 
-> 📌 **Note:** You might need a file manager with root or advanced access to view or modify these files.
+5. Paste the provided:
+   - `Engine.ini`
+   - `DeviceProfiles.ini`  
 
----
-5. Inside the `Android/` folder, **paste** the provided:
-- `Engine.ini`
-- `DeviceProfiles.ini`
+> ⚠️ Overwrite existing files if prompted.  
 
-> 🔁 You may **overwrite existing files** if prompted.
-
-6. *(Optional)* Also paste the `VulkanProgramBinaryCache` folder one level above if included.
-
-7. **Launch Wuthering Waves** and enjoy your new visuals!
+6. *(Optional)* Paste the `VulkanProgramBinaryCache` folder one level above if included.  
+7. **Launch Wuthering Waves** and enjoy! 🚀  
 
 ---
 
 ## 📬 Need Help?
 
-Chat me on **Discord** for support, updates, and discussion:
-👉 [https://discord.gg/4DYe8srs](https://discord.gg/4DYe8srs)
+Join the **Discord** community for support, updates, and discussions:  
+👉 [https://discord.gg/XFwmCuyF](https://discord.gg/XFwmCuyF)
 
 ---
 
@@ -84,7 +101,13 @@ Chat me on **Discord** for support, updates, and discussion:
 Maintained by **Arglax**  
 Optimized for **flagship Android devices with Vulkan support**
 
+---
+
 ## 🔎 Tags (for SEO indexing)
 
-`Wuthering Waves config`, `WuWa graphics optimization`, `Android ini mod`, `Vulkan shader cache`, `increase WuWa FPS`, `WuWa Engine.ini tweak`, `DeviceProfiles.ini tutorial`, `WuWa config Poco X6 Pro`, `WuWa lag fix Android`, `Mobile gaming performance`, `Arglax WuWa`
+`Wuthering Waves config`, `WuWa graphics optimization`, `Android ini mod`,  
+`Vulkan shader cache`, `increase WuWa FPS`, `WuWa Engine.ini tweak`,  
+`DeviceProfiles.ini tutorial`, `WuWa config Poco X6 Pro`, `WuWa lag fix Android`,  
+`Mobile gaming performance`, `Arglax WuWa`
+
 ---
