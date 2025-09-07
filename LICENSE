@@ -8,58 +8,19 @@ to deal in the Config Files without restriction, including without limitation th
 to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Config Files,
 subject to the following conditions:
 
----
+1. Modification Attribution Requirement
+   If you modify any of the configuration files and plan to share, publish, redistribute, or repost them,
+   you must insert the following comment at the very top of the file:
 
-1. **Protected Header Sections**
+   ; Last modified by [YourName] on [Date]
+   ; Config source = https://github.com/Arglax/WuWa-Config
 
-The following header blocks must be included **unchanged and unedited** at the top of any distributed or modified version of the associated configuration files:
+2. Warranty Disclaimer
+   THE CONFIGURATION FILES ARE PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+   INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE,
+   AND NON-INFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+   DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+   OUT OF OR IN CONNECTION WITH THE CONFIGURATION FILES OR THE USE OR OTHER DEALINGS IN THE CONFIGURATION FILES.
 
-**a. Engine.ini**
-; ============================
-; Arglax's Engine.ini Configuration Overview
-; ============================
-
-; This configuration file has been customized for ultra-high quality, high performance and stability on Android devices using Unreal Engine.
-; It includes multithreading optimizations, memory management, streaming performance, shader compilation behavior,
-; garbage collection, AI enhancements, and more. Each section influences specific subsystems of the engine.
-; Uses Poco X6 Pro 5G as the basis model.
-; This config file is aided by ChatGPT and GPT-derivative: Unreal Engine 4 Expert and is fully tested and tweaked by Arglax.
-
-; DISCLAIMER: This configuration is intended solely to enhance the visual quality and performance of Wuthering Waves. While it has been tested and is considered safe, by using this configuration, you acknowledge that I am not responsible for any potential issues that may arise—including but not limited to crashes, data loss, hardware damage, or account penalties. Use at your own discretion.
-
-**b. DeviceProfiles.ini**
-; ============================
-; Arglax's DeviceProfiles.ini Configuration Overview
-; ============================
-
-; This configuration file has been customized for ultra-high quality, high performance and stability on Android devices using Unreal Engine.
-; It includes multithreading optimizations, memory management, streaming performance, shader compilation behavior,
-; garbage collection, AI enhancements, and more. Each section influences specific subsystems of the engine.
-; Uses Poco X6 Pro 5G as the basis model.
-; This config file is aided by ChatGPT and GPT-derivative: Unreal Engine 4 Expert and is fully tested and tweaked by Arglax.
-
-; DISCLAIMER: This configuration is intended solely to enhance the visual quality and performance of Wuthering Waves. While it has been tested and is considered safe, by using this configuration, you acknowledge that I am not responsible for any potential issues that may arise—including but not limited to crashes, data loss, hardware damage, or account penalties. Use at your own discretion.
-
-These header blocks **must not be removed or altered** in any way, whether the file is used as-is, forked, or modified.
-
----
-
-2. **Modification Attribution Requirement**
-
-If you modify any of the configuration files **and plan to share, publish, redistribute, or repost them**, you **must** insert the following comment at the very top of the file:
-
-```ini
-; Last modified by [YourName] on [Date]
-
-3. **Warranty Disclaimer**
-
-THE CONFIGURATION FILES ARE PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE,
-AND NON-INFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE CONFIGURATION FILES OR THE USE OR OTHER DEALINGS IN THE CONFIGURATION FILES.
-
----
-
-**Original Author:** Arglax  
-**Assistant Contributor:** ChatGPT (Unreal Engine 4 Expert Derivative)
+Original Author: Arglax
+Assistant Contributor: ChatGPT (Unreal Engine 4 Expert Derivative)
