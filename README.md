@@ -1,10 +1,10 @@
 # ⚠️ Announcement
 
-> 🛠️ The **config files** will be updated after the **Version 2.6 update**  
-> 📅 Release target: **August 30, 2025 (Philippine Time)**  
-> 🎮 Both **Vulkan** and **Non-Vulkan** versions will be included!
+> 🛠️ The **Harmonized Config files** will be updated this month of September
+> 📅 Release target: **September 14, 2025 (Philippine Time)**  
+> 🎮 It already contains Vulkan and non-Vulkan settings
 
-> A new discord server is now available (this is extremely new, but I will try to cater for requests and consolidate issues that is not reflected in this repos)
+> A new discord server is now available (If there are people with a lot of free time who can help out with server management, just dm me)
 
 [![Status](https://img.shields.io/badge/Update-Scheduled-blue)](#)
 [![Version](https://img.shields.io/badge/Target_Version-2.6-green)](#)
