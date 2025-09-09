@@ -4,7 +4,7 @@
 > 📅 Release target: **September 14, 2025 (Philippine Time)**  
 > 🎮 It already contains Vulkan and non-Vulkan settings
 
-> A new discord server is now available (If there are people with a lot of free time who can help out with server management, just dm me)
+> A new discord (https://discord.gg/TTXHWjSU) server is now available (If there are people with a lot of free time who can help out with server management, just dm me)
 
 [![Status](https://img.shields.io/badge/Update-Scheduled-blue)](#)
 [![Version](https://img.shields.io/badge/Target_Version-2.6-green)](#)
@@ -16,7 +16,7 @@
 
 [![Stars](https://img.shields.io/github/stars/Arglax/WuWa-Config?style=social)](https://github.com/Arglax/WuWa-Config/stargazers)  
 [![License](https://img.shields.io/github/license/Arglax/WuWa-Config)](https://github.com/Arglax/WuWa-Config/blob/main/LICENSE)  
-[![Discord](https://img.shields.io/discord/1234567890?label=Discord&logo=discord&logoColor=white&color=7289DA)](https://discord.gg/XFwmCuyF)
+[![Discord](https://img.shields.io/discord/1234567890?label=Discord&logo=discord&logoColor=white&color=7289DA)](https://discord.gg/TTXHWjSU)
 
 **WuWa-Config** is a custom-built set of configuration files designed to **boost graphics, stability, and performance** in *Wuthering Waves* on Android devices.
 
