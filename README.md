@@ -1,8 +1,9 @@
 # ⚠️ Announcement
 
 > 🛠️ Users are encouraged to use configs in the *Old Configs* folder if the latest ones are incompatible with their devices.
-> 📅 Release target for updated configs: **September 27, 2025 (PHT)**  
+> 📅 Release target for updated configs: **September 30, 2025 (PHT)**  
 > 🎮 It already contains Vulkan and non-Vulkan settings
+> You need to have at least Mediatek Dimensity 8200 or Snapdragon 8s Gen 2 to be able to use Mobile Ray-Tracing Configs
 
 > A new discord (https://discord.gg/renjxYBEZM) server is now available (If there are people with a lot of free time who can help out with server management, just dm me)
 
