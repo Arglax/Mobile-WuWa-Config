@@ -176,8 +176,8 @@ Use tools like **ADB logcat** to debug crashes or GPU monitors (e.g., Adreno Pro
 
 ## 🤝 Need More Help?
 
-Join our Discord community to ask, share configs, and get real-time support:
-👉 [https://discord.gg/4DYe8srs](https://discord.gg/4DYe8srs)
+Join our Discord community to ask, share configs, and get real-time support:  
+[![Discord](https://img.shields.io/badge/Join-Discord-7289DA?logo=discord&logoColor=white)](https://discord.gg/renjxYBEZM)
 
 ---
 
