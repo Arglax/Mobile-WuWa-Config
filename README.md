@@ -1,23 +1,22 @@
-# ⚠️ Announcement
 
-> 🛠️ Users are encouraged to use configs in the *Old Configs* folder if the latest ones are incompatible with their devices.
+<h1 align="center">⚠️ Announcement</h1>
+
+> 🛠️ Users are encouraged to use configs in the *Old Configs* folder if the latest ones are incompatible with their devices.  
 > 📅 Release target for updated configs: **September 30, 2025 (PHT)**  
-> 🎮 It already contains Vulkan and non-Vulkan settings
+> 🎮 It already contains Vulkan and non-Vulkan(OpenGL) settings  
 > You need to have at least Mediatek Dimensity 8200 or Snapdragon 8s Gen 2 to be able to use Mobile Ray-Tracing Configs
 
-> A new discord (https://discord.gg/renjxYBEZM) server is now available (If there are people with a lot of free time who can help out with server management, just dm me)
+> A new [![Discord](https://img.shields.io/badge/Discord-7289DA?logo=discord&logoColor=white)](https://discord.gg/renjxYBEZM) server is now available (If there are people with a lot of free time who can help out with server management, just dm me)
 
-[![Status](https://img.shields.io/badge/Update-Scheduled-blue)](#)
-[![Version](https://img.shields.io/badge/Target_Version-2.6-green)](#)
-[![Platform](https://img.shields.io/badge/Support-Vulkan_|_Non--Vulkan-orange)](#)
+<img src="https://img.shields.io/badge/Update-Scheduled-blue" height="80"> &nbsp; <img src="https://img.shields.io/badge/Target_Version-2.6-green" height="80"> &nbsp; <img src="https://img.shields.io/badge/Support-Vulkan_&_Non--Vulkan-orange" height="80">
+
+
 
 ---
 
-# 🎮 WuWa-Config: Ultimate Mobile Configuration for Wuthering Waves
+<h1 align="center">🎮 WuWa-Config: Ultimate Mobile Configuration for Wuthering Waves</h1>
 
-[![Stars](https://img.shields.io/github/stars/Arglax/WuWa-Config?style=social)](https://github.com/Arglax/WuWa-Config/stargazers)  
-[![License](https://img.shields.io/github/license/Arglax/WuWa-Config)](https://github.com/Arglax/WuWa-Config/blob/main/LICENSE)  
-[![Discord](https://img.shields.io/discord/1234567890?label=Discord&logo=discord&logoColor=white&color=7289DA)](https://discord.gg/renjxYBEZM)
+[![Stars](https://img.shields.io/github/stars/Arglax/WuWa-Config?style=social)](https://github.com/Arglax/WuWa-Config/stargazers) &nbsp;  &nbsp; [![License](https://img.shields.io/badge/License-CustomizedMIT-lightgrey)](https://github.com/Arglax/WuWa-Config/blob/main/LICENSE) &nbsp;  &nbsp; [![Discord](https://img.shields.io/badge/Join-Discord-7289DA?logo=discord&logoColor=white)](https://discord.gg/renjxYBEZM)
 
 **WuWa-Config** is a custom-built set of configuration files designed to **boost graphics, stability, and performance** in *Wuthering Waves* on Android devices.
 
@@ -27,8 +26,8 @@ Crafted by **Arglax**, this guide will help you unlock your device’s full visu
 
 ## 📖 Table of Contents
 - [What’s Inside](#-whats-inside)
-- [How to Install](#-how-to-install-beginner-friendly)
-- [File Location](#-file-location-on-android-device)
+- [How to Install](#how-to-install)
+- [File Location](#file-location)
 - [Need Help?](#-need-help)
 - [Credits](#-credits)
 - [Tags](#-tags-for-seo-indexing)
@@ -41,12 +40,12 @@ Crafted by **Arglax**, this guide will help you unlock your device’s full visu
 - `DeviceProfiles.ini` – Device-specific enhancements  
 
 ---
-
+<a id="how-to-install"></a>
 ## 🛠️ How to Install (Beginner Friendly)
 
 ### ✅ Requirements:
 - A **Windows PC or laptop**
-- A **USB cable**
+- A **Connecting Cable (USB,Lightning, or Type C)** 
 - Your **Android device**
 
 ---
@@ -60,7 +59,7 @@ Crafted by **Arglax**, this guide will help you unlock your device’s full visu
 
 <details>
 <summary>📂 File Location Path</summary>
-
+<a id="file-location"></a>
 To access or modify configuration files for **Wuthering Waves**, navigate to the following folder on your Android device:
 
 ```
@@ -93,7 +92,7 @@ Internal Storage/
 ## 📬 Need Help?
 
 Join the **Discord** community for support, updates, and discussions:  
-👉 [https://discord.gg/XFwmCuyF](https://discord.gg/XFwmCuyF)
+👉 https://discord.gg/renjxYBEZM
 
 ---
 
