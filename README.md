@@ -8,8 +8,13 @@
 
 > A new [![Discord](https://img.shields.io/badge/Discord-7289DA?logo=discord&logoColor=white)](https://discord.gg/renjxYBEZM) server is now available (If there are people with a lot of free time who can help out with server management, just dm me)
 
-<img src="https://img.shields.io/badge/Update-Scheduled-blue" height="80"> &nbsp; <img src="https://img.shields.io/badge/Target_Version-2.6-green" height="80"> &nbsp; <img src="https://img.shields.io/badge/Support-Vulkan_&_Non--Vulkan-orange" height="80">
+<div align="center">
 
+  <img src="https://img.shields.io/badge/Update-Scheduled-blue?style=for-the-badge&logo=github&logoColor=white" />
+  <img src="https://img.shields.io/badge/🎯_Target_Version-2.6-green?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/Support-Vulkan_&_Non--Vulkan-orange?style=for-the-badge&logo=cog&logoColor=white" />
+
+</div>
 
 
 ---
