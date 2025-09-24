@@ -1,5 +1,7 @@
 ; ============================
 ; Arglax's Engine.ini SAMPLE Configuration Overview
+; Last Updated on September 24, 2025
+; Added Post-Processing and World Partitions
 ; ============================
 
 ; This configuration file has been customized for ultra-high quality, high performance and stability on Android devices using Unreal Engine.
@@ -119,7 +121,7 @@ t.MaxFPS=120                            ; Integer >=30                          
 t.MinFPS=60                             ; Integer >=0                               || Minimum frame rate to maintain (can affect smoothing and animation consistency)
 
 ; Anti-Aliasing
-r.AntiAliasingMethod=2                      ; 0=None, 1=FXAA, 2=TAA                   || Temporal AA provides best quality (but most expensive)
+r.AntiAliasingMethod=2                     ; 0=None, 1=FXAA, 2=TAA                   || Temporal AA provides best quality (but most expensive)
 r.SceneColorFringeQuality=0                ; 0=Off, 1=Low                            || Chromatic aberration effect quality (set to 0 to disable)
 r.TemporalAA.MobileFrameWeight=0.15        ; Float 0.0–1.0                           || Contribution of previous frames (lower = sharper, less ghosting)
 r.TemporalAA.MobileStaticFrameWeight=0.10  ; Float 0.0–1.0                           || Weight for static geometry TAA smoothing
@@ -432,6 +434,34 @@ r.Streaming.MipBias=0                         ; Integer                         
 r.Streaming.PoolSize=800                      ; Integer (MB)                              || Texture streaming pool size (in MB)
 r.TextureStreaming=True                       ; True/False                                || Enables texture streaming system
 
+r.PostProcessAAQuality=6                       ; 0–6 || Sets Anti-Aliasing quality (TAA/FXAA). Higher = smoother edges, more GPU cost, more ghosting.
+r.FidelityFX.FSR.Enabled=1                     ; 0/1 || Enables AMD FidelityFX Super Resolution. 0=off, 1=on.
+r.FidelityFX.FSR.PrimaryUpscale=1              ; 0/1 || Uses FSR as the main upscaler. 1=FSR replaces TAAU.
+r.FidelityFX.FSR.QualityMode=0                 ; 0–3 || FSR Quality preset. 0=Quality, 1=Balanced, 2=Performance, 3=Ultra Performance.
+
+wp.Runtime.SoraGridBlackListHeight=50000       ; Integer (world height in cm) || Prevents streaming of grids below this Z height.
+wp.Runtime.KuroRuntimeStreamingRangeOverallScale=0.8 ; 0.1–2.0 || Global scale factor for streaming distance. Higher = farther load range.
+wp.Runtime.OverrideMultipleRuntimeGridNames=Grid_Impostor&Grid_Light_Far&Grid_Light_Middle&Grid_Light_Near&Grid_LightProps&Grid_LightFX&Grid_Light_Detail&Grid_Light_Dynamic&Grid_Light_Emissive&Grid_InteriorLight&Grid_Foliage_SuperFar&Grid_ReverseMiddle&Grid_Middle_Far&Grid_HighResLandscape&Grid_ReverseFar&GridRuntime_Landscape&Grid_PcgWater&Grid_Water&Grid_SuperFar&Grid_EnclosedSpaceSuperFar&Grid_ReverseSuperFar&Grid_EnclosedSpaceSSuperFar&Grid_ExtremeFarFoliage&Grid_MSuperFar&Grid_SSuperFar&Grid_SSuperFarReverse&GridRuntime_LandscapeHLOD&HLOD0_200m_300m&HLOD0_300m_500m&HLOD0_500m_1000m&HLOD0_500m_1500m&Grid_Far&Grid_Foliage_Normal&Grid_Foliage_Near&Grid_Foliage_Grass&Grid_Foliage_Middle&Grid_StaticObjects&Grid_StructureDetail&Grid_TerrainDetail&Grid_Decoration&Grid_Objects&Grid_HLOD_Small&Grid_LandscapeEdge&Grid_LandscapeDetail&Grid_TerrainBlended&Grid_Structure&Grid_Building&Grid_Prop_Main&Grid_Prop_Detail&Grid_Architecture&Grid_StaticDetail&Grid_VFX&Grid_Collision&Grid_Near&Grid_GameplayLogic&Grid_AI_NPC&Grid_WeatherFX&Grid_FogVolume&Grid_PostFX&Grid_Sky&Grid_Cutscene&Grid_Decals&Grid_LightFunction&Grid_PhysicsVolume&Grid_UI&Grid_Crowd&Grid_Traffic&Grid_NPCProps&Grid_AtmosphereFX ; List of runtime grid names || Defines which grids follow custom distance rules.
+wp.Runtime.OverrideMultipleRuntimeGridLoadingRangeValues=1200&960&1600&800&1700&1700&1700&1700&1700&1700&1060&1600&2400&2400&2600&3200&3200&3200&4000&4000&4000&5330&5330&8000&8000&16000&16000&10600&1920&3200&6400&9600&12800&3412&5120&533&2666&4000&4000&3412&5120&533&2666&4000&4000&4000&4000&4000&4000&4000&4000&4000&3200&2400&1600&1600&1600&2400&2400&2000&2400&2400&2000&2400&2400&1600 ; List of numbers in cm || Custom load distances for each grid above.
+wp.Runtime.GridBlackList=Grid_AudioNear&Grid_EnclosedSpaceNear&Grid_EnclosedSpaceMiddle&Grid_Near ; List of grid names || Prevents these runtime grids from streaming.
+
+r.Streaming.GroupBoost.HugeBuildingTextureFactor=10.0  ; Float (default=1.0) || Boosts texture mip bias for huge buildings. Higher = sharper textures.
+r.Streaming.GroupBoost.LargeBuildingTextureFactor=10.0 ; Float (default=1.0) || Boosts texture sharpness for large buildings.
+r.Streaming.GroupBoost.MediumBuildingTextureFactor=10.0; Float (default=1.0) || Boosts texture sharpness for medium buildings.
+r.Streaming.GroupBoost.HugeFoliageTextureFactor=10.0   ; Float (default=1.0) || Boosts texture sharpness for huge foliage.
+r.Streaming.GroupBoost.LargeFoliageTextureFactor=10.0  ; Float (default=1.0) || Boosts texture sharpness for large foliage.
+r.Streaming.GroupBoost.MediumFoliageTextureFactor=10.0 ; Float (default=1.0) || Boosts texture sharpness for medium foliage.
+r.Streaming.GroupBoost.HugeNpcTextureFactor=10.0       ; Float (default=1.0) || Boosts texture sharpness for huge NPCs.
+r.Streaming.GroupBoost.LargeNpcTextureFactor=10.0      ; Float (default=1.0) || Boosts texture sharpness for large NPCs.
+r.Streaming.GroupBoost.MediumNpcTextureFactor=10.0     ; Float (default=1.0) || Boosts texture sharpness for medium NPCs.
+r.Streaming.GroupBoost.CommonHLODTextureFactor=10.0    ; Float (default=1.0) || Boosts texture sharpness for HLOD merged meshes.
+r.Streaming.GroupBoost.LandscapeHLODTextureFactor=10.0 ; Float (default=1.0) || Boosts texture sharpness for landscape HLOD.
+r.Streaming.GroupBoost.LargeRocTextureFactor=10.0      ; Float (default=1.0) || Boosts texture sharpness for large rocks.
+
+r.Streaming.Boost=1.2                                  ; Float (default=1.0, ~0.5–10.0) || Global texture streaming sharpness multiplier. Higher = sharper textures.
+r.Streaming.MinBoost=4.0                               ; Float (default=1.0) || Minimum boost floor for texture streaming. Forces sharper mipmaps.
+r.Streaming.PoolSize=4096                              ; MB value (0=auto, or manual MB up to VRAM size) || Sets VRAM pool size for streaming textures.
+r.Streaming.FullyLoadUsedTextures=1                    ; 0/1 || Forces all used textures to load at full resolution. 1 = no mipstreaming for active assets.
 
 
 [/Script/AndroidRuntimeSettings.AndroidRuntimeSettings]
