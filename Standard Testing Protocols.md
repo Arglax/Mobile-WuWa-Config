@@ -200,4 +200,5 @@ When submitting test feedback, please include:
 ### 📘 End of Document
 > Following these protocols ensures reliable, reproducible, and comparable results across devices.  
 > This helps **Arglax** fine-tune configs accurately — without guessing your device’s internal state. 🚀  
-> If the config still crashes on your mobile, don't use it. Consider creating your own, personal config.
+> If the config still crashes on your mobile, don't use it. Consider creating your own, personal config.  
+> All other concerns in Discord please.
