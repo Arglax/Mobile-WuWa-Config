@@ -66,14 +66,15 @@ Ensure no residual files, shader caches, or previous configs affect the test.
 
 #### 🧾 Steps:
 1. Delete both `DeviceProfiles.ini` and `Engine.ini` in `.../Config/Android/`.
-2. Start the game — let it load and compile shaders.
-3. Once inside:
+2. Delete the cache folder in ...\Android\data\com.kurogame.wutheringwaves.global  
+3. Start the game — let it load and compile shaders.
+4. Once inside:
    - Open **Settings → Graphics.**
    - Set **Quality Preset** to the **LOWEST**.
    - Gradually increase it until you see the **👍 Recommended** icon appear.
-4. Exit the game properly.
-5. Paste your **modified configs** into the folder.
-6. Restart the game — let shaders recompile.
+5. Exit the game properly.
+6. Paste your **modified configs** into the folder.
+7. Restart the game — let shaders recompile.
 
 ✅ **Use When:**
 - Testing performance or visuals on existing installs.
@@ -201,4 +202,5 @@ When submitting test feedback, please include:
 > Following these protocols ensures reliable, reproducible, and comparable results across devices.  
 > This helps **Arglax** fine-tune configs accurately — without guessing your device’s internal state. 🚀  
 > If the config still crashes on your mobile, don't use it. Consider creating your own, personal config.  
+
 > All other concerns in Discord please.
