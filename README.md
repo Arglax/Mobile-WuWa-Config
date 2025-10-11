@@ -109,10 +109,13 @@ Optimized for **flagship Android devices with Vulkan support**
 ---
 
 ## 🔎 Tags (for SEO indexing)
-
 `Wuthering Waves config`, `WuWa graphics optimization`, `Android ini mod`,  
 `Vulkan shader cache`, `increase WuWa FPS`, `WuWa Engine.ini tweak`,  
 `DeviceProfiles.ini tutorial`, `WuWa config Poco X6 Pro`, `WuWa lag fix Android`,  
-`Mobile gaming performance`, `Arglax WuWa`
+`Mobile gaming performance`, `Arglax WuWa`, `wuwa config android`, `wuwa config`,  
+`arglax`, `wuwa`, `config`, `tweak wuwa`, `wuwa configs`, `mobile wuwa config`,  
+`mobile configs wuwa`, `wuthering waves optimization`, `fps boost wuwa`,  
+`unreal engine 4.27 config`, `android fps boost`, `dimensity 8300 optimization`,  
+`arglax tweaks`, `wuwa optimization guide`, `vulkan optimization`, `low-end optimization wuwa`
 
 ---
