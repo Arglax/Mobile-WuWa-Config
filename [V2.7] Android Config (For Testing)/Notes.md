@@ -10,8 +10,8 @@ Possible bugs/issues:
 - such as when you have a floating windows for another app or using native screenshot
 2. Heating is a bit expected, however, no case of overheating (40C above) for now
 
-==============================
-Before you proceed with the troubleshooting, please make sure you have read the Standard Testing Protocols.md
+==============================  
+Before you proceed with the troubleshooting, please make sure you have read the Standard Testing Protocols.md  
 
 [Troubleshooting]
 If your device is crashing with these configs, here's how to troubleshoot it:  
@@ -24,3 +24,4 @@ If your device is crashing with these configs, here's how to troubleshoot it:
 4. Use a different config from the Community Configs or Old Configs in this repository.
 5. Join the discord server and leave a message in the issues or config help channel.
 6. If all else fails, stop using config files.
+
