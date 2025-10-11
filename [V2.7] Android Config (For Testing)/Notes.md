@@ -18,7 +18,9 @@ Before you proceed with the troubleshooting, please make sure you have read the 
 [Troubleshooting]
 If your device is crashing with these configs, here's how to troubleshoot it:  
 1. Disable forcing of Vulkan
-   - Read the notes in your DeviceProfiles and/or Engine.ini on which line of code to modify
+   - Read the notes in your DeviceProfiles and/or Engine.ini on which line of code to modify  
+1.a. Disable frame generation
+   - Set r.AFME.Enable = 0 in your Engine.ini  
 2. Edit your DeviceProfiles.ini
    - Read the notes in the DeviceProfiles.ini on which to change
    - Alternatively, switch from "Android_VeryHigh to "Android" DeviceProfile
@@ -26,5 +28,6 @@ If your device is crashing with these configs, here's how to troubleshoot it:
 4. Use a different config from the Community Configs or Old Configs in this repository.
 5. Join the discord server and leave a message in the issues or config help channel.
 6. If all else fails, stop using config files.
+
 
 
