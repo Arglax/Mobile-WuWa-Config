@@ -9,6 +9,8 @@ Possible bugs/issues:
 1. Black graphics occurence when app is not focused.
 - such as when you have a floating windows for another app or using native screenshot
 2. Heating is a bit expected, however, no case of overheating (40C above) for now
+3. Black screen flickering/blinking during game loading screens.
+  - I personally don't know yet the cause of this, but so far in-game there are no flickers/blinks
 
 ==============================  
 Before you proceed with the troubleshooting, please make sure you have read the Standard Testing Protocols.md  
@@ -24,4 +26,5 @@ If your device is crashing with these configs, here's how to troubleshoot it:
 4. Use a different config from the Community Configs or Old Configs in this repository.
 5. Join the discord server and leave a message in the issues or config help channel.
 6. If all else fails, stop using config files.
+
 
