@@ -1,6 +1,13 @@
 
 <h1 align="center">⚠️ Announcement</h1>
 
+Recent Changes:  
+1. Added V2.7 Android Config
+2. Added Compatibility Mode for V2.7 Android Config
+3. Added Snapdragon-Vulkan Config in Community Configs
+4. Temporarily removed Frame Generation from Old Configs (Stability Patch)
+
+Notes:
 > 🛠️ Users are encouraged to use configs in the *Old Configs* folder if the latest ones are incompatible with their devices.  
 > 📅 Release target for updated configs: **October 10-18, 2025 (PHT)**  
 > 🎮 It already contains Vulkan and non-Vulkan(OpenGL) settings  
