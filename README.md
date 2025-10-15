@@ -1,7 +1,12 @@
 
-<h1 align="center">⚠️ Announcement</h1>
+<h1 align="center">📢 Announcements 📢</h1>
 
 Recent Changes:  
+October 16, 2025
+1. Added Thirdy's Configs in 'Community Configs'  
+2. Added some translations for non-Filipino speakers
+   
+October 14, 2025
 1. Added V2.7 Android Config
 2. Added Compatibility Mode for V2.7 Android Config
 3. Added Snapdragon-Vulkan Config in Community Configs
