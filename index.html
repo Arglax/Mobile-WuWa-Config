@@ -7,58 +7,131 @@
     :root {
       color-scheme: dark;
     }
+
     body {
       font-family: "Segoe UI", Arial, sans-serif;
-      background: #0e0e0e;
-      color: #ddd;
-      margin: 2rem;
+      background: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat fixed;
+      background-color: rgba(0, 0, 0, 0.8);
+      background-blend-mode: darken;
+      color: #eee;
+      margin: 0;
+      padding: 2rem;
     }
+
     h1 {
+      text-align: center;
       color: #ffcc00;
+      text-shadow: 0 0 10px #000;
     }
+
+    .panel {
+      background: rgba(20, 20, 20, 0.85);
+      border: 1px solid #333;
+      border-radius: 1rem;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.05);
+      max-width: 800px;
+      margin: 2rem auto;
+      padding: 2rem;
+      backdrop-filter: blur(8px);
+    }
+
+    .slider-section {
+      margin-bottom: 1.5rem;
+    }
+
     input[type=range] {
       width: 100%;
       accent-color: #ffcc00;
     }
+
     .slider-labels {
       display: flex;
       justify-content: space-between;
       font-size: .9em;
-      color: #888;
+      color: #aaa;
       margin-top: .2rem;
     }
+
+    .button-row {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    button {
+      background: #222;
+      border: 1px solid #444;
+      color: #ffcc00;
+      padding: .6rem 1.2rem;
+      border-radius: .4rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    button:hover {
+      background: #333;
+      border-color: #ffcc00;
+      box-shadow: 0 0 10px #ffcc0033;
+    }
+
     pre {
-      background: #1b1b1b;
+      background: #0f0f0f;
       color: #00ff66;
       padding: 1rem;
       border-radius: .6rem;
       overflow-x: auto;
-      box-shadow: 0 0 10px #000 inset;
+      font-size: 0.95em;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      box-shadow: inset 0 0 10px #000;
+    }
+
+    footer {
+      text-align: center;
+      font-size: 0.8em;
+      color: #888;
+      margin-top: 2rem;
     }
   </style>
 </head>
 <body>
   <h1>WuWa Engine.ini Generator</h1>
-  <p>Increase Quality and Sharpness of Far Objects:</p>
 
-  <label for="slider"><b>Quality Scale (0 – 11)</b></label>
-  <input id="slider" type="range" min="0" max="11" value="5" list="tickmarks">
-  <datalist id="tickmarks">
-    <option value="0"></option><option value="1"></option><option value="2"></option>
-    <option value="3"></option><option value="4"></option><option value="5"></option>
-    <option value="6"></option><option value="7"></option><option value="8"></option>
-    <option value="9"></option><option value="10"></option><option value="11"></option>
-  </datalist>
-  <div class="slider-labels"><span>0</span><span>11</span></div>
+  <div class="panel">
+    <h2>🎮 Texture Quality Scaling</h2>
+    <p>Adjust texture streaming and mipmap detail levels. 0 = lowest, 11 = ultra.</p>
 
-  <pre id="output"></pre>
+    <div class="slider-section">
+      <label for="slider"><b>Quality Scale</b></label>
+      <input id="slider" type="range" min="0" max="11" value="5">
+      <div class="slider-labels"><span>0</span><span>11</span></div>
+    </div>
+
+    <div class="button-row">
+      <button id="dec">− Decrease</button>
+      <button id="reset">Reset</button>
+      <button id="inc">+ Increase</button>
+    </div>
+
+    <h3>Generated Engine.ini Variables:</h3>
+    <pre id="output"></pre>
+  </div>
+
+  <footer>Made with 💛 by Master Ian | WuWa Config Tool</footer>
 
   <script>
-    function generateCommands(level){
-      const streamingBoost=(0+0.5*level).toFixed(2);
-      const groupBoost=(1+0.85*level).toFixed(2);
-      const mipBiasArray=[6,4,3,2,1,0,-2,-4,-6,-8,-10,-12];
-      const mipLODBias=mipBiasArray[level];
+    const slider = document.getElementById("slider");
+    const output = document.getElementById("output");
+    const decBtn = document.getElementById("dec");
+    const incBtn = document.getElementById("inc");
+    const resetBtn = document.getElementById("reset");
+
+    function generateCommands(level) {
+      const streamingBoost = (0 + 0.5 * level).toFixed(2);
+      const groupBoost = (1 + 0.85 * level).toFixed(2);
+      const mipBiasArray = [6,4,3,2,1,0,-2,-4,-6,-8,-10,-12];
+      const mipLODBias = mipBiasArray[level];
 
       return `
 r.Streaming.GroupBoost.HugeBuildingTextureFactor=${groupBoost}
@@ -81,10 +154,25 @@ r.Streaming.MipBias=-2
 `.trim();
     }
 
-    const slider=document.getElementById("slider");
-    const output=document.getElementById("output");
-    slider.addEventListener("input",()=>output.textContent=generateCommands(+slider.value));
-    output.textContent=generateCommands(+slider.value);
+    function updateOutput() {
+      output.textContent = generateCommands(+slider.value);
+    }
+
+    slider.addEventListener("input", updateOutput);
+    decBtn.addEventListener("click", () => {
+      slider.value = Math.max(0, +slider.value - 1);
+      updateOutput();
+    });
+    incBtn.addEventListener("click", () => {
+      slider.value = Math.min(11, +slider.value + 1);
+      updateOutput();
+    });
+    resetBtn.addEventListener("click", () => {
+      slider.value = 5;
+      updateOutput();
+    });
+
+    updateOutput();
   </script>
 </body>
 </html>
