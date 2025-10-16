@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>WuWa Config Generator</title>
+</head>
+<body>
+  <h1>WuWa Config Generator</h1>
+  <p>Use the slider to generate Engine.ini commands:</p>
+  
+  <label for="slider">Render Quality: </label>
+  <input type="range" min="0" max="11" value="5" id="slider">
+  <pre id="output"></pre>
+
+  <script>
+    const commands = [
+      "r.ShadowQuality=0\nr.AntiAliasing=0",
+      "r.ShadowQuality=1\nr.AntiAliasing=1",
+      "r.ShadowQuality=2\nr.AntiAliasing=1",
+      "r.ShadowQuality=3\nr.AntiAliasing=2",
+      "r.ShadowQuality=4\nr.AntiAliasing=3",
+      "r.ShadowQuality=5\nr.AntiAliasing=4",
+      "r.ShadowQuality=6\nr.AntiAliasing=5",
+      "r.ShadowQuality=7\nr.AntiAliasing=6",
+      "r.ShadowQuality=8\nr.AntiAliasing=7",
+      "r.ShadowQuality=9\nr.AntiAliasing=7",
+      "r.ShadowQuality=10\nr.AntiAliasing=8",
+      "r.ShadowQuality=11\nr.AntiAliasing=8"
+    ];
+
+    const slider = document.getElementById("slider");
+    const output = document.getElementById("output");
+
+    slider.addEventListener("input", () => {
+      output.textContent = commands[slider.value];
+    });
+
+    // initialize
+    output.textContent = commands[slider.value];
+  </script>
+</body>
+</html>
