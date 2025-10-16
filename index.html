@@ -2,41 +2,103 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>WuWa Config Generator</title>
+  <title>WuWa Engine.ini Generator</title>
+  <style>
+    body {
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #121212;
+      color: #e0e0e0;
+      margin: 2em;
+    }
+    h1 {
+      color: #ffcc00;
+    }
+    input[type=range] {
+      width: 100%;
+      margin: 1em 0;
+    }
+    pre {
+      background-color: #1e1e1e;
+      color: #00ff00;
+      padding: 1em;
+      border-radius: 8px;
+      overflow-x: auto;
+    }
+    label {
+      font-weight: bold;
+    }
+  </style>
 </head>
 <body>
-  <h1>WuWa Config Generator</h1>
-  <p>Use the slider to generate Engine.ini commands:</p>
+  <h1>WuWa Engine.ini Generator</h1>
+  <p>Increase Quality and Sharpness of Far Objects:</p>
   
-  <label for="slider">Render Quality: </label>
+  <label for="slider">Quality Scale (0–11): </label>
   <input type="range" min="0" max="11" value="5" id="slider">
+  
   <pre id="output"></pre>
 
   <script>
-    const commands = [
-      "r.ShadowQuality=0\nr.AntiAliasing=0",
-      "r.ShadowQuality=1\nr.AntiAliasing=1",
-      "r.ShadowQuality=2\nr.AntiAliasing=1",
-      "r.ShadowQuality=3\nr.AntiAliasing=2",
-      "r.ShadowQuality=4\nr.AntiAliasing=3",
-      "r.ShadowQuality=5\nr.AntiAliasing=4",
-      "r.ShadowQuality=6\nr.AntiAliasing=5",
-      "r.ShadowQuality=7\nr.AntiAliasing=6",
-      "r.ShadowQuality=8\nr.AntiAliasing=7",
-      "r.ShadowQuality=9\nr.AntiAliasing=7",
-      "r.ShadowQuality=10\nr.AntiAliasing=8",
-      "r.ShadowQuality=11\nr.AntiAliasing=8"
-    ];
+    function generateCommands(level) {
+      // Streaming Boost
+      const streamingBoost = (0 + 0.5 * level).toFixed(2);
+      const minBoost = streamingBoost;
+
+      // Streaming Group Boosts
+      const groupBoostBase = 1 + 0.85 * level;
+      const hugeBuilding = groupBoostBase.toFixed(2);
+      const largeBuilding = groupBoostBase.toFixed(2);
+      const mediumBuilding = groupBoostBase.toFixed(2);
+      const hugeFoliage = groupBoostBase.toFixed(2);
+      const largeFoliage = groupBoostBase.toFixed(2);
+      const mediumFoliage = groupBoostBase.toFixed(2);
+      const hugeNpc = groupBoostBase.toFixed(2);
+      const largeNpc = groupBoostBase.toFixed(2);
+      const mediumNpc = groupBoostBase.toFixed(2);
+      const commonHLOD = groupBoostBase.toFixed(2);
+      const landscapeHLOD = groupBoostBase.toFixed(2);
+      const largeRoc = groupBoostBase.toFixed(2);
+
+      // MipMapLODBias
+      const mipLODBiasArray = [6,4,3,2,1,0,-2,-4,-6,-8,-10,-12];
+      const mipLODBias = mipLODBiasArray[level];
+
+      // Streaming.MipBias
+      const mipBias = -2;
+
+      return `
+r.Streaming.GroupBoost.HugeBuildingTextureFactor=${hugeBuilding}
+r.Streaming.GroupBoost.LargeBuildingTextureFactor=${largeBuilding}
+r.Streaming.GroupBoost.MediumBuildingTextureFactor=${mediumBuilding}
+r.Streaming.GroupBoost.HugeFoliageTextureFactor=${hugeFoliage}
+r.Streaming.GroupBoost.LargeFoliageTextureFactor=${largeFoliage}
+r.Streaming.GroupBoost.MediumFoliageTextureFactor=${mediumFoliage}
+r.Streaming.GroupBoost.HugeNpcTextureFactor=${hugeNpc}
+r.Streaming.GroupBoost.LargeNpcTextureFactor=${largeNpc}
+r.Streaming.GroupBoost.MediumNpcTextureFactor=${mediumNpc}
+r.Streaming.GroupBoost.CommonHLODTextureFactor=${commonHLOD}
+r.Streaming.GroupBoost.LandscapeHLODTextureFactor=${landscapeHLOD}
+r.Streaming.GroupBoost.LargeRocTextureFactor=${largeRoc}
+r.Streaming.Boost=${streamingBoost}
+r.Streaming.MinBoost=${minBoost}
+r.Streaming.FullyLoadUsedTextures=1
+r.MipMapLODBias=${mipLODBias}
+r.Streaming.MipBias=${mipBias}
+      `.trim();
+    }
 
     const slider = document.getElementById("slider");
     const output = document.getElementById("output");
 
-    slider.addEventListener("input", () => {
-      output.textContent = commands[slider.value];
-    });
+    function updateOutput() {
+      const level = parseInt(slider.value);
+      output.textContent = generateCommands(level);
+    }
 
-    // initialize
-    output.textContent = commands[slider.value];
+    slider.addEventListener("input", updateOutput);
+
+    // Initialize
+    updateOutput();
   </script>
 </body>
 </html>
