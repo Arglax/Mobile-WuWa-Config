@@ -4,101 +4,87 @@
   <meta charset="UTF-8">
   <title>WuWa Engine.ini Generator</title>
   <style>
+    :root {
+      color-scheme: dark;
+    }
     body {
-      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #121212;
-      color: #e0e0e0;
-      margin: 2em;
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: #0e0e0e;
+      color: #ddd;
+      margin: 2rem;
     }
     h1 {
       color: #ffcc00;
     }
     input[type=range] {
       width: 100%;
-      margin: 1em 0;
+      accent-color: #ffcc00;
+    }
+    .slider-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: .9em;
+      color: #888;
+      margin-top: .2rem;
     }
     pre {
-      background-color: #1e1e1e;
-      color: #00ff00;
-      padding: 1em;
-      border-radius: 8px;
+      background: #1b1b1b;
+      color: #00ff66;
+      padding: 1rem;
+      border-radius: .6rem;
       overflow-x: auto;
-    }
-    label {
-      font-weight: bold;
+      box-shadow: 0 0 10px #000 inset;
     }
   </style>
 </head>
 <body>
   <h1>WuWa Engine.ini Generator</h1>
   <p>Increase Quality and Sharpness of Far Objects:</p>
-  
-  <label for="slider">Quality Scale (0–11): </label>
-  <input type="range" min="0" max="11" value="5" id="slider">
-  
+
+  <label for="slider"><b>Quality Scale (0 – 11)</b></label>
+  <input id="slider" type="range" min="0" max="11" value="5" list="tickmarks">
+  <datalist id="tickmarks">
+    <option value="0"></option><option value="1"></option><option value="2"></option>
+    <option value="3"></option><option value="4"></option><option value="5"></option>
+    <option value="6"></option><option value="7"></option><option value="8"></option>
+    <option value="9"></option><option value="10"></option><option value="11"></option>
+  </datalist>
+  <div class="slider-labels"><span>0</span><span>11</span></div>
+
   <pre id="output"></pre>
 
   <script>
-    function generateCommands(level) {
-      // Streaming Boost
-      const streamingBoost = (0 + 0.5 * level).toFixed(2);
-      const minBoost = streamingBoost;
-
-      // Streaming Group Boosts
-      const groupBoostBase = 1 + 0.85 * level;
-      const hugeBuilding = groupBoostBase.toFixed(2);
-      const largeBuilding = groupBoostBase.toFixed(2);
-      const mediumBuilding = groupBoostBase.toFixed(2);
-      const hugeFoliage = groupBoostBase.toFixed(2);
-      const largeFoliage = groupBoostBase.toFixed(2);
-      const mediumFoliage = groupBoostBase.toFixed(2);
-      const hugeNpc = groupBoostBase.toFixed(2);
-      const largeNpc = groupBoostBase.toFixed(2);
-      const mediumNpc = groupBoostBase.toFixed(2);
-      const commonHLOD = groupBoostBase.toFixed(2);
-      const landscapeHLOD = groupBoostBase.toFixed(2);
-      const largeRoc = groupBoostBase.toFixed(2);
-
-      // MipMapLODBias
-      const mipLODBiasArray = [6,4,3,2,1,0,-2,-4,-6,-8,-10,-12];
-      const mipLODBias = mipLODBiasArray[level];
-
-      // Streaming.MipBias
-      const mipBias = -2;
+    function generateCommands(level){
+      const streamingBoost=(0+0.5*level).toFixed(2);
+      const groupBoost=(1+0.85*level).toFixed(2);
+      const mipBiasArray=[6,4,3,2,1,0,-2,-4,-6,-8,-10,-12];
+      const mipLODBias=mipBiasArray[level];
 
       return `
-r.Streaming.GroupBoost.HugeBuildingTextureFactor=${hugeBuilding}
-r.Streaming.GroupBoost.LargeBuildingTextureFactor=${largeBuilding}
-r.Streaming.GroupBoost.MediumBuildingTextureFactor=${mediumBuilding}
-r.Streaming.GroupBoost.HugeFoliageTextureFactor=${hugeFoliage}
-r.Streaming.GroupBoost.LargeFoliageTextureFactor=${largeFoliage}
-r.Streaming.GroupBoost.MediumFoliageTextureFactor=${mediumFoliage}
-r.Streaming.GroupBoost.HugeNpcTextureFactor=${hugeNpc}
-r.Streaming.GroupBoost.LargeNpcTextureFactor=${largeNpc}
-r.Streaming.GroupBoost.MediumNpcTextureFactor=${mediumNpc}
-r.Streaming.GroupBoost.CommonHLODTextureFactor=${commonHLOD}
-r.Streaming.GroupBoost.LandscapeHLODTextureFactor=${landscapeHLOD}
-r.Streaming.GroupBoost.LargeRocTextureFactor=${largeRoc}
+r.Streaming.GroupBoost.HugeBuildingTextureFactor=${groupBoost}
+r.Streaming.GroupBoost.LargeBuildingTextureFactor=${groupBoost}
+r.Streaming.GroupBoost.MediumBuildingTextureFactor=${groupBoost}
+r.Streaming.GroupBoost.HugeFoliageTextureFactor=${groupBoost}
+r.Streaming.GroupBoost.LargeFoliageTextureFactor=${groupBoost}
+r.Streaming.GroupBoost.MediumFoliageTextureFactor=${groupBoost}
+r.Streaming.GroupBoost.HugeNpcTextureFactor=${groupBoost}
+r.Streaming.GroupBoost.LargeNpcTextureFactor=${groupBoost}
+r.Streaming.GroupBoost.MediumNpcTextureFactor=${groupBoost}
+r.Streaming.GroupBoost.CommonHLODTextureFactor=${groupBoost}
+r.Streaming.GroupBoost.LandscapeHLODTextureFactor=${groupBoost}
+r.Streaming.GroupBoost.LargeRocTextureFactor=${groupBoost}
 r.Streaming.Boost=${streamingBoost}
-r.Streaming.MinBoost=${minBoost}
+r.Streaming.MinBoost=${streamingBoost}
 r.Streaming.FullyLoadUsedTextures=1
 r.MipMapLODBias=${mipLODBias}
-r.Streaming.MipBias=${mipBias}
-      `.trim();
+r.Streaming.MipBias=-2
+`.trim();
     }
 
-    const slider = document.getElementById("slider");
-    const output = document.getElementById("output");
-
-    function updateOutput() {
-      const level = parseInt(slider.value);
-      output.textContent = generateCommands(level);
-    }
-
-    slider.addEventListener("input", updateOutput);
-
-    // Initialize
-    updateOutput();
+    const slider=document.getElementById("slider");
+    const output=document.getElementById("output");
+    slider.addEventListener("input",()=>output.textContent=generateCommands(+slider.value));
+    output.textContent=generateCommands(+slider.value);
   </script>
 </body>
 </html>
