@@ -3,10 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <title>WuWa Engine.ini Generator</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
   <style>
-    :root {
-      color-scheme: dark;
-    }
+    :root { color-scheme: dark; }
 
     /* ===== Base Styles ===== */
     body {
@@ -17,6 +16,7 @@
       color: #eee;
       margin: 0;
       padding: 6rem 2rem 5rem;
+      -webkit-font-smoothing: antialiased;
     }
 
     h1 {
@@ -30,9 +30,9 @@
       position: fixed;
       top: 0;
       width: 100%;
-      background: rgba(15, 15, 15, 0.9);
+      background: rgba(15,15,15,0.9);
       border-bottom: 1px solid #333;
-      box-shadow: 0 0 15px rgba(255, 255, 255, 0.05);
+      box-shadow: 0 0 15px rgba(255,255,255,0.05);
       display: flex;
       justify-content: center;
       gap: 1.5rem;
@@ -40,132 +40,82 @@
       z-index: 1000;
       backdrop-filter: blur(8px);
     }
-
     .top-nav a {
       text-decoration: none;
       color: #ffcc00;
       font-weight: 600;
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-      transition: all 0.2s ease-in-out;
+      display:flex; align-items:center; gap:0.4rem;
+      transition: all 0.18s ease-in-out;
     }
-
-    .top-nav a:hover {
-      color: #fff;
-      transform: translateY(-2px);
-    }
+    .top-nav a:hover { color:#fff; transform: translateY(-2px); }
 
     /* ===== Panels ===== */
     details {
-      background: rgba(20, 20, 20, 0.85);
+      background: rgba(20,20,20,0.85);
       border: 1px solid #333;
       border-radius: 1rem;
-      box-shadow: 0 0 20px rgba(255, 255, 255, 0.05);
+      box-shadow: 0 0 20px rgba(255,255,255,0.03);
       max-width: 850px;
       margin: 2rem auto;
       padding: 1.5rem 2rem;
       backdrop-filter: blur(8px);
     }
-
     summary {
       font-weight: bold;
       color: #ffcc00;
       cursor: pointer;
-      font-size: 1.2em;
-      margin-bottom: 1rem;
+      font-size: 1.1rem;
+      margin-bottom: 0.8rem;
     }
-
-    summary:hover {
-      text-shadow: 0 0 6px #ffcc0066;
-    }
+    summary:hover { text-shadow: 0 0 6px #ffcc0066; }
 
     /* ===== Controls ===== */
-    input[type=range] {
-      width: 100%;
-      accent-color: #ffcc00;
+    input[type=range] { width:100%; accent-color: #ffcc00; }
+    .slider-labels { display:flex; justify-content:space-between; font-size:.9em; color:#aaa; margin-top:.2rem; }
+    .slider-section { margin-top: 0.5rem; }
+
+    .button-row { display:flex; justify-content:center; gap:1rem; margin-top:1rem; flex-wrap:wrap; }
+    button { background:#222; border:1px solid #444; color:#ffcc00; padding:.6rem 1.2rem; border-radius:.4rem; cursor:pointer; transition: all 0.18s; }
+    button:hover { background:#333; border-color:#ffcc00; box-shadow:0 0 10px #ffcc0033; }
+
+    pre, textarea {
+      background:#0f0f0f; color:#00ff66; padding:1rem; border-radius:.6rem; overflow-x:auto;
+      font-size:0.95em; white-space:pre-wrap; word-wrap:break-word; box-shadow: inset 0 0 10px #000; width:100%;
     }
 
-    .slider-labels {
-      display: flex;
-      justify-content: space-between;
-      font-size: .9em;
-      color: #aaa;
-      margin-top: .2rem;
-    }
-
-    .button-row {
-      display: flex;
-      justify-content: center;
-      gap: 1rem;
-      margin-top: 1rem;
-    }
-
-    button {
-      background: #222;
-      border: 1px solid #444;
-      color: #ffcc00;
-      padding: .6rem 1.2rem;
-      border-radius: .4rem;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    button:hover {
-      background: #333;
-      border-color: #ffcc00;
-      box-shadow: 0 0 10px #ffcc0033;
-    }
-
-    pre {
-      background: #0f0f0f;
-      color: #00ff66;
-      padding: 1rem;
-      border-radius: .6rem;
-      overflow-x: auto;
-      font-size: 0.95em;
-      white-space: pre-wrap;
-      word-wrap: break-word;
-      box-shadow: inset 0 0 10px #000;
-    }
-
-    /* ===== Floating Toolbar ===== */
     .utility-buttons {
-      position: fixed;
-      bottom: 1.5rem;
-      right: 1.5rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-      z-index: 999;
+      position: fixed; bottom: 1.5rem; right:1.5rem; display:flex; flex-direction:column; gap:.5rem; z-index:999;
     }
+    .utility-buttons button { background: rgba(30,30,30,0.8); border:1px solid #555; color:#ffcc00; padding:.6rem 1rem; border-radius:.5rem; cursor:pointer; }
+    .utility-buttons button:hover { background: rgba(50,50,50,0.9); border-color:#ffcc00; }
 
-    .utility-buttons button {
-      background: rgba(30,30,30,0.8);
-      border: 1px solid #555;
-      color: #ffcc00;
-      padding: .6rem 1rem;
-      border-radius: .5rem;
-      cursor: pointer;
-      transition: all 0.2s;
+    footer { text-align:center; font-size:0.8em; color:#888; margin-top:3rem; position:relative; }
+
+    /* Floating control panel */
+    #control-panel {
+      position: fixed; top:20px; left:20px; display:flex; flex-direction:column; gap:10px;
+      background: rgba(25,25,25,0.85); border: 2px solid #4caf50; border-radius:12px; padding:12px;
+      box-shadow:0 0 10px rgba(0,0,0,0.4); z-index:9999; backdrop-filter: blur(5px);
     }
+    #control-panel button { background-color:#2e7d32; color:white; font-weight:600; border:none; border-radius:8px; padding:8px 12px; cursor:pointer; }
+    #control-panel button:hover { background-color:#43a047; }
 
-    .utility-buttons button:hover {
-      background: rgba(50,50,50,0.9);
-      border-color: #ffcc00;
-    }
-
-    /* ===== Footer ===== */
-    footer {
-      text-align: center;
-      font-size: 0.8em;
-      color: #888;
-      margin-top: 3rem;
-      position: relative;
+    /* responsive */
+    @media (max-width:768px) {
+      body{padding:6rem 1rem 5rem;}
+      details{margin:1rem; padding:1rem;}
+      .top-nav{flex-wrap:wrap; gap:.6rem;}
+      #control-panel{left:8px; top:70px;}
     }
   </style>
 </head>
 <body>
+
+  <!-- 🧭 Floating Control Panel -->
+  <div id="control-panel" aria-hidden="false">
+    <button id="resetBtn">🧹 Reset All Configs</button>
+    <button id="generateBtn">⚙️ Generate Engine.ini</button>
+  </div>
 
   <!-- 🌐 Navigation -->
   <nav class="top-nav">
@@ -181,8 +131,11 @@
     <summary>🎮 Far-Distance Texture Quality Scaling</summary>
     <p>Adjust texture streaming and mipmap detail levels (0 = disabled, 11 = ultra).</p>
 
-    <input id="slider" type="range" min="0" max="11" value="5">
-    <div class="slider-labels"><span>0</span><span>11</span></div>
+    <div class="slider-section">
+      <label><b>Quality Scale (0 – 11)</b></label>
+      <input id="slider" type="range" min="0" max="11" value="5" />
+      <div class="slider-labels"><span>0</span><span>11</span></div>
+    </div>
 
     <div class="button-row">
       <button id="dec">− Decrease</button>
@@ -191,15 +144,15 @@
     </div>
 
     <h3>Generated Engine.ini Variables:</h3>
-    <pre id="output"></pre>
+    <pre id="output" aria-live="polite"></pre>
 
     <details>
       <summary>🧠 Technical Footnote — Texture Streaming</summary>
       <p>
-        <b>r.Streaming.Boost / MinBoost:</b> Adjusts how aggressively textures are loaded.<br>
-        <b>r.Streaming.GroupBoost:</b> Multiplies texture resolution loading for different object groups.<br>
-        <b>r.MipMapLODBias:</b> Controls mipmap detail (negative = sharper).<br>
-        <b>r.Streaming.FullyLoadUsedTextures:</b> Forces full texture load when visible.<br>
+        <b>r.Streaming.Boost / MinBoost</b> — Adjusts how aggressively textures are streamed to memory.<br>
+        <b>r.Streaming.GroupBoost.*</b> — Per-group sharpness multiplier for building/foliage/NPC groups.<br>
+        <b>r.MipMapLODBias</b> — Controls mipmap selection bias (negative => sharper textures).<br>
+        <b>r.Streaming.FullyLoadUsedTextures</b> — Forces textures that are in use to load fully (1 = enable).<br>
       </p>
     </details>
   </details>
@@ -207,7 +160,7 @@
   <!-- 🌑 SHADOWS SETTINGS -->
   <details>
     <summary>🌑 Shadows Settings</summary>
-    <p>Control shadow rendering, cascades, and fine lighting. Choose <b>Basic</b> or <b>Advanced</b> mode.</p>
+    <p>Control shadow rendering; select Basic (fewer options) or Advanced (full tuning).</p>
 
     <div class="button-row">
       <button onclick="setShadowMode('basic')">Basic</button>
@@ -216,9 +169,9 @@
 
     <div id="shadowMode" style="margin-top:10px; font-weight:bold;">Current Mode: Basic</div>
 
-    <div class="slider-section">
-      <label><b>Shadow Quality Scale</b></label>
-      <input type="range" min="0" max="11" value="5" id="shadowSlider" oninput="updateShadowQuality()">
+    <div class="slider-section" style="margin-top:8px;">
+      <label><b>Shadow Quality Scale (0 – 11)</b></label>
+      <input id="shadowSlider" type="range" min="0" max="11" value="5" oninput="updateShadowQuality()" />
       <div class="slider-labels"><span>0</span><span>11</span></div>
     </div>
 
@@ -229,50 +182,44 @@
     </div>
 
     <h3>Generated Engine.ini (Shadows)</h3>
-    <pre id="shadowOutput"></pre>
+    <pre id="shadowOutput" aria-live="polite"></pre>
 
-   <details>
-  <summary>🧠 Technical Footnote — Shadow Settings</summary>
-  <p>
-    <b>r.ShadowQuality</b> – Global shadow rendering quality level.<br>
-    <b>r.Shadow.CSM.MaxCascades</b> – Number of cascaded shadow layers (affects distance blending).<br>
-    <b>r.Shadow.CSM.MaxDistance</b> / <b>r.Shadow.FarShadowDistanceOverride</b> – Maximum shadow draw distance.<br>
-    <b>r.Shadow.CSM0–3Distance</b> – Distance thresholds for each cascade layer.<br>
-    <b>r.Shadow.DistributionExponent</b> – Controls how shadow cascades are spaced.<br>
-    <b>r.Shadow.TransitionScale</b> / <b>DitheredTransitionScale</b> – Softens or hardens shadow edges.<br>
-    <b>r.Shadow.FadeExponent</b> – Adjusts transition falloff of shadows at distance.<br>
-    <b>r.Shadow.MinResolution / MaxResolution</b> – Minimum and maximum shadow map resolution.<br>
-    <b>r.Shadow.MaxCSMResolution</b> – Highest resolution allowed for cascaded shadows.<br>
-    <b>r.Shadow.PerObjectResolution*</b> – Control per-object shadow map resolution limits.<br>
-    <b>r.Shadow.CSMxShadowPCFQuality</b> – PCF filter quality for each cascade.<br>
-    <b>r.Shadow.FilterMethod</b> – Algorithm used for shadow filtering (1 = PCF).<br>
-    <b>r.Shadow.TexelsPerPixel</b> – Sampling density per screen pixel (higher = smoother).<br>
-    <b>r.Shadow.PCFMaxSamples</b> – Total PCF samples for filtering (performance hit).<br>
-    <b>r.Shadow.TemporalFiltering</b> – Temporal reprojection for flicker reduction.<br>
-    <b>r.Shadow.CacheWholeSceneShadows</b> – Cache entire scene shadow maps for reuse.<br>
-    <b>r.Shadow.CachedShadowsCastFromMovablePrimitives</b> – Cache dynamic object shadows.<br>
-    <b>r.Shadow.EnableParallaxCorrection</b> – Adds accurate parallax to shadow projection.<br>
-    <b>r.Shadow.RadiusThreshold*</b> – Size threshold for small shadow casting objects.<br>
-    <b>r.ContactShadows*</b> – Fine shadow detail for small-scale contact with surfaces.<br>
-    <b>r.CapsuleShadows*</b> – Adds capsule-based character shadows.<br>
-    <b>r.DistanceFieldShadowing*</b> – Enables distance field-based soft shadows.<br>
-    <b>r.DistanceFieldShadowBias / Accuracy / PenumbraScale</b> – Controls shape and softness of distance shadows.<br>
-  </p>
-</details>
-
+    <details>
+      <summary>🧠 Technical Footnote — Shadow Settings</summary>
+      <p>
+        <b>r.ShadowQuality</b> — Overall shadow quality (0 = off, up to 5 usually).<br>
+        <b>r.Shadow.CSM.MaxCascades</b> — Number of cascades (more = smoother farther shadows).<br>
+        <b>r.Shadow.CSM.MaxDistance / FarShadowDistanceOverride</b> — How far cascaded shadows are computed.<br>
+        <b>r.Shadow.CSM0…CSM3Distance</b> — Distances for each cascade boundary.<br>
+        <b>r.Shadow.*Resolution</b> — Minimum/maximum shadow map size and per-object resolution controls.<br>
+        <b>r.Shadow.TexelsPerPixel / PCFMaxSamples</b> — Filtering density and sample budget for softer shadows.<br>
+        <b>r.ContactShadows / r.CapsuleShadows</b> — Add fine-scale and character-specific shadowing for realism.<br>
+        <b>r.DistanceFieldShadowing</b> — Distance-field shadows for very large soft shadowing.<br>
+      </p>
+    </details>
   </details>
 
   <!-- 🧭 Floating Toolbar -->
-  <div class="utility-buttons">
+  <div class="utility-buttons" role="toolbar" aria-label="Utilities">
     <button onclick="collapseAll()">Collapse All</button>
     <button onclick="expandAll()">Expand All</button>
     <button onclick="window.scrollTo({top:0,behavior:'smooth'})">Back to Top</button>
   </div>
 
-  <footer>Made by Arglax (GPT-assisted)</footer>
+  <footer>Made by Arglax (GPT-assisted) — Master Ian</footer>
 
+  <!-- ================= Scripts ================= -->
   <script>
-    // === TEXTURE SYSTEM ===
+  /***************************************************************************
+   * Full integrated scripts:
+   * - texture slider generation (saves to localStorage.textureConfig)
+   * - shadow slider generation (saves to localStorage.shadowConfig)
+   * - reset all sliders
+   * - generate button writes localStorage.generatedConfig and navigates
+   ***************************************************************************/
+
+  // === TEXTURE SYSTEM ===
+  (function() {
     const slider = document.getElementById("slider");
     const output = document.getElementById("output");
     const decBtn = document.getElementById("dec");
@@ -281,7 +228,7 @@
 
     function smoothScale(level, min, max, exponent = 1.3) {
       const t = Math.pow(level / 11, exponent);
-      return (min + (max - min) * t);
+      return min + (max - min) * t;
     }
 
     function generateCommands(level) {
@@ -311,45 +258,62 @@ r.Streaming.MipBias=-2
 `.trim();
     }
 
-    function updateOutput() { output.textContent = generateCommands(+slider.value); }
+    function updateOutput() {
+      const level = +slider.value;
+      const txt = generateCommands(level);
+      output.textContent = txt;
+      try { localStorage.setItem("textureConfig", txt); } catch (e) { /* ignore storage errors */ }
+    }
+
     slider.addEventListener("input", updateOutput);
     decBtn.addEventListener("click", () => { slider.value = Math.max(0, +slider.value - 1); updateOutput(); });
     incBtn.addEventListener("click", () => { slider.value = Math.min(11, +slider.value + 1); updateOutput(); });
     resetBtn.addEventListener("click", () => { slider.value = 5; updateOutput(); });
-    updateOutput();
 
-    // === SHADOW SYSTEM ===
+    // initialize from storage or default
+    try {
+      const stored = localStorage.getItem("textureConfig");
+      if (stored) {
+        output.textContent = stored;
+      } else {
+        updateOutput();
+      }
+    } catch (e) { updateOutput(); }
+  })();
+
+  // === SHADOW SYSTEM ===
+  (function() {
     let shadowMode = "basic";
     const shadowOutput = document.getElementById("shadowOutput");
     const shadowSlider = document.getElementById("shadowSlider");
-    const shadowValue = document.getElementById("shadowValue");
 
+    // Decrement / Increment / Reset buttons
     document.getElementById("shadowDec").onclick = () => { shadowSlider.value = Math.max(0, +shadowSlider.value - 1); updateShadowQuality(); };
     document.getElementById("shadowInc").onclick = () => { shadowSlider.value = Math.min(11, +shadowSlider.value + 1); updateShadowQuality(); };
     document.getElementById("shadowReset").onclick = () => { shadowSlider.value = 5; updateShadowQuality(); };
 
-    function setShadowMode(mode) {
+    window.setShadowMode = function(mode) {
       shadowMode = mode;
       document.getElementById("shadowMode").innerText = "Current Mode: " + mode.charAt(0).toUpperCase() + mode.slice(1);
       updateShadowQuality();
-    }
+    };
 
-    function updateShadowQuality() {
+    window.updateShadowQuality = function() {
       const level = +shadowSlider.value;
-      let output = "[SystemSettings]\n";
+      let result = "[SystemSettings]\n";
 
-          if (shadowMode === "advanced") {
-      const q = Math.min(Math.round((level / 11) * 5), 5);
-      const cascades = Math.min(1 + Math.round(level / 3), 4);
-      const dist = 50000 + Math.round((level / 11) * 2000000);
-      const resMin = 1024 + Math.round((level / 11) * (2048 - 1024));
-      const resMax = 2048 + Math.round((level / 11) * (4096 - 2048));
-      const radius = (0.003 - (level / 11) * 0.002).toFixed(4);
-      const radiusFar = (0.006 - (level / 11) * 0.003).toFixed(4);
-      const texel = 2 + Math.round((level / 11) * 6);
-      const pcf = Math.min(1 + Math.round(level / 3), 3);
+      if (shadowMode === "advanced") {
+        const q = Math.min(Math.round((level / 11) * 5), 5);
+        const cascades = Math.min(1 + Math.round(level / 3), 4);
+        const dist = 50000 + Math.round((level / 11) * 2000000);
+        const resMin = 1024 + Math.round((level / 11) * (2048 - 1024));
+        const resMax = 2048 + Math.round((level / 11) * (4096 - 2048));
+        const radius = (0.003 - (level / 11) * 0.002).toFixed(4);
+        const radiusFar = (0.006 - (level / 11) * 0.003).toFixed(4);
+        const texel = 2 + Math.round((level / 11) * 6);
+        const pcf = Math.min(1 + Math.round(level / 3), 3);
 
-      output += `
+        result += `
 r.ShadowQuality=${q}
 r.Shadow.CSM.MaxCascades=${cascades}
 r.Shadow.CSM.MaxDistance=${dist}
@@ -405,28 +369,72 @@ r.DistanceFieldShadowPenumbraScale=0.8
 r.DistanceFieldShadowNonDirectionalOffset=0.005
 r.DistanceFieldShadowMinDistance=100.0
 `.trim();
-    } else {
-      const quality = Math.min(Math.round((level / 11) * 5), 5);
-      const minRes = 512 + Math.round((level / 11) * (2048 - 512));
-      const maxRes = 1024 + Math.round((level / 11) * (4096 - 1024));
-      const radius = (0.003 - (level / 11) * 0.002).toFixed(4);
-      const radiusFar = (0.006 - (level / 11) * 0.003).toFixed(4);
+      } else {
+        const quality = Math.min(Math.round((level / 11) * 5), 5);
+        const minRes = 512 + Math.round((level / 11) * (2048 - 512));
+        const maxRes = 1024 + Math.round((level / 11) * (4096 - 1024));
+        const radius = (0.003 - (level / 11) * 0.002).toFixed(4);
+        const radiusFar = (0.006 - (level / 11) * 0.003).toFixed(4);
 
-      output += `r.ShadowQuality=${quality}
+        result += `r.ShadowQuality=${quality}
 r.Shadow.MinResolution=${minRes}
 r.Shadow.MaxResolution=${maxRes}
 r.Shadow.RadiusThreshold=${radius}
 r.Shadow.RadiusThresholdFar=${radiusFar}
 r.Shadow.FarShadow=${level > 0 ? 1 : 0}
 r.Shadow.CSM.MaxCascades=${Math.min(1 + Math.round(level / 3), 4)}\n`;
-    }
-      shadowOutput.textContent = output;
-    }
-    updateShadowQuality();
+      }
 
-    // Collapse/Expand
-    function collapseAll(){document.querySelectorAll('details').forEach(d=>d.open=false);}
-    function expandAll(){document.querySelectorAll('details').forEach(d=>d.open=true);}
+      shadowOutput.textContent = result;
+      try { localStorage.setItem("shadowConfig", result); } catch (e) {}
+    };
+
+    // initialize
+    try {
+      const stored = localStorage.getItem("shadowConfig");
+      if (stored) {
+        shadowOutput.textContent = stored;
+      } else {
+        updateShadowQuality();
+      }
+    } catch (e) { updateShadowQuality(); }
+  })();
+
+  // === Collapse / Expand helpers ===
+  function collapseAll(){ document.querySelectorAll("details").forEach(d => d.open = false); }
+  function expandAll(){ document.querySelectorAll("details").forEach(d => d.open = true); }
+
+  // === Reset All & Generate ===
+  (function() {
+    const resetAllBtn = document.getElementById("resetBtn");
+    const generateBtn = document.getElementById("generateBtn");
+
+    resetAllBtn.addEventListener("click", () => {
+      const sliders = document.querySelectorAll("input[type='range']");
+      sliders.forEach(s => {
+        s.value = s.defaultValue;
+        s.dispatchEvent(new Event('input'));
+      });
+      // clear stored generated values as well
+      try { localStorage.removeItem("textureConfig"); localStorage.removeItem("shadowConfig"); localStorage.removeItem("generatedConfig"); } catch (e) {}
+      alert("All configs reset to default values.");
+    });
+
+    generateBtn.addEventListener("click", () => {
+      // combine stored outputs; if not present, read from outputs directly
+      let textureConfig = "";
+      let shadowConfig = "";
+      try { textureConfig = localStorage.getItem("textureConfig") || document.getElementById("output").textContent || ""; } catch (e) { textureConfig = document.getElementById("output").textContent || ""; }
+      try { shadowConfig = localStorage.getItem("shadowConfig") || document.getElementById("shadowOutput").textContent || ""; } catch (e) { shadowConfig = document.getElementById("shadowOutput").textContent || ""; }
+
+      const header = "; Auto-generated Engine.ini\n[SystemSettings]\n\n";
+      const finalConfig = header + textureConfig + "\n\n" + shadowConfig;
+      try { localStorage.setItem("generatedConfig", finalConfig); } catch (e) { /* ignore */ }
+
+      // go to generated page (needs generated.html present in repo)
+      window.location.href = "generated.html";
+    });
+  })();
   </script>
 </body>
 </html>

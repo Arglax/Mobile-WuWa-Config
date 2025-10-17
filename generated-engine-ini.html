@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Generated Engine.ini</title>
+  <style>
+    body { background:#0b0b0b; color:#e9fce9; font-family: "Segoe UI", Roboto, monospace; padding:24px; }
+    h1 { color:#ffcc00; text-shadow: 0 0 8px #000; }
+    textarea { width:100%; height:70vh; background:#070707; color:#00ff66; border:1px solid #444; padding:12px; border-radius:8px; font-family: monospace; font-size:14px; }
+    .btn { background:#2e7d32; color:#fff; padding:.6rem 1rem; border-radius:8px; border:none; cursor:pointer; margin-right:.5rem; }
+    .note { color:#bbb; margin-top:12px; font-size:.9rem; }
+  </style>
+</head>
+<body>
+  <h1>🧩 Generated Engine.ini</h1>
+  <textarea id="generatedArea" readonly></textarea>
+  <div style="margin-top:12px;">
+    <button class="btn" id="copyBtn">📋 Copy to clipboard</button>
+    <button class="btn" onclick="window.location.href='index.html'">⬅️ Back</button>
+  </div>
+  <p class="note">Tip: Paste the contents into your `Engine.ini` under the `[SystemSettings]` section or create a new file.</p>
+
+  <script>
+    const txt = localStorage.getItem("generatedConfig") || "; No generated config found. Go back to the generator and press Generate.";
+    const area = document.getElementById("generatedArea");
+    area.value = txt;
+
+    document.getElementById("copyBtn").addEventListener("click", () => {
+      area.select();
+      try {
+        navigator.clipboard.writeText(area.value).then(()=>{ alert("Copied to clipboard!"); }, ()=>{ document.execCommand('copy'); alert("Copied (fallback)."); });
+      } catch (e) {
+        document.execCommand('copy'); alert("Copied to clipboard.");
+      }
+    });
+  </script>
+</body>
+</html>
