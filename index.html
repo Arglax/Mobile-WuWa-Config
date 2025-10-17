@@ -231,16 +231,35 @@
     <h3>Generated Engine.ini (Shadows)</h3>
     <pre id="shadowOutput"></pre>
 
-    <details>
-      <summary>🧠 Technical Footnote — Shadow Settings</summary>
-      <p>
-        <b>r.ShadowQuality:</b> Main shadow resolution and complexity.<br>
-        <b>r.Shadow.CSM.MaxCascades:</b> Defines how many distance layers shadows use.<br>
-        <b>r.ContactShadows / r.CapsuleShadows:</b> Enable fine object and character shadowing.<br>
-        <b>r.DistanceFieldShadowing:</b> Enables high-quality soft shadows via distance fields.<br>
-        <b>r.Shadow.RadiusThreshold:</b> Controls cutoff for small object shadow rendering.<br>
-      </p>
-    </details>
+   <details>
+  <summary>🧠 Technical Footnote — Shadow Settings</summary>
+  <p>
+    <b>r.ShadowQuality</b> – Global shadow rendering quality level.<br>
+    <b>r.Shadow.CSM.MaxCascades</b> – Number of cascaded shadow layers (affects distance blending).<br>
+    <b>r.Shadow.CSM.MaxDistance</b> / <b>r.Shadow.FarShadowDistanceOverride</b> – Maximum shadow draw distance.<br>
+    <b>r.Shadow.CSM0–3Distance</b> – Distance thresholds for each cascade layer.<br>
+    <b>r.Shadow.DistributionExponent</b> – Controls how shadow cascades are spaced.<br>
+    <b>r.Shadow.TransitionScale</b> / <b>DitheredTransitionScale</b> – Softens or hardens shadow edges.<br>
+    <b>r.Shadow.FadeExponent</b> – Adjusts transition falloff of shadows at distance.<br>
+    <b>r.Shadow.MinResolution / MaxResolution</b> – Minimum and maximum shadow map resolution.<br>
+    <b>r.Shadow.MaxCSMResolution</b> – Highest resolution allowed for cascaded shadows.<br>
+    <b>r.Shadow.PerObjectResolution*</b> – Control per-object shadow map resolution limits.<br>
+    <b>r.Shadow.CSMxShadowPCFQuality</b> – PCF filter quality for each cascade.<br>
+    <b>r.Shadow.FilterMethod</b> – Algorithm used for shadow filtering (1 = PCF).<br>
+    <b>r.Shadow.TexelsPerPixel</b> – Sampling density per screen pixel (higher = smoother).<br>
+    <b>r.Shadow.PCFMaxSamples</b> – Total PCF samples for filtering (performance hit).<br>
+    <b>r.Shadow.TemporalFiltering</b> – Temporal reprojection for flicker reduction.<br>
+    <b>r.Shadow.CacheWholeSceneShadows</b> – Cache entire scene shadow maps for reuse.<br>
+    <b>r.Shadow.CachedShadowsCastFromMovablePrimitives</b> – Cache dynamic object shadows.<br>
+    <b>r.Shadow.EnableParallaxCorrection</b> – Adds accurate parallax to shadow projection.<br>
+    <b>r.Shadow.RadiusThreshold*</b> – Size threshold for small shadow casting objects.<br>
+    <b>r.ContactShadows*</b> – Fine shadow detail for small-scale contact with surfaces.<br>
+    <b>r.CapsuleShadows*</b> – Adds capsule-based character shadows.<br>
+    <b>r.DistanceFieldShadowing*</b> – Enables distance field-based soft shadows.<br>
+    <b>r.DistanceFieldShadowBias / Accuracy / PenumbraScale</b> – Controls shape and softness of distance shadows.<br>
+  </p>
+</details>
+
   </details>
 
   <!-- 🧭 Floating Toolbar -->
@@ -319,54 +338,88 @@ r.Streaming.MipBias=-2
       const level = +shadowSlider.value;
       let output = "[SystemSettings]\n";
 
-      if (shadowMode === "basic") {
-        const quality = Math.min(Math.round((level / 11) * 5), 5);
-        const minRes = 512 + Math.round((level / 11) * (2048 - 512));
-        const maxRes = 1024 + Math.round((level / 11) * (4096 - 1024));
-        const radius = (0.003 - (level / 11) * 0.002).toFixed(4);
-        const radiusFar = (0.006 - (level / 11) * 0.003).toFixed(4);
+          if (shadowMode === "advanced") {
+      const q = Math.min(Math.round((level / 11) * 5), 5);
+      const cascades = Math.min(1 + Math.round(level / 3), 4);
+      const dist = 50000 + Math.round((level / 11) * 2000000);
+      const resMin = 1024 + Math.round((level / 11) * (2048 - 1024));
+      const resMax = 2048 + Math.round((level / 11) * (4096 - 2048));
+      const radius = (0.003 - (level / 11) * 0.002).toFixed(4);
+      const radiusFar = (0.006 - (level / 11) * 0.003).toFixed(4);
+      const texel = 2 + Math.round((level / 11) * 6);
+      const pcf = Math.min(1 + Math.round(level / 3), 3);
 
-        output += `r.ShadowQuality=${quality}
-r.Shadow.MinResolution=${minRes}
-r.Shadow.MaxResolution=${maxRes}
-r.Shadow.RadiusThreshold=${radius}
-r.Shadow.RadiusThresholdFar=${radiusFar}
-r.Shadow.FarShadow=${level>0?1:0}
-r.Shadow.CSM.MaxCascades=${Math.min(1 + Math.round(level / 3), 4)}\n`;
-      } else {
-        const q = Math.min(Math.round((level / 11) * 5), 5);
-        const cascades = Math.min(1 + Math.round(level / 3), 4);
-        const dist = 50000 + Math.round((level / 11) * 2000000);
-        const res = 1024 + Math.round((level / 11) * 3072);
-        const radius = (0.003 - (level / 11) * 0.002).toFixed(4);
-        const pcf = Math.min(1 + Math.round(level / 3), 3);
-        const texel = 2 + Math.round((level / 11) * 6);
-
-        output += `
+      output += `
 r.ShadowQuality=${q}
 r.Shadow.CSM.MaxCascades=${cascades}
 r.Shadow.CSM.MaxDistance=${dist}
 r.Shadow.FarShadowDistanceOverride=${dist}
-r.Shadow.CSM0Distance=${Math.round(dist*0.1)}
-r.Shadow.CSM1Distance=${Math.round(dist*0.3)}
-r.Shadow.CSM2Distance=${Math.round(dist*0.6)}
+r.Shadow.CSM0Distance=${Math.round(dist * 0.0025)}
+r.Shadow.CSM1Distance=${Math.round(dist * 0.0075)}
+r.Shadow.CSM2Distance=${Math.round(dist * 0.05)}
 r.Shadow.CSM3Distance=${dist}
-r.Shadow.DistributionExponent=1.15
+r.Shadow.CSM.DistributionExponent=1.15
 r.Shadow.TransitionScale=2.0
-r.Shadow.MinResolution=${res}
-r.Shadow.MaxResolution=${res}
-r.Shadow.PerObjectResolutionMax=${res}
-r.Shadow.PerObjectResolutionMin=${res/2}
+r.Shadow.FadeExponent=0.25
+r.Shadow.DitheredTransitionScale=0.5
+r.Shadow.MinResolution=${resMin}
+r.Shadow.MaxResolution=${resMax}
+r.Shadow.MaxCSMResolution=${resMax}
+r.Shadow.PerObjectShadowMapResolution=${resMax}
+r.Shadow.PerObjectResolutionMax=${resMax}
+r.Shadow.PerObjectResolutionMin=${resMin}
+r.Shadow.CSM0ShadowPCFQuality=${pcf}
+r.Shadow.CSM1ShadowPCFQuality=${pcf}
+r.Shadow.CSM2ShadowPCFQuality=${pcf}
+r.Shadow.CSM3ShadowPCFQuality=${pcf}
 r.Shadow.FilterMethod=1
 r.Shadow.TexelsPerPixel=${texel}
-r.Shadow.PCFMaxSamples=${Math.round(16+(level/11)*48)}
-r.Shadow.TemporalFiltering=${level>5?1:0}
-r.ContactShadows=${level>2?1:0}
-r.CapsuleShadows=${level>4?1:0}
-r.DistanceFieldShadowing=${level>7?1:0}
-r.DistanceFieldShadowDistance=${Math.round(100000+(level/11)*5000000)}
-r.Shadow.RadiusThreshold=${radius}\n`.trim();
-      }
+r.Shadow.PCFMaxSamples=${Math.round(16 + (level / 11) * 48)}
+r.Shadow.TemporalFiltering=${level > 5 ? 1 : 0}
+r.Shadow.FadeResolution=1
+r.Shadow.CacheWholeSceneShadows=1
+r.Shadow.FarShadow=1
+r.Shadow.CachedShadowsCastFromMovablePrimitives=1
+r.Shadow.EnableParallaxCorrection=1
+r.Shadow.EnableParallaxCorrectionCrossFade=1
+r.Shadow.RadiusThresholdOverrideEnable=1
+r.Shadow.RadiusThreshold=${radius}
+r.Shadow.RadiusThresholdFar=${radiusFar}
+r.Shadow.RadiusThresholdCSM0=${(radius / 2).toFixed(4)}
+r.Shadow.RadiusThresholdCSM1=${(radius / 1.5).toFixed(4)}
+r.Shadow.RadiusThresholdCSM2=${(radius * 0.75).toFixed(4)}
+r.Shadow.RadiusThresholdCSM3=${radiusFar}
+r.ContactShadows=1
+r.ContactShadowsStep=64
+r.ContactShadowsLength=20.0
+r.ContactShadowsMinScreenPercent=0.01
+r.CapsuleShadows=1
+r.CapsuleMaxDirectOcclusionDistance=400
+r.CapsuleMinSkySpecularOcclusionDistance=30
+r.CapsuleMaxSkySpecularOcclusionDistance=100
+r.DistanceFieldShadowing=1
+r.DistanceFieldShadowDistance=${Math.round(100000 + (level / 11) * 4900000)}
+r.DistanceFieldShadowAccuracy=1
+r.DistanceFieldShadowBias=0.05
+r.DistanceFieldShadowPenumbraScale=0.8
+r.DistanceFieldShadowNonDirectionalOffset=0.005
+r.DistanceFieldShadowMinDistance=100.0
+`.trim();
+    } else {
+      const quality = Math.min(Math.round((level / 11) * 5), 5);
+      const minRes = 512 + Math.round((level / 11) * (2048 - 512));
+      const maxRes = 1024 + Math.round((level / 11) * (4096 - 1024));
+      const radius = (0.003 - (level / 11) * 0.002).toFixed(4);
+      const radiusFar = (0.006 - (level / 11) * 0.003).toFixed(4);
+
+      output += `r.ShadowQuality=${quality}
+r.Shadow.MinResolution=${minRes}
+r.Shadow.MaxResolution=${maxRes}
+r.Shadow.RadiusThreshold=${radius}
+r.Shadow.RadiusThresholdFar=${radiusFar}
+r.Shadow.FarShadow=${level > 0 ? 1 : 0}
+r.Shadow.CSM.MaxCascades=${Math.min(1 + Math.round(level / 3), 4)}\n`;
+    }
       shadowOutput.textContent = output;
     }
     updateShadowQuality();
