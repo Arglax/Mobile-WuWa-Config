@@ -2,6 +2,10 @@
 <h1 align="center">📢 Announcements 📢</h1>
 
 Recent Changes:  
+October 18, 2025  
+1. A new website for generating Engine.ini is being developed (https://arglax.github.io/Mobile-WuWa-Config/index.html)
+2. I'll try to work on putting as much practical variables there
+
 October 16, 2025
 1. Added Thirdy's Configs in 'Community Configs'  
 2. Added some translations for non-Filipino speakers
