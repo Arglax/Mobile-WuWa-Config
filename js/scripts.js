@@ -246,14 +246,25 @@ function expandAll() { document.querySelectorAll("details").forEach(d => d.open 
     });
 
     generateBtn.addEventListener("click", () => {
-        // Combine stored outputs; fallback to live values if not found
-        let textureConfig = "";
-        let shadowConfig = "";
-        try { textureConfig = localStorage.getItem("textureConfig") || document.getElementById("output").textContent || ""; } catch (e) { textureConfig = document.getElementById("output").textContent || ""; }
-        try { shadowConfig = localStorage.getItem("shadowConfig") || document.getElementById("shadowOutput").textContent || ""; } catch (e) { shadowConfig = document.getElementById("shadowOutput").textContent || ""; }
+    // Combine stored outputs; fallback to live values if not found
+    let textureConfig = "";
+    let shadowConfig = "";
+    let gcConfig = "";
 
-        // === PREDEFINED TEMPLATE HEADER ===
-        const engineTemplate = `[Core.System]
+    try {
+        if (document.getElementById("includeTextureScaling").checked) {
+            textureConfig = localStorage.getItem("textureConfig") || document.getElementById("output").textContent || "";
+        }
+        if (document.getElementById("includeShadows").checked) {
+            shadowConfig = localStorage.getItem("shadowConfig") || document.getElementById("shadowOutput").textContent || "";
+        }
+        if (document.getElementById("includeGarbageCollection").checked) {
+            gcConfig = localStorage.getItem("gcConfig") || document.getElementById("gcOutput").textContent || "";
+        }
+    } catch (e) { /* ignore */ }
+
+    // === PREDEFINED TEMPLATE HEADER ===
+    const engineTemplate = `[Core.System]
 Paths=../../../Engine/Content
 Paths=%GAMEDIR%Content
 Paths=../../../Engine/Plugins/ThirdParty/ImpostorBaker/Content
@@ -320,15 +331,18 @@ Paths=../../../Engine/Plugins/Runtime/Nvidia/NRD/Content
 ; Below are auto-generated settings from WuWa Config Generator
 `;
 
-        // === FINAL CONFIG COMBINATION ===
-        const finalConfig = engineTemplate + "\n\n" + textureConfig + "\n\n" + shadowConfig + "\n\n; End of Auto-Generated Config";
+    // === FINAL CONFIG COMBINATION ===
+    const finalConfig = `${engineTemplate}\n\n${textureConfig}\n\n${shadowConfig}\n\n${gcConfig}\n\n; End of Auto-Generated Config`;
 
-        try { localStorage.setItem("generatedConfig", finalConfig); } catch (e) { /* ignore */ }
+    try {
+        localStorage.setItem("generatedConfig", finalConfig);
+    } catch (e) {
+        /* ignore */
+    }
 
-        // Go to generated page (make sure 'generated.html' exists)
-        window.location.href = "generated-engine-ini.html";
-    });
-
+    // Go to generated page (make sure 'generated.html' exists)
+    window.location.href = "generated-engine-ini.html";
+});
 })();
 
 // === NAVBAR LOADER ===
@@ -345,6 +359,60 @@ document.addEventListener("visibilitychange", () => {
     else bgVideo.play();
 });
 
+// === Floating Control Panel Drag-and-Drop ===
+(function () {
+    const controlPanel = document.getElementById("control-panel");
+    let isDragging = false;
+    let offsetX = 0;
+    let offsetY = 0;
+
+    controlPanel.addEventListener("mousedown", (e) => {
+        isDragging = true;
+        offsetX = e.clientX - controlPanel.getBoundingClientRect().left;
+        offsetY = e.clientY - controlPanel.getBoundingClientRect().top;
+        controlPanel.style.transition = "none"; // Disable transition during drag
+    });
+
+    document.addEventListener("mousemove", (e) => {
+        if (isDragging) {
+            const x = e.clientX - offsetX;
+            const y = e.clientY - offsetY;
+            controlPanel.style.left = `${x}px`;
+            controlPanel.style.top = `${y}px`;
+        }
+    });
+
+    document.addEventListener("mouseup", () => {
+        isDragging = false;
+        controlPanel.style.transition = "transform 0.3s ease-in-out"; // Re-enable transition
+    });
+
+    // For touch devices
+    controlPanel.addEventListener("touchstart", (e) => {
+        isDragging = true;
+        const touch = e.touches[0];
+        offsetX = touch.clientX - controlPanel.getBoundingClientRect().left;
+        offsetY = touch.clientY - controlPanel.getBoundingClientRect().top;
+        controlPanel.style.transition = "none";
+    });
+
+    document.addEventListener("touchmove", (e) => {
+        if (isDragging) {
+            const touch = e.touches[0];
+            const x = touch.clientX - offsetX;
+            const y = touch.clientY - offsetY;
+            controlPanel.style.left = `${x}px`;
+            controlPanel.style.top = `${y}px`;
+        }
+    });
+
+    document.addEventListener("touchend", () => {
+        isDragging = false;
+        controlPanel.style.transition = "transform 0.3s ease-in-out";
+    });
+})();
+
+// === Collapse/Reveal Button ===
 document.getElementById("togglePanelBtn").addEventListener("click", function () {
     const panel = document.getElementById("control-panel");
     panel.classList.toggle("collapsed");
@@ -352,3 +420,61 @@ document.getElementById("togglePanelBtn").addEventListener("click", function () 
     // Update the arrow direction
     this.textContent = panel.classList.contains("collapsed") ? "⬅️" : "➡️";
 });
+
+// === GARBAGE COLLECTION SYSTEM ===
+(function () {
+    const gcOutput = document.getElementById("gcOutput");
+    const gcSettings = {
+        aggressiveness: 5,
+        generateCommands() {
+            return `
+[/Script/Engine.GarbageCollectionSettings]
+gc.TimeBetweenPurgingPendingKillObjects=${60 - this.aggressiveness * 5}
+gc.NumRetriesBeforeForcingGC=${5 + this.aggressiveness}
+gc.MinDesiredObjectsPerSubTask=${20 + this.aggressiveness * 2}
+gc.BlueprintClusteringEnabled=True
+gc.FlushStreamingOnGC=True
+gc.ValidateGCHeap=False
+gc.StallCollectionWhileWaiting=False
+gc.RandomFrequency=0
+gc.MaxObjectsNotConsideredByGC=0
+gc.AllowInitialGarbageCollection=True
+gc.CollectGarbageEveryFrame=False
+gc.ForceGCAtRegularInterval=False
+gc.MinGCClusterSize=4
+gc.MaxGCClusterSize=64
+gc.VerifyUObjectsAreNotFGCObjects=False
+gc.DisableAutomaticGC=False
+`.trim();
+        },
+        updateOutput() {
+            gcOutput.textContent = this.generateCommands();
+            try { localStorage.setItem("gcConfig", this.generateCommands()); } catch (e) { /* ignore */ }
+        }
+    };
+
+    document.getElementById("gcDec").addEventListener("click", () => {
+        gcSettings.aggressiveness = Math.max(0, gcSettings.aggressiveness - 1);
+        gcSettings.updateOutput();
+    });
+    document.getElementById("gcInc").addEventListener("click", () => {
+        gcSettings.aggressiveness = Math.min(10, gcSettings.aggressiveness + 1);
+        gcSettings.updateOutput();
+    });
+    document.getElementById("gcReset").addEventListener("click", () => {
+        gcSettings.aggressiveness = 5;
+        gcSettings.updateOutput();
+    });
+
+    // Initialize
+    gcSettings.updateOutput();
+})();
+
+function navigateToSection(sectionId) {
+    document.querySelectorAll("details").forEach(d => d.open = false);
+    const section = document.getElementById(sectionId);
+    if (section) {
+        section.scrollIntoView({ behavior: "smooth" });
+        section.open = true;
+    }
+}

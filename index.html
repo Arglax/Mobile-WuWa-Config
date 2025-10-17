@@ -16,8 +16,11 @@
 
     <!-- 🧭 Floating Control Panel -->
     <div id="control-panel" aria-hidden="false">
-        <button id="resetBtn">🧹 Reset All Configs</button>
-        <button id="generateBtn">⚙️ Generate Engine.ini</button>
+        <button id="togglePanelBtn">➡️</button>
+        <div id="control-panel-content">
+            <button id="resetBtn">🧹 Reset All Configs</button>
+            <button id="generateBtn">⚙️ Generate Engine.ini</button>
+        </div>
     </div>
 
     <!-- 🌐 Navbar Placeholder -->
@@ -98,10 +101,73 @@
             </details>
         </details>
 
+        <!-- 🗑️ GARBAGE COLLECTION SETTINGS -->
+        <details>
+            <summary>🗑️ Garbage Collection Settings</summary>
+            <p>Control garbage collection behavior to optimize memory usage and performance.</p>
+
+            <div class="button-row">
+                <button id="gcDec">− Decrease</button>
+                <button id="gcReset">Reset</button>
+                <button id="gcInc">+ Increase</button>
+            </div>
+
+            <h3>Generated Engine.ini (Garbage Collection)</h3>
+            <pre id="gcOutput" aria-live="polite"></pre>
+
+            <details>
+                <summary>🧠 Technical Footnote — Garbage Collection</summary>
+                <p>
+                    <b>gc.TimeBetweenPurgingPendingKillObjects</b> — Time (in seconds) between purging objects marked for deletion.<br>
+                    <b>gc.NumRetriesBeforeForcingGC</b> — Number of retries before forcing garbage collection.<br>
+                    <b>gc.MinDesiredObjectsPerSubTask</b> — Minimum objects per garbage collection subtask.<br>
+                    <b>gc.BlueprintClusteringEnabled</b> — Enables clustering of blueprints for garbage collection.<br>
+                    <b>gc.FlushStreamingOnGC</b> — Flushes streaming data during garbage collection.<br>
+                    <b>gc.ValidateGCHeap</b> — Validates the garbage collection heap.<br>
+                    <b>gc.StallCollectionWhileWaiting</b> — Stalls garbage collection while waiting for resources.<br>
+                    <b>gc.RandomFrequency</b> — Frequency of random garbage collection.<br>
+                    <b>gc.MaxObjectsNotConsideredByGC</b> — Maximum objects ignored by garbage collection.<br>
+                    <b>gc.AllowInitialGarbageCollection</b> — Allows garbage collection at startup.<br>
+                    <b>gc.CollectGarbageEveryFrame</b> — Forces garbage collection every frame.<br>
+                    <b>gc.ForceGCAtRegularInterval</b> — Forces garbage collection at regular intervals.<br>
+                    <b>gc.MinGCClusterSize</b> — Minimum size of garbage collection clusters.<br>
+                    <b>gc.MaxGCClusterSize</b> — Maximum size of garbage collection clusters.<br>
+                    <b>gc.VerifyUObjectsAreNotFGCObjects</b> — Verifies that UObjects are not flagged for garbage collection.<br>
+                    <b>gc.DisableAutomaticGC</b> — Disables automatic garbage collection.<br>
+                </p>
+            </details>
+        </details>
+
         <!-- 🧭 Floating Toolbar -->
         <div class="utility-buttons" role="toolbar" aria-label="Utilities">
             <button onclick="collapseAll()">Collapse All</button>
             <button onclick="expandAll()">Expand All</button>
+            <button onclick="window.scrollTo({top:0,behavior:'smooth'})">Back to Top</button>
+        </div>
+
+        <!-- 🗂️ Floating Checklist -->
+        <div id="floatingChecklist">
+            <h3>Quick Navigation</h3>
+            <ul>
+                <li>
+                    <label>
+                        <input type="checkbox" id="includeTextureScaling" checked>
+                        <a href="#textureScaling" onclick="navigateToSection('textureScaling')">🎮 Texture Scaling</a>
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        <input type="checkbox" id="includeShadows" checked>
+                        <a href="#shadowsSettings" onclick="navigateToSection('shadowsSettings')">🌑 Shadows</a>
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        <input type="checkbox" id="includeGarbageCollection" checked>
+                        <a href="#garbageCollection" onclick="navigateToSection('garbageCollection')">🗑️ Garbage Collection</a>
+                    </label>
+                </li>
+            </ul>
             <button onclick="window.scrollTo({top:0,behavior:'smooth'})">Back to Top</button>
         </div>
 
