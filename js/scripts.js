@@ -70,64 +70,91 @@ r.Streaming.MipBias=-2
   })();
 
   // === SHADOW SYSTEM ===
-  (function() {
-    let shadowMode = "basic";
-    const shadowOutput = document.getElementById("shadowOutput");
-    const shadowSlider = document.getElementById("shadowSlider");
+(function() {
+  let shadowMode = "basic";
+  const shadowOutput = document.getElementById("shadowOutput");
+  const shadowSlider = document.getElementById("shadowSlider");
 
-    // Decrement / Increment / Reset buttons
-    document.getElementById("shadowDec").onclick = () => { shadowSlider.value = Math.max(0, +shadowSlider.value - 1); updateShadowQuality(); };
-    document.getElementById("shadowInc").onclick = () => { shadowSlider.value = Math.min(11, +shadowSlider.value + 1); updateShadowQuality(); };
-    document.getElementById("shadowReset").onclick = () => { shadowSlider.value = 5; updateShadowQuality(); };
+  // Decrement / Increment / Reset buttons
+  document.getElementById("shadowDec").onclick = () => {
+    shadowSlider.value = Math.max(0, +shadowSlider.value - 1);
+    updateShadowQuality();
+  };
+  document.getElementById("shadowInc").onclick = () => {
+    shadowSlider.value = Math.min(11, +shadowSlider.value + 1);
+    updateShadowQuality();
+  };
+  document.getElementById("shadowReset").onclick = () => {
+    shadowSlider.value = 5;
+    updateShadowQuality();
+  };
 
-    window.setShadowMode = function(mode) {
-      shadowMode = mode;
-      document.getElementById("shadowMode").innerText = "Current Mode: " + mode.charAt(0).toUpperCase() + mode.slice(1);
-      updateShadowQuality();
-    };
+  // Switch between Basic / Advanced mode
+  window.setShadowMode = function(mode) {
+    shadowMode = mode;
+    document.getElementById("shadowMode").innerText =
+      "Current Mode: " + mode.charAt(0).toUpperCase() + mode.slice(1);
+    updateShadowQuality();
+  };
 
-    window.updateShadowQuality = function() {
-      const level = +shadowSlider.value;
-      let result = "\n";
+  // Core scaling logic
+  window.updateShadowQuality = function() {
+    const level = +shadowSlider.value;
+    let result = "\n";
 
-      if (shadowMode === "advanced") {
-        const q = Math.min(Math.round((level / 11) * 5), 5);
-        const cascades = Math.min(1 + Math.round(level / 3), 4);
-        const dist = 50000 + Math.round((level / 11) * 2000000);
-        const resMin = 1024 + Math.round((level / 11) * (2048 - 1024));
-        const resMax = 2048 + Math.round((level / 11) * (4096 - 2048));
-        const radius = (0.003 - (level / 11) * 0.002).toFixed(4);
-        const radiusFar = (0.006 - (level / 11) * 0.003).toFixed(4);
-        const texel = 2 + Math.round((level / 11) * 6);
-        const pcf = Math.min(1 + Math.round(level / 3), 3);
+    // === Level 0: disable shadows entirely ===
+    if (level === 0) {
+      result += `r.ShadowQuality=0
+r.Shadow.MaxResolution=0
+r.Shadow.MinResolution=0
+r.Shadow.FarShadow=0
+r.DistanceFieldShadowing=0`;
+      shadowOutput.textContent = result;
+      try { localStorage.setItem("shadowConfig", result); } catch (e) {}
+      return;
+    }
 
-        result += `
-r.ShadowQuality=${q}
+    // === Shared Power-of-Two Resolution Scaling ===
+    let baseRes = 256 * Math.pow(2, (level - 1) / 2.5); // smooth exponential
+    baseRes = Math.round(baseRes / 256) * 256; // snap to nearest 256
+    if (baseRes > 8192) baseRes = 8192;
+
+    const shadowQuality = Math.min(5, Math.round(1 + level / 2.5));
+    const cascades = Math.min(4, Math.ceil(level / 3));
+    const distance = Math.round(20000 * Math.pow(level, 2)); // exponential distance
+    const pcfSamples = Math.min(64, Math.round(4 + level * 5.4)); // smoother PCF
+    const radius = (0.003 - (level / 11) * 0.002).toFixed(4);
+    const radiusFar = (0.006 - (level / 11) * 0.003).toFixed(4);
+
+    // === ADVANCED MODE ===
+    if (shadowMode === "advanced") {
+      result += `
+r.ShadowQuality=${shadowQuality}
 r.Shadow.CSM.MaxCascades=${cascades}
-r.Shadow.CSM.MaxDistance=${dist}
-r.Shadow.FarShadowDistanceOverride=${dist}
-r.Shadow.CSM0Distance=${Math.round(dist * 0.0025)}
-r.Shadow.CSM1Distance=${Math.round(dist * 0.0075)}
-r.Shadow.CSM2Distance=${Math.round(dist * 0.05)}
-r.Shadow.CSM3Distance=${dist}
+r.Shadow.CSM.MaxDistance=${distance}
+r.Shadow.FarShadowDistanceOverride=${distance}
+r.Shadow.CSM0Distance=${Math.round(distance * 0.0025)}
+r.Shadow.CSM1Distance=${Math.round(distance * 0.0075)}
+r.Shadow.CSM2Distance=${Math.round(distance * 0.05)}
+r.Shadow.CSM3Distance=${distance}
 r.Shadow.CSM.DistributionExponent=1.15
 r.Shadow.TransitionScale=2.0
 r.Shadow.FadeExponent=0.25
 r.Shadow.DitheredTransitionScale=0.5
-r.Shadow.MinResolution=${resMin}
-r.Shadow.MaxResolution=${resMax}
-r.Shadow.MaxCSMResolution=${resMax}
-r.Shadow.PerObjectShadowMapResolution=${resMax}
-r.Shadow.PerObjectResolutionMax=${resMax}
-r.Shadow.PerObjectResolutionMin=${resMin}
-r.Shadow.CSM0ShadowPCFQuality=${pcf}
-r.Shadow.CSM1ShadowPCFQuality=${pcf}
-r.Shadow.CSM2ShadowPCFQuality=${pcf}
-r.Shadow.CSM3ShadowPCFQuality=${pcf}
+r.Shadow.MinResolution=${baseRes / 2}
+r.Shadow.MaxResolution=${baseRes}
+r.Shadow.MaxCSMResolution=${baseRes}
+r.Shadow.PerObjectShadowMapResolution=${baseRes}
+r.Shadow.PerObjectResolutionMax=${baseRes}
+r.Shadow.PerObjectResolutionMin=${baseRes / 2}
+r.Shadow.CSM0ShadowPCFQuality=${Math.min(3, Math.round(level / 4) + 1)}
+r.Shadow.CSM1ShadowPCFQuality=${Math.min(3, Math.round(level / 4) + 1)}
+r.Shadow.CSM2ShadowPCFQuality=${Math.min(3, Math.round(level / 4) + 1)}
+r.Shadow.CSM3ShadowPCFQuality=${Math.min(3, Math.round(level / 4) + 1)}
 r.Shadow.FilterMethod=1
-r.Shadow.TexelsPerPixel=${texel}
-r.Shadow.PCFMaxSamples=${Math.round(16 + (level / 11) * 48)}
-r.Shadow.TemporalFiltering=${level > 5 ? 1 : 0}
+r.Shadow.TexelsPerPixel=${(4 + level / 2).toFixed(1)}
+r.Shadow.PCFMaxSamples=${pcfSamples}
+r.Shadow.TemporalFiltering=${level > 4 ? 1 : 0}
 r.Shadow.FadeResolution=1
 r.Shadow.CacheWholeSceneShadows=1
 r.Shadow.FarShadow=1
@@ -141,52 +168,62 @@ r.Shadow.RadiusThresholdCSM0=${(radius / 2).toFixed(4)}
 r.Shadow.RadiusThresholdCSM1=${(radius / 1.5).toFixed(4)}
 r.Shadow.RadiusThresholdCSM2=${(radius * 0.75).toFixed(4)}
 r.Shadow.RadiusThresholdCSM3=${radiusFar}
-r.ContactShadows=1
-r.ContactShadowsStep=64
-r.ContactShadowsLength=20.0
+r.ContactShadows=${level >= 3 ? 1 : 0}
+r.ContactShadowsStep=${Math.round(16 + level * 4)}
+r.ContactShadowsLength=${(10 + level).toFixed(1)}
 r.ContactShadowsMinScreenPercent=0.01
-r.CapsuleShadows=1
+r.CapsuleShadows=${level >= 5 ? 1 : 0}
 r.CapsuleMaxDirectOcclusionDistance=400
 r.CapsuleMinSkySpecularOcclusionDistance=30
 r.CapsuleMaxSkySpecularOcclusionDistance=100
-r.DistanceFieldShadowing=1
-r.DistanceFieldShadowDistance=${Math.round(100000 + (level / 11) * 4900000)}
+r.DistanceFieldShadowing=${level >= 7 ? 1 : 0}
+r.DistanceFieldShadowDistance=${level >= 7 ? 2000000 + level * 50000 : 0}
 r.DistanceFieldShadowAccuracy=1
 r.DistanceFieldShadowBias=0.05
 r.DistanceFieldShadowPenumbraScale=0.8
 r.DistanceFieldShadowNonDirectionalOffset=0.005
 r.DistanceFieldShadowMinDistance=100.0
 `.trim();
-      } else {
-        const quality = Math.min(Math.round((level / 11) * 5), 5);
-        const minRes = 512 + Math.round((level / 11) * (2048 - 512));
-        const maxRes = 1024 + Math.round((level / 11) * (4096 - 1024));
-        const radius = (0.003 - (level / 11) * 0.002).toFixed(4);
-        const radiusFar = (0.006 - (level / 11) * 0.003).toFixed(4);
 
-        result += `r.ShadowQuality=${quality}
-r.Shadow.MinResolution=${minRes}
-r.Shadow.MaxResolution=${maxRes}
+    // === BASIC MODE ===
+    } else {
+      result += `
+r.ShadowQuality=${shadowQuality}
+r.Shadow.MinResolution=${baseRes / 2}
+r.Shadow.MaxResolution=${baseRes}
 r.Shadow.RadiusThreshold=${radius}
 r.Shadow.RadiusThresholdFar=${radiusFar}
-r.Shadow.FarShadow=${level > 0 ? 1 : 0}
-r.Shadow.CSM.MaxCascades=${Math.min(1 + Math.round(level / 3), 4)}\n`;
-      }
+r.Shadow.FarShadow=1
+r.Shadow.CSM.MaxCascades=${cascades}
+r.Shadow.PCFMaxSamples=${pcfSamples}
+r.Shadow.TexelsPerPixel=${(4 + level / 2).toFixed(1)}
+r.ContactShadows=${level >= 3 ? 1 : 0}
+r.DistanceFieldShadowing=${level >= 7 ? 1 : 0}
+r.DistanceFieldShadowDistance=${level >= 7 ? 1000000 + level * 40000 : 0}
+`.trim();
+    }
 
-      shadowOutput.textContent = result;
-      try { localStorage.setItem("shadowConfig", result); } catch (e) {}
-    };
+    // Output + LocalStorage
+    shadowOutput.textContent = result;
+    try { localStorage.setItem("shadowConfig", result); } catch (e) {}
+  };
 
-    // initialize
-    try {
-      const stored = localStorage.getItem("shadowConfig");
-      if (stored) {
-        shadowOutput.textContent = stored;
-      } else {
-        updateShadowQuality();
-      }
-    } catch (e) { updateShadowQuality(); }
-  })();
+  // === Initialization ===
+  try {
+    const stored = localStorage.getItem("shadowConfig");
+    if (stored) {
+      shadowOutput.textContent = stored;
+    } else {
+      shadowMode = "basic"; // default mode
+      document.getElementById("shadowMode").innerText = "Current Mode: Basic";
+      updateShadowQuality();
+    }
+  } catch (e) {
+    shadowMode = "basic";
+    updateShadowQuality();
+  }
+})();
+
 
   // === Collapse / Expand helpers ===
   function collapseAll(){ document.querySelectorAll("details").forEach(d => d.open = false); }
