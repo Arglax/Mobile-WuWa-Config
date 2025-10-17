@@ -6,8 +6,8 @@
    * - generate button writes localStorage.generatedConfig and navigates
    ***************************************************************************/
 
-  // === TEXTURE SYSTEM ===
-  (function() {
+// === TEXTURE SYSTEM ===
+(function () {
     const slider = document.getElementById("slider");
     const output = document.getElementById("output");
     const decBtn = document.getElementById("dec");
@@ -15,17 +15,17 @@
     const resetBtn = document.getElementById("reset");
 
     function smoothScale(level, min, max, exponent = 1.3) {
-      const t = Math.pow(level / 11, exponent);
-      return min + (max - min) * t;
+        const t = Math.pow(level / 11, exponent);
+        return min + (max - min) * t;
     }
 
     function generateCommands(level) {
-      const streamingBoost = smoothScale(level, 0, 5.5).toFixed(2);
-      const groupBoost = smoothScale(level, 1, 10, 1.3).toFixed(2);
-      const mipBiasArray = [6,4,3,2,1,0,-2,-4,-6,-8,-10,-12];
-      const mipLODBias = mipBiasArray[level];
+        const streamingBoost = smoothScale(level, 0, 5.5).toFixed(2);
+        const groupBoost = smoothScale(level, 1, 10, 1.3).toFixed(2);
+        const mipBiasArray = [6, 4, 3, 2, 1, 0, -2, -4, -6, -8, -10, -12];
+        const mipLODBias = mipBiasArray[level];
 
-      return `
+        return `
 r.Streaming.GroupBoost.HugeBuildingTextureFactor=${groupBoost}
 r.Streaming.GroupBoost.LargeBuildingTextureFactor=${groupBoost}
 r.Streaming.GroupBoost.MediumBuildingTextureFactor=${groupBoost}
@@ -47,10 +47,10 @@ r.Streaming.MipBias=-2
     }
 
     function updateOutput() {
-      const level = +slider.value;
-      const txt = generateCommands(level);
-      output.textContent = txt;
-      try { localStorage.setItem("textureConfig", txt); } catch (e) { /* ignore storage errors */ }
+        const level = +slider.value;
+        const txt = generateCommands(level);
+        output.textContent = txt;
+        try { localStorage.setItem("textureConfig", txt); } catch (e) { /* ignore storage errors */ }
     }
 
     slider.addEventListener("input", updateOutput);
@@ -60,75 +60,75 @@ r.Streaming.MipBias=-2
 
     // initialize from storage or default
     try {
-      const stored = localStorage.getItem("textureConfig");
-      if (stored) {
-        output.textContent = stored;
-      } else {
-        updateOutput();
-      }
+        const stored = localStorage.getItem("textureConfig");
+        if (stored) {
+            output.textContent = stored;
+        } else {
+            updateOutput();
+        }
     } catch (e) { updateOutput(); }
-  })();
+})();
 
-  // === SHADOW SYSTEM ===
-(function() {
-  let shadowMode = "basic";
-  const shadowOutput = document.getElementById("shadowOutput");
-  const shadowSlider = document.getElementById("shadowSlider");
+// === SHADOW SYSTEM ===
+(function () {
+    let shadowMode = "basic";
+    const shadowOutput = document.getElementById("shadowOutput");
+    const shadowSlider = document.getElementById("shadowSlider");
 
-  // Decrement / Increment / Reset buttons
-  document.getElementById("shadowDec").onclick = () => {
-    shadowSlider.value = Math.max(0, +shadowSlider.value - 1);
-    updateShadowQuality();
-  };
-  document.getElementById("shadowInc").onclick = () => {
-    shadowSlider.value = Math.min(11, +shadowSlider.value + 1);
-    updateShadowQuality();
-  };
-  document.getElementById("shadowReset").onclick = () => {
-    shadowSlider.value = 5;
-    updateShadowQuality();
-  };
+    // Decrement / Increment / Reset buttons
+    document.getElementById("shadowDec").onclick = () => {
+        shadowSlider.value = Math.max(0, +shadowSlider.value - 1);
+        updateShadowQuality();
+    };
+    document.getElementById("shadowInc").onclick = () => {
+        shadowSlider.value = Math.min(11, +shadowSlider.value + 1);
+        updateShadowQuality();
+    };
+    document.getElementById("shadowReset").onclick = () => {
+        shadowSlider.value = 5;
+        updateShadowQuality();
+    };
 
-  // Switch between Basic / Advanced mode
-  window.setShadowMode = function(mode) {
-    shadowMode = mode;
-    document.getElementById("shadowMode").innerText =
-      "Current Mode: " + mode.charAt(0).toUpperCase() + mode.slice(1);
-    updateShadowQuality();
-  };
+    // Switch between Basic / Advanced mode
+    window.setShadowMode = function (mode) {
+        shadowMode = mode;
+        document.getElementById("shadowMode").innerText =
+            "Current Mode: " + mode.charAt(0).toUpperCase() + mode.slice(1);
+        updateShadowQuality();
+    };
 
-  // Core scaling logic
-  window.updateShadowQuality = function() {
-    const level = +shadowSlider.value;
-    let result = "\n";
+    // Core scaling logic
+    window.updateShadowQuality = function () {
+        const level = +shadowSlider.value;
+        let result = "\n";
 
-    // === Level 0: disable shadows entirely ===
-    if (level === 0) {
-      result += `r.ShadowQuality=0
+        // === Level 0: disable shadows entirely ===
+        if (level === 0) {
+            result += `r.ShadowQuality=0
 r.Shadow.MaxResolution=0
 r.Shadow.MinResolution=0
 r.Shadow.FarShadow=0
 r.DistanceFieldShadowing=0`;
-      shadowOutput.textContent = result;
-      try { localStorage.setItem("shadowConfig", result); } catch (e) {}
-      return;
-    }
+            shadowOutput.textContent = result;
+            try { localStorage.setItem("shadowConfig", result); } catch (e) { }
+            return;
+        }
 
-    // === Shared Power-of-Two Resolution Scaling ===
-    let baseRes = 256 * Math.pow(2, (level - 1) / 2.5); // smooth exponential
-    baseRes = Math.round(baseRes / 256) * 256; // snap to nearest 256
-    if (baseRes > 8192) baseRes = 8192;
+        // === Shared Power-of-Two Resolution Scaling ===
+        let baseRes = 256 * Math.pow(2, (level - 1) / 2.5); // smooth exponential
+        baseRes = Math.round(baseRes / 256) * 256; // snap to nearest 256
+        if (baseRes > 8192) baseRes = 8192;
 
-    const shadowQuality = Math.min(5, Math.round(1 + level / 2.5));
-    const cascades = Math.min(4, Math.ceil(level / 3));
-    const distance = Math.round(20000 * Math.pow(level, 2)); // exponential distance
-    const pcfSamples = Math.min(64, Math.round(4 + level * 5.4)); // smoother PCF
-    const radius = (0.003 - (level / 11) * 0.002).toFixed(4);
-    const radiusFar = (0.006 - (level / 11) * 0.003).toFixed(4);
+        const shadowQuality = Math.min(5, Math.round(1 + level / 2.5));
+        const cascades = Math.min(4, Math.ceil(level / 3));
+        const distance = Math.round(20000 * Math.pow(level, 2)); // exponential distance
+        const pcfSamples = Math.min(64, Math.round(4 + level * 5.4)); // smoother PCF
+        const radius = (0.003 - (level / 11) * 0.002).toFixed(4);
+        const radiusFar = (0.006 - (level / 11) * 0.003).toFixed(4);
 
-    // === ADVANCED MODE ===
-    if (shadowMode === "advanced") {
-      result += `
+        // === ADVANCED MODE ===
+        if (shadowMode === "advanced") {
+            result += `
 r.ShadowQuality=${shadowQuality}
 r.Shadow.CSM.MaxCascades=${cascades}
 r.Shadow.CSM.MaxDistance=${distance}
@@ -185,9 +185,9 @@ r.DistanceFieldShadowNonDirectionalOffset=0.005
 r.DistanceFieldShadowMinDistance=100.0
 `.trim();
 
-    // === BASIC MODE ===
-    } else {
-      result += `
+            // === BASIC MODE ===
+        } else {
+            result += `
 r.ShadowQuality=${shadowQuality}
 r.Shadow.MinResolution=${baseRes / 2}
 r.Shadow.MaxResolution=${baseRes}
@@ -201,59 +201,59 @@ r.ContactShadows=${level >= 3 ? 1 : 0}
 r.DistanceFieldShadowing=${level >= 7 ? 1 : 0}
 r.DistanceFieldShadowDistance=${level >= 7 ? 1000000 + level * 40000 : 0}
 `.trim();
-    }
+        }
 
-    // Output + LocalStorage
-    shadowOutput.textContent = result;
-    try { localStorage.setItem("shadowConfig", result); } catch (e) {}
-  };
+        // Output + LocalStorage
+        shadowOutput.textContent = result;
+        try { localStorage.setItem("shadowConfig", result); } catch (e) { }
+    };
 
-  // === Initialization ===
-  try {
-    const stored = localStorage.getItem("shadowConfig");
-    if (stored) {
-      shadowOutput.textContent = stored;
-    } else {
-      shadowMode = "basic"; // default mode
-      document.getElementById("shadowMode").innerText = "Current Mode: Basic";
-      updateShadowQuality();
+    // === Initialization ===
+    try {
+        const stored = localStorage.getItem("shadowConfig");
+        if (stored) {
+            shadowOutput.textContent = stored;
+        } else {
+            shadowMode = "basic"; // default mode
+            document.getElementById("shadowMode").innerText = "Current Mode: Basic";
+            updateShadowQuality();
+        }
+    } catch (e) {
+        shadowMode = "basic";
+        updateShadowQuality();
     }
-  } catch (e) {
-    shadowMode = "basic";
-    updateShadowQuality();
-  }
 })();
 
 
-  // === Collapse / Expand helpers ===
-  function collapseAll(){ document.querySelectorAll("details").forEach(d => d.open = false); }
-  function expandAll(){ document.querySelectorAll("details").forEach(d => d.open = true); }
+// === Collapse / Expand helpers ===
+function collapseAll() { document.querySelectorAll("details").forEach(d => d.open = false); }
+function expandAll() { document.querySelectorAll("details").forEach(d => d.open = true); }
 
-  // === Reset All & Generate ===
-  (function() {
+// === Reset All & Generate ===
+(function () {
     const resetAllBtn = document.getElementById("resetBtn");
     const generateBtn = document.getElementById("generateBtn");
 
     resetAllBtn.addEventListener("click", () => {
-      const sliders = document.querySelectorAll("input[type='range']");
-      sliders.forEach(s => {
-        s.value = s.defaultValue;
-        s.dispatchEvent(new Event('input'));
-      });
-      // clear stored generated values as well
-      try { localStorage.removeItem("textureConfig"); localStorage.removeItem("shadowConfig"); localStorage.removeItem("generatedConfig"); } catch (e) {}
-      alert("All configs reset to default values.");
+        const sliders = document.querySelectorAll("input[type='range']");
+        sliders.forEach(s => {
+            s.value = s.defaultValue;
+            s.dispatchEvent(new Event('input'));
+        });
+        // clear stored generated values as well
+        try { localStorage.removeItem("textureConfig"); localStorage.removeItem("shadowConfig"); localStorage.removeItem("generatedConfig"); } catch (e) { }
+        alert("All configs reset to default values.");
     });
 
     generateBtn.addEventListener("click", () => {
-  // Combine stored outputs; fallback to live values if not found
-  let textureConfig = "";
-  let shadowConfig = "";
-  try { textureConfig = localStorage.getItem("textureConfig") || document.getElementById("output").textContent || ""; } catch (e) { textureConfig = document.getElementById("output").textContent || ""; }
-  try { shadowConfig = localStorage.getItem("shadowConfig") || document.getElementById("shadowOutput").textContent || ""; } catch (e) { shadowConfig = document.getElementById("shadowOutput").textContent || ""; }
+        // Combine stored outputs; fallback to live values if not found
+        let textureConfig = "";
+        let shadowConfig = "";
+        try { textureConfig = localStorage.getItem("textureConfig") || document.getElementById("output").textContent || ""; } catch (e) { textureConfig = document.getElementById("output").textContent || ""; }
+        try { shadowConfig = localStorage.getItem("shadowConfig") || document.getElementById("shadowOutput").textContent || ""; } catch (e) { shadowConfig = document.getElementById("shadowOutput").textContent || ""; }
 
-  // === PREDEFINED TEMPLATE HEADER ===
-  const engineTemplate = `[Core.System]
+        // === PREDEFINED TEMPLATE HEADER ===
+        const engineTemplate = `[Core.System]
 Paths=../../../Engine/Content
 Paths=%GAMEDIR%Content
 Paths=../../../Engine/Plugins/ThirdParty/ImpostorBaker/Content
@@ -320,27 +320,35 @@ Paths=../../../Engine/Plugins/Runtime/Nvidia/NRD/Content
 ; Below are auto-generated settings from WuWa Config Generator
 `;
 
-  // === FINAL CONFIG COMBINATION ===
-  const finalConfig = engineTemplate + "\n\n" + textureConfig + "\n\n" + shadowConfig + "\n\n; End of Auto-Generated Config";
+        // === FINAL CONFIG COMBINATION ===
+        const finalConfig = engineTemplate + "\n\n" + textureConfig + "\n\n" + shadowConfig + "\n\n; End of Auto-Generated Config";
 
-  try { localStorage.setItem("generatedConfig", finalConfig); } catch (e) { /* ignore */ }
+        try { localStorage.setItem("generatedConfig", finalConfig); } catch (e) { /* ignore */ }
 
-  // Go to generated page (make sure 'generated.html' exists)
-  window.location.href = "generated-engine-ini.html";
+        // Go to generated page (make sure 'generated.html' exists)
+        window.location.href = "generated-engine-ini.html";
+    });
+
+})();
+
+// === NAVBAR LOADER ===
+fetch("components/navbar.html")
+    .then(response => response.text())
+    .then(data => {
+        document.getElementById("navbar").innerHTML = data;
+    })
+    .catch(error => console.error("Navbar failed to load:", error));
+
+const bgVideo = document.getElementById("bg-video");
+document.addEventListener("visibilitychange", () => {
+    if (document.hidden) bgVideo.pause();
+    else bgVideo.play();
 });
 
-  })();
+document.getElementById("togglePanelBtn").addEventListener("click", function () {
+    const panel = document.getElementById("control-panel");
+    panel.classList.toggle("collapsed");
 
-  // === NAVBAR LOADER ===
-fetch("components/navbar.html")
-  .then(response => response.text())
-  .then(data => {
-    document.getElementById("navbar").innerHTML = data;
-  })
-  .catch(error => console.error("Navbar failed to load:", error));
-
-  const bgVideo = document.getElementById("bg-video");
-document.addEventListener("visibilitychange", () => {
-  if (document.hidden) bgVideo.pause();
-  else bgVideo.play();
+    // Update the arrow direction
+    this.textContent = panel.classList.contains("collapsed") ? "⬅️" : "➡️";
 });

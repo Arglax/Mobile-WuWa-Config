@@ -1,116 +1,116 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>WuWa Engine.ini Generator</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta charset="UTF-8">
+    <title>WuWa Engine.ini Generator</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
 
-  <!-- ✅ External CSS -->
-  <link rel="stylesheet" href="css/style.css">
+    <!-- ✅ External CSS -->
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <!-- 🎬 Background Video -->
-  <video autoplay muted loop playsinline id="bg-video">
-    <source src="assets/video/MovingBG.mp4" type="video/mp4">
-  </video>
+    <!-- 🎬 Background Video -->
+    <video autoplay muted loop playsinline id="bg-video">
+        <source src="assets/video/MovingBG.mp4" type="video/mp4">
+    </video>
 
-  <!-- 🧭 Floating Control Panel -->
-  <div id="control-panel" aria-hidden="false">
-    <button id="resetBtn">🧹 Reset All Configs</button>
-    <button id="generateBtn">⚙️ Generate Engine.ini</button>
-  </div>
-
-  <!-- 🌐 Navbar Placeholder -->
-  <div id="navbar"></div>
-
-  <main>
-    <h1>WuWa Engine.ini Generator</h1>
-
-    <!-- 🎮 TEXTURE SCALING -->
-    <details open>
-      <summary>🎮 Far-Distance Texture Quality Scaling</summary>
-      <p>Adjust texture streaming and mipmap detail levels (0 = disabled, 11 = ultra).</p>
-
-      <div class="slider-section">
-        <label><b>Quality Scale (0 – 11)</b></label>
-        <input id="slider" type="range" min="0" max="11" value="5" />
-        <div class="slider-labels"><span>0</span><span>11</span></div>
-      </div>
-
-      <div class="button-row">
-        <button id="dec">− Decrease</button>
-        <button id="reset">Reset</button>
-        <button id="inc">+ Increase</button>
-      </div>
-
-      <h3>Generated Engine.ini Variables:</h3>
-      <pre id="output" aria-live="polite"></pre>
-
-      <details>
-        <summary>🧠 Technical Footnote — Texture Streaming</summary>
-        <p>
-          <b>r.Streaming.Boost / MinBoost</b> — Adjusts how aggressively textures are streamed to memory.<br>
-          <b>r.Streaming.GroupBoost.*</b> — Per-group sharpness multiplier for building/foliage/NPC groups.<br>
-          <b>r.MipMapLODBias</b> — Controls mipmap selection bias (negative ⇒ sharper textures).<br>
-          <b>r.Streaming.FullyLoadUsedTextures</b> — Forces textures that are in use to load fully (1 = enable).<br>
-        </p>
-      </details>
-    </details>
-
-    <!-- 🌑 SHADOWS SETTINGS -->
-    <details>
-      <summary>🌑 Shadows Settings</summary>
-      <p>Control shadow rendering; select Basic (fewer options) or Advanced (full tuning).</p>
-
-      <div class="button-row">
-        <button onclick="setShadowMode('basic')">Basic</button>
-        <button onclick="setShadowMode('advanced')">Advanced</button>
-      </div>
-
-      <div id="shadowMode" style="margin-top:10px; font-weight:bold;">Current Mode: Advanced</div>
-
-      <div class="slider-section" style="margin-top:8px;">
-        <label><b>Shadow Quality Scale (0 – 11)</b></label>
-        <input id="shadowSlider" type="range" min="0" max="11" value="5" oninput="updateShadowQuality()" />
-        <div class="slider-labels"><span>0</span><span>11</span></div>
-      </div>
-
-      <div class="button-row">
-        <button id="shadowDec">− Decrease</button>
-        <button id="shadowReset">Reset</button>
-        <button id="shadowInc">+ Increase</button>
-      </div>
-
-      <h3>Generated Engine.ini (Shadows)</h3>
-      <pre id="shadowOutput" aria-live="polite"></pre>
-
-      <details>
-        <summary>🧠 Technical Footnote — Shadow Settings</summary>
-        <p>
-          <b>r.ShadowQuality</b> — Overall shadow quality (0 = off, up to 5 usually).<br>
-          <b>r.Shadow.CSM.MaxCascades</b> — Number of cascades (more = smoother farther shadows).<br>
-          <b>r.Shadow.CSM.MaxDistance / FarShadowDistanceOverride</b> — How far cascaded shadows are computed.<br>
-          <b>r.Shadow.*Resolution</b> — Minimum/maximum shadow map size and per-object resolution controls.<br>
-          <b>r.Shadow.TexelsPerPixel / PCFMaxSamples</b> — Filtering density and sample budget for softer shadows.<br>
-          <b>r.ContactShadows / r.CapsuleShadows</b> — Add fine-scale and character-specific shadowing for realism.<br>
-          <b>r.DistanceFieldShadowing</b> — Distance-field shadows for very large soft shadowing.<br>
-        </p>
-      </details>
-    </details>
-
-    <!-- 🧭 Floating Toolbar -->
-    <div class="utility-buttons" role="toolbar" aria-label="Utilities">
-      <button onclick="collapseAll()">Collapse All</button>
-      <button onclick="expandAll()">Expand All</button>
-      <button onclick="window.scrollTo({top:0,behavior:'smooth'})">Back to Top</button>
+    <!-- 🧭 Floating Control Panel -->
+    <div id="control-panel" aria-hidden="false">
+        <button id="resetBtn">🧹 Reset All Configs</button>
+        <button id="generateBtn">⚙️ Generate Engine.ini</button>
     </div>
 
-    <footer>
-      Made by Arglax (GPT-assisted)
-    </footer>
-  </main>
+    <!-- 🌐 Navbar Placeholder -->
+    <div id="navbar"></div>
 
-  <!-- ✅ External JS -->
-  <script src="js/scripts.js"></script>
+    <main>
+        <h1>WuWa Engine.ini Generator</h1>
+
+        <!-- 🎮 TEXTURE SCALING -->
+        <details open>
+            <summary>🎮 Far-Distance Texture Quality Scaling</summary>
+            <p>Adjust texture streaming and mipmap detail levels (0 = disabled, 11 = ultra).</p>
+
+            <div class="slider-section">
+                <label><b>Quality Scale (0 – 11)</b></label>
+                <input id="slider" type="range" min="0" max="11" value="5" />
+                <div class="slider-labels"><span>0</span><span>11</span></div>
+            </div>
+
+            <div class="button-row">
+                <button id="dec">− Decrease</button>
+                <button id="reset">Reset</button>
+                <button id="inc">+ Increase</button>
+            </div>
+
+            <h3>Generated Engine.ini Variables:</h3>
+            <pre id="output" aria-live="polite"></pre>
+
+            <details>
+                <summary>🧠 Technical Footnote — Texture Streaming</summary>
+                <p>
+                    <b>r.Streaming.Boost / MinBoost</b> — Adjusts how aggressively textures are streamed to memory.<br>
+                    <b>r.Streaming.GroupBoost.*</b> — Per-group sharpness multiplier for building/foliage/NPC groups.<br>
+                    <b>r.MipMapLODBias</b> — Controls mipmap selection bias (negative ⇒ sharper textures).<br>
+                    <b>r.Streaming.FullyLoadUsedTextures</b> — Forces textures that are in use to load fully (1 = enable).<br>
+                </p>
+            </details>
+        </details>
+
+        <!-- 🌑 SHADOWS SETTINGS -->
+        <details>
+            <summary>🌑 Shadows Settings</summary>
+            <p>Control shadow rendering; select Basic (fewer options) or Advanced (full tuning).</p>
+
+            <div class="button-row">
+                <button onclick="setShadowMode('basic')">Basic</button>
+                <button onclick="setShadowMode('advanced')">Advanced</button>
+            </div>
+
+            <div id="shadowMode" style="margin-top:10px; font-weight:bold;">Current Mode: Advanced</div>
+
+            <div class="slider-section" style="margin-top:8px;">
+                <label><b>Shadow Quality Scale (0 – 11)</b></label>
+                <input id="shadowSlider" type="range" min="0" max="11" value="5" oninput="updateShadowQuality()" />
+                <div class="slider-labels"><span>0</span><span>11</span></div>
+            </div>
+
+            <div class="button-row">
+                <button id="shadowDec">− Decrease</button>
+                <button id="shadowReset">Reset</button>
+                <button id="shadowInc">+ Increase</button>
+            </div>
+
+            <h3>Generated Engine.ini (Shadows)</h3>
+            <pre id="shadowOutput" aria-live="polite"></pre>
+
+            <details>
+                <summary>🧠 Technical Footnote — Shadow Settings</summary>
+                <p>
+                    <b>r.ShadowQuality</b> — Overall shadow quality (0 = off, up to 5 usually).<br>
+                    <b>r.Shadow.CSM.MaxCascades</b> — Number of cascades (more = smoother farther shadows).<br>
+                    <b>r.Shadow.CSM.MaxDistance / FarShadowDistanceOverride</b> — How far cascaded shadows are computed.<br>
+                    <b>r.Shadow.*Resolution</b> — Minimum/maximum shadow map size and per-object resolution controls.<br>
+                    <b>r.Shadow.TexelsPerPixel / PCFMaxSamples</b> — Filtering density and sample budget for softer shadows.<br>
+                    <b>r.ContactShadows / r.CapsuleShadows</b> — Add fine-scale and character-specific shadowing for realism.<br>
+                    <b>r.DistanceFieldShadowing</b> — Distance-field shadows for very large soft shadowing.<br>
+                </p>
+            </details>
+        </details>
+
+        <!-- 🧭 Floating Toolbar -->
+        <div class="utility-buttons" role="toolbar" aria-label="Utilities">
+            <button onclick="collapseAll()">Collapse All</button>
+            <button onclick="expandAll()">Expand All</button>
+            <button onclick="window.scrollTo({top:0,behavior:'smooth'})">Back to Top</button>
+        </div>
+
+        <footer>
+            Made by Arglax (GPT-assisted)
+        </footer>
+    </main>
+
+    <!-- ✅ External JS -->
+    <script src="js/scripts.js"></script>
 </body>
 </html>

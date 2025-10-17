@@ -107,10 +107,34 @@ h1 {
 
     /* Floating control panel */
     #control-panel {
-      position: fixed; top:20px; left:20px; display:flex; flex-direction:column; gap:10px;
-      background: rgba(25,25,25,0.85); border: 2px solid #4caf50; border-radius:12px; padding:12px;
-      box-shadow:0 0 10px rgba(0,0,0,0.4); z-index:9999; backdrop-filter: blur(5px);
+      position: fixed;
+      top: 10%;
+      right: 0;
+      background: rgba(0, 0, 0, 0.8);
+      padding: 10px;
+      border-radius: 8px 0 0 8px;
+      transition: transform 0.3s ease-in-out;
     }
+    #control-panel.collapsed {
+      transform: translateX(100%);
+    }
+    #togglePanelBtn {
+      position: absolute;
+      top: 50%;
+      left: -30px;
+      transform: translateY(-50%);
+      background: #444;
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
     #control-panel button { background-color:#2e7d32; color:white; font-weight:600; border:none; border-radius:8px; padding:8px 12px; cursor:pointer; }
     #control-panel button:hover { background-color:#43a047; }
 
