@@ -8,52 +8,69 @@
       color-scheme: dark;
     }
 
-    /* ===== Base Styles ===== */
     body {
       font-family: "Segoe UI", Arial, sans-serif;
-
-      /* 🖼️ Background image — replace the URL below with your GitHub-hosted image */
       background: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat fixed;
-      /* Example: background: url('images/myBackdrop.jpg') center/cover no-repeat fixed; */
-
       background-color: rgba(0, 0, 0, 0.8);
       background-blend-mode: darken;
       color: #eee;
       margin: 0;
-      padding: 2rem;
+      padding-top: 4rem; /* reserve space for nav */
     }
 
+    /* 🌐 Top Navigation Bar */
+    .top-nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: rgba(15, 15, 15, 0.9);
+      border-bottom: 1px solid #333;
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.05);
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      padding: 0.8rem;
+      z-index: 999;
+      backdrop-filter: blur(8px);
+    }
+
+    .top-nav a {
+      text-decoration: none;
+      color: #ffcc00;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: all 0.2s ease-in-out;
+    }
+
+    .top-nav a:hover {
+      color: #fff;
+      transform: translateY(-2px);
+    }
+
+    /* Existing panel and UI styles below */
     h1 {
       text-align: center;
       color: #ffcc00;
       text-shadow: 0 0 10px #000;
     }
 
-    /* ===== Panel (Group Box) ===== */
-    details {
+    .panel {
       background: rgba(20, 20, 20, 0.85);
       border: 1px solid #333;
       border-radius: 1rem;
       box-shadow: 0 0 20px rgba(255, 255, 255, 0.05);
       max-width: 800px;
       margin: 2rem auto;
-      padding: 1.5rem 2rem;
+      padding: 2rem;
       backdrop-filter: blur(8px);
     }
 
-    summary {
-      font-weight: bold;
-      color: #ffcc00;
-      cursor: pointer;
-      font-size: 1.2em;
-      margin-bottom: 1rem;
+    .slider-section {
+      margin-bottom: 1.5rem;
     }
 
-    summary:hover {
-      text-shadow: 0 0 6px #ffcc0066;
-    }
-
-    /* ===== Controls ===== */
     input[type=range] {
       width: 100%;
       accent-color: #ffcc00;
@@ -90,7 +107,6 @@
       box-shadow: 0 0 10px #ffcc0033;
     }
 
-    /* ===== Output Box ===== */
     pre {
       background: #0f0f0f;
       color: #00ff66;
@@ -103,54 +119,6 @@
       box-shadow: inset 0 0 10px #000;
     }
 
-    /* ===== Floating Toolbar ===== */
-    .utility-buttons {
-      position: fixed;
-      bottom: 1.5rem;
-      right: 1.5rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-      z-index: 999;
-    }
-
-    .utility-buttons button {
-      background: rgba(30,30,30,0.8);
-      border: 1px solid #555;
-      color: #ffcc00;
-      padding: .6rem 1rem;
-      border-radius: .5rem;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    .utility-buttons button:hover {
-      background: rgba(50,50,50,0.9);
-      border-color: #ffcc00;
-    }
-
-    /* ===== Mobile Layout ===== */
-    @media (max-width: 768px) {
-      body {
-        padding: 1rem;
-      }
-      details {
-        margin: 1rem;
-        padding: 1rem;
-      }
-      .button-row {
-        flex-direction: column;
-        gap: 0.5rem;
-      }
-      button {
-        width: 100%;
-        font-size: 1rem;
-      }
-      pre {
-        font-size: 0.85em;
-      }
-    }
-
     footer {
       text-align: center;
       font-size: 0.8em;
@@ -160,11 +128,18 @@
   </style>
 </head>
 <body>
+
+  <!-- 🌐 Navigation Bar -->
+  <nav class="top-nav">
+    <a href="https://github.com/Arglax/Mobile-WuWa-Config/" target="_blank">💾 GitHub Repos</a>
+    <a href="https://arglax.github.io/Mobile-WuWa-Config/" target="_blank">🌐 GitHub Page</a>
+    <a href="https://discord.gg/renjxYBEZM" target="_blank">💬 Discord</a>
+  </nav>
+
   <h1>WuWa Engine.ini Generator</h1>
 
-  <!-- 🎮 Example Group Panel -->
-  <details open>
-    <summary>🎮 Texture Quality Scaling</summary>
+  <div class="panel">
+    <h2>🎮 Texture Quality Scaling</h2>
     <p>Adjust texture streaming and mipmap detail levels. 0 = lowest, 11 = ultra.</p>
 
     <div class="slider-section">
@@ -181,13 +156,6 @@
 
     <h3>Generated Engine.ini Variables:</h3>
     <pre id="output"></pre>
-  </details>
-
-  <!-- 🧭 Floating Toolbar -->
-  <div class="utility-buttons">
-    <button onclick="collapseAll()">Collapse All</button>
-    <button onclick="expandAll()">Expand All</button>
-    <button onclick="window.scrollTo({top:0,behavior:'smooth'})">Back to Top</button>
   </div>
 
   <footer>Made with 💛 by Master Ian | WuWa Config Tool</footer>
@@ -199,7 +167,6 @@
     const incBtn = document.getElementById("inc");
     const resetBtn = document.getElementById("reset");
 
-    // Function to generate commands dynamically
     function generateCommands(level) {
       const streamingBoost = (0 + 0.5 * level).toFixed(2);
       const groupBoost = (1 + 0.85 * level).toFixed(2);
@@ -246,14 +213,6 @@ r.Streaming.MipBias=-2
     });
 
     updateOutput();
-
-    // ===== Collapse/Expand All Functions =====
-    function collapseAll() {
-      document.querySelectorAll('details').forEach(d => d.open = false);
-    }
-    function expandAll() {
-      document.querySelectorAll('details').forEach(d => d.open = true);
-    }
   </script>
 </body>
 </html>
