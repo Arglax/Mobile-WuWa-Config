@@ -478,3 +478,72 @@ function navigateToSection(sectionId) {
         section.open = true;
     }
 }
+
+// === SPECIAL IN-GAME TOGGLES ===
+(function () {
+    const output = document.getElementById("specialTogglesOutput");
+    let specialToggles = "";
+
+    function updateOutput() {
+        output.textContent = specialToggles.trim();
+        try {
+            localStorage.setItem("specialTogglesConfig", specialToggles.trim());
+        } catch (e) {
+            /* Ignore storage errors */
+        }
+    }
+
+    document.getElementById("enableVulkanBtn").addEventListener("click", () => {
+        specialToggles = `
+r.Mobile.DeviceEvaluation=3
+r.Android.DisableVulkanSM5Support=0
+r.Android.DisableVulkanSupport=0
+`.trim();
+        updateOutput();
+    });
+
+    document.getElementById("forceVulkanBtn").addEventListener("click", () => {
+        specialToggles = `
+r.Mobile.DeviceEvaluation=3
+r.Android.DisableOpenGLES31Support=1
+r.Android.DisableVulkanSM5Support=0
+r.Android.DisableVulkanSupport=0
+`.trim();
+        updateOutput();
+    });
+
+    document.getElementById("enableFrameGenBtn").addEventListener("click", () => {
+        if (!specialToggles.includes("r.Kuro.AFME.Enabled=1")) {
+            specialToggles += "\n" + "r.Kuro.AFME.Enabled=1";
+        }
+        updateOutput();
+    });
+
+    document.getElementById("unlockUltraQualityBtn").addEventListener("click", () => {
+        specialToggles += `
+r.PostProcessAAQuality=4
+r.imp.SSMbScaleLod0=0.00
+r.imp.SSMbScaleLod1=0.00
+r.MaterialQualityLevel=2
+r.KuroMaterialQualityLevel=2
+r.Mobile.HighQualityMaterial=1
+`.trim();
+        updateOutput();
+    });
+
+    document.getElementById("resetSpecialTogglesBtn").addEventListener("click", () => {
+        specialToggles = "";
+        updateOutput();
+    });
+
+    // Initialize from localStorage
+    try {
+        const stored = localStorage.getItem("specialTogglesConfig");
+        if (stored) {
+            specialToggles = stored;
+            updateOutput();
+        }
+    } catch (e) {
+        /* Ignore storage errors */
+    }
+})();

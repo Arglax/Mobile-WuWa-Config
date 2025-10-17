@@ -29,6 +29,23 @@
     <main>
         <h1>WuWa Engine.ini Generator</h1>
 
+        <details open>
+            <summary>🔧 Special In-Game Toggles</summary>
+            <p>Enable or configure special in-game features with the following toggles:</p>
+
+            <div class="button-row">
+                <button id="enableVulkanBtn">Enable Vulkan</button>
+                <button id="forceVulkanBtn">Force Vulkan</button>
+                <button id="enableFrameGenBtn">Enable Frame Generation</button>
+                <button id="unlockUltraQualityBtn">Unlock Ultra-High Quality</button>
+                <button id="resetSpecialTogglesBtn">Reset</button>
+            </div>
+
+            <h3>Generated Engine.ini (Special Toggles)</h3>
+            <pre id="specialTogglesOutput" aria-live="polite"></pre>
+        </details>
+
+
         <!-- 🎮 TEXTURE SCALING -->
         <details open>
             <summary>🎮 Far-Distance Texture Quality Scaling</summary>
@@ -147,24 +164,24 @@
 
         <!-- 🗂️ Floating Checklist -->
         <div id="floatingChecklist">
-            <h3>Quick Navigation</h3>
+            <h3>Engine.ini Contents</h3>
             <ul>
                 <li>
                     <label>
-                        <input type="checkbox" id="includeTextureScaling" checked>
                         <a href="#textureScaling" onclick="navigateToSection('textureScaling')">🎮 Texture Scaling</a>
+                        <input type="checkbox" id="includeTextureScaling" checked>
                     </label>
                 </li>
                 <li>
                     <label>
-                        <input type="checkbox" id="includeShadows" checked>
                         <a href="#shadowsSettings" onclick="navigateToSection('shadowsSettings')">🌑 Shadows</a>
+                        <input type="checkbox" id="includeShadows" checked>
                     </label>
                 </li>
                 <li>
                     <label>
-                        <input type="checkbox" id="includeGarbageCollection" checked>
                         <a href="#garbageCollection" onclick="navigateToSection('garbageCollection')">🗑️ Garbage Collection</a>
+                        <input type="checkbox" id="includeGarbageCollection" checked>
                     </label>
                 </li>
             </ul>
