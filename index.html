@@ -208,8 +208,9 @@
 
   <!-- 🎮 Example Group Panel -->
   <details open>
-    <summary>🎮 Texture Quality Scaling</summary>
+    <summary>🎮 Far-Distance Texture Quality Scaling</summary>
     <p>Adjust texture streaming and mipmap detail levels. 0 = lowest, 11 = ultra.</p>
+    <p>You can actually go beyond these values (at your own risk lmao)</p>
 
     <div class="slider-section">
       <label for="slider"><b>Quality Scale</b></label>
@@ -234,23 +235,32 @@
     <button onclick="window.scrollTo({top:0,behavior:'smooth'})">Back to Top</button>
   </div>
 
-  <footer>Made with 💛 by Master Ian | WuWa Config Tool</footer>
+  <footer>Made by Arglax (GPT-assisted)</footer>
 
   <script>
-    const slider = document.getElementById("slider");
-    const output = document.getElementById("output");
-    const decBtn = document.getElementById("dec");
-    const incBtn = document.getElementById("inc");
-    const resetBtn = document.getElementById("reset");
+  const slider = document.getElementById("slider");
+  const output = document.getElementById("output");
+  const decBtn = document.getElementById("dec");
+  const incBtn = document.getElementById("inc");
+  const resetBtn = document.getElementById("reset");
 
-    // Function to generate commands dynamically
-    function generateCommands(level) {
-      const streamingBoost = (0 + 0.5 * level).toFixed(2);
-      const groupBoost = (1 + 0.85 * level).toFixed(2);
-      const mipBiasArray = [6,4,3,2,1,0,-2,-4,-6,-8,-10,-12];
-      const mipLODBias = mipBiasArray[level];
+  // Non-linear scale function for smooth transitions
+  function smoothScale(level, min, max, exponent = 1.3) {
+    const t = Math.pow(level / 11, exponent);
+    return (min + (max - min) * t);
+  }
 
-      return `
+  // Function to generate commands dynamically
+  function generateCommands(level) {
+    // smoother scaling from 0→5.5 for Boost, 1→10 for GroupBoost
+    const streamingBoost = smoothScale(level, 0, 5.5).toFixed(2);
+    const groupBoost = smoothScale(level, 1, 10, 1.3).toFixed(2);
+
+    // Predefined MipBias (piecewise)
+    const mipBiasArray = [6, 4, 3, 2, 1, 0, -2, -4, -6, -8, -10, -12];
+    const mipLODBias = mipBiasArray[level];
+
+    return `
 r.Streaming.GroupBoost.HugeBuildingTextureFactor=${groupBoost}
 r.Streaming.GroupBoost.LargeBuildingTextureFactor=${groupBoost}
 r.Streaming.GroupBoost.MediumBuildingTextureFactor=${groupBoost}
@@ -269,35 +279,187 @@ r.Streaming.FullyLoadUsedTextures=1
 r.MipMapLODBias=${mipLODBias}
 r.Streaming.MipBias=-2
 `.trim();
-    }
+  }
 
-    function updateOutput() {
-      output.textContent = generateCommands(+slider.value);
-    }
+  // Output update function
+  function updateOutput() {
+    output.textContent = generateCommands(+slider.value);
+  }
 
-    slider.addEventListener("input", updateOutput);
-    decBtn.addEventListener("click", () => {
-      slider.value = Math.max(0, +slider.value - 1);
-      updateOutput();
-    });
-    incBtn.addEventListener("click", () => {
-      slider.value = Math.min(11, +slider.value + 1);
-      updateOutput();
-    });
-    resetBtn.addEventListener("click", () => {
-      slider.value = 5;
-      updateOutput();
-    });
-
+  // Event listeners
+  slider.addEventListener("input", updateOutput);
+  decBtn.addEventListener("click", () => {
+    slider.value = Math.max(0, +slider.value - 1);
     updateOutput();
+  });
+  incBtn.addEventListener("click", () => {
+    slider.value = Math.min(11, +slider.value + 1);
+    updateOutput();
+  });
+  resetBtn.addEventListener("click", () => {
+    slider.value = 5;
+    updateOutput();
+  });
 
-    // ===== Collapse/Expand All Functions =====
-    function collapseAll() {
-      document.querySelectorAll('details').forEach(d => d.open = false);
-    }
-    function expandAll() {
-      document.querySelectorAll('details').forEach(d => d.open = true);
-    }
-  </script>
+  // Initialize
+  updateOutput();
+
+  // ===== Collapse/Expand All Functions =====
+  function collapseAll() {
+    document.querySelectorAll('details').forEach(d => d.open = false);
+  }
+  function expandAll() {
+    document.querySelectorAll('details').forEach(d => d.open = true);
+  }
+</script>
+
+
+  ## 🌑 Shadows Settings
+
+<details>
+<summary><b>Click to expand Shadows Configuration</b></summary>
+
+### 🌓 Shadows Quality
+
+Select Mode:
+<button onclick="setShadowMode('basic')">Basic</button>
+<button onclick="setShadowMode('advanced')">Advanced</button>
+
+<div id="shadowMode" style="margin-top:10px; font-weight:bold;">Current Mode: Basic</div>
+
+---
+
+### 🔆 Shadow Quality Scale (0–11)
+<input type="range" min="0" max="11" value="5" id="shadowSlider" oninput="updateShadowQuality()">
+<span id="shadowValue">5</span>
+
+---
+
+### ⚙️ Generated Engine.ini (Shadows)
+<textarea id="shadowOutput" style="width:100%; height:300px; margin-top:10px;" readonly></textarea>
+
+---
+
+<details>
+<summary><b>🧠 Technical Footnote — Explanation of Shadow Settings</b></summary>
+
+| Setting | Description |
+|----------|--------------|
+| `r.ShadowQuality` | Controls overall shadow rendering quality (0 = off, 5 = ultra). |
+| `r.Shadow.CSM.MaxCascades` | Determines how many cascades are used for dynamic directional light shadows (higher = smoother distant shadows). |
+| `r.Shadow.MinResolution` / `r.Shadow.MaxResolution` | Sets minimum and maximum shadow texture resolutions. |
+| `r.Shadow.RadiusThreshold` | Controls how far small objects cast shadows. Lower = more detailed small-object shadows. |
+| `r.Shadow.FarShadow` | Enables rendering of distant shadow cascades. |
+| `r.ContactShadows` | Enables fine shadows directly under objects for realism. |
+| `r.CapsuleShadows` | Enables capsule-based shadows for characters (soft contact shadows). |
+| `r.DistanceFieldShadowing` | Enables distance field shadows for smoother, more realistic soft lighting. |
+
+</details>
+
+---
+
+</details>
+
+<script>
+let shadowMode = "basic";
+
+function setShadowMode(mode) {
+  shadowMode = mode;
+  document.getElementById("shadowMode").innerText = "Current Mode: " + mode.charAt(0).toUpperCase() + mode.slice(1);
+  updateShadowQuality();
+}
+
+function updateShadowQuality() {
+  const level = parseInt(document.getElementById("shadowSlider").value);
+  document.getElementById("shadowValue").innerText = level;
+
+  let output = "[SystemSettings]\n";
+
+  // --- BASIC MODE ---
+  if (shadowMode === "basic") {
+    const quality = Math.min(Math.round((level / 11) * 5), 5);
+    const minRes = 512 + Math.round((level / 11) * (2048 - 512));
+    const maxRes = 1024 + Math.round((level / 11) * (4096 - 1024));
+    const radius = (0.003 - (level / 11) * 0.002).toFixed(4);
+    const radiusFar = (0.006 - (level / 11) * 0.003).toFixed(4);
+
+    output += `r.ShadowQuality=${quality}\n`;
+    output += `r.Shadow.MinResolution=${minRes}\n`;
+    output += `r.Shadow.MaxResolution=${maxRes}\n`;
+    output += `r.Shadow.RadiusThreshold=${radius}\n`;
+    output += `r.Shadow.RadiusThresholdFar=${radiusFar}\n`;
+    output += `r.Shadow.FarShadow=${level > 0 ? 1 : 0}\n`;
+    output += `r.Shadow.CSM.MaxCascades=${Math.min(1 + Math.round(level / 3), 4)}\n`;
+
+  // --- ADVANCED MODE ---
+  } else {
+    const quality = Math.min(Math.round((level / 11) * 5), 5);
+    const cascades = Math.min(1 + Math.round(level / 3), 4);
+    const distance = 50000 + Math.round((level / 11) * 2000000);
+    const res = 1024 + Math.round((level / 11) * 3072);
+    const radius = (0.003 - (level / 11) * 0.002).toFixed(4);
+    const pcf = Math.min(1 + Math.round(level / 3), 3);
+    const texelDensity = 2 + Math.round((level / 11) * 6);
+    const fadeExp = (0.5 - (level / 11) * 0.25).toFixed(2);
+
+    output += `
+r.ShadowQuality=${quality}
+r.Shadow.CSM.MaxCascades=${cascades}
+r.Shadow.CSM.MaxDistance=${distance}
+r.Shadow.FarShadowDistanceOverride=${distance}
+r.Shadow.CSM0Distance=${Math.round(distance * 0.1)}
+r.Shadow.CSM1Distance=${Math.round(distance * 0.3)}
+r.Shadow.CSM2Distance=${Math.round(distance * 0.6)}
+r.Shadow.CSM3Distance=${distance}
+r.Shadow.DistributionExponent=1.15
+r.Shadow.TransitionScale=2.0
+r.Shadow.FadeExponent=${fadeExp}
+r.Shadow.MinResolution=${res}
+r.Shadow.MaxResolution=${res}
+r.Shadow.MaxCSMResolution=${res}
+r.Shadow.PerObjectShadowMapResolution=${res}
+r.Shadow.PerObjectResolutionMax=${res}
+r.Shadow.PerObjectResolutionMin=${Math.round(res / 2)}
+r.Shadow.CSM0ShadowPCFQuality=${pcf}
+r.Shadow.CSM1ShadowPCFQuality=${pcf}
+r.Shadow.CSM2ShadowPCFQuality=${pcf}
+r.Shadow.CSM3ShadowPCFQuality=${pcf}
+r.Shadow.FilterMethod=1
+r.Shadow.TexelsPerPixel=${texelDensity}
+r.Shadow.PCFMaxSamples=${Math.round(16 + (level / 11) * 48)}
+r.Shadow.TemporalFiltering=${level > 5 ? 1 : 0}
+r.Shadow.FadeResolution=1
+r.Shadow.CacheWholeSceneShadows=1
+r.Shadow.FarShadow=${level > 0 ? 1 : 0}
+r.Shadow.CachedShadowsCastFromMovablePrimitives=1
+r.Shadow.EnableParallaxCorrection=${level > 8 ? 1 : 0}
+r.Shadow.EnableParallaxCorrectionCrossFade=${level > 8 ? 1 : 0}
+r.Shadow.RadiusThresholdOverrideEnable=1
+r.Shadow.RadiusThreshold=${radius}
+r.Shadow.RadiusThresholdFar=${(radius * 2).toFixed(4)}
+r.ContactShadows=${level > 2 ? 1 : 0}
+r.ContactShadowsStep=${Math.round(8 + (level / 11) * 56)}
+r.ContactShadowsLength=${(5.0 + (level / 11) * 15).toFixed(1)}
+r.ContactShadowsMinScreenPercent=0.01
+r.CapsuleShadows=${level > 4 ? 1 : 0}
+r.CapsuleMaxDirectOcclusionDistance=${Math.round(100 + (level / 11) * 300)}
+r.CapsuleMinSkySpecularOcclusionDistance=30
+r.CapsuleMaxSkySpecularOcclusionDistance=100
+r.DistanceFieldShadowing=${level > 7 ? 1 : 0}
+r.DistanceFieldShadowDistance=${Math.round(100000 + (level / 11) * 5000000)}
+r.DistanceFieldShadowAccuracy=${(level / 11).toFixed(2)}
+r.DistanceFieldShadowBias=${(0.1 - (level / 11) * 0.05).toFixed(3)}
+r.DistanceFieldShadowPenumbraScale=${(0.5 + (level / 11) * 0.5).toFixed(2)}
+r.DistanceFieldShadowNonDirectionalOffset=0.005
+r.DistanceFieldShadowMinDistance=100.0
+`.trim();
+  }
+
+  document.getElementById("shadowOutput").value = output;
+}
+
+updateShadowQuality();
+</script>
+
 </body>
 </html>
