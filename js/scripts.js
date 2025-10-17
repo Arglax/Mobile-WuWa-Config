@@ -544,6 +544,10 @@ r.Mobile.HighQualityMaterial=1
             updateOutput();
         }
     } catch (e) {
-        /* Ignore storage errors */
+        // Log the error to the console for debugging
+        console.error("An error occurred:", e);
+
+        // Display an alert to the user
+        alert("An error occurred while processing your request. Please try again or check the console for more details.");
     }
 })();
