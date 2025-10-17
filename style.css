@@ -1,0 +1,103 @@
+
+    :root { color-scheme: dark; }
+
+    /* ===== Base Styles ===== */
+    body {
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: url('../assets/images/Background_1.jpg') center/cover no-repeat fixed;
+      background-color: rgba(0, 0, 0, 0.8);
+      background-blend-mode: darken;
+      color: #eee;
+      margin: 0;
+      padding: 6rem 2rem 5rem;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    h1 {
+      text-align: center;
+      color: #ffcc00;
+      text-shadow: 0 0 10px #000;
+    }
+
+    /* ===== Top Navigation Bar ===== */
+    .top-nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: rgba(15,15,15,0.9);
+      border-bottom: 1px solid #333;
+      box-shadow: 0 0 15px rgba(255,255,255,0.05);
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      padding: 0.8rem;
+      z-index: 1000;
+      backdrop-filter: blur(8px);
+    }
+    .top-nav a {
+      text-decoration: none;
+      color: #ffcc00;
+      font-weight: 600;
+      display:flex; align-items:center; gap:0.4rem;
+      transition: all 0.18s ease-in-out;
+    }
+    .top-nav a:hover { color:#fff; transform: translateY(-2px); }
+
+    /* ===== Panels ===== */
+    details {
+      background: rgba(20,20,20,0.85);
+      border: 1px solid #333;
+      border-radius: 1rem;
+      box-shadow: 0 0 20px rgba(255,255,255,0.03);
+      max-width: 850px;
+      margin: 2rem auto;
+      padding: 1.5rem 2rem;
+      backdrop-filter: blur(8px);
+    }
+    summary {
+      font-weight: bold;
+      color: #ffcc00;
+      cursor: pointer;
+      font-size: 1.1rem;
+      margin-bottom: 0.8rem;
+    }
+    summary:hover { text-shadow: 0 0 6px #ffcc0066; }
+
+    /* ===== Controls ===== */
+    input[type=range] { width:100%; accent-color: #ffcc00; }
+    .slider-labels { display:flex; justify-content:space-between; font-size:.9em; color:#aaa; margin-top:.2rem; }
+    .slider-section { margin-top: 0.5rem; }
+
+    .button-row { display:flex; justify-content:center; gap:1rem; margin-top:1rem; flex-wrap:wrap; }
+    button { background:#222; border:1px solid #444; color:#ffcc00; padding:.6rem 1.2rem; border-radius:.4rem; cursor:pointer; transition: all 0.18s; }
+    button:hover { background:#333; border-color:#ffcc00; box-shadow:0 0 10px #ffcc0033; }
+
+    pre, textarea {
+      background:#0f0f0f; color:#00ff66; padding:1rem; border-radius:.6rem; overflow-x:auto;
+      font-size:0.95em; white-space:pre-wrap; word-wrap:break-word; box-shadow: inset 0 0 10px #000; width:100%;
+    }
+
+    .utility-buttons {
+      position: fixed; bottom: 1.5rem; right:1.5rem; display:flex; flex-direction:column; gap:.5rem; z-index:999;
+    }
+    .utility-buttons button { background: rgba(30,30,30,0.8); border:1px solid #555; color:#ffcc00; padding:.6rem 1rem; border-radius:.5rem; cursor:pointer; }
+    .utility-buttons button:hover { background: rgba(50,50,50,0.9); border-color:#ffcc00; }
+
+    footer { text-align:center; font-size:0.8em; color:#888; margin-top:3rem; position:relative; }
+
+    /* Floating control panel */
+    #control-panel {
+      position: fixed; top:20px; left:20px; display:flex; flex-direction:column; gap:10px;
+      background: rgba(25,25,25,0.85); border: 2px solid #4caf50; border-radius:12px; padding:12px;
+      box-shadow:0 0 10px rgba(0,0,0,0.4); z-index:9999; backdrop-filter: blur(5px);
+    }
+    #control-panel button { background-color:#2e7d32; color:white; font-weight:600; border:none; border-radius:8px; padding:8px 12px; cursor:pointer; }
+    #control-panel button:hover { background-color:#43a047; }
+
+    /* responsive */
+    @media (max-width:768px) {
+      body{padding:6rem 1rem 5rem;}
+      details{margin:1rem; padding:1rem;}
+      .top-nav{flex-wrap:wrap; gap:.6rem;}
+      #control-panel{left:8px; top:70px;}
+    }
