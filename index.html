@@ -300,7 +300,7 @@ r.Streaming.MipBias=-2
 
     window.updateShadowQuality = function() {
       const level = +shadowSlider.value;
-      let result = "[SystemSettings]\n";
+      let result = "\n";
 
       if (shadowMode === "advanced") {
         const q = Math.min(Math.round((level / 11) * 5), 5);
@@ -493,7 +493,6 @@ Paths=../../../Engine/Plugins/Runtime/Nvidia/NRD/Content
 [/Script/Engine.RendererOverrideSettings]
 
 ; Below are auto-generated settings from WuWa Config Generator
-[SystemSettings]
 `;
 
   // === FINAL CONFIG COMBINATION ===
