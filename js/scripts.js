@@ -338,3 +338,9 @@ fetch("components/navbar.html")
     document.getElementById("navbar").innerHTML = data;
   })
   .catch(error => console.error("Navbar failed to load:", error));
+
+  const bgVideo = document.getElementById("bg-video");
+document.addEventListener("visibilitychange", () => {
+  if (document.hidden) bgVideo.pause();
+  else bgVideo.play();
+});
