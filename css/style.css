@@ -235,3 +235,27 @@ h1 {
     width: 100%;
     margin-top: 1rem;
 }
+
+/* Draggable group box styles */
+.draggable {
+    position: fixed; /* Keeps it fixed to the viewport */
+    top: 100px; /* Initial position */
+    left: 20px; /* Initial position */
+    z-index: 1000; /* Ensure it stays on top */
+    cursor: grab; /* Indicate draggable area */
+    transition: transform 0.3s ease-in-out; /* Smooth transition when released */
+}
+
+.draggable:active {
+    cursor: grabbing; /* Change cursor when dragging */
+}
+
+#engineIniContents {
+    background: rgba(0, 0, 0, 0.8);
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    color: #fff;
+    font-size: 0.9rem;
+    width: 250px;
+}

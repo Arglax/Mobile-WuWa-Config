@@ -366,6 +366,7 @@ document.addEventListener("visibilitychange", () => {
     let offsetX = 0;
     let offsetY = 0;
 
+    // Start dragging
     controlPanel.addEventListener("mousedown", (e) => {
         isDragging = true;
         offsetX = e.clientX - controlPanel.getBoundingClientRect().left;
@@ -373,6 +374,7 @@ document.addEventListener("visibilitychange", () => {
         controlPanel.style.transition = "none"; // Disable transition during drag
     });
 
+    // Dragging logic
     document.addEventListener("mousemove", (e) => {
         if (isDragging) {
             const x = e.clientX - offsetX;
@@ -382,6 +384,7 @@ document.addEventListener("visibilitychange", () => {
         }
     });
 
+    // Stop dragging
     document.addEventListener("mouseup", () => {
         isDragging = false;
         controlPanel.style.transition = "transform 0.3s ease-in-out"; // Re-enable transition
@@ -592,3 +595,58 @@ document.getElementById("resetChecklistBtn").addEventListener("click", () => {
         checkbox.checked = false; // Uncheck all checkboxes
     });
 });
+
+(function () {
+    const engineIniContents = document.getElementById("engineIniContents");
+    let isDragging = false;
+    let offsetX = 0;
+    let offsetY = 0;
+
+    // Start dragging
+    engineIniContents.addEventListener("mousedown", (e) => {
+        isDragging = true;
+        offsetX = e.clientX - engineIniContents.getBoundingClientRect().left;
+        offsetY = e.clientY - engineIniContents.getBoundingClientRect().top;
+        engineIniContents.style.transition = "none"; // Disable transition during drag
+    });
+
+    // Dragging logic
+    document.addEventListener("mousemove", (e) => {
+        if (isDragging) {
+            const x = e.clientX - offsetX;
+            const y = e.clientY - offsetY;
+            engineIniContents.style.left = `${x}px`;
+            engineIniContents.style.top = `${y}px`;
+        }
+    });
+
+    // Stop dragging
+    document.addEventListener("mouseup", () => {
+        isDragging = false;
+        engineIniContents.style.transition = "transform 0.3s ease-in-out"; // Re-enable transition
+    });
+
+    // For touch devices
+    engineIniContents.addEventListener("touchstart", (e) => {
+        isDragging = true;
+        const touch = e.touches[0];
+        offsetX = touch.clientX - engineIniContents.getBoundingClientRect().left;
+        offsetY = touch.clientY - engineIniContents.getBoundingClientRect().top;
+        engineIniContents.style.transition = "none";
+    });
+
+    document.addEventListener("touchmove", (e) => {
+        if (isDragging) {
+            const touch = e.touches[0];
+            const x = touch.clientX - offsetX;
+            const y = touch.clientY - offsetY;
+            engineIniContents.style.left = `${x}px`;
+            engineIniContents.style.top = `${y}px`;
+        }
+    });
+
+    document.addEventListener("touchend", () => {
+        isDragging = false;
+        engineIniContents.style.transition = "transform 0.3s ease-in-out";
+    });
+})();
