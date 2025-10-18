@@ -225,7 +225,7 @@ r.DistanceFieldShadowDistance=${level >= 7 ? 1000000 + level * 40000 : 0}
 })();
 
 
-// === Collapse / Expand helpers ===
+ // === Collapse / Expand helpers ===
 function collapseAll() { document.querySelectorAll("details").forEach(d => d.open = false); }
 function expandAll() { document.querySelectorAll("details").forEach(d => d.open = true); }
 
@@ -512,14 +512,14 @@ r.Mobile.HighQualityMaterial=1
 
 // Select All functionality for Engine.ini Contents
 document.getElementById("selectAllBtn").addEventListener("click", () => {
-    document.querySelectorAll("#floatingChecklist input[type='checkbox']").forEach(checkbox => {
+    document.querySelectorAll("#engineIniContents input[type='checkbox']").forEach(checkbox => {
         checkbox.checked = true; // Check all checkboxes
     });
 });
 
 // Reset functionality for Engine.ini Contents
 document.getElementById("resetChecklistBtn").addEventListener("click", () => {
-    document.querySelectorAll("#floatingChecklist input[type='checkbox']").forEach(checkbox => {
+    document.querySelectorAll("#engineIniContents input[type='checkbox']").forEach(checkbox => {
         checkbox.checked = false; // Uncheck all checkboxes
     });
 });
