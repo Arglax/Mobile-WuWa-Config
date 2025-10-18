@@ -524,6 +524,8 @@ r.KuroMaterialQualityLevel=2
 r.Mobile.HighQualityMaterial=1
 `.trim();
 
+    console.log("Special Toggles Updated:", specialToggles); // Debugging log
+
     // Update the output
     updateOutput();
 });
