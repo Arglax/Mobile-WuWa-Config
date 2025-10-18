@@ -185,8 +185,17 @@
                         <input type="checkbox" id="includeGarbageCollection" checked>
                     </label>
                 </li>
+                <li>
+                    <label>
+                        <a href="#specialToggles" onclick="navigateToSection('specialToggles')">🔧 Special Toggles</a>
+                        <input type="checkbox" id="includeSpecialToggles" checked>
+                    </label>
+                </li>
             </ul>
-            <button onclick="window.scrollTo({top:0,behavior:'smooth'})">Back to Top</button>
+            <div class="button-row">
+                <button id="selectAllBtn">Select All</button>
+                <button id="resetChecklistBtn">Reset</button>
+            </div>
         </div>
 
         <footer>

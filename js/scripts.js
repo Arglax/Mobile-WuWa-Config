@@ -575,3 +575,16 @@ r.Mobile.HighQualityMaterial=1
     // Update the output
     updateOutput();
 });
+
+// Select All and Reset functionality for Engine.ini Contents
+document.getElementById("selectAllBtn").addEventListener("click", () => {
+    document.querySelectorAll("#floatingChecklist input[type='checkbox']").forEach(checkbox => {
+        checkbox.checked = true;
+    });
+});
+
+document.getElementById("resetChecklistBtn").addEventListener("click", () => {
+    document.querySelectorAll("#floatingChecklist input[type='checkbox']").forEach(checkbox => {
+        checkbox.checked = false;
+    });
+});
