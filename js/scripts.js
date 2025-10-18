@@ -359,71 +359,6 @@ document.addEventListener("visibilitychange", () => {
     else bgVideo.play();
 });
 
-// === Floating Control Panel Drag-and-Drop ===
-(function () {
-    const controlPanel = document.getElementById("control-panel");
-    let isDragging = false;
-    let offsetX = 0;
-    let offsetY = 0;
-
-    // Start dragging
-    controlPanel.addEventListener("mousedown", (e) => {
-        isDragging = true;
-        offsetX = e.clientX - controlPanel.getBoundingClientRect().left;
-        offsetY = e.clientY - controlPanel.getBoundingClientRect().top;
-        controlPanel.style.transition = "none"; // Disable transition during drag
-    });
-
-    // Dragging logic
-    document.addEventListener("mousemove", (e) => {
-        if (isDragging) {
-            const x = e.clientX - offsetX;
-            const y = e.clientY - offsetY;
-            controlPanel.style.left = `${x}px`;
-            controlPanel.style.top = `${y}px`;
-        }
-    });
-
-    // Stop dragging
-    document.addEventListener("mouseup", () => {
-        isDragging = false;
-        controlPanel.style.transition = "transform 0.3s ease-in-out"; // Re-enable transition
-    });
-
-    // For touch devices
-    controlPanel.addEventListener("touchstart", (e) => {
-        isDragging = true;
-        const touch = e.touches[0];
-        offsetX = touch.clientX - controlPanel.getBoundingClientRect().left;
-        offsetY = touch.clientY - controlPanel.getBoundingClientRect().top;
-        controlPanel.style.transition = "none";
-    });
-
-    document.addEventListener("touchmove", (e) => {
-        if (isDragging) {
-            const touch = e.touches[0];
-            const x = touch.clientX - offsetX;
-            const y = touch.clientY - offsetY;
-            controlPanel.style.left = `${x}px`;
-            controlPanel.style.top = `${y}px`;
-        }
-    });
-
-    document.addEventListener("touchend", () => {
-        isDragging = false;
-        controlPanel.style.transition = "transform 0.3s ease-in-out";
-    });
-})();
-
-// === Collapse/Reveal Button ===
-document.getElementById("togglePanelBtn").addEventListener("click", function () {
-    const panel = document.getElementById("control-panel");
-    panel.classList.toggle("collapsed");
-
-    // Update the arrow direction
-    this.textContent = panel.classList.contains("collapsed") ? "⬅️" : "➡️";
-});
-
 // === GARBAGE COLLECTION SYSTEM ===
 (function () {
     const gcOutput = document.getElementById("gcOutput");
@@ -700,5 +635,4 @@ function makeDraggable(elementId) {
 }
 
 // Make both panels draggable
-makeDraggable("control-panel");
 makeDraggable("engineIniContents");

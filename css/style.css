@@ -241,14 +241,25 @@ h1 {
     cursor: grabbing; /* Change cursor when dragging */
 }
 
-#engineIniContents {
-    background: rgba(0, 0, 0, 0.8);
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5), 0 0 15px #ffcc00; /* Add dark gold glow */
-    color: #fff;
-    font-size: 0.9rem;
-    width: 250px; /* Fixed width */
-    max-width: 90%; /* Ensure it doesn't extend beyond the viewport */
-    border: 1px solid #ffcc00; /* Add a gold border */
+/* Center and style the Engine.ini Contents title */
+#engineIniContents h3 {
+    text-align: center;
+    color: #ffcc00;
+    text-shadow: 0 0 10px #ffcc00;
+    margin-bottom: 15px;
+}
+
+/* Style the separator line */
+#engineIniContents .separator {
+    border: none;
+    border-top: 2px solid #ffcc00;
+    margin: 15px 0;
+}
+
+/* Style the File Generation mini title */
+#engineIniContents .mini-title {
+    text-align: center;
+    color: #ffcc00;
+    font-size: 1rem;
+    margin-bottom: 10px;
 }
