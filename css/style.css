@@ -44,9 +44,9 @@ h1 {
       position: fixed;
       top: 0;
       width: 100%;
-      background: rgba(15,15,15,0.9);
-      border-bottom: 1px solid #333;
-      box-shadow: 0 0 15px rgba(255,255,255,0.05);
+      background: rgba(15, 15, 15, 0.9);
+      border-bottom: 2px solid #333; /* Slightly thicker border */
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.05);
       display: flex;
       justify-content: center;
       gap: 1.5rem;
@@ -54,14 +54,44 @@ h1 {
       z-index: 1000;
       backdrop-filter: blur(8px);
     }
+    /* Navbar links */
     .top-nav a {
+      display: inline-block; /* Ensures the outline spans only the text */
       text-decoration: none;
       color: #ffcc00;
       font-weight: 600;
-      display:flex; align-items:center; gap:0.4rem;
+      padding: 0.4rem 0.8rem; /* Add padding around the text */
+      border: 2px solid transparent; /* Default transparent border */
+      border-radius: 4px; /* Rounded corners for the outline */
       transition: all 0.18s ease-in-out;
     }
-    .top-nav a:hover { color:#fff; transform: translateY(-2px); }
+
+    /* Hover effect for navbar links */
+    .top-nav a:hover {
+      color: #fff; /* Change text color on hover */
+      border-color: #ffcc00; /* Dark gold outline on hover */
+      box-shadow: 0 0 10px #ffcc00; /* Dark gold shadow on hover */
+      transform: translateY(-2px); /* Slight lift effect */
+    }
+
+    /* Navbar buttons */
+    .top-nav button {
+        background: #222;
+        color: #ffcc00;
+        border: 2px solid transparent; /* Default transparent border */
+        padding: 0.4rem 0.8rem;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: all 0.18s ease-in-out;
+    }
+
+    /* Hover effect for navbar buttons */
+    .top-nav button:hover {
+        background: #333; /* Slightly lighter background on hover */
+        border-color: #ffcc00; /* Dark gold outline on hover */
+        box-shadow: 0 0 10px #ffcc00; /* Dark gold shadow on hover */
+        transform: translateY(-2px); /* Slight lift effect */
+    }
 
     /* ===== Panels ===== */
     details {
