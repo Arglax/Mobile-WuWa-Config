@@ -235,15 +235,30 @@ function expandAll() { document.querySelectorAll("details").forEach(d => d.open 
     const generateBtn = document.getElementById("generateBtn");
 
     resetAllBtn.addEventListener("click", () => {
-        const sliders = document.querySelectorAll("input[type='range']");
-        sliders.forEach(s => {
-            s.value = s.defaultValue;
-            s.dispatchEvent(new Event('input'));
-        });
-        // clear stored generated values as well
-        try { localStorage.removeItem("textureConfig"); localStorage.removeItem("shadowConfig"); localStorage.removeItem("generatedConfig"); } catch (e) { }
-        alert("All configs reset to default values.");
+    // Reset sliders
+    const sliders = document.querySelectorAll("input[type='range']");
+    sliders.forEach(s => {
+        s.value = s.defaultValue;
+        s.dispatchEvent(new Event('input'));
     });
+
+    // Clear stored generated values
+    try {
+        localStorage.removeItem("textureConfig");
+        localStorage.removeItem("shadowConfig");
+        localStorage.removeItem("generatedConfig");
+        localStorage.removeItem("specialTogglesConfig"); // Clear special toggles from localStorage
+    } catch (e) { /* ignore storage errors */ }
+
+    // Reset special in-game toggles
+    specialToggles = ""; // Clear the specialToggles variable
+    const specialTogglesOutput = document.getElementById("specialTogglesOutput");
+    if (specialTogglesOutput) {
+        specialTogglesOutput.textContent = ""; // Clear the output
+    }
+
+    alert("All configs reset to default values.");
+});
 
     generateBtn.addEventListener("click", () => {
     // Combine stored outputs; fallback to live values if not found
@@ -423,7 +438,10 @@ function navigateToSection(sectionId) {
     let specialToggles = "";
 
     function updateOutput() {
-        output.textContent = specialToggles.trim();
+        const specialTogglesOutput = document.getElementById("specialTogglesOutput");
+        if (specialTogglesOutput) {
+            specialTogglesOutput.textContent = specialToggles.trim();
+        }
         try {
             localStorage.setItem("specialTogglesConfig", specialToggles.trim());
         } catch (e) {
