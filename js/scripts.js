@@ -556,8 +556,8 @@ r.Mobile.HighQualityMaterial=1
 })();
 
 document.getElementById("addAllSpecialTogglesBtn").addEventListener("click", () => {
-    // Define all special toggle settings
-    const allToggles = `
+    // Replace the displayed toggles with the specified values
+    specialToggles = `
 r.Mobile.DeviceEvaluation=3
 r.Android.DisableVulkanSM5Support=0
 r.Android.DisableVulkanSupport=0
@@ -570,13 +570,6 @@ r.MaterialQualityLevel=2
 r.KuroMaterialQualityLevel=2
 r.Mobile.HighQualityMaterial=1
 `.trim();
-
-    // Combine current toggles with all toggles, remove duplicates
-    const combinedToggles = new Set((specialToggles + "\n" + allToggles).split("\n").map(line => line.trim()));
-    specialToggles = Array.from(combinedToggles).join("\n");
-
-    // Debugging: Log the combined toggles to the console
-    console.log("Combined Toggles:", specialToggles);
 
     // Update the output
     updateOutput();
@@ -650,3 +643,62 @@ document.getElementById("resetChecklistBtn").addEventListener("click", () => {
         engineIniContents.style.transition = "transform 0.3s ease-in-out";
     });
 })();
+
+function makeDraggable(elementId) {
+    const element = document.getElementById(elementId);
+    let isDragging = false;
+    let offsetX = 0;
+    let offsetY = 0;
+
+    // Start dragging
+    element.addEventListener("mousedown", (e) => {
+        isDragging = true;
+        offsetX = e.clientX - element.getBoundingClientRect().left;
+        offsetY = e.clientY - element.getBoundingClientRect().top;
+        element.style.transition = "none"; // Disable transition during drag
+    });
+
+    // Dragging logic
+    document.addEventListener("mousemove", (e) => {
+        if (isDragging) {
+            const x = e.clientX - offsetX;
+            const y = e.clientY - offsetY;
+            element.style.left = `${x}px`;
+            element.style.top = `${y}px`;
+        }
+    });
+
+    // Stop dragging
+    document.addEventListener("mouseup", () => {
+        isDragging = false;
+        element.style.transition = "transform 0.3s ease-in-out"; // Re-enable transition
+    });
+
+    // For touch devices
+    element.addEventListener("touchstart", (e) => {
+        isDragging = true;
+        const touch = e.touches[0];
+        offsetX = touch.clientX - element.getBoundingClientRect().left;
+        offsetY = touch.clientY - element.getBoundingClientRect().top;
+        element.style.transition = "none";
+    });
+
+    document.addEventListener("touchmove", (e) => {
+        if (isDragging) {
+            const touch = e.touches[0];
+            const x = touch.clientX - offsetX;
+            const y = touch.clientY - offsetY;
+            element.style.left = `${x}px`;
+            element.style.top = `${y}px`;
+        }
+    });
+
+    document.addEventListener("touchend", () => {
+        isDragging = false;
+        element.style.transition = "transform 0.3s ease-in-out";
+    });
+}
+
+// Make both panels draggable
+makeDraggable("control-panel");
+makeDraggable("engineIniContents");

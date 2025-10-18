@@ -105,60 +105,51 @@ h1 {
 
     footer { text-align:center; font-size:0.8em; color:#888; margin-top:3rem; position:relative; }
 
-    /* Floating control panel */
-    #control-panel {
-      position: absolute; /* Change from fixed to absolute for dragging */
-      top: 10%;
-      right: 0;
-      background: rgba(0, 0, 0, 0.8);
-      padding: 10px;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-      transition: transform 0.3s ease-in-out;
-      cursor: grab; /* Indicate draggable area */
-    }
+/* Floating control panel */
+#control-panel {
+    position: absolute; /* For dragging */
+    top: 10%;
+    right: 20px; /* Add spacing from the right */
+    background: rgba(0, 0, 0, 0.8);
+    padding: 15px; /* Add padding for aesthetics */
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    transition: transform 0.3s ease-in-out;
+    cursor: grab; /* Indicate draggable area */
+    width: 250px; /* Fixed width to prevent stretching */
+    max-width: 90%; /* Ensure it doesn't extend beyond the viewport */
+}
+
     #control-panel:active {
-      cursor: grabbing; /* Change cursor when dragging */
+        cursor: grabbing; /* Change cursor when dragging */
     }
+
     #control-panel.collapsed #control-panel-content {
-      display: none; /* Hide content when collapsed */
-    }
-    #togglePanelBtn {
-      position: absolute;
-      top: 50%;
-      left: -30px;
-      transform: translateY(-50%);
-      background: #444;
-      color: #fff;
-      border: none;
-      border-radius: 50%;
-      cursor: pointer;
-      width: 30px;
-      height: 30px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+        display: none; /* Hide content when collapsed */
     }
 
-    #control-panel-content {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
+#togglePanelBtn {
+    position: absolute;
+    top: 50%;
+    left: -30px;
+    transform: translateY(-50%);
+    background: #444;
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
-    #control-panel button {
-      background-color: #2e7d32;
-      color: white;
-      font-weight: 600;
-      border: none;
-      border-radius: 8px;
-      padding: 8px 12px;
-      cursor: pointer;
-    }
-
-    #control-panel button:hover {
-      background-color: #43a047;
-    }
+#control-panel-content {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
 
     /* ===== Floating Checklist ===== */
     #floatingChecklist {
@@ -254,8 +245,10 @@ h1 {
     background: rgba(0, 0, 0, 0.8);
     padding: 15px;
     border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5), 0 0 15px #ffcc00; /* Add dark gold glow */
     color: #fff;
     font-size: 0.9rem;
-    width: 250px;
+    width: 250px; /* Fixed width */
+    max-width: 90%; /* Ensure it doesn't extend beyond the viewport */
+    border: 1px solid #ffcc00; /* Add a gold border */
 }
