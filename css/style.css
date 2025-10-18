@@ -263,3 +263,23 @@ h1 {
     font-size: 1rem;
     margin-bottom: 10px;
 }
+
+#engineIniContents ul li label {
+    display: flex;
+    justify-content: space-between; /* Align text and checkbox */
+    align-items: center;
+    gap: 10px; /* Spacing between text and checkbox */
+    text-align: right; /* Align text to the right */
+}
+
+#engineIniContents {
+    background: rgba(0, 0, 0, 0.5); /* 50% transparency */
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5), 0 0 15px #ffcc00; /* Add dark gold glow */
+    border: 1px solid #ffcc00; /* Dark gold border */
+    color: #fff;
+    font-size: 0.9rem;
+    width: 250px; /* Fixed width */
+    max-width: 90%; /* Ensure it doesn't extend beyond the viewport */
+}
