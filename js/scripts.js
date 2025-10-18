@@ -509,7 +509,6 @@ r.Mobile.HighQualityMaterial=1
 })();
 
 document.getElementById("addAllSpecialTogglesBtn").addEventListener("click", () => {
-    // Replace the displayed toggles with the specified values
     specialToggles = `
 r.Mobile.DeviceEvaluation=3
 r.Android.DisableVulkanSM5Support=0
