@@ -560,7 +560,7 @@ r.Android.DisableVulkanSM5Support=0
 r.Android.DisableVulkanSupport=0
 r.Android.DisableOpenGLES31Support=1
 r.Kuro.AFME.Enabled=1
-r.PostProcessAAQuality=4 ;max value is 7
+r.PostProcessAAQuality=4
 r.imp.SSMbScaleLod0=0.00
 r.imp.SSMbScaleLod1=0.00
 r.MaterialQualityLevel=2
@@ -572,19 +572,23 @@ r.Mobile.HighQualityMaterial=1
     const combinedToggles = new Set((specialToggles + "\n" + allToggles).split("\n").map(line => line.trim()));
     specialToggles = Array.from(combinedToggles).join("\n");
 
+    // Debugging: Log the combined toggles to the console
+    console.log("Combined Toggles:", specialToggles);
+
     // Update the output
     updateOutput();
 });
 
-// Select All and Reset functionality for Engine.ini Contents
+// Select All functionality for Engine.ini Contents
 document.getElementById("selectAllBtn").addEventListener("click", () => {
     document.querySelectorAll("#floatingChecklist input[type='checkbox']").forEach(checkbox => {
-        checkbox.checked = true;
+        checkbox.checked = true; // Check all checkboxes
     });
 });
 
+// Reset functionality for Engine.ini Contents
 document.getElementById("resetChecklistBtn").addEventListener("click", () => {
     document.querySelectorAll("#floatingChecklist input[type='checkbox']").forEach(checkbox => {
-        checkbox.checked = false;
+        checkbox.checked = false; // Uncheck all checkboxes
     });
 });
