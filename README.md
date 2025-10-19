@@ -1,24 +1,16 @@
 
 <h1 align="center">📢 Announcements 📢</h1>
 
+Oct 19 Notes: There have been about 5 mini-patches in WuWa, I personally recommend using OpenGLES for now since Vulkan can be quite buggy.  
+
 Recent Changes:  
 October 18, 2025  
 1. A new website for generating Engine.ini is being developed (https://arglax.github.io/Mobile-WuWa-Config/index.html)
-2. I'll try to work on putting as much practical variables there
-
-October 16, 2025
-1. Added Thirdy's Configs in 'Community Configs'  
-2. Added some translations for non-Filipino speakers
-   
-October 14, 2025
-1. Added V2.7 Android Config
-2. Added Compatibility Mode for V2.7 Android Config
-3. Added Snapdragon-Vulkan Config in Community Configs
-4. Temporarily removed Frame Generation from Old Configs (Stability Patch)
+2. I'll try to work on putting as many practical variables there  
 
 Notes:
 > 🛠️ Users are encouraged to use configs in the *Old Configs* folder if the latest ones are incompatible with their devices.  
-> 📅 Release target for updated configs: **October 10-18, 2025 (PHT)**  
+> 📅 Release target for updating website: **October 20-25, 2025 (PHT)**  
 > 🎮 It already contains Vulkan and non-Vulkan(OpenGL) settings  
 > You need to have at least Mediatek Dimensity 8200 or Snapdragon 8s Gen 2 to be able to use Mobile Ray-Tracing Configs
 
