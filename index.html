@@ -20,23 +20,32 @@
     <main>
         <h1>WuWa Engine.ini Generator</h1>
 
+        <!-- 🔧 SPECIAL IN-GAME TOGGLES -->
         <details open>
             <summary>🔧 Special In-Game Toggles</summary>
             <p>Enable or configure special in-game features with the following toggles:</p>
 
-            <div class="button-row">
-                <button id="enableVulkanBtn">Enable Vulkan</button>
-                <button id="forceVulkanBtn">Force Vulkan</button>
-                <button id="enableFrameGenBtn">Enable Frame Generation</button>
-                <button id="unlockUltraQualityBtn">Unlock Ultra-High Quality</button>
-                <button id="addAllSpecialTogglesBtn">Add All</button>
-                <button id="resetSpecialTogglesBtn">Reset</button>
+            <div class="button-column">
+                <!-- Triple-point toggle for Vulkan and Force Vulkan -->
+                <label class="toggle-label">Vulkan Mode
+                    <input type="range" id="vulkanToggle" min="0" max="2" value="0" step="1" class="triple-toggle">
+                </label>
+
+                <!-- Slider toggles for other buttons -->
+                <label class="toggle-label">Enable Frame Generation
+                    <input type="checkbox" id="enableFrameGenToggle" class="slider-toggle">
+                </label>
+                <label class="toggle-label">Unlock Ultra-High Quality
+                    <input type="checkbox" id="unlockUltraQualityToggle" class="slider-toggle">
+                </label>
+                <label class="toggle-label">Reset
+                    <input type="checkbox" id="resetSpecialTogglesToggle" class="slider-toggle">
+                </label>
             </div>
 
             <h3>Generated Engine.ini (Special Toggles)</h3>
-            <pre id="specialTogglesOutput" aria-live="polite"></pre>
+            <pre id="specialTogglesOutput" aria-live="polite" class="output-right"></pre>
         </details>
-
 
         <!-- 🎮 TEXTURE SCALING -->
         <details open>

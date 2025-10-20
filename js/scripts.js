@@ -651,3 +651,51 @@ function makeDraggable(elementId) {
 
 // Make both panels draggable
 makeDraggable("engineIniContents");
+
+// JavaScript for Vulkan triple-point toggle
+const vulkanToggle = document.getElementById('vulkanToggle');
+vulkanToggle.addEventListener('input', () => {
+    const value = parseInt(vulkanToggle.value, 10);
+    if (value === 0) {
+        console.log('Vulkan Mode: Reset');
+        // Reset Vulkan settings
+    } else if (value === 1) {
+        console.log('Vulkan Mode: Enable Vulkan');
+        // Enable Vulkan
+    } else if (value === 2) {
+        console.log('Vulkan Mode: Force Vulkan');
+        // Force Vulkan
+    }
+});
+
+// JavaScript for slider toggles
+const enableFrameGenToggle = document.getElementById('enableFrameGenToggle');
+const unlockUltraQualityToggle = document.getElementById('unlockUltraQualityToggle');
+const resetSpecialTogglesToggle = document.getElementById('resetSpecialTogglesToggle');
+
+enableFrameGenToggle.addEventListener('change', () => {
+    if (enableFrameGenToggle.checked) {
+        console.log('Frame Generation Enabled');
+        // Enable Frame Generation
+    } else {
+        console.log('Frame Generation Disabled');
+        // Disable Frame Generation
+    }
+});
+
+unlockUltraQualityToggle.addEventListener('change', () => {
+    if (unlockUltraQualityToggle.checked) {
+        console.log('Ultra-High Quality Unlocked');
+        // Unlock Ultra-High Quality
+    } else {
+        console.log('Ultra-High Quality Locked');
+        // Lock Ultra-High Quality
+    }
+});
+
+resetSpecialTogglesToggle.addEventListener('change', () => {
+    if (resetSpecialTogglesToggle.checked) {
+        console.log('Special Toggles Reset');
+        // Reset Special Toggles
+    }
+});
