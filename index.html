@@ -20,42 +20,22 @@
     <main>
         <h1>WuWa Engine.ini Generator</h1>
 
-        <!-- 🔧 SPECIAL IN-GAME TOGGLES -->
         <details open>
             <summary>🔧 Special In-Game Toggles</summary>
             <p>Enable or configure special in-game features with the following toggles:</p>
 
-            <div class="button-column">
-                <!-- Toggle for Vulkan with Force Vulkan checkbox -->
-                <label class="toggle-label">Vulkan Mode
-                    <input type="checkbox" id="vulkanToggle" class="slider-toggle">
-                    <span>Force Vulkan?</span>
-                    <input type="checkbox" id="forceVulkanCheckbox">
-                </label>
-
-                <!-- Slider toggles for other buttons -->
-                <label class="toggle-label">Enable Frame Generation
-                    <input type="checkbox" id="enableFrameGenToggle" class="slider-toggle">
-                </label>
-                <label class="toggle-label">Unlock Ultra-High Quality
-                    <input type="checkbox" id="unlockUltraQualityToggle" class="slider-toggle">
-                </label>
+            <div class="button-row">
+                <button id="enableVulkanBtn">Enable Vulkan</button>
+                <button id="forceVulkanBtn">Force Vulkan</button>
+                <button id="enableFrameGenBtn">Enable Frame Generation</button>
+                <button id="unlockUltraQualityBtn">Unlock Ultra-High Quality</button>
                 <button id="resetSpecialTogglesBtn">Reset</button>
             </div>
 
             <h3>Generated Engine.ini (Special Toggles)</h3>
-            <pre id="specialTogglesOutput" aria-live="polite" class="output-vertical"></pre>
-
-            <details>
-                <summary>🧠 Technical Footnote — Special Toggles</summary>
-                <p>
-                    <b>Vulkan Mode</b> — Enables Vulkan rendering mode.<br>
-                    <b>Force Vulkan</b> — Forces Vulkan rendering mode even if not default.<br>
-                    <b>Enable Frame Generation</b> — Activates frame generation for smoother gameplay.<br>
-                    <b>Unlock Ultra-High Quality</b> — Unlocks ultra-high quality settings for textures and effects.<br>
-                </p>
-            </details>
+            <pre id="specialTogglesOutput" aria-live="polite"></pre>
         </details>
+
 
         <!-- 🎮 TEXTURE SCALING -->
         <details open>
