@@ -652,74 +652,74 @@ function makeDraggable(elementId) {
 // Make both panels draggable
 makeDraggable("engineIniContents");
 
-// JavaScript for Vulkan toggle
+// JavaScript for Vulkan toggle and Force Vulkan checkbox
 const vulkanToggle = document.getElementById('vulkanToggle');
-vulkanToggle.addEventListener('input', () => {
-    const value = parseInt(vulkanToggle.value, 10);
-    if (value === 0) {
-        console.log('Vulkan Mode: Reset');
-        // Reset Vulkan settings
-    } else if (value === 1) {
-        console.log('Vulkan Mode: Enable Vulkan');
-        // Enable Vulkan
-    } else if (value === 2) {
-        console.log('Vulkan Mode: Force Vulkan');
-        // Force Vulkan
+const forceVulkanCheckbox = document.getElementById('forceVulkanCheckbox');
+const specialTogglesOutput = document.getElementById('specialTogglesOutput');
+let specialToggles = "";
+
+function updateSpecialTogglesOutput() {
+    specialTogglesOutput.textContent = specialToggles.trim();
+    try {
+        localStorage.setItem("specialTogglesConfig", specialToggles.trim());
+    } catch (e) {
+        console.error("Error saving to localStorage", e);
     }
+}
+
+vulkanToggle.addEventListener('change', () => {
+    if (vulkanToggle.checked) {
+        specialToggles += `
+r.Mobile.DeviceEvaluation=3
+r.Android.DisableVulkanSM5Support=0
+r.Android.DisableVulkanSupport=0`;
+    } else {
+        specialToggles = specialToggles.replace(/\nr\.Mobile\.DeviceEvaluation=3\nr\.Android\.DisableVulkanSM5Support=0\nr\.Android\.DisableVulkanSupport=0/, "");
+    }
+    updateSpecialTogglesOutput();
 });
 
-// JavaScript for slider toggles
+forceVulkanCheckbox.addEventListener('change', () => {
+    if (forceVulkanCheckbox.checked) {
+        specialToggles += `
+r.Android.DisableOpenGLES31Support=1`;
+    } else {
+        specialToggles = specialToggles.replace(/\nr\.Android\.DisableOpenGLES31Support=1/, "");
+    }
+    updateSpecialTogglesOutput();
+});
+
+// JavaScript for other toggles
 const enableFrameGenToggle = document.getElementById('enableFrameGenToggle');
 const unlockUltraQualityToggle = document.getElementById('unlockUltraQualityToggle');
-const resetSpecialTogglesToggle = document.getElementById('resetSpecialTogglesToggle');
 
 enableFrameGenToggle.addEventListener('change', () => {
     if (enableFrameGenToggle.checked) {
-        console.log('Frame Generation Enabled');
-        // Enable Frame Generation
+        specialToggles += `
+r.Kuro.AFME.Enabled=1`;
     } else {
-        console.log('Frame Generation Disabled');
-        // Disable Frame Generation
+        specialToggles = specialToggles.replace(/\nr\.Kuro\.AFME\.Enabled=1/, "");
     }
+    updateSpecialTogglesOutput();
 });
 
 unlockUltraQualityToggle.addEventListener('change', () => {
     if (unlockUltraQualityToggle.checked) {
-        console.log('Ultra-High Quality Unlocked');
-        // Unlock Ultra-High Quality
+        specialToggles += `
+r.PostProcessAAQuality=4
+r.imp.SSMbScaleLod0=0.00
+r.imp.SSMbScaleLod1=0.00
+r.MaterialQualityLevel=2
+r.KuroMaterialQualityLevel=2
+r.Mobile.HighQualityMaterial=1`;
     } else {
-        console.log('Ultra-High Quality Locked');
-        // Lock Ultra-High Quality
+        specialToggles = specialToggles.replace(/\nr\.PostProcessAAQuality=4\nr\.imp\.SSMbScaleLod0=0\.00\nr\.imp\.SSMbScaleLod1=0\.00\nr\.MaterialQualityLevel=2\nr\.KuroMaterialQualityLevel=2\nr\.Mobile\.HighQualityMaterial=1/, "");
     }
+    updateSpecialTogglesOutput();
 });
 
-resetSpecialTogglesToggle.addEventListener('change', () => {
-    if (resetSpecialTogglesToggle.checked) {
-        console.log('Special Toggles Reset');
-        // Reset Special Toggles
-    }
-});
-
-// JavaScript for Vulkan toggle and Force Vulkan checkbox
-const forceVulkanCheckbox = document.getElementById('forceVulkanCheckbox');
-
-vulkanToggle.addEventListener('change', () => {
-    if (vulkanToggle.checked) {
-        specialTogglesOutput.textContent = 'Vulkan Mode Enabled';
-        if (forceVulkanCheckbox.checked) {
-            specialTogglesOutput.textContent += '\nForce Vulkan Enabled';
-        }
-    } else {
-        specialTogglesOutput.textContent = 'Vulkan Mode Disabled';
-    }
-});
-
-forceVulkanCheckbox.addEventListener('change', () => {
-    if (vulkanToggle.checked) {
-        if (forceVulkanCheckbox.checked) {
-            specialTogglesOutput.textContent = 'Vulkan Mode Enabled\nForce Vulkan Enabled';
-        } else {
-            specialTogglesOutput.textContent = 'Vulkan Mode Enabled';
-        }
-    }
+// Reset button functionality
+document.getElementById('resetSpecialTogglesBtn').addEventListener('click', () => {
+    specialToggles = "";
+    updateSpecialTogglesOutput();
 });
