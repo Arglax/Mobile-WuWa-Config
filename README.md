@@ -4,6 +4,12 @@
 Oct 19 Notes: There have been about 5 mini-patches in WuWa, I personally recommend using OpenGLES for now since Vulkan can be quite buggy.  
 
 Recent Changes:  
+October 20, 2025  
+1. Moved and created "Working Configs" Folder  
+2. Contains at least 4 presets of configs that works for low-end to high-end devices  
+3. Clean and Low-End Configs need initial and further testing from users with low-end devices for more accurate benchmarking  
+*Should there be any problems, submit an issue here in GitHub or voice it out in our discord channel
+
 October 18, 2025  
 1. A new website for generating Engine.ini is being developed (https://arglax.github.io/Mobile-WuWa-Config/index.html)
 2. I'll try to work on putting as many practical variables there  
