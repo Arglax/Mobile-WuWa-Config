@@ -652,7 +652,7 @@ function makeDraggable(elementId) {
 // Make both panels draggable
 makeDraggable("engineIniContents");
 
-// JavaScript for Vulkan triple-point toggle
+// JavaScript for Vulkan toggle
 const vulkanToggle = document.getElementById('vulkanToggle');
 vulkanToggle.addEventListener('input', () => {
     const value = parseInt(vulkanToggle.value, 10);
@@ -697,5 +697,29 @@ resetSpecialTogglesToggle.addEventListener('change', () => {
     if (resetSpecialTogglesToggle.checked) {
         console.log('Special Toggles Reset');
         // Reset Special Toggles
+    }
+});
+
+// JavaScript for Vulkan toggle and Force Vulkan checkbox
+const forceVulkanCheckbox = document.getElementById('forceVulkanCheckbox');
+
+vulkanToggle.addEventListener('change', () => {
+    if (vulkanToggle.checked) {
+        specialTogglesOutput.textContent = 'Vulkan Mode Enabled';
+        if (forceVulkanCheckbox.checked) {
+            specialTogglesOutput.textContent += '\nForce Vulkan Enabled';
+        }
+    } else {
+        specialTogglesOutput.textContent = 'Vulkan Mode Disabled';
+    }
+});
+
+forceVulkanCheckbox.addEventListener('change', () => {
+    if (vulkanToggle.checked) {
+        if (forceVulkanCheckbox.checked) {
+            specialTogglesOutput.textContent = 'Vulkan Mode Enabled\nForce Vulkan Enabled';
+        } else {
+            specialTogglesOutput.textContent = 'Vulkan Mode Enabled';
+        }
     }
 });

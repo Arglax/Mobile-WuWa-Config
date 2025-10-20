@@ -323,12 +323,6 @@ h1 {
     padding: 5px;
 }
 
-/* Triple-point toggle styles */
-.triple-toggle {
-    width: 150px;
-    margin-left: 10px;
-}
-
 /* Slider toggle styles */
 .slider-toggle {
     appearance: none;
@@ -360,12 +354,12 @@ h1 {
 }
 
 /* Output field repositioning */
-.output-right {
+.output-vertical {
     position: absolute;
     right: 10px;
     top: 50px;
     width: 300px;
-    height: auto;
+    height: 400px;
     border: 1px solid #ccc;
     padding: 10px;
     background: #f9f9f9;
