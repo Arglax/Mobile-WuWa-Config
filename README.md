@@ -1,9 +1,11 @@
 
 <h1 align="center">📢 Announcements 📢</h1>
 
-Oct 19 Notes: There have been about 5 mini-patches in WuWa, I personally recommend using OpenGLES for now since Vulkan can be quite buggy.  
-
 Recent Changes:  
+October 26, 2025  
+1. Removed Community Configs  (If you need them, check discord)  
+2. Mobile RT configs will be re-updated in the future.  
+
 October 20, 2025  
 1. Moved and created "Working Configs" Folder  
 2. Contains at least 4 presets of configs that works for low-end to high-end devices  
@@ -118,7 +120,7 @@ Join the **Discord** community for support, updates, and discussions:
 ## 📝 Credits
 
 Maintained by **Arglax**  
-Optimized for **flagship Android devices with Vulkan support**
+Optimized for **Mid-end/Flagship Android devices with Vulkan support**
 
 ---
 
