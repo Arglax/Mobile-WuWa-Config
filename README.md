@@ -18,7 +18,7 @@ October 18, 2025
 
 Notes:
 > 🛠️ Users are encouraged to use configs in the *Old Configs* folder if the latest ones are incompatible with their devices.  
-> 📅 Release target for updating website: **October 20-25, 2025 (PHT)**  
+> 📅 Release target for updating website: **Sometime in November**  
 > 🎮 It already contains Vulkan and non-Vulkan(OpenGL) settings  
 > You need to have at least Mediatek Dimensity 8200 or Snapdragon 8s Gen 2 to be able to use Mobile Ray-Tracing Configs
 
