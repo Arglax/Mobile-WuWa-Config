@@ -1,22 +1,19 @@
 
 <h1 align="center">📢 Announcements 📢</h1>  
 
-## May 2, 2026 (Pre-config update announcement)  
- - I'll be working on the configs this week. For those who still don't know yet, the ```r.MobileContentScaleFactor``` and the gameviewport were recently included in the forbidden cvars list, which greatly affects the performance and graphics outlook of all configs in this repository.  
- - Config Update Order: Stable-Performance-HighVisual
- - Sui touche`d grasseoux  
+## May 10, 2026
 
-## April 19, 2026 (Small, Optional Patch)  
-1. Added MAGT to Mediatek Devices  
-2. Adapted to KuroFI for StableConfigs  
-> Ver 3.3 looks pretty heavy given the new environmental interactions, goodluck to us  
+- **Stable Config B Updated** — Config C and A to follow. (Will work on them throughout the week)  
+- Performance Configs and High Visuals will be released after Stable Configs.
 
-> Important Note: . If you are using **STABLE CONFIG** , the DeviceProfiles.ini may cause blinking.  
-    > > To fix this, you may opt to do any of these steps:  
-    > > > 1. Delete the DeviceProfiles.ini and just use the Engine.ini  
-    > > - I have made the necessary adjustments should that be the case so you're not actually missing out the essential cvars  
-    > > > 2. Perform an optimization on your DeviceProfiles.ini as done in this video:  
-    > > > https://youtu.be/gtmyFKGyl1M?si=JcctXJ_e9t18St0u  
+> **Note:** Finalizing values is taking longer than usual — I'm fairly busy until May 23, and some CVars behave inconsistently across multiple test runs. *For now*, playing at **Medium or High** in-game resolution is recommended for a performance improvement.
+
+---
+
+> ⚠️ **DeviceProfiles.ini may cause unexpected issues.**
+> To resolve this, choose one of the following:
+> 1. Delete `DeviceProfiles.ini` and rely solely on `Engine.ini`
+> 2. Optimize your `DeviceProfiles.ini` as shown in [this video](https://youtu.be/gtmyFKGyl1M?si=JcctXJ_e9t18St0u)
 
 -----------------------------------------------
 > If my configs don't work for you, don't worry. There are a lot of other people and groups who create mobile configs for WuWa now. You can try until you find the best one for you. ***Or better yet***, tweak your own custom config :DDD.  
