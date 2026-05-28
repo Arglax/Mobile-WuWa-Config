@@ -1,13 +1,15 @@
 
 <h1 align="center">📢 Announcements 📢</h1>  
 
+## May 28, 2026
+- I have some free time now, I might update configs before the next WuWa version.
+- Stable Config A and C to be updated this week, along with the Potato Config.
+- > WuWa released a recent patch that made gameplay smoother. For individuals looking for better performance at the cost of some graphics, set your resolution to Medium or High only. **DO NOT USE LOW** as usually it makes a lot worse (well unless it works for you).
+  > Keep an eye on the forbidden cvars list (can be also viewed in Discord)  
+
 ## May 10, 2026
-
-- **Stable Config B Updated** — Config C and A to follow. (Will work on them throughout the week)  
+- **Stable Config B Updated** 
 - Performance Configs and High Visuals will be released after Stable Configs.
-
-> **Note:** Finalizing values is taking longer than usual — I'm fairly busy until May 23, and some CVars behave inconsistently across multiple test runs. *For now*, playing at **Medium or High** in-game resolution is recommended for a performance improvement.
-
 ---
 
 > ⚠️ **DeviceProfiles.ini may cause unexpected issues.**
