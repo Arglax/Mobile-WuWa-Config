@@ -1,6 +1,9 @@
 
 <h1 align="center">📢 Announcements 📢</h1>  
 
+## May 30, 2026
+- Updated Stable Configs, Performance Configs, Potato Config  
+
 ## May 28, 2026
 - I have some free time now, I might update configs before the next WuWa version.
 - Stable Config A and C to be updated this week, along with the Potato Config.
