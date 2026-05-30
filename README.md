@@ -3,6 +3,7 @@
 
 ## May 30, 2026
 - Updated Stable Configs, Performance Configs, Potato Config  
+- > Readjusted ```r.StaticMeshLODDistanceScale``` to 0.95  
 
 ## May 28, 2026
 - I have some free time now, I might update configs before the next WuWa version.
