@@ -1,40 +1,65 @@
+<details>
+<summary><b>📢 Click to Expand/Collapse Announcements (June 6, 2026)</b></summary>
 
-<h1 align="center">📢 Announcements 📢</h1>  
+<h1 align="center">📢 Announcements 📢</h1>
 
-## May 30, 2026
-- Updated Stable Configs, Performance Configs, Potato Config  
-- > Readjusted ```r.StaticMeshLODDistanceScale``` to 0.95  
+## June 6, 2026
 
-## May 28, 2026
-- I have some free time now, I might update configs before the next WuWa version.
-- Stable Config A and C to be updated this week, along with the Potato Config.
-- > WuWa released a recent patch that made gameplay smoother. For individuals looking for better performance at the cost of some graphics, set your resolution to Medium or High only. **DO NOT USE LOW** as usually it makes a lot worse (well unless it works for you).
-  > Keep an eye on the forbidden cvars list (can be also viewed in Discord)  
+- All configs are updated for **Version 3.3**.
+- If you experience issues with **HighVisual**, try **Z_Experimental** instead.
 
-## May 10, 2026
-- **Stable Config B Updated** 
-- Performance Configs and High Visuals will be released after Stable Configs.
+### Important Notes
+
+> [!NOTE]  
+> Some useful CVars such as `r.MobileContentScaleFactor` and `r.SecondaryScreenPercentage.GameViewport` were recently added to the forbidden CVars list. As a result, they are excluded from these configs or left commented out. If they are still present in your configs, they will not take effect.
+
+> [!TIP]  
+> A recent WuWa patch improved overall gameplay smoothness. If you're looking for better performance at the cost of some visual quality, use **Medium** or **High** resolution settings.
+>
+> Avoid using Low resolution, as it often results in worse visual quality with minimal performance gains, though individual results may vary.
+
+> [!IMPORTANT]  
+> Keep an eye on the forbidden CVars list. It is also available in the Discord server.
+
+> [!NOTE]  
+> To force a custom resolution in WuWa, you must use device-specific overrides available through your phone's settings or Developer Options. These settings are not included in the provided configs.
+
+> [!WARNING]  
+> `DeviceProfiles.ini` may cause unexpected issues.
+>
+> To resolve this, choose one of the following:
+>
+> 1. Delete `DeviceProfiles.ini` and rely solely on `Engine.ini`.
+> 2. Optimize `DeviceProfiles.ini` as demonstrated in this video:
+>    https://youtu.be/gtmyFKGyl1M?si=JcctXJ_e9t18St0u
+
 ---
 
-> ⚠️ **DeviceProfiles.ini may cause unexpected issues.**
-> To resolve this, choose one of the following:
-> 1. Delete `DeviceProfiles.ini` and rely solely on `Engine.ini`
-> 2. Optimize your `DeviceProfiles.ini` as shown in [this video](https://youtu.be/gtmyFKGyl1M?si=JcctXJ_e9t18St0u)
+If these configs don't work for your device, don't worry. Many other creators and communities now develop WuWa mobile configs. Feel free to experiment until you find one that suits your device best.
 
------------------------------------------------
-> If my configs don't work for you, don't worry. There are a lot of other people and groups who create mobile configs for WuWa now. You can try until you find the best one for you. ***Or better yet***, tweak your own custom config :DDD.  
+**Or even better:** create and tune your own custom config. 😄
 
-> For those who want to tweak their own configs,  
-> this is the main reference: [UE Console Variable List](https://dev.epicgames.com/documentation/en-us/unreal-engine/unreal-engine-console-variables-reference)  
-> another reference: [UE4.26 CVars List](https://framedsc.com/GeneralGuides/ue4_commands.htm)  
+### References
 
-Lastly, for those who use AI in their configs, I would recommend using Claude  
-   > Also make sure your configs' cvars are "real" and "registered". Always check your Client.Log files! AI hallucination is real.
+For users who want to tweak their own configs:
 
+- https://dev.epicgames.com/documentation/en-us/unreal-engine/unreal-engine-console-variables-reference
+- https://framedsc.com/GeneralGuides/ue4_commands.htm
+
+### AI-Assisted Config Creation
+
+If you use AI to help create or modify configs, Claude generally performs well for this task.
+
+> [!CAUTION]
+> Always verify that your CVars are real, registered, and supported by the game version you are using. Check your `Client.log` files regularly. AI hallucinations are real.
+
+</details>
+
+---
     
 <div align="center">
-  <img src="https://img.shields.io/badge/Updated-APRIL_19-blue?style=for-the-badge&logo=github&logoColor=white" />
-  <img src="https://img.shields.io/badge/🎯_Target_Version-3.2-green?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/Updated-JUNE_6-blue?style=for-the-badge&logo=github&logoColor=white" />
+  <img src="https://img.shields.io/badge/🎯_Target_Version-3.3-green?style=for-the-badge" />
   <img src="https://img.shields.io/badge/Support-Vulkan_&_Non--Vulkan-orange?style=for-the-badge&logo=cog&logoColor=white" />
 </div>
 <h1 align="center">🎮 WuWa-Config: Mobile Configuration for Wuthering Waves</h1>
