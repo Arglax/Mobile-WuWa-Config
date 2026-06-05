@@ -1,57 +1,114 @@
 <details>
-<summary><b>📢 Click to Expand/Collapse Announcements (June 6, 2026)</b></summary>
-
+<summary><b>📢 Announcements (June 6, 2026)</b></summary>
+<br />
 <h1 align="center">📢 Announcements 📢</h1>
 
 ## June 6, 2026
-
 - All configs are updated for **Version 3.3**.
 - If you experience issues with **HighVisual**, try **Z_Experimental** instead.
 
+<details>
+<summary><b>📢 Important Notes</b></summary>
+<br />
+
 ### Important Notes
 
-> [!NOTE]  
-> Some useful CVars such as `r.MobileContentScaleFactor` and `r.SecondaryScreenPercentage.GameViewport` were recently added to the forbidden CVars list. As a result, they are excluded from these configs or left commented out. If they are still present in your configs, they will not take effect.
+<table width="100%">
+  <tr style="background-color: #161b22; border: none;">
+    <td style="border-left: 4px solid #8957e5; padding: 12px; color: #e6edf3; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; font-size: 14px;">
+      <strong style="color: #a371f7; display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+        💬 Important
+      </strong>
+      Keep an eye on the forbidden CVars list. It is also available in the Discord server.
+    </td>
+  </tr>
+</table>
 
-> [!TIP]  
-> A recent WuWa patch improved overall gameplay smoothness. If you're looking for better performance at the cost of some visual quality, use **Medium** or **High** resolution settings.
->
-> Avoid using Low resolution, as it often results in worse visual quality with minimal performance gains, though individual results may vary.
+<br />
 
-> [!IMPORTANT]  
-> Keep an eye on the forbidden CVars list. It is also available in the Discord server.
+<table width="100%">
+  <tr style="background-color: #161b22; border: none;">
+    <td style="border-left: 4px solid #d29922; padding: 12px; color: #e6edf3; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; font-size: 14px;">
+      <strong style="color: #d29922; display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+        ⚠️ Warning
+      </strong>
+      <code>DeviceProfiles.ini</code> may cause unexpected issues.
+      <br /><br />
+      To resolve this, choose one of the following:
+      <ol style="margin-top: 6px; margin-bottom: 0; padding-left: 20px;">
+        <li>Delete <code>DeviceProfiles.ini</code> and rely solely on <code>Engine.ini</code>.</li>
+        <li>Optimize <code>DeviceProfiles.ini</code> as demonstrated in this video: <a href="https://youtu.be/gtmyFKGyl1M?si=JcctXJ_e9t18St0u" style="color: #58a6ff;">https://youtu.be/gtmyFKGyl1M</a></li>
+      </ol>
+    </td>
+  </tr>
+</table>
 
-> [!NOTE]  
-> To force a custom resolution in WuWa, you must use device-specific overrides available through your phone's settings or Developer Options. These settings are not included in the provided configs.
+<br />
 
-> [!WARNING]  
-> `DeviceProfiles.ini` may cause unexpected issues.
->
-> To resolve this, choose one of the following:
->
-> 1. Delete `DeviceProfiles.ini` and rely solely on `Engine.ini`.
-> 2. Optimize `DeviceProfiles.ini` as demonstrated in this video:
->    https://youtu.be/gtmyFKGyl1M?si=JcctXJ_e9t18St0u
+<table width="100%">
+  <tr style="background-color: #161b22; border: none;">
+    <td style="border-left: 4px solid #238636; padding: 12px; color: #e6edf3; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; font-size: 14px;">
+      <strong style="color: #3fb950; display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+        💡 Tip
+      </strong>
+      A recent WuWa patch improved overall gameplay smoothness. If you're looking for better performance at the cost of some visual quality, use <strong>Medium</strong> or <strong>High</strong> resolution settings.
+      <br /><br />
+      <strong>Avoid using Low resolution</strong>, as it often results in worse visual quality with minimal performance gains, though individual results may vary.
+    </td>
+  </tr>
+</table>
 
----
+<br />
 
-If these configs don't work for your device, don't worry. Many other creators and communities now develop WuWa mobile configs. Feel free to experiment until you find one that suits your device best.
+<table width="100%">
+  <tr style="background-color: #161b22; border: none;">
+    <td style="border-left: 4px solid #1f6feb; padding: 12px; color: #e6edf3; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; font-size: 14px;">
+      <strong style="color: #4493f8; display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+        ℹ️ Note
+      </strong>
+      <ul style="margin-top: 4px; margin-bottom: 12px; padding-left: 20px;">
+        <li style="margin-bottom: 6px;">Some useful CVars such as <code>r.MobileContentScaleFactor</code> and <code>r.SecondaryScreenPercentage.GameViewport</code> were recently added to the forbidden CVars list. As a result, they are excluded from these configs or left commented out. If they are still present in your configs, they will not take effect.</li>
+        <li>To force a custom resolution in WuWa, you must use device-specific overrides available through your phone's settings or Developer Options. These settings are not included in the provided configs.</li>
+      </ul>
+      <hr style="border: none; border-top: 1px solid #30363d; margin: 12px 0;" />
+      If these configs don't work for your device, don't worry. Many other creators and communities now develop WuWa mobile configs. Feel free to experiment until you find one that suits your device best.
+      <br /><br />
+      <strong>Or even better:</strong> create and tune your own custom config. 😄
+    </td>
+  </tr>
+</table>
 
-**Or even better:** create and tune your own custom config. 😄
+<br />
 
 ### References
 
 For users who want to tweak their own configs:
 
-- https://dev.epicgames.com/documentation/en-us/unreal-engine/unreal-engine-console-variables-reference
-- https://framedsc.com/GeneralGuides/ue4_commands.htm
+- <a href="https://dev.epicgames.com/documentation/en-us/unreal-engine/unreal-engine-console-variables-reference" style="color: #58a6ff;">Epic Games Unreal Engine Console Variables Reference</a>
+- <a href="https://framedsc.com/GeneralGuides/ue4_commands.htm" style="color: #58a6ff;">FRAMED UE4 Configuration Commands Guide</a>
+
+<br />
 
 ### AI-Assisted Config Creation
 
 If you use AI to help create or modify configs, Claude generally performs well for this task.
 
-> [!CAUTION]
-> Always verify that your CVars are real, registered, and supported by the game version you are using. Check your `Client.log` files regularly. AI hallucinations are real.
+<br />
+
+<table width="100%">
+  <tr style="background-color: #161b22; border: none;">
+    <td style="border-left: 4px solid #f85149; padding: 12px; color: #e6edf3; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif; font-size: 14px;">
+      <strong style="color: #f85149; display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+        🛑 Caution
+      </strong>
+      Always verify that your CVars are real, registered, and supported by the game version you are using. Check your <code>Client.log</code> files regularly. AI hallucinations are real.
+    </td>
+  </tr>
+</table>
+
+</details>
+
+---
 
 </details>
 
