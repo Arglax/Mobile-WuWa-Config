@@ -7,13 +7,9 @@ This stable configuration closely follows the game’s default settings to minim
 If you encounter any issues, crashes, or settings that do not work as expected, please **open an issue**. You are also welcome to join the **Discord** to help improve the config or report problems.  
 
 ## Notable CVars  
-1. r.MobileContentScaleFactor  
-- This is your base render. Game default is 1.5 (1080p)  
-> 1.0 = 720p, great performance  
-> 1.5 = 1080p, default  
-> 2.0 = 1440p, super crisp visuals, worse perf  
+(r.MobileContentScaleFactor got forbidden, so it no longer works sadly)
 
-2. r.KuroFI.Enable  
+1. r.KuroFI.Enable  
 - This is Kuro's frame interpolation (frame gen)   
 - Recently launched this Version 3.2 so it could be bad or good for some devices  
 > 0 = disable  
