@@ -27,7 +27,7 @@ Hopefully, this guide will help you unlock your device's full visual and gamepla
 >
 > > I'm looking into it and will see what I can do. Just don't get your hopes up for now — I'll keep you posted.
 
-> 🔔 **Keep an eye on the [forbidden CVars list](https://discord.gg/renjxYBEZM).** It is also available in the Discord server.
+> 🔔 **Keep an eye on the [forbidden CVars list](#forbidden-cvars-list)** at the bottom of this file. It is also available in the [Discord server](https://discord.gg/renjxYBEZM).
 
 - ✅ All configs are updated for **Version 3.3**.
 ---
@@ -166,8 +166,46 @@ Big thanks to everyone who contributed through testing, feedback, and sharing kn
 7. toldyou_idk
 8. KRG6187
 9. SuiX
+10. yuukinyan
+---
+
+## Forbidden CVars List  
+| Console Variable |
+| :--- |
+| `r.Kuro.SkeletalMesh.LODDistanceScale` |
+| `r.Streaming.Boost` |
+| `r.Streaming.PoolSize` |
+| `r.Streaming.LimitPoolSizeTOVRAM` |
+| `r.Shadow.MaxCSMResolution` |
+| `r.Streaming.MinBoost` |
+| `r.MipMapLODBias` |
+| `r.TextureGroup.Landscape.TextureLODBias` |
+| `r.Kuro.TexturePool.ExtraBudgetMB` |
+| `r.Streaming.CPUReadback` |
+| `r.Streaming.UseAsyncCPUReadback` |
+| `r.Streaming.MaxNumTexturesTostreamPerFrame` |
+| `r.Streaming.MinMipForSplitRequest` |
+| `r.Streaming.UseFixedPoolsize` |
+| `r.Streaming.UseAllMips` |
+| `r.Streaming.MaxTempMemoryAllowed` |
+| `r.RayTracing.LimitDevice` |
+| `r.DetailMode` |
+| `r.MaterialQualityLevel` |
+| `r.KuroMaterialQualityLevel` |
+| `r.ViewDistancescale` |
+| `Kuro.CppEffectsystem.UseLowMemoryPlayerEffectLruCapacity` |
+| `r.AsyncComputePSO` |
+| `r.Streamline.DLSSG.RetainResourceswhenoff` |
+| `r.MobileContentscaleFactor` |
+| `r.SecondaryScreenPercentage.GameViewport` |
+| `r.ScreenPercentage` |
+| `r.AFME.Enable` |
+| `r.MFRC.Enable` |
+| `r.FEstimation.Option` |
+> V3.4 Latest Forbidden CVars credits to yuukinyan
 
 ---
+
 
 ## Disclaimer
 
