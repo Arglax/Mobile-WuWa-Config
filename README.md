@@ -18,22 +18,18 @@ Hopefully, this guide will help you unlock your device's full visual and gamepla
 
 ---
 
-## 📢 Announcements — June 6, 2026
+## 📢 Announcements — June 8, 2026
+---
+> [!IMPORTANT]
+> **Client.log is Now Encrypted**
+>
+> Kuro has encrypted `Client.log` which is our most valuable reference for config development. This is a significant hurdle that may slow down or even halt future config work.
+>
+> > I'm looking into it and will see what I can do. Just don't get your hopes up for now — I'll keep you posted.
 
 > 🔔 **Keep an eye on the [forbidden CVars list](https://discord.gg/renjxYBEZM).** It is also available in the Discord server.
 
 - ✅ All configs are updated for **Version 3.3**.
-- 🔁 If you experience issues with **HighVisual**, try **Z_Experimental** instead.
-
-> ⚠️ **`DeviceProfiles.ini` may cause unexpected issues.**
-> To resolve this, either:
-> 1. Delete `DeviceProfiles.ini` and rely solely on `Engine.ini`, or
-> 2. Optimize it as shown in this video: https://youtu.be/gtmyFKGyl1M
-
-> 💡 **Tip:** A recent WuWa patch improved overall gameplay smoothness. For better performance at some visual cost, use **Medium** or **High** resolution settings. **Avoid Low** — it often gives worse visuals with minimal FPS gain.
-
-> ℹ️ **Note:** `r.MobileContentScaleFactor` and `r.SecondaryScreenPercentage.GameViewport` were recently added to the forbidden CVars list and are excluded from these configs. To force a custom resolution, use your phone's Developer Options — this cannot be done via config files.
-
 ---
 
 ## 📖 Table of Contents
