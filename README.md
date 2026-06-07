@@ -57,6 +57,7 @@ Hopefully, this guide will help you unlock your device's full visual and gamepla
 | `Engine.ini` | Core rendering and graphics tweaks — affects visual quality, shadows, post-processing, and draw distances |
 | `DeviceProfiles.ini` | Device-specific overrides — targets GPU-level settings per hardware profile |
 
+> In WuWa, Engine.ini takes higher priority than the DeviceProfiles.ini, hence, cvar-specific tweaks are done in the Engine.ini  
 ---
 
 ## 📱 Device Compatibility
