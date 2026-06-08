@@ -8,7 +8,7 @@ A lightweight browser-based tool that decrypts encrypted `Client.log` files from
 
 ## Usage
 
-1. Open the tool: **[logdecryptor](https://github.dev/Arglax/Mobile-WuWa-Config/tree/main/misc/Client%20Log%20Decryptor)**
+1. Open the tool: **[logdecryptor](https://github.com/Arglax/Mobile-WuWa-Config/tree/main/misc/Client%20Log%20Decryptor)**
 2. Click **Choose File** and select your `Client.log`
 3. Click **Decrypt**
 4. `client_decrypted.txt` downloads automatically

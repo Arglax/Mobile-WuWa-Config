@@ -27,7 +27,7 @@ Hopefully, this guide will help you unlock your device's full visual and gamepla
 
 Update as of 8:22AM, I am releasing a [client.log decryptor](https://github.com/Arglax/Mobile-WuWa-Config/tree/main/misc/Client%20Log%20Decryptor). This tool may or may not work for your client.logs. This is not intended for the general audience but for config creators and may require a little bit of reading (like 5 mins). I do not intend to fully work on this tool since I am not knowledgeable enough nor interested in continuing this.  
   
-Update as of 7:41 PM. I released a user-friendly log decryptor where you can just upload your log and download the decrypted file.  [View tool here](https://github.dev/Arglax/Mobile-WuWa-Config/tree/main/misc/Client%20Log%20Decryptor/logdecryptor.html)  
+Update as of 7:41 PM. I released a user-friendly log decryptor where you can just upload your log and download the decrypted file.  [View tool here](https://github.com/Arglax/Mobile-WuWa-Config/tree/main/misc/Client%20Log%20Decryptor/logdecryptor.html)  
 
 > 🔔 **Keep an eye on the [forbidden CVars list](#forbidden-cvars-list)** at the bottom of this file. It is also available in the [Discord server](https://discord.gg/renjxYBEZM).
 
