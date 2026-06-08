@@ -29,7 +29,7 @@ Output is UTF-8 with BOM, matching the original unencrypted log format.
       python wuwa_ld.py "C:/path/to/Client.log" --force   # overwrite existing output
 
   Option B — Edit the __main__ block at the bottom of this file:
-
+      comment the main(none) line and uncomment the block below it, then set the paths:
       input_file  = r"C:\path\to\your\Client.log"   # ← change this
       output_file = r"C:\path\to\output.log"         # ← change this, or set to None for auto
 ─────────────────────────────────────────────────────────────────
@@ -186,14 +186,16 @@ def main(argv=None):
 #      OR set it to None to auto-generate a name next to the input file.
 #   3. Run the script: python wuwa_ld.py
 #
+
 if __name__ == "__main__":
-    input_file  = r"C:\path\to\your\Client.log"    # ← CHANGE THIS
-    output_file = r"C:\path\to\your\output.log"    # ← CHANGE THIS  (or set to None)
+    main(None)
+#     input_file  = r"C:/path/to/your/Client.log"    # ← CHANGE THIS
+#     output_file = r"C:/path/to/your/output.log"    # ← CHANGE THIS  (or set to None)
 
-    args = [input_file]
-    if output_file:
-        args.append(output_file)
-    args.append("--verify")
-    args.append("--force")   # re-running won't error if the output already exists
+#     args = [input_file]
+#     if output_file:
+#         args.append(output_file)
+#     args.append("--verify")
+#     args.append("--force")   # re-running won't error if the output already exists
 
-    main(args)
+#     main(args)
