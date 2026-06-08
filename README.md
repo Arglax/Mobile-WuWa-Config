@@ -17,5 +17,5 @@ Your log file never leaves your device.
 
 ---
 
-## Where is Client.log?
-On Android (requires a file manager with internal storage access):
+>[!Important]
+>Your encrypted Client.Log should start with "TP" for this method to work. I might not update this tool.  
