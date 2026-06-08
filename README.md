@@ -166,7 +166,7 @@ Big thanks to everyone who contributed through testing, feedback, and sharing kn
 7. toldyou_idk
 8. KRG6187
 9. SuiX
-10. yuukinyan
+10. yuukinyan (wth Brandy this was u?!)
 ---
 
 ## Forbidden CVars List  
