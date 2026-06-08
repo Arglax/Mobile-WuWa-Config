@@ -1,6 +1,6 @@
 <div align="center">
-  <img src="https://img.shields.io/badge/Updated-JUNE_6-blue?style=for-the-badge&logo=github&logoColor=white" />
-  <img src="https://img.shields.io/badge/🎯_Target_Version-3.3-green?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/Updated-JUNE_8-blue?style=for-the-badge&logo=github&logoColor=white" />
+  <img src="https://img.shields.io/badge/🎯_Target_Version-3.4-green?style=for-the-badge" />
   <img src="https://img.shields.io/badge/Support-Vulkan_&_Non--Vulkan-orange?style=for-the-badge&logo=cog&logoColor=white" />
 </div>
 
@@ -29,7 +29,7 @@ Update as of 8:22AM, I am releasing a [client.log decryptor](https://github.com/
 
 > 🔔 **Keep an eye on the [forbidden CVars list](#forbidden-cvars-list)** at the bottom of this file. It is also available in the [Discord server](https://discord.gg/renjxYBEZM).
 
-- ✅ All configs are updated for **Version 3.3**.
+- ✅ All configs are updated for **Version 3.4**. They may be further optimized throughout the version.  
 ---
 
 ## 📖 Table of Contents
