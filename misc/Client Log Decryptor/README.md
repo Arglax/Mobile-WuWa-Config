@@ -64,6 +64,8 @@ python wuwa_ld.py "C:\path\to\Client.log" "C:\path\to\output.log" --verify --for
 
 ### Option B — Edit the Script Directly
 
+[Video Tutorial Here](https://youtu.be/r4IVR3t_tQ8)
+
 If you're not comfortable with the command line, open `wuwa_ld.py` in any text editor and scroll to the very bottom. You'll find this block:
 
 ```python
