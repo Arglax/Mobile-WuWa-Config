@@ -71,11 +71,15 @@ if __name__ == "__main__":
     input_file  = r"C:\path\to\your\Client.log"    # ← CHANGE THIS
     output_file = r"C:\path\to\your\output.log"    # ← CHANGE THIS  (or set to None)
 ```
-
-1. Replace `C:\path\to\your\Client.log` with the actual path to your encrypted log file.
-2. Replace `C:\path\to\your\output.log` with where you want the decrypted file saved.
+1. Uncomment that whole block by removing the # at the start of those lines
+2. Comment this line by adding a # in front of it
+```python
+main(none)
+```
+3. Replace `C:\path\to\your\Client.log` with the actual path to your encrypted log file.
+4. Replace `C:\path\to\your\output.log` with where you want the decrypted file saved.
    - Or set `output_file = None` to auto-generate an output file in the same folder as the input.
-3. Save the file, then double-click it or run `python wuwa_ld.py` from your terminal.
+5. Save the file, then double-click it or run `python wuwa_ld.py` from your terminal.
 
 **Example:**
 ```python
