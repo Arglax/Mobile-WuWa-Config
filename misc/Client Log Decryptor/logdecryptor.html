@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>WuWa Log Decryptor</title>
+  <style>
+    body { font-family: sans-serif; max-width: 480px; margin: 40px auto; padding: 16px; }
+    button { margin-top: 12px; padding: 10px 20px; font-size: 1rem; cursor: pointer; }
+    #status { margin-top: 16px; white-space: pre-wrap; font-size: 0.9rem; }
+  </style>
+</head>
+<body>
+  <h2>WuWa Log Decryptor</h2>
+  <p>Select your <code>Client.log</code> file:</p>
+  <input type="file" id="picker">
+  <br>
+  <button onclick="run()">Decrypt</button>
+  <div id="status"></div>
+
+  <script>
+    const HEADER = [0x00, 0x54, 0x50];
+    const BOM    = [0xEF, 0xBB, 0xBF];
+    const LUT    = Uint8Array.from({length: 256}, (_, e) =>
+      (e & 1) ? (e ^ 0xA5) : (e ^ 0xEF)
+    );
+
+    function run() {
+      const file = document.getElementById("picker").files[0];
+      const status = document.getElementById("status");
+
+      if (!file) { status.textContent = "No file selected."; return; }
+
+      const reader = new FileReader();
+      reader.onload = e => {
+        const buf  = new Uint8Array(e.target.result);
+
+        if (buf[0] !== HEADER[0] || buf[1] !== HEADER[1] || buf[2] !== HEADER[2]) {
+          status.textContent = `Error: not an encrypted log (got ${buf[0].toString(16)} ${buf[1].toString(16)} ${buf[2].toString(16)})`;
+          return;
+        }
+
+        const body = buf.slice(3);
+        const out  = new Uint8Array(3 + body.length);
+        out.set(BOM);
+        for (let i = 0; i < body.length; i++) out[3 + i] = LUT[body[i]];
+
+        const blob = new Blob([out], { type: "text/plain" });
+        const a    = document.createElement("a");
+        a.href     = URL.createObjectURL(blob);
+        a.download = "client_decrypted.txt";
+        a.click();
+
+        status.textContent = "Done! File saved as client_decrypted.txt";
+      };
+      reader.readAsArrayBuffer(file);
+    }
+  </script>
+</body>
+</html>
