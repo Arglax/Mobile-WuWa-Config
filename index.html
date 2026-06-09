@@ -1,60 +1,314 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>WuWa Log Decryptor</title>
-  <style>
-    body { font-family: sans-serif; max-width: 480px; margin: 40px auto; padding: 16px; }
-    button { margin-top: 12px; padding: 10px 20px; font-size: 1rem; cursor: pointer; }
-    #status { margin-top: 16px; white-space: pre-wrap; font-size: 0.9rem; }
-  </style>
-</head>
-<body>
-  <h2>WuWa Log Decryptor</h2>
-  <p>Select your <code>Client.log</code> file:</p>
-  <input type="file" id="picker">
-  <br>
-  <button onclick="run()">Decrypt</button>
-  <div id="status"></div>
 
-  <script>
-    const HEADER = [0x00, 0x54, 0x50];
-    const BOM    = [0xEF, 0xBB, 0xBF];
-    const LUT    = Uint8Array.from({length: 256}, (_, e) =>
-      (e & 1) ? (e ^ 0xA5) : (e ^ 0xEF)
-    );
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Inter:wght@300;400;500&display=swap');
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html,body{background:#04100d;margin:0;padding:0;}
+  .wwdec-page{
+    min-height:100vh;
+    background:#04100d;
+    display:flex;align-items:flex-start;justify-content:center;
+    padding:1rem;
+  }
+  .wwdec-card{
+    width:100%;max-width:540px;
+    background:linear-gradient(160deg,#072e24 0%,#070f0a 55%,#150e00 100%);
+    border:1px solid rgba(29,158,117,0.25);
+    border-radius:16px;
+    padding:1.5rem;
+    font-family:'Inter',sans-serif;
+    color:#e0ded8;
+    position:relative;
+    overflow:hidden;
+  }
+  .wwdec-card::before{
+    content:'';position:absolute;inset:0;pointer-events:none;
+    background:
+      radial-gradient(ellipse 70% 40% at 15% 5%, rgba(29,158,117,0.12) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 30% at 85% 90%, rgba(186,117,23,0.09) 0%, transparent 60%);
+  }
+  .ww-title{
+    font-family:'Cinzel',serif;font-size:18px;font-weight:600;
+    color:#5DCAA5;letter-spacing:0.08em;margin-bottom:3px;
+  }
+  .ww-subtitle{font-size:10px;color:#5F5E5A;letter-spacing:0.06em;margin-bottom:1.2rem;}
+  .ww-divider{
+    height:1px;margin-bottom:1.2rem;
+    background:linear-gradient(90deg,transparent,#1D9E75 30%,#BA7517 70%,transparent);
+    opacity:0.45;
+  }
+  .drop-zone{
+    border:1.5px dashed rgba(29,158,117,0.55);
+    border-radius:10px;padding:1.5rem 1rem;
+    text-align:center;cursor:pointer;
+    background:rgba(29,158,117,0.04);
+    transition:background 0.2s,border-color 0.2s;
+    position:relative;
+  }
+  .drop-zone:hover,.drop-zone.drag-over{
+    background:rgba(29,158,117,0.10);border-color:#5DCAA5;
+  }
+  .drop-zone input[type=file]{
+    position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;
+  }
+  .drop-icon{font-size:28px;color:#1D9E75;margin-bottom:6px;}
+  .drop-label{font-size:13px;color:#9FE1CB;font-weight:500;}
+  .drop-hint{font-size:11px;color:#5F5E5A;margin-top:3px;}
+  .file-badge{
+    display:none;margin-top:8px;
+    align-items:center;gap:8px;
+    background:rgba(29,158,117,0.10);
+    border:1px solid rgba(29,158,117,0.3);
+    border-radius:8px;padding:6px 10px;
+    font-size:11.5px;color:#9FE1CB;
+    overflow:hidden;
+  }
+  .file-badge.visible{display:flex;}
+  .file-badge span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .btn-row{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;}
+  .btn-primary{
+    flex:1;min-width:0;
+    padding:11px 14px;font-size:13px;font-weight:500;
+    font-family:'Inter',sans-serif;
+    background:linear-gradient(135deg,#0F6E56,#1D9E75);
+    color:#E1F5EE;border:none;border-radius:8px;
+    cursor:pointer;letter-spacing:0.03em;
+    transition:opacity 0.2s,transform 0.1s;
+    display:flex;align-items:center;justify-content:center;gap:6px;
+  }
+  .btn-primary:active{transform:scale(0.97);}
+  .btn-primary:disabled{opacity:0.35;cursor:not-allowed;transform:none;}
+  .btn-secondary{
+    flex:1;min-width:0;
+    padding:11px 14px;font-size:13px;font-weight:500;
+    font-family:'Inter',sans-serif;
+    background:transparent;color:#EF9F27;
+    border:1px solid rgba(186,117,23,0.5);border-radius:8px;
+    cursor:pointer;letter-spacing:0.03em;
+    transition:background 0.2s,transform 0.1s;
+    display:flex;align-items:center;justify-content:center;gap:6px;
+  }
+  .btn-secondary:active{transform:scale(0.97);}
+  .btn-secondary:disabled{opacity:0.3;cursor:not-allowed;transform:none;}
+  .log-panel{
+    margin-top:1.2rem;
+    background:rgba(4,20,16,0.6);
+    border:1px solid rgba(29,158,117,0.20);
+    border-radius:10px;overflow:hidden;
+  }
+  .log-header{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:7px 11px;
+    background:rgba(29,158,117,0.07);
+    border-bottom:1px solid rgba(29,158,117,0.12);
+    flex-wrap:wrap;gap:6px;
+  }
+  .log-title-row{display:flex;align-items:center;gap:6px;}
+  .log-title{font-size:10px;font-weight:500;color:#5DCAA5;letter-spacing:0.07em;text-transform:uppercase;}
+  .log-dot{width:6px;height:6px;border-radius:50%;background:#444441;transition:background 0.3s,box-shadow 0.3s;flex-shrink:0;}
+  .log-dot.active{background:#1D9E75;box-shadow:0 0 5px rgba(29,158,117,0.7);}
+  .log-dot.error{background:#E24B4A;}
+  .badges{display:flex;align-items:center;gap:5px;flex-wrap:wrap;}
+  .badge{font-size:10px;padding:2px 7px;border-radius:20px;font-weight:500;white-space:nowrap;}
+  .badge-scheme{background:rgba(186,117,23,0.15);color:#EF9F27;border:1px solid rgba(186,117,23,0.3);}
+  .badge-ok{background:rgba(29,158,117,0.15);color:#5DCAA5;border:1px solid rgba(29,158,117,0.35);}
+  .badge-err{background:rgba(226,75,74,0.12);color:#F09595;border:1px solid rgba(226,75,74,0.25);}
+  .log-body{
+    padding:9px 11px;min-height:80px;max-height:200px;overflow-y:auto;
+    font-family:'Courier New',monospace;font-size:11px;line-height:1.75;
+    -webkit-overflow-scrolling:touch;
+  }
+  .log-body::-webkit-scrollbar{width:4px;}
+  .log-body::-webkit-scrollbar-track{background:transparent;}
+  .log-body::-webkit-scrollbar-thumb{background:rgba(29,158,117,0.3);border-radius:2px;}
+  .log-empty{color:#3a3a38;font-style:italic;}
+  .log-line{display:flex;gap:8px;align-items:baseline;min-width:0;}
+  .log-ts{color:#444441;flex-shrink:0;font-size:10px;}
+  .log-msg{flex:1;min-width:0;word-break:break-word;}
+  .log-msg.info{color:#9FE1CB;}
+  .log-msg.success{color:#5DCAA5;}
+  .log-msg.warn{color:#EF9F27;}
+  .log-msg.error{color:#F09595;}
+  .log-msg.muted{color:#666663;}
+  .log-footer{
+    display:none;padding:5px 11px;
+    border-top:1px solid rgba(29,158,117,0.08);
+    font-size:10px;color:#444441;text-align:right;
+  }
+  .log-footer.visible{display:block;}
+</style>
 
-    function run() {
-      const file = document.getElementById("picker").files[0];
-      const status = document.getElementById("status");
+<div class="wwdec-page">
+  <div class="wwdec-card">
+    <div class="ww-title">WuWa Log Decryptor</div>
+    <div class="ww-subtitle">CLIENT.LOG DECRYPTION UTILITY — WUTHERING WAVES</div>
+    <div class="ww-divider"></div>
 
-      if (!file) { status.textContent = "No file selected."; return; }
+    <div class="drop-zone" id="dropZone">
+      <input type="file" id="picker" accept=".log">
+      <div class="drop-icon"><i class="ti ti-file-text" aria-hidden="true"></i></div>
+      <div class="drop-label">Tap to select Client.log</div>
+      <div class="drop-hint">Accepts encrypted .log files from Wuthering Waves</div>
+    </div>
 
-      const reader = new FileReader();
-      reader.onload = e => {
-        const buf  = new Uint8Array(e.target.result);
+    <div class="file-badge" id="fileBadge">
+      <i class="ti ti-file" aria-hidden="true" style="flex-shrink:0;color:#1D9E75;"></i>
+      <span id="fileInfo">—</span>
+    </div>
 
-        if (buf[0] !== HEADER[0] || buf[1] !== HEADER[1] || buf[2] !== HEADER[2]) {
-          status.textContent = `Error: not an encrypted log (got ${buf[0].toString(16)} ${buf[1].toString(16)} ${buf[2].toString(16)})`;
-          return;
-        }
+    <div class="btn-row">
+      <button class="btn-primary" id="decryptBtn" disabled>
+        <i class="ti ti-lock-open" aria-hidden="true"></i> Decrypt
+      </button>
+      <button class="btn-secondary" id="dlLogBtn" disabled>
+        <i class="ti ti-download" aria-hidden="true"></i> Save Log
+      </button>
+    </div>
 
-        const body = buf.slice(3);
-        const out  = new Uint8Array(3 + body.length);
-        out.set(BOM);
-        for (let i = 0; i < body.length; i++) out[3 + i] = LUT[body[i]];
+    <div class="log-panel">
+      <div class="log-header">
+        <div class="log-title-row">
+          <span class="log-dot" id="statusDot"></span>
+          <span class="log-title">Decryption Log</span>
+        </div>
+        <div class="badges" id="badgeRow"></div>
+      </div>
+      <div class="log-body" id="logBody">
+        <span class="log-empty">Awaiting input…</span>
+      </div>
+      <div class="log-footer" id="logFooter"></div>
+    </div>
+  </div>
+</div>
 
-        const blob = new Blob([out], { type: "text/plain" });
-        const a    = document.createElement("a");
-        a.href     = URL.createObjectURL(blob);
-        a.download = "client_decrypted.txt";
-        a.click();
+<script>
+const HEADER_A=[0x00,0x54,0x50];
+const HEADER_B=[0x00,0x4C,0x4F];
+const BOM=[0xEF,0xBB,0xBF];
+const LUT_A=Uint8Array.from({length:256},(_,e)=>(e&1)?(e^0xA5):(e^0xEF));
+const LUT_B=Uint8Array.from({length:256},(_,e)=>e^0x55);
 
-        status.textContent = "Done! File saved as client_decrypted.txt";
-      };
-      reader.readAsArrayBuffer(file);
+let logLines=[];
+let currentFile=null;
+
+function ts(){
+  const d=new Date();
+  return[d.getHours(),d.getMinutes(),d.getSeconds()].map(n=>String(n).padStart(2,'0')).join(':');
+}
+function fmt(b){
+  if(b<1024)return b+' B';
+  if(b<1048576)return(b/1024).toFixed(1)+' KB';
+  return(b/1048576).toFixed(2)+' MB';
+}
+function log(msg,lvl='info'){
+  logLines.push({t:ts(),msg,lvl});
+  const body=document.getElementById('logBody');
+  body.innerHTML=logLines.map(l=>
+    `<div class="log-line"><span class="log-ts">${l.t}</span><span class="log-msg ${l.lvl}">${l.msg}</span></div>`
+  ).join('');
+  body.scrollTop=body.scrollHeight;
+  const f=document.getElementById('logFooter');
+  f.textContent=`${logLines.length} entries`;
+  f.className='log-footer visible';
+}
+function dot(state){
+  const d=document.getElementById('statusDot');
+  d.className='log-dot'+(state==='on'?' active':state==='err'?' error':'');
+}
+function badge(id,text,cls){
+  const row=document.getElementById('badgeRow');
+  let el=document.getElementById(id);
+  if(!el){el=document.createElement('span');el.id=id;row.appendChild(el);}
+  el.textContent=text;el.className='badge '+cls;el.style.display='inline-block';
+}
+function clearBadges(){document.getElementById('badgeRow').innerHTML='';}
+
+function handleFile(file){
+  if(!file)return;
+  currentFile=file;
+  const fb=document.getElementById('fileBadge');
+  fb.className='file-badge visible';
+  document.getElementById('fileInfo').textContent=`${file.name} — ${fmt(file.size)}`;
+  document.getElementById('decryptBtn').disabled=false;
+}
+
+function run(){
+  if(!currentFile)return;
+  logLines=[];
+  clearBadges();
+  document.getElementById('dlLogBtn').disabled=true;
+  dot('on');
+  log(`File: ${currentFile.name}`,'info');
+  log(`Size: ${fmt(currentFile.size)} (${currentFile.size.toLocaleString()} bytes)`,'muted');
+
+  const reader=new FileReader();
+  reader.onload=e=>{
+    const buf=new Uint8Array(e.target.result);
+    const h=`0x${buf[0].toString(16).padStart(2,'0').toUpperCase()} 0x${buf[1].toString(16).padStart(2,'0').toUpperCase()} 0x${buf[2].toString(16).padStart(2,'0').toUpperCase()}`;
+    log(`Buffer: ${buf.length.toLocaleString()} bytes loaded`,'muted');
+    log(`Header: ${h}`,'muted');
+
+    let scheme=null;
+    if(buf[0]===HEADER_A[0]&&buf[1]===HEADER_A[1]&&buf[2]===HEADER_A[2])scheme='A';
+    else if(buf[0]===HEADER_B[0]&&buf[1]===HEADER_B[1]&&buf[2]===HEADER_B[2])scheme='B';
+
+    if(!scheme){
+      log(`Header mismatch — not a recognized encrypted log`,'error');
+      log(`Expected 00 54 50 (Scheme A) or 00 4C 4F (Scheme B)`,'error');
+      dot('err');
+      badge('rb','Failed','badge-err');
+      return;
     }
-  </script>
-</body>
-</html>
+
+    log(`Scheme ${scheme} detected`,'warn');
+    badge('sb',`Scheme ${scheme}`,'badge-scheme');
+
+    const lut=scheme==='A'?LUT_A:LUT_B;
+    const body=buf.slice(3);
+    const out=new Uint8Array(3+body.length);
+    out.set(BOM);
+    const cipher=scheme==='A'?'XOR odd:0xA5 / even:0xEF':'XOR 0x55';
+    log(`Applying cipher [${cipher}] to ${body.length.toLocaleString()} bytes…`,'info');
+    for(let i=0;i<body.length;i++)out[3+i]=lut[body[i]];
+
+    log(`Decryption complete — ${out.length.toLocaleString()} bytes`,'success');
+    const blob=new Blob([out],{type:'text/plain'});
+    const a=document.createElement('a');
+    a.href=URL.createObjectURL(blob);
+    a.download='client_decrypted.txt';
+    a.click();
+    log(`Saved: client_decrypted.txt`,'success');
+    dot('');
+    badge('rb','Success','badge-ok');
+    document.getElementById('dlLogBtn').disabled=false;
+  };
+  reader.onerror=()=>{
+    log(`FileReader error — could not read file`,'error');
+    dot('err');
+    badge('rb','Failed','badge-err');
+  };
+  reader.readAsArrayBuffer(currentFile);
+}
+
+function downloadLog(){
+  const t=logLines.map(l=>`[${l.t}] [${l.lvl.toUpperCase()}] ${l.msg}`).join('\n');
+  const b=new Blob([t],{type:'text/plain'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(b);
+  a.download='wwdec_log.txt';
+  a.click();
+}
+
+document.getElementById('decryptBtn').onclick=run;
+document.getElementById('dlLogBtn').onclick=downloadLog;
+
+const picker=document.getElementById('picker');
+const dz=document.getElementById('dropZone');
+picker.addEventListener('change',()=>handleFile(picker.files[0]));
+dz.addEventListener('dragover',e=>{e.preventDefault();dz.classList.add('drag-over');});
+dz.addEventListener('dragleave',()=>dz.classList.remove('drag-over'));
+dz.addEventListener('drop',e=>{
+  e.preventDefault();dz.classList.remove('drag-over');
+  const f=e.dataTransfer?.files[0];
+  if(f)handleFile(f);
+});
+</script>
