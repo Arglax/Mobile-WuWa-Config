@@ -29,7 +29,7 @@ Update as of 7:41 PM. I released a user-friendly log decryptor where you can jus
 [Decrypt your Client.Log files here.](https://arglax.github.io/Mobile-WuWa-Config/tools/log-decryptor.html)    
 
 > [!NOTE]
-> If KuroGames requests to take down this tool, it will be taken down.   
+> ***If KuroGames requests to take down this tool, it will be taken down***.   
 🔔 **Keep an eye on the [forbidden CVars list](#forbidden-cvars-list)** at the bottom of this file. It is also available in the [Discord server](https://discord.gg/renjxYBEZM).
 - ✅ All configs are updated for **Version 3.4**. They may be further optimized throughout the version.  
 ---
@@ -236,4 +236,4 @@ Big thanks to everyone who contributed through testing, feedback, and sharing kn
 `arglax` `wuwa` `config` `tweak wuwa` `wuwa configs` `mobile wuwa config`
 `mobile configs wuwa` `wuthering waves optimization` `fps boost wuwa`
 `unreal engine 4.27 config` `android fps boost` `dimensity 8300 optimization`
-`arglax tweaks` `wuwa optimization guide` `vulkan optimization` `low-end optimization wuwa`
+`arglax tweaks` `wuwa optimization guide` `vulkan optimization` `low-end optimization wuwa` `client log decryptor` `log decryption`
