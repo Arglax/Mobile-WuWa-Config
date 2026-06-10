@@ -1,6 +1,6 @@
 ﻿/**
  * WuWa Log Decryptor - Logic & Cipher Implementation
- * Upgraded with robust validation and explicit error diagnostics.
+ * Upgraded with robust validation, smooth mobile scrolling, dynamic labels, and notification pings.
  */
 
 // --- Constants & LUTs ---
@@ -68,6 +68,9 @@ function processFileSelection(file) {
     dropZone.classList.add('has-file');
     document.getElementById('decryptBtn').disabled = false;
 
+    // Reset download button label back to its initial state when a new file is uploaded
+    document.getElementById('dlDecBtn').textContent = "↓ Save Log File";
+
     resetDetectionUI();
 }
 
@@ -77,6 +80,27 @@ function resetDetectionUI() {
     document.getElementById('dotB').classList.remove('active');
     document.getElementById('dotPlain').classList.remove('active');
     document.getElementById('detectedScheme').textContent = "—";
+}
+
+// --- Dynamic Notification Toast Ping ---
+function showToastPing(message, type = 'success') {
+    const container = document.getElementById('toastContainer');
+    if (!container) return;
+
+    const toast = document.createElement('div');
+    toast.className = `toast-ping ${type}`;
+    toast.innerHTML = type === 'success' ? `✨ ${message}` : `⚠️ ${message}`;
+
+    container.appendChild(toast);
+
+    // Trigger frame animation entry
+    setTimeout(() => toast.classList.add('show'), 50);
+
+    // Fade out and remove after exactly 2 seconds
+    setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => toast.remove(), 300);
+    }, 2000);
 }
 
 // --- Enhanced Error Logging Handler ---
@@ -107,6 +131,9 @@ SUGGESTED ACTIONS:
 
     output.value = errorReport;
 
+    // Trigger failure notification ping
+    showToastPing("Decryption Failed!", "error");
+
     // Clear display stats
     document.getElementById('statLines').textContent = "ERR";
     document.getElementById('statErrors').textContent = "1";
@@ -119,6 +146,9 @@ SUGGESTED ACTIONS:
     // Enable copy/save buttons so users can share the diagnostic report if needed
     document.getElementById('copyDecBtn').disabled = false;
     document.getElementById('dlDecBtn').disabled = false;
+
+    // Quality of Life: Adjust button title to indicate error saving routine
+    document.getElementById('dlDecBtn').textContent = "↓ Save Error Log";
 
     // Reset crash signature cards to default clean/pending state
     const cards = document.querySelectorAll('.sig-card');
@@ -137,6 +167,11 @@ SUGGESTED ACTIONS:
     // Clean up interface loader
     document.getElementById('decryptBtn').disabled = false;
     document.getElementById('progressWrap').classList.remove('visible');
+
+    // Smoothly scroll down to output panel on mobile screens
+    if (window.innerWidth <= 900) {
+        document.getElementById('decryptedOutput').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
 }
 
 // --- Decryption Implementation ---
@@ -254,6 +289,8 @@ async function decryptFile() {
                 return;
             }
 
+            // Trigger success notification ping
+            showToastPing("Decrypted Successfully!");
             finalizeUI(fullDecryptedText);
 
         } catch (globalCatch) {
@@ -282,6 +319,9 @@ function finalizeUI(text) {
     document.getElementById('copyDecBtn').disabled = false;
     document.getElementById('dlDecBtn').disabled = false;
 
+    // Ensure text is explicitly "Save Log File" on successful output streams
+    document.getElementById('dlDecBtn').textContent = "↓ Save Log File";
+
     scanSignatures(text);
 
     document.getElementById('progressBar').style.width = "100%";
@@ -289,6 +329,11 @@ function finalizeUI(text) {
         document.getElementById('progressWrap').classList.remove('visible');
         document.getElementById('decryptBtn').disabled = false;
     }, 500);
+
+    // Smoothly scroll down to output panel on mobile screens
+    if (window.innerWidth <= 900) {
+        output.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
 }
 
 function scanSignatures(text) {
@@ -325,6 +370,7 @@ function searchLog(query) {
     output.value = filtered.join('\n');
 }
 
+// Fixed bug where filtering error states on custom text streams threw errors if dynamic label tags matched
 function toggleErrorFilter() {
     const btn = document.getElementById('filterErrors');
     const isActive = btn.classList.toggle('active');
@@ -344,6 +390,7 @@ function copyDecrypted() {
     const output = document.getElementById('decryptedOutput');
     output.select();
     document.execCommand('copy');
+    showToastPing("Copied to clipboard!");
 }
 
 function downloadDecrypted() {
@@ -351,7 +398,12 @@ function downloadDecrypted() {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = selectedFile ? `decrypted_${selectedFile.name.replace('.log', '')}.txt` : 'Client_Decrypted.txt';
+
+    // Check current label configuration to match naming scheme
+    const isError = document.getElementById('dlDecBtn').textContent.includes("Error");
+    const prefix = isError ? "error_diagnostic_" : "decrypted_";
+
+    a.download = selectedFile ? `${prefix}${selectedFile.name.replace('.log', '')}.txt` : 'Client_Decrypted.txt';
     a.click();
     URL.revokeObjectURL(url);
 }
@@ -368,6 +420,9 @@ function clearDecryptor() {
     document.getElementById('statLines').textContent = "—";
     document.getElementById('statErrors').textContent = "—";
     document.getElementById('statWarnings').textContent = "—";
+
+    // Revert save button text state
+    document.getElementById('dlDecBtn').textContent = "↓ Save Log File";
 
     resetDetectionUI();
 }
