@@ -1263,3 +1263,49 @@ img, video {
         white-space: pre;
         overflow-x: auto;
     }
+
+/* ── Optimized Preview Modal for Mobile ── */
+@media (max-width: 600px) {
+    .preview-window {
+        width: 94vw; /* Expand to leverage horizontal mobile space */
+        height: 88vh; /* Expand vertically to maximize viewport */
+        background: var(--bg-surface); /* Solid dark container surface for rich contrast */
+        border: 1px solid var(--border-mid);
+        border-radius: var(--r-md);
+        box-shadow: var(--shadow-card);
+    }
+
+    .preview-header {
+        padding: 14px 16px; /* Compress header padding to save vertical space */
+    }
+
+    .preview-title {
+        font-size: 16px; /* Scale typography down safely */
+    }
+
+    .preview-close {
+        width: 36px; /* Slightly smaller tap target */
+        height: 36px;
+    }
+
+    #preview-content {
+        margin: 12px; /* Lower margins to give inner layout breathing room */
+        overflow-y: auto; /* CRITICAL: Allows smooth scrolling of tall generated layouts */
+        padding-bottom: 20px; /* Safety gap at the bottom of the scroll track */
+        /* Smooth scrolling physics for iOS/Android */
+        -webkit-overflow-scrolling: touch;
+        /* Subtle custom scrollbar inside the modal track */
+        scrollbar-width: thin;
+        scrollbar-color: var(--jade-dim) transparent;
+    }
+
+        /* Webkit-specific track sizing for the preview window internal container */
+        #preview-content::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        #preview-content::-webkit-scrollbar-thumb {
+            background: var(--jade-dim);
+            border-radius: 99px;
+        }
+}
