@@ -494,24 +494,113 @@
         }
 
         /* ── Responsive ── */
+
+        /* Tablet: tighten but keep 2-column */
+        @media (max-width: 1100px) and (min-width: 901px) {
+            .generator-layout {
+                grid-template-columns: 1fr minmax(280px, 360px);
+                gap: 16px;
+                padding: 24px clamp(12px, 3vw, 32px);
+            }
+        }
+
+        /* Mobile: single column, sidebar hidden, sticky action bar */
         @media (max-width: 900px) {
             .generator-layout {
                 grid-template-columns: 1fr;
-                padding: 20px 16px;
+                padding: 16px 14px 100px; /* bottom padding for sticky bar */
+                gap: 16px;
             }
 
+            /* Hide the sidebar output card on mobile — use preview modal instead */
             .gen-sidebar {
-                position: static;
-                order: -1;
+                display: none;
             }
 
-            #configOutput, .code-output {
-                min-height: 200px;
-                max-height: 300px;
+            /* Sticky bottom action bar (mobile only) */
+            .mobile-action-bar {
+                display: flex !important;
             }
 
+            /* Scalability grid: 2-col on phones >= 480px, 1-col on very small */
+            .scalability-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            /* Bigger touch targets on toggle items */
+            .toggle-item {
+                padding: 16px !important;
+                margin-bottom: 10px !important;
+            }
+
+            .accordion-trigger {
+                padding: 16px 18px;
+                font-size: 13px;
+            }
+
+            /* Hero tweaks */
+            .page-hero {
+                padding-top: 16px !important;
+            }
+
+            /* Bottom control bar on mobile — hide the desktop row */
+            .desktop-controls-row {
+                display: none;
+            }
+        }
+
+        @media (max-width: 480px) {
             .scalability-grid {
                 grid-template-columns: 1fr;
+            }
+
+            .generator-layout {
+                padding: 12px 12px 100px;
+            }
+        }
+
+        /* ── Mobile Action Bar (hidden on desktop) ── */
+        .mobile-action-bar {
+            display: none; /* shown via mobile media query */
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 200;
+            background: linear-gradient(to top, rgba(4,14,9,0.97) 70%, rgba(4,14,9,0.0));
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-top: 1px solid rgba(29,158,117,0.2);
+            padding: 12px 14px 16px;
+            gap: 8px;
+            align-items: center;
+        }
+
+            .mobile-action-bar .btn {
+                flex: 1;
+                justify-content: center;
+                padding: 12px 10px;
+                font-size: 13px;
+            }
+
+        /* Desktop controls row (hidden on mobile) */
+        .desktop-controls-row {
+            display: flex;
+            gap: 10px;
+            margin-top: 18px;
+            flex-wrap: wrap;
+        }
+
+        /* Preview modal Copy/Download buttons — only shown on mobile */
+        .preview-modal-copy,
+        .preview-modal-download {
+            display: none;
+        }
+
+        @media (max-width: 900px) {
+            .preview-modal-copy,
+            .preview-modal-download {
+                display: inline-flex;
             }
         }
     </style>
@@ -556,7 +645,7 @@
                 </p>
                 <div class="status-badge status-wip" style="margin-top:14px;">
                     <span class="dot"></span>
-                    Work In Progress (WIP) [Mobile UI may be bugged]
+                    Work In Progress (WIP)
                 </div>
 
                 <p style="
@@ -798,71 +887,78 @@
                                                placeholder="e.g. Android_Adreno_8xx"
                                                maxlength="80" />
                                     </div>
-                                        <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
-                                            <button class="btn btn-purple btn-sm" onclick="submitDevice()">📨 Submit Device</button>
-                                            <span style="font-size:11px; color:var(--text-muted);">Submitted anonymously instantly to the developer—no email or login required.</span>
-                                        </div>
+                                    <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+                                        <button class="btn btn-purple btn-sm" onclick="submitDevice()">📨 Submit Device</button>
+                                        <span style="font-size:11px; color:var(--text-muted);">Submitted anonymously instantly to the developer—no email or login required.</span>
                                     </div>
-                                    <p style="font-size:11px; color:var(--text-muted); line-height:1.5; margin-top:4px;">
-                                        Submissions are reviewed by <strong style="color:var(--jade-bright);">Arglax</strong> and will be added to future versions of the device-profiles CSV. You can also open a GitHub issue or reach out via Discord.
-                                    </p>
                                 </div>
+                                <p style="font-size:11px; color:var(--text-muted); line-height:1.5; margin-top:4px;">
+                                    Submissions are reviewed by <strong style="color:var(--jade-bright);">Arglax</strong> and will be added to future versions of the device-profiles CSV. You can also open a GitHub issue or reach out via Discord.
+                                </p>
                             </div>
                         </div>
                     </div>
-
-                </div>
-                <div style="display:flex; gap:10px; margin-top:18px; flex-wrap:wrap;">
-                    <button class="btn btn-ghost btn-sm" onclick="resetAll()">↺ Reset All</button>
-                    <button class="btn btn-ghost btn-sm" onclick="generateConfig()">⟳ Refresh Output</button>
-                    <button class="btn btn-gold" onclick="showPreview()">👁 Preview</button>
                 </div>
 
-            </div><aside class="gen-sidebar">
-                <div class="output-card">
-                    <div class="output-header">
-                        <span class="output-title">📄 DeviceProfiles.ini Output</span>
-                        <span class="status-badge status-live" style="font-size:10px;">
-                            <span class="dot"></span>Live Preview
-                        </span>
-                    </div>
-                    <div class="output-meta" id="outputMeta">
-                        <span class="meta-pill">CVars: <span id="cvarCount">0</span></span>
-                        <span class="meta-pill">Lines: <span id="lineCount">0</span></span>
-                        <span class="meta-pill">Device: <span id="deviceLabel">—</span></span>
-                    </div>
-                    <div id="configOutput" spellcheck="false"></div>
-                    <div class="output-actions">
-                        <button class="btn btn-primary btn-sm" style="flex:1;" onclick="copyConfig()">⎘ Copy</button>
-                        <button class="btn btn-gold btn-sm" style="flex:1;" onclick="downloadConfig()">↓ Download</button>
-                        <button class="btn btn-ghost btn-sm" onclick="generateConfig()" data-tooltip="Refresh output">↺</button>
-                    </div>
-                </div>
-
-                <div class="card" style="margin-top:16px;">
-                    <div style="font-size:11px; font-family:var(--font-mono); color:var(--text-muted); text-transform:uppercase; letter-spacing:0.1em; margin-bottom:8px;">Placement Path</div>
-                    <code style="font-family:var(--font-mono);font-size:10.5px;color:var(--jade-bright);line-height:1.8;word-break:break-all;display:block;">
-                        \Internal shared storage\Android\data\<br />
-                        com.kurogame.wutheringwaves.global\files\<br />
-                        UE4Game\Client\Client\Saved\Config\Android
-                    </code>
-                    <div style="height:1px; background:linear-gradient(90deg,transparent,var(--border-mid),transparent); margin:12px 0;"></div>
-                    <p style="font-size:11.5px; color:var(--text-muted); line-height:1.6;">
-                        DeviceProfiles CVars are applied at the <strong style="color:var(--text-secondary);">SetByDeviceProfile</strong> priority. They are <strong style="color:red;">overriden by the Engine.ini</strong> on the same CVar.
-                    </p>
-                </div>
-            </aside>
-
-        </div><footer class="site-footer">
-            <span class="footer-text">WuWa Portal · DeviceProfiles.ini Generator · Not affiliated with Kuro Games</span>
-            <div class="footer-links">
-                <a href="../index.html" class="footer-link">← Hub</a>
-                <a href="../engine-generator.html" class="footer-link">Engine.ini Generator</a>
-                <a href="../log-decryptor.html" class="footer-link">Log Decryptor</a>
             </div>
-        </footer>
+            <div class="desktop-controls-row">
+                <button class="btn btn-ghost btn-sm" onclick="resetAll()">↺ Reset All</button>
+                <button class="btn btn-ghost btn-sm" onclick="generateConfig()">⟳ Refresh Output</button>
+                <button class="btn btn-gold" onclick="showPreview()">👁 Preview</button>
+            </div>
+
+        </div><aside class="gen-sidebar">
+            <div class="output-card">
+                <div class="output-header">
+                    <span class="output-title">📄 DeviceProfiles.ini Output</span>
+                    <span class="status-badge status-live" style="font-size:10px;">
+                        <span class="dot"></span>Live Preview
+                    </span>
+                </div>
+                <div class="output-meta" id="outputMeta">
+                    <span class="meta-pill">CVars: <span id="cvarCount">0</span></span>
+                    <span class="meta-pill">Lines: <span id="lineCount">0</span></span>
+                    <span class="meta-pill">Device: <span id="deviceLabel">—</span></span>
+                </div>
+                <div id="configOutput" spellcheck="false"></div>
+                <div class="output-actions">
+                    <button class="btn btn-primary btn-sm" style="flex:1;" onclick="copyConfig()">⎘ Copy</button>
+                    <button class="btn btn-gold btn-sm" style="flex:1;" onclick="downloadConfig()">↓ Download</button>
+                    <button class="btn btn-ghost btn-sm" onclick="generateConfig()" data-tooltip="Refresh output">↺</button>
+                </div>
+            </div>
+
+            <div class="card" style="margin-top:16px;">
+                <div style="font-size:11px; font-family:var(--font-mono); color:var(--text-muted); text-transform:uppercase; letter-spacing:0.1em; margin-bottom:8px;">Placement Path</div>
+                <code style="font-family:var(--font-mono);font-size:10.5px;color:var(--jade-bright);line-height:1.8;word-break:break-all;display:block;">
+                    \Internal shared storage\Android\data\<br />
+                    com.kurogame.wutheringwaves.global\files\<br />
+                    UE4Game\Client\Client\Saved\Config\Android
+                </code>
+                <div style="height:1px; background:linear-gradient(90deg,transparent,var(--border-mid),transparent); margin:12px 0;"></div>
+                <p style="font-size:11.5px; color:var(--text-muted); line-height:1.6;">
+                    DeviceProfiles CVars are applied at the <strong style="color:var(--text-secondary);">SetByDeviceProfile</strong> priority. They are <strong style="color:red;">overriden by the Engine.ini</strong> on the same CVar.
+                </p>
+            </div>
+        </aside>
+
+    </div><footer class="site-footer">
+        <span class="footer-text">WuWa Portal · DeviceProfiles.ini Generator · Not affiliated with Kuro Games</span>
+        <div class="footer-links">
+            <a href="../index.html" class="footer-link">← Hub</a>
+            <a href="../engine-generator.html" class="footer-link">Engine.ini Generator</a>
+            <a href="../log-decryptor.html" class="footer-link">Log Decryptor</a>
+        </div>
+    </footer>
 
     </div><div class="toast-container" id="toastContainer"></div>
+
+    <!-- Mobile sticky action bar (hidden on desktop via CSS) -->
+    <div class="mobile-action-bar">
+        <button class="btn btn-ghost btn-sm" onclick="resetAll()">↺ Reset</button>
+        <button class="btn btn-primary" onclick="showPreview()" style="flex:2;">👁 View Config</button>
+        <button class="btn btn-gold btn-sm" onclick="downloadConfig()">↓ Save</button>
+    </div>
 
     <div id="preview-modal" class="preview-modal">
         <div class="preview-window card">
@@ -871,7 +967,11 @@
                     <div class="section-label">DeviceProfile Preview</div>
                     <div class="preview-title">DeviceProfiles.ini</div>
                 </div>
-                <button class="preview-close" onclick="closePreview()">✕</button>
+                <div style="display:flex; gap:8px; align-items:center;">
+                    <button class="btn btn-primary btn-sm preview-modal-copy" onclick="copyConfig(); showToast('✓ Config copied!','success')">⎘ Copy</button>
+                    <button class="btn btn-gold btn-sm preview-modal-download" onclick="downloadConfig()">↓ Download</button>
+                    <button class="preview-close" onclick="closePreview()">✕</button>
+                </div>
             </div>
             <div id="preview-content" class="code-output"></div>
         </div>
@@ -1227,7 +1327,7 @@ Vivo X100 Pro,Android_Mali_Immortalis,MediaTek,Dimensity 9300 · Immortalis G720
         async function submitDevice() {
             const deviceInput = document.getElementById("submitDevice");
             const profileInput = document.getElementById("submitProfile");
-            const submitBtn = document.querySelector(".submit-form .btn-purple"); // Targets the submit button
+            const submitBtn = document.getElementById("submitBtn"); // Targets the submit button
             const deviceVal = deviceInput.value.trim();
             const profileVal = profileInput.value.trim();
 
@@ -1242,7 +1342,7 @@ Vivo X100 Pro,Android_Mali_Immortalis,MediaTek,Dimensity 9300 · Immortalis G720
 
             try {
                 // Go to web3forms.com, drop your email, and paste the access key they give you here:
-                const ACCESS_KEY = "YOUR_YOUR_WEB3FORMS_ACCESS_KEY_HERE";
+                const ACCESS_KEY = "20fc44a6-f1c5-4b31-9cc0-3d046f099ec5";
 
                 const response = await fetch("https://api.web3forms.com/submit", {
                     method: "POST",
