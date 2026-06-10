@@ -798,9 +798,10 @@
                                                placeholder="e.g. Android_Adreno_8xx"
                                                maxlength="80" />
                                     </div>
-                                    <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
-                                        <button class="btn btn-purple btn-sm" onclick="submitDevice()">📨 Submit via Email</button>
-                                        <span style="font-size:11px; color:var(--text-muted);">Opens your default email client — your report goes directly to the developer.</span>
+                                        <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+                                            <button class="btn btn-purple btn-sm" onclick="submitDevice()">📨 Submit Device</button>
+                                            <span style="font-size:11px; color:var(--text-muted);">Submitted anonymously instantly to the developer—no email or login required.</span>
+                                        </div>
                                     </div>
                                     <p style="font-size:11px; color:var(--text-muted); line-height:1.5; margin-top:4px;">
                                         Submissions are reviewed by <strong style="color:var(--jade-bright);">Arglax</strong> and will be added to future versions of the device-profiles CSV. You can also open a GitHub issue or reach out via Discord.
@@ -1223,9 +1224,10 @@ Vivo X100 Pro,Android_Mali_Immortalis,MediaTek,Dimensity 9300 · Immortalis G720
         }
 
         // ── Device Submission ────────────────────────────────────
-        function submitDevice() {
+        async function submitDevice() {
             const deviceInput = document.getElementById("submitDevice");
             const profileInput = document.getElementById("submitProfile");
+            const submitBtn = document.querySelector(".submit-form .btn-purple"); // Targets the submit button
             const deviceVal = deviceInput.value.trim();
             const profileVal = profileInput.value.trim();
 
@@ -1234,19 +1236,47 @@ Vivo X100 Pro,Android_Mali_Immortalis,MediaTek,Dimensity 9300 · Immortalis G720
             if (!profileVal) { profileInput.classList.add("error"); valid = false; } else { profileInput.classList.remove("error"); }
             if (!valid) { showToast("Please fill in both fields before submitting.", "error"); return; }
 
-            const subject = encodeURIComponent(`[WuWa Portal] Device Submission: ${deviceVal}`);
-            const body = encodeURIComponent(
-                `WuWa Portal — Device Profile Submission
-=========================================
-Device Name   : ${deviceVal}
-Profile Name  : ${profileVal}
+            // Change visual button state during transit to prevent double-clicks
+            submitBtn.disabled = true;
+            submitBtn.textContent = "⏳ Submitting...";
 
-Submitted via the WuWa Portal DeviceProfiles.ini Generator.
-Please verify and add to device-profiles.csv.
-`);
-            const mailtoLink = `mailto:arglaxgaming.official@gmail.com?subject=${subject}&body=${body}`;
-            window.location.href = mailtoLink;
-            showToast("📨 Opening email client…", "info");
+            try {
+                // Go to web3forms.com, drop your email, and paste the access key they give you here:
+                const ACCESS_KEY = "YOUR_YOUR_WEB3FORMS_ACCESS_KEY_HERE";
+
+                const response = await fetch("https://api.web3forms.com/submit", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Accept": "application/json"
+                    },
+                    body: JSON.stringify({
+                        access_key: ACCESS_KEY,
+                        subject: `[WuWa Portal] New Anonymous Device: ${deviceVal}`,
+                        from_name: "WuWa Portal System",
+                        "Exact Device Name": deviceVal,
+                        "DeviceProfile Name": profileVal
+                    })
+                });
+
+                const result = await response.json();
+
+                if (response.status === 200 || result.success) {
+                    showToast("✓ Device submitted anonymously!", "success");
+                    // Clear inputs on success
+                    deviceInput.value = "";
+                    profileInput.value = "";
+                } else {
+                    throw new Error(result.message || "API rejection");
+                }
+            } catch (error) {
+                console.error("Submission error:", error);
+                showToast("Submission failed. Please check your network or try again.", "error");
+            } finally {
+                // Restore button state
+                submitBtn.disabled = false;
+                submitBtn.textContent = "📨 Submit Device";
+            }
         }
 
         // ── Toast Notifications ───────────────────────────────────
