@@ -25,11 +25,12 @@ Hopefully, this guide will help you unlock your device's full visual and gamepla
 >
 > Kuro has encrypted `Client.log` which is our most valuable reference for config development. This is a significant hurdle that may slow down or even halt future config work.
 
-Update as of 7:41 PM. I released a user-friendly log decryptor where you can just upload your log and download the decrypted file.  [View tool here](https://arglax.github.io/Mobile-WuWa-Config/)    
-> Still, I do not intend to fully work on this tool since I am not knowledgeable enough nor interested in continuing this.  
+Update as of 7:41 PM. I released a user-friendly log decryptor where you can just upload your log and download the decrypted file.  
+[Decrypt your Client.Log files here.](https://arglax.github.io/Mobile-WuWa-Config/tools/log-decryptor.html)    
 
-> 🔔 **Keep an eye on the [forbidden CVars list](#forbidden-cvars-list)** at the bottom of this file. It is also available in the [Discord server](https://discord.gg/renjxYBEZM).
-
+> [!NOTE]
+> If KuroGames requests to take down this tool, it will be taken down.   
+🔔 **Keep an eye on the [forbidden CVars list](#forbidden-cvars-list)** at the bottom of this file. It is also available in the [Discord server](https://discord.gg/renjxYBEZM).
 - ✅ All configs are updated for **Version 3.4**. They may be further optimized throughout the version.  
 ---
 
