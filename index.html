@@ -209,9 +209,10 @@
       </a>
 
       <nav class="header-nav" id="mainNav">
-        <a href="index.html" class="nav-link active">Hub</a>
-        <!--<a href="engine-generator.html" class="nav-link">Engine.ini Generator</a>-->
-        <a href="tools\log-decryptor.html" class="nav-link">Log Decryptor</a>
+          <a href="index.html" class="nav-link active">Hub</a>
+          <!-- <a href="../engine-generator.html" class="nav-link">Engine.ini Generator</a> -->
+          <a href="tools/log-decryptor.html" class="nav-link">Log Decryptor</a>
+          <a href="tools/devprof-generator.html" class="nav-link">DevProf Generator</a>
       </nav>
 
       <div class="header-spacer"></div>
@@ -221,169 +222,176 @@
 
     <!-- MAIN -->
     <main class="main-content">
-      <!-- HERO -->
-      <section class="page-hero">
-        <div class="hero-eyebrow"> Mobile WuWa Config Suite</div>
-        <h1 class="hero-title">
-          The <span class="accent">Performance</span> &amp;<br>
-          <span class="gold">Optimization</span> Portal
-        </h1>
-        <p class="hero-subtitle">
-          Utility tools for config creation on Android. 
-          Decrypt Client.log files, generate configs and push your device to its limits.
-        </p>
-      </section>
-
-      <!-- STATS -->
-      <div class="stats-bar">
-        <div class="stat-item">
-          <span class="stat-value">1</span>
-          <span class="stat-label">Active Tools</span>
-        </div>
-        <div class="stat-item">
-          <span class="stat-value gold">3.4</span>
-          <span class="stat-label">WuWa Target Version</span>
-        </div>
-        <div class="stat-item">
-          <span class="stat-value">UE4.26</span>
-          <span class="stat-label">Engine Base</span>
-        </div>
-      </div>
-
-      <!-- ANNOUNCEMENT
-      <div class="announcement">
-        <span class="announcement-icon">📡</span>
-        <span>
-          <strong>Notice:</strong> Always back up your original Engine.ini before applying any custom config. 
-          CVar support varies by device SoC and driver version.
-        </span>
-      </div>
-        -->
-      <!-- CORE TOOLS -->
-      <h2 class="hub-section-title">Core Tools</h2>
-      <div class="hub-grid" id="toolGrid">
-
-        <!-- Log Decryptor -->
-        <a href="tools\log-decryptor.html" class="tool-card gold-tint">
-          <div class="tool-card-header">
-            <div class="tool-icon-wrap gold">🔓</div>
-            <span class="status-badge status-live">
-              <span class="dot"></span>Live
-            </span>
-          </div>
-          <div class="tool-card-body">
-            <h3 class="tool-name">Log Decryptor</h3>
-            <p class="tool-desc">
-              Decrypt Kuro Games' Client.log files directly in your browser. 
-              Auto-detects both encryption schemes, applies the correct LUT transformation, 
-              and outputs a clean, human-readable log — no server uploads required.
+        <!-- HERO -->
+        <section class="page-hero">
+            <div class="hero-eyebrow"> Mobile WuWa Config Suite</div>
+            <h1 class="hero-title">
+                The <span class="accent">Performance</span> &amp;<br>
+                <span class="gold">Optimization</span> Portal
+            </h1>
+            <p class="hero-subtitle">
+                Utility tools for config creation on Android.
+                Decrypt Client.log files, generate configs and push your device to its limits.
             </p>
-            <div class="tool-tags">
-              <span class="tag tag-gold">Client.log</span>
-              <span class="tag tag-jade">Auto-detect</span>
-              <span class="tag tag-jade">Browser-only</span>
-              <span class="tag tag-muted">LUT XOR</span>
+        </section>
+
+        <!-- STATS -->
+        <div class="stats-bar">
+            <div class="stat-item">
+                <span class="stat-value">1</span>
+                <span class="stat-label">Active Tools</span>
             </div>
-          </div>
-          <div class="tool-card-footer">
-            <span class="text-sm text-muted text-mono">log-decryptor.html</span>
-            <div class="tool-arrow">→</div>
-          </div>
-        </a>
+            <div class="stat-item">
+                <span class="stat-value gold">3.4</span>
+                <span class="stat-label">WuWa Target Version</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-value">UE4.26</span>
+                <span class="stat-label">Engine Base</span>
+            </div>
+        </div>
 
-      </div>
+        <!-- ANNOUNCEMENT
+    <div class="announcement">
+      <span class="announcement-icon">📡</span>
+      <span>
+        <strong>Notice:</strong> Always back up your original Engine.ini before applying any custom config.
+        CVar support varies by device SoC and driver version.
+      </span>
+    </div>
+      -->
+        <!-- CORE TOOLS -->
+        <h2 class="hub-section-title">Core Tools</h2>
+        <div class="hub-grid" id="toolGrid">
 
-      <!-- COMING SOON -->
-      <h2 class="hub-section-title" style="margin-top: 40px;">In Development</h2>
-      <div class="hub-grid">
+            <!-- Log Decryptor -->
+            <a href="tools/log-decryptor.html" class="tool-card gold-tint">
+                <div class="tool-card-header">
+                    <div class="tool-icon-wrap gold">🔓</div>
+                    <span class="status-badge status-live">
+                        <span class="dot"></span>Live
+                    </span>
+                </div>
+                <div class="tool-card-body">
+                    <h3 class="tool-name">Log Decryptor</h3>
+                    <p class="tool-desc">
+                        Decrypt Kuro Games' Client.log files directly in your browser.
+                        Auto-detects both encryption schemes, applies the correct LUT transformation,
+                        and outputs a clean, human-readable log — no server uploads required.
+                    </p>
+                    <div class="tool-tags">
+                        <span class="tag tag-gold">Client.log</span>
+                        <span class="tag tag-jade">Auto-detect</span>
+                        <span class="tag tag-jade">Browser-only</span>
+                        <span class="tag tag-muted">LUT XOR</span>
+                    </div>
+                </div>
+                <div class="tool-card-footer">
+                    <span class="text-sm text-muted text-mono">tools/log-decryptor.html</span>
+                    <div class="tool-arrow">→</div>
+                </div>
+            </a>
 
-          <!-- DeviceProfiles Generator (placeholder) -->
-          <div class="tool-card disabled">
-              <div class="tool-card-header">
-                  <div class="tool-icon-wrap muted">📱</div>
-                  <span class="status-badge status-soon">
-                      <span class="dot"></span>Coming Soon
-                  </span>
-              </div>
-              <div class="tool-card-body">
-                  <h3 class="tool-name">DeviceProfiles.ini Builder</h3>
-                  <p class="tool-desc">
-                      Generate device-specific profile overrides targeting individual GPU families.
-                      Planned support for Adreno 7xx, Mali G7xx/G6xx, and Dimensity chipsets.
-                  </p>
-                  <div class="tool-tags">
-                      <span class="tag tag-muted">Planned</span>
-                      <span class="tag tag-muted">DeviceProfile</span>
-                  </div>
-              </div>
-              <div class="tool-card-footer">
-                  <span class="text-sm text-muted text-mono">TBD</span>
-                  <div class="tool-arrow" style="opacity:0.3;">→</div>
-              </div>
-          </div>
+            <!-- DeviceProfiles Generator -->
+            <a href="tools/devprof-generator.html" class="tool-card">
+                <div class="tool-card-header">
+                    <div class="tool-icon-wrap">📱</div>
+                    <span class="status-badge status-wip">
+                        <span class="dot"></span>WIP
+                    </span>
+                    <span class="status-badge status-live" style="margin-left:6px;">
+                        <span class="dot"></span>Live
+                    </span>
+                </div>
+                <div class="tool-card-body">
+                    <h3 class="tool-name">DeviceProfiles.ini Builder</h3>
+                    <p class="tool-desc">
+                        Generate device-specific profile overrides targeting individual GPU families.
+                        Select your device, tune scalability groups, frame generation, and thermal settings —
+                        outputs a ready-to-drop DeviceProfiles.ini.
+                    </p>
+                    <div class="tool-tags">
+                        <span class="tag tag-jade">DeviceProfile</span>
+                        <span class="tag tag-jade">Browser-only</span>
+                        <span class="tag tag-muted">Adreno · Mali · Exynos</span>
+                    </div>
+                </div>
+                <div class="tool-card-footer">
+                    <span class="text-sm text-muted text-mono">tools/devprof-generator.html</span>
+                    <div class="tool-arrow">→</div>
+                </div>
+            </a>
 
-          <!-- Engine.ini Generator -->
-          <div class="tool-card disabled">
-              <div class="tool-card-header">
-                  <div class="tool-icon-wrap muted">⚙️</div> <span class="status-badge status-wip">
-                      <span class="dot"></span>WIP
-                  </span>
-              </div>
-              <div class="tool-card-body">
-                  <h3 class="tool-name">Engine.ini Generator</h3>
-                  <p class="tool-desc">
-                      Build a fully customized Engine.ini configuration for your Android device.
-                      Toggle performance CVars, resolution scaling, GPU culling, shadow quality,
-                      anti-aliasing, and more — then export in one click.
-                  </p>
-                  <div class="tool-tags">
-                      <span class="tag tag-muted">UE4 CVar</span>
-                      <span class="tag tag-muted">Android</span>
-                      <span class="tag tag-muted">Adreno</span>
-                      <span class="tag tag-muted">Mali</span>
-                      <span class="tag tag-muted">DeviceProfile</span>
-                  </div>
-              </div>
-              <div class="tool-card-footer">
-                  <span class="text-sm text-muted text-mono">TBD</span> <div class="tool-arrow" style="opacity:0.3;">→</div>
-              </div>
-          </div>
+        </div><!-- /.hub-grid (Core Tools) -->
+        <!-- IN DEVELOPMENT -->
+        <h2 class="hub-section-title" style="margin-top: 60px;">In Development</h2>
+        <div class="hub-grid">
 
-          <!-- Crash Analyzer (placeholder) -->
-          <div class="tool-card disabled">
-              <div class="tool-card-header">
-                  <div class="tool-icon-wrap muted">🩺</div>
-                  <span class="status-badge status-wip">
-                      <span class="dot"></span>WIP
-                  </span>
-              </div>
-              <div class="tool-card-body">
-                  <h3 class="tool-name">Crash Log Analyzer</h3>
-                  <p class="tool-desc">
-                      Parse decrypted Client.log output and flag known crash signatures:
-                      KuroFI shader archive failures, MFRC init errors, Vulkan swapchain mismatches,
-                      and Niagara GPU buffer overflows.
-                  </p>
-                  <div class="tool-tags">
-                      <span class="tag tag-muted">WIP</span>
-                      <span class="tag tag-muted">Crash Diag</span>
-                  </div>
-              </div>
-              <div class="tool-card-footer">
-                  <span class="text-sm text-muted text-mono">TBD</span>
-                  <div class="tool-arrow" style="opacity:0.3;">→</div>
-              </div>
-          </div>
+            <!-- Engine.ini Generator -->
+            <div class="tool-card disabled">
+                <div class="tool-card-header">
+                    <div class="tool-icon-wrap muted">⚙️</div>
+                    <span class="status-badge status-wip">
+                        <span class="dot"></span>WIP
+                    </span>
+                </div>
+                <div class="tool-card-body">
+                    <h3 class="tool-name">Engine.ini Generator</h3>
+                    <p class="tool-desc">
+                        Build a fully customized Engine.ini configuration for your Android device.
+                        Toggle performance CVars, resolution scaling, GPU culling, shadow quality,
+                        anti-aliasing, and more — then export in one click.
+                    </p>
+                    <div class="tool-tags">
+                        <span class="tag tag-muted">UE4 CVar</span>
+                        <span class="tag tag-muted">Android</span>
+                        <span class="tag tag-muted">Adreno</span>
+                        <span class="tag tag-muted">Mali</span>
+                        <span class="tag tag-muted">DeviceProfile</span>
+                    </div>
+                </div>
+                <div class="tool-card-footer">
+                    <span class="text-sm text-muted text-mono">TBD</span>
+                    <div class="tool-arrow" style="opacity:0.3;">→</div>
+                </div>
+            </div>
 
-          <!--
+            <!-- Crash Log Analyzer -->
+            <div class="tool-card disabled">
+                <div class="tool-card-header">
+                    <div class="tool-icon-wrap muted">🩺</div>
+                    <span class="status-badge status-wip">
+                        <span class="dot"></span>WIP
+                    </span>
+                </div>
+                <div class="tool-card-body">
+                    <h3 class="tool-name">Crash Log Analyzer</h3>
+                    <p class="tool-desc">
+                        Parse decrypted Client.log output and flag known crash signatures:
+                        KuroFI shader archive failures, MFRC init errors, Vulkan swapchain mismatches,
+                        and Niagara GPU buffer overflows.
+                    </p>
+                    <div class="tool-tags">
+                        <span class="tag tag-muted">WIP</span>
+                        <span class="tag tag-muted">Crash Diag</span>
+                    </div>
+                </div>
+                <div class="tool-card-footer">
+                    <span class="text-sm text-muted text-mono">TBD</span>
+                    <div class="tool-arrow" style="opacity:0.3;">→</div>
+                </div>
+            </div>
+
+        </div><!-- /.hub-grid (In Development) -->
+        <!--
       ╔══════════════════════════════════════════════════════╗
       ║  ADD MORE TOOL CARDS HERE — copy any .tool-card div ║
       ║  and update href, icon, title, desc, tags, and      ║
       ║  status-badge class accordingly.                    ║
       ╚══════════════════════════════════════════════════════╝
     -->
-      </div>
-    </main>
+</div>
+</main>
 
     <!-- FOOTER -->
     <footer class="site-footer">

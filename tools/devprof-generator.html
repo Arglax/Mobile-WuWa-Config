@@ -1,0 +1,1294 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DeviceProfiles.ini Generator — WuWa Portal</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <style>
+        /* ── Core Background & Panel Fixes ── */
+        body, .page-wrapper {
+            background-color: transparent !important;
+        }
+
+        .video-bg {
+            position: fixed !important;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1 !important;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+            .video-bg video {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+
+        .gen-controls {
+            background: rgba(4, 14, 9, 0.45) !important;
+            backdrop-filter: blur(12px) !important;
+            -webkit-backdrop-filter: blur(12px) !important;
+            border: 1px solid rgba(29, 158, 117, 0.15) !important;
+            border-radius: var(--r-lg);
+            padding: 24px !important;
+        }
+
+        .accordion-item {
+            background: rgba(6, 14, 11, 0.6) !important;
+            backdrop-filter: blur(8px) !important;
+            -webkit-backdrop-filter: blur(8px) !important;
+            border: 1px solid rgba(118, 255, 208, 0.1) !important;
+            border-radius: var(--r-md) !important;
+            overflow: hidden;
+            margin-bottom: 12px;
+        }
+
+        .accordion-trigger {
+            width: 100%;
+            background: rgba(10, 26, 20, 0.4) !important;
+            border: none;
+            border-bottom: 1px solid rgba(118, 255, 208, 0.05) !important;
+            color: var(--text-primary) !important;
+            padding: 14px 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            font-family: var(--font-ui);
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            text-align: left;
+            transition: background var(--t-fast);
+        }
+
+            .accordion-trigger:hover {
+                background: rgba(29, 158, 117, 0.07) !important;
+            }
+
+        .accordion-icon {
+            margin-left: auto;
+            transition: transform var(--t-fast);
+            color: var(--jade-mid);
+            font-size: 16px;
+        }
+
+        .accordion-item.open .accordion-icon {
+            transform: rotate(180deg);
+        }
+
+        .accordion-body {
+            background: transparent !important;
+            overflow: hidden;
+            max-height: 0;
+            transition: max-height 0.35s ease;
+        }
+
+        .accordion-item.open .accordion-body {
+            max-height: 2000px;
+        }
+
+        .accordion-content {
+            padding: 16px 18px;
+        }
+
+        /* ── Generator Layout ── */
+        .generator-layout {
+            display: grid;
+            /* Widened output column to max smartphone width */
+            grid-template-columns: 1fr minmax(320px, 430px);
+            gap: 24px;
+            align-items: start;
+            max-width: var(--content-max);
+            margin: 0 auto;
+            padding: 32px clamp(16px, 4vw, 48px);
+        }
+
+        /* ── Dropdown ── */
+        .form-select {
+            width: 100%;
+            background: rgba(6, 18, 14, 0.85) !important;
+            border: 1px solid rgba(29, 158, 117, 0.3) !important;
+            border-radius: var(--r-sm) !important;
+            color: var(--text-primary) !important;
+            font-family: var(--font-ui) !important;
+            font-size: 13px !important;
+            padding: 10px 36px 10px 14px !important;
+            transition: border-color var(--t-fast), box-shadow var(--t-fast);
+            cursor: pointer;
+            appearance: none !important;
+            -webkit-appearance: none !important;
+            -moz-appearance: none !important;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%235DCAA5' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E") !important;
+            background-repeat: no-repeat !important;
+            background-position: calc(100% - 14px) center !important;
+        }
+
+            .form-select:hover {
+                border-color: var(--jade-bright) !important;
+                box-shadow: 0 0 10px var(--jade-glow-sm) !important;
+            }
+
+            .form-select:focus {
+                outline: none !important;
+                border-color: var(--jade-bright) !important;
+                box-shadow: 0 0 14px var(--jade-glow) !important;
+            }
+
+            .form-select option {
+                background-color: #060e0b !important;
+                color: var(--text-primary) !important;
+            }
+
+            .form-select optgroup {
+                background-color: #04100d !important;
+                color: var(--jade-mid) !important;
+                font-style: normal;
+                font-weight: 600;
+            }
+
+        /* ── Toggle Items ── */
+        .toggle-item {
+            display: flex !important;
+            align-items: flex-start !important;
+            gap: 14px !important;
+            padding: 14px !important;
+            border: 1px solid rgba(118, 255, 208, 0.08) !important;
+            border-radius: var(--r-sm);
+            margin-bottom: 8px !important;
+            background: rgba(7, 46, 36, 0.12) !important;
+            cursor: pointer;
+            transition: all 120ms ease;
+            user-select: none;
+        }
+
+            .toggle-item:hover {
+                background: rgba(37, 199, 148, 0.06) !important;
+                border-color: rgba(37, 199, 148, 0.25) !important;
+            }
+
+            .toggle-item.selected-active {
+                background: rgba(37, 199, 148, 0.14) !important;
+                border-color: var(--jade-bright) !important;
+                box-shadow: 0 0 12px rgba(37, 199, 148, 0.1);
+            }
+
+        .toggle-checkbox {
+            pointer-events: none !important;
+            width: 16px !important;
+            height: 16px !important;
+            margin-top: 3px !important;
+            flex-shrink: 0 !important;
+            accent-color: var(--jade-bright);
+        }
+
+        .toggle-label {
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .toggle-name {
+            color: #ffffff !important;
+            font-weight: 600 !important;
+            display: block;
+            margin-bottom: 3px;
+        }
+
+        .toggle-desc {
+            font-size: 12px;
+            color: var(--text-secondary);
+            display: block;
+            line-height: 1.5;
+        }
+
+        .cvar-key {
+            font-family: var(--font-mono);
+            font-size: 10.5px;
+            color: var(--jade-dim);
+            margin-top: 5px;
+            display: block;
+        }
+
+        .toggle-note {
+            font-size: 11px;
+            color: var(--gold-bright);
+            display: block;
+            margin-top: 4px;
+            opacity: 0.85;
+        }
+
+        /* ── Scalability Slider Section ── */
+        .scalability-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 4px;
+        }
+
+        .scalability-row {
+            background: rgba(7, 46, 36, 0.15);
+            border: 1px solid rgba(118, 255, 208, 0.09);
+            border-radius: var(--r-sm);
+            padding: 10px 14px;
+        }
+
+            .scalability-row label {
+                font-size: 12px;
+                color: var(--text-secondary);
+                font-family: var(--font-mono);
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                margin-bottom: 6px;
+            }
+
+                .scalability-row label span {
+                    color: var(--jade-bright);
+                    font-weight: 700;
+                    font-size: 13px;
+                }
+
+            .scalability-row input[type=range] {
+                width: 100%;
+                accent-color: var(--jade-bright);
+                height: 4px;
+                cursor: pointer;
+            }
+
+        .scalability-hint {
+            font-size: 10.5px;
+            color: var(--text-muted);
+            margin-top: 3px;
+            font-family: var(--font-mono);
+            display: block;
+        }
+
+        /* Locked row (effects capped at 2) */
+        .scalability-row.locked {
+            border-color: rgba(239, 159, 39, 0.2);
+            background: rgba(90, 56, 0, 0.12);
+        }
+
+            .scalability-row.locked label {
+                color: var(--gold-bright);
+            }
+
+            .scalability-row.locked .scalability-hint {
+                color: var(--gold-mid);
+            }
+
+        /* ── Sidebar & Output ── */
+        .gen-sidebar {
+            position: sticky;
+            top: calc(var(--header-h) + 16px);
+        }
+
+        .output-card {
+            background: linear-gradient(145deg, rgba(4, 14, 9, 0.8), rgba(7, 15, 10, 0.85) 60%, rgba(13, 9, 0, 0.85)) !important;
+            backdrop-filter: blur(12px) !important;
+            -webkit-backdrop-filter: blur(12px) !important;
+            border: 1px solid rgba(29, 158, 117, 0.2) !important;
+            border-radius: var(--r-lg);
+            box-shadow: var(--shadow-card), 0 0 40px rgba(29,158,117,0.06);
+            overflow: hidden;
+        }
+
+        .output-header {
+            padding: 14px 18px;
+            border-bottom: 1px solid rgba(118, 255, 208, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: linear-gradient(90deg, rgba(7,46,36,0.4), transparent);
+        }
+
+        .output-title {
+            font-family: var(--font-display);
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--jade-mid);
+        }
+
+        .output-meta {
+            padding: 10px 18px;
+            background: rgba(2,8,5,0.3);
+            border-bottom: 1px solid rgba(118, 255, 208, 0.08);
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .meta-pill {
+            font-size: 11px;
+            font-family: var(--font-mono);
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+            .meta-pill span {
+                color: var(--jade-bright);
+                font-weight: 600;
+            }
+
+        #configOutput, .code-output {
+            min-height: 420px;
+            max-height: 580px;
+            overflow-y: auto;
+            padding: 18px;
+            font-family: var(--font-mono);
+            font-size: 12px;
+            line-height: 1.75;
+            background: rgba(2, 8, 5, 0.35) !important;
+            border: none;
+            width: 100%;
+            outline: none;
+            box-sizing: border-box;
+            white-space: pre-wrap;
+            word-break: break-all;
+            text-align: left;
+        }
+
+        /* ── Submit Form ── */
+        .submit-form {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .form-input {
+            width: 100%;
+            background: rgba(6, 18, 14, 0.85);
+            border: 1px solid rgba(29, 158, 117, 0.3);
+            border-radius: var(--r-sm);
+            color: var(--text-primary);
+            font-family: var(--font-ui);
+            font-size: 13px;
+            padding: 10px 14px;
+            outline: none;
+            transition: border-color var(--t-fast), box-shadow var(--t-fast);
+            box-sizing: border-box;
+        }
+
+            .form-input:hover {
+                border-color: var(--jade-bright);
+                box-shadow: 0 0 8px var(--jade-glow-sm);
+            }
+
+            .form-input:focus {
+                border-color: var(--jade-bright);
+                box-shadow: 0 0 12px var(--jade-glow);
+            }
+
+            .form-input::placeholder {
+                color: var(--text-muted);
+            }
+
+            .form-input.error {
+                border-color: rgba(220, 60, 60, 0.6);
+            }
+
+        .form-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            font-family: var(--font-mono);
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 0;
+        }
+
+        /* ── Buttons ── */
+        .btn {
+            padding: 8px 16px;
+            border-radius: var(--r-sm);
+            border: none;
+            cursor: pointer;
+            font-family: var(--font-ui);
+            font-size: 13px;
+            font-weight: 500;
+            letter-spacing: 0.02em;
+            transition: all var(--t-fast);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            white-space: nowrap;
+        }
+
+        .btn-sm {
+            padding: 7px 12px;
+            font-size: 12px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--jade-mid), var(--jade-dim));
+            color: var(--text-primary);
+            border: 1px solid var(--jade-mid);
+        }
+
+            .btn-primary:hover {
+                background: linear-gradient(135deg, var(--jade-bright), var(--jade-mid));
+                box-shadow: 0 0 16px var(--jade-glow);
+            }
+
+        .btn-gold {
+            background: linear-gradient(135deg, var(--gold-mid), var(--gold-dim));
+            color: var(--text-primary);
+            border: 1px solid var(--gold-mid);
+        }
+
+            .btn-gold:hover {
+                background: linear-gradient(135deg, var(--gold-bright), var(--gold-mid));
+                box-shadow: 0 0 16px var(--gold-glow);
+            }
+
+        .btn-ghost {
+            background: rgba(6,18,14,0.6);
+            color: var(--text-secondary);
+            border: 1px solid var(--border-subtle);
+        }
+
+            .btn-ghost:hover {
+                border-color: var(--jade-mid);
+                color: var(--jade-bright);
+            }
+
+        .btn-purple {
+            background: linear-gradient(135deg, rgba(130,40,190,0.5), rgba(90,20,140,0.4));
+            color: #c87de8;
+            border: 1px solid rgba(160,60,200,0.35);
+        }
+
+            .btn-purple:hover {
+                background: linear-gradient(135deg, rgba(150,60,210,0.6), rgba(110,30,160,0.5));
+                box-shadow: 0 0 14px rgba(160,60,200,0.2);
+            }
+
+        /* ── Card ── */
+        .card {
+            background: rgba(4, 14, 9, 0.5) !important;
+            backdrop-filter: blur(10px) !important;
+            -webkit-backdrop-filter: blur(10px) !important;
+            border: 1px solid rgba(29, 158, 117, 0.15) !important;
+            border-radius: var(--r-md);
+            padding: 16px;
+        }
+
+        /* ── Loading state ── */
+        .device-loading {
+            color: var(--text-muted);
+            font-size: 12px;
+            font-family: var(--font-mono);
+            padding: 4px 0;
+        }
+
+        /* ── Responsive ── */
+        @media (max-width: 900px) {
+            .generator-layout {
+                grid-template-columns: 1fr;
+                padding: 20px 16px;
+            }
+
+            .gen-sidebar {
+                position: static;
+                order: -1;
+            }
+
+            #configOutput, .code-output {
+                min-height: 200px;
+                max-height: 300px;
+            }
+
+            .scalability-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="video-bg">
+        <video autoplay muted loop playsinline>
+            <source src="../assets/video/MovingBG.mp4" type="video/mp4" />
+        </video>
+    </div>
+
+    <div class="page-wrapper">
+
+        <header class="site-header">
+            <a href="../index.html" class="header-brand">
+                <div class="header-brand-icon">⚙</div>
+                <div class="header-brand-text">
+                    <span class="header-brand-title">WUWA PORTAL</span>
+                    <span class="header-brand-sub">by Arglax</span>
+                </div>
+            </a>
+            <nav class="header-nav" id="mainNav">
+                <a href="../index.html" class="nav-link">Hub</a>
+                <a href="log-decryptor.html" class="nav-link">Log Decryptor</a>
+                <a href="devprof-generator.html" class="nav-link active">DevProf Generator</a>
+            </nav>
+            <div class="header-spacer"></div>
+            <span class="header-badge">DeviceProfiles.ini</span>
+            <button class="mobile-menu-btn" onclick="document.getElementById('mainNav').classList.toggle('open')" aria-label="Menu">☰</button>
+        </header>
+
+        <div style="padding: 32px clamp(16px,4vw,48px) 0; max-width: var(--content-max); margin: 0 auto; width:100%;">
+            <div class="page-hero" style="text-align:left; padding-top:24px;">
+                <div class="hero-eyebrow">UE4.26 Device Override Builder</div>
+                <h1 class="hero-title" style="font-size: clamp(22px,3.5vw,38px);">
+                    DeviceProfiles.ini <span class="accent">Generator</span>
+                </h1>
+                <p class="hero-subtitle" style="margin-left:0; max-width:640px; font-size:14px;">
+                    Select your mobile device, customize performance CVars by section, and generate a ready-to-use
+                    <code style="font-family:var(--font-mono);font-size:12px;color:var(--jade-bright);">DeviceProfiles.ini</code>
+                    targeted to your hardware profile.
+                </p>
+                <div class="status-badge status-wip" style="margin-top:14px;">
+                    <span class="dot"></span>
+                    Work In Progress (WIP)
+                </div>
+
+                <p style="
+    margin-top:10px;
+    max-width:650px;
+    font-size:12px;
+    color:var(--text-secondary);
+    line-height:1.7;
+">
+                    Information may be inaccurate. Confirm your exact
+                    <code style="font-family:var(--font-mono);color:var(--gold-bright);">
+                        DeviceProfile
+                    </code>
+                    name through the
+                    <code style="font-family:var(--font-mono);color:var(--jade-bright);">
+                        Client.log
+                    </code>.
+                </p>
+            </div>
+        </div>
+
+        <div class="generator-layout">
+
+            <div class="gen-controls">
+
+                <div class="device-strip">
+                    <div class="device-strip-header">
+                        <span class="device-strip-label">📱 Device Selection</span>
+                        <span class="device-loading" id="deviceLoadStatus">Loading device list…</span>
+                    </div>
+                    <div class="form-group">
+                        <select class="form-select" id="deviceSelect" onchange="onDeviceChange()">
+                            <option value="">— Select your device —</option>
+                        </select>
+                    </div>
+                    <div class="device-profile-resolved" id="profileResolved" style="display:none;">
+                        <span class="profile-label">Profile →</span>
+                        <span id="resolvedProfileName">—</span>
+                    </div>
+                </div>
+
+                <div class="sections-stack">
+
+                    <div class="accordion-item open">
+                        <button class="accordion-trigger" onclick="toggleAccordion(this)">
+                            <span class="section-badge badge-stable">🔷 Graphics API</span>
+                            Vulkan Mode
+                            <div class="accordion-icon">▾</div>
+                        </button>
+                        <div class="accordion-body">
+                            <div class="accordion-content">
+                                <div class="toggle-item" onclick="toggleOption('vulkan', event)">
+                                    <input type="checkbox" class="toggle-checkbox" id="vulkan" />
+                                    <div class="toggle-label">
+                                        <span class="toggle-name">Force Vulkan</span>
+                                        <span class="toggle-desc">Forces the engine to use Vulkan as the graphics API instead of OpenGL ES. Enables lower CPU overhead, better GPU parallelism, and unlocks advanced rendering features on supported hardware.</span>
+                                        <span class="toggle-note">⚠ Only enable if your device supports Vulkan 1.1+. Check your GPU spec before enabling. OpenGL ES is the safer default on older or budget chipsets.</span>
+                                        <span class="cvar-key">CVars=r.Vulkan.Enable=1</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item open">
+                        <button class="accordion-trigger" onclick="toggleAccordion(this)">
+                            <span class="section-badge badge-visual">🎨 Quality</span>
+                            Scalability Groups (sg.*)
+                            <div class="accordion-icon">▾</div>
+                        </button>
+                        <div class="accordion-body">
+                            <div class="accordion-content">
+                                <p style="font-size:12px; color:var(--text-secondary); margin-bottom:14px; line-height:1.6;">
+                                    Scalability groups control the game's quality tiers globally.
+                                    <strong style="color:var(--text-primary);">0 = potato / 4 = cinematic</strong>. These override in-game quality settings at the INI level.
+                                    Each slider emits a <code style="font-family:var(--font-mono);font-size:11px;color:var(--jade-bright);">CVars=sg.*Quality=N</code> line only when toggled on.
+                                </p>
+                                <div class="toggle-item" style="margin-bottom:14px;" onclick="toggleOption('sgEnable', event)">
+                                    <input type="checkbox" class="toggle-checkbox" id="sgEnable" />
+                                    <div class="toggle-label">
+                                        <span class="toggle-name">Enable Scalability Group Overrides</span>
+                                        <span class="toggle-desc">When checked, the sliders below will be written to the output. Uncheck to omit all sg.* CVars entirely.</span>
+                                        <span class="cvar-key">sg.ViewDistanceQuality · sg.ShadowQuality · sg.TextureQuality · …</span>
+                                    </div>
+                                </div>
+
+                                <div id="scalabilitySliders" style="opacity:0.4; pointer-events:none; transition:opacity 0.2s;">
+                                    <div class="scalability-grid">
+                                        <div class="scalability-row">
+                                            <label>View Distance <span id="vd-val">3</span></label>
+                                            <input type="range" id="sg-vd" min="-1" max="4" value="3" oninput="syncSlider('vd')" />
+                                            <span class="scalability-hint" id="vd-hint">Mid/High End</span>
+                                        </div>
+                                        <div class="scalability-row">
+                                            <label>Anti-Aliasing <span id="aa-val">3</span></label>
+                                            <input type="range" id="sg-aa" min="-1" max="4" value="3" oninput="syncSlider('aa')" />
+                                            <span class="scalability-hint" id="aa-hint">Mid/High End</span>
+                                        </div>
+                                        <div class="scalability-row">
+                                            <label>Shadow <span id="sh-val">2</span></label>
+                                            <input type="range" id="sg-sh" min="-1" max="4" value="2" oninput="syncSlider('sh')" />
+                                            <span class="scalability-hint" id="sh-hint">Mid End</span>
+                                        </div>
+                                        <div class="scalability-row">
+                                            <label>Post Process <span id="pp-val">3</span></label>
+                                            <input type="range" id="sg-pp" min="-1" max="4" value="3" oninput="syncSlider('pp')" />
+                                            <span class="scalability-hint" id="pp-hint">Mid/High End</span>
+                                        </div>
+                                        <div class="scalability-row">
+                                            <label>Texture <span id="tx-val">4</span></label>
+                                            <input type="range" id="sg-tx" min="-1" max="4" value="4" oninput="syncSlider('tx')" />
+                                            <span class="scalability-hint" id="tx-hint">High End / Cinematic</span>
+                                        </div>
+                                        <div class="scalability-row locked">
+                                            <label>Effects <span id="ef-val">2</span></label>
+                                            <input type="range" id="sg-ef" min="-1" max="2" value="2" oninput="syncSlider('ef')" />
+                                            <span class="scalability-hint" id="ef-hint">⚠ Capped at 2 — values above 2 cause game crash</span>
+                                        </div>
+                                        <div class="scalability-row">
+                                            <label>Foliage <span id="fo-val">2</span></label>
+                                            <input type="range" id="sg-fo" min="-1" max="4" value="2" oninput="syncSlider('fo')" />
+                                            <span class="scalability-hint" id="fo-hint">Mid End</span>
+                                        </div>
+                                        <div class="scalability-row">
+                                            <label>Shading <span id="sd-val">3</span></label>
+                                            <input type="range" id="sg-sd" min="-1" max="4" value="3" oninput="syncSlider('sd')" />
+                                            <span class="scalability-hint" id="sd-hint">Mid/High End</span>
+                                        </div>
+                                    </div>
+                                    <p style="font-size:11px; color:var(--text-muted); margin-top:10px; line-height:1.6;">
+                                        Recommended tiers: <strong style="color:var(--text-secondary);">0</strong> Potato ·
+                                        <strong style="color:var(--text-secondary);">1</strong> Low End ·
+                                        <strong style="color:var(--text-secondary);">2</strong> Mid End ·
+                                        <strong style="color:var(--text-secondary);">3</strong> Mid/High ·
+                                        <strong style="color:var(--jade-bright);">4</strong> High End (not available for Effects)
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item open">
+                        <button class="accordion-trigger" onclick="toggleAccordion(this)">
+                            <span class="section-badge badge-perf">⚡ Performance</span>
+                            Anti Thermal Throttling
+                            <div class="accordion-icon">▾</div>
+                        </button>
+                        <div class="accordion-body">
+                            <div class="accordion-content">
+                                <div class="toggle-item" onclick="toggleOption('thermal', event)">
+                                    <input type="checkbox" class="toggle-checkbox" id="thermal" />
+                                    <div class="toggle-label">
+                                        <span class="toggle-name">Disable Thermal Throttle Limits</span>
+                                        <span class="toggle-desc">Disables the engine's built-in frame interpolation energy saving mode and removes the battery-based frame cap. Allows the game to sustain peak performance even on battery power, at the cost of higher heat output.</span>
+                                        <span class="toggle-note">⚠ Not recommended for extended sessions on devices with poor thermal management. Monitor device temperature if using this option.</span>
+                                        <span class="cvar-key">CVars=r.Mobile.EnergySavingFrameInterpolation=0 | CVars=r.DontLimitOnBattery=1</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item open">
+                        <button class="accordion-trigger" onclick="toggleAccordion(this)">
+                            <span class="section-badge badge-perf">⚡ Performance</span>
+                            Device Score Spoofing
+                            <div class="accordion-icon">▾</div>
+                        </button>
+                        <div class="accordion-body">
+                            <div class="accordion-content">
+                                <div class="toggle-item" onclick="toggleOption('scoreEnable', event)">
+                                    <input type="checkbox" class="toggle-checkbox" id="scoreEnable" />
+                                    <div class="toggle-label">
+                                        <span class="toggle-name">Override Device Score</span>
+                                        <span class="toggle-desc">Spoofs the internal hardware benchmark score to force the game into a higher or lower performance bracket.</span>
+                                        <span class="cvar-key">DeviceScore=Value</span>
+                                    </div>
+                                </div>
+                                <div id="scoreControls" style="opacity:0.4; pointer-events:none; transition:opacity 0.2s; padding-top:10px;">
+                                    <div style="display:flex; gap:10px; margin-bottom:10px; align-items: center;">
+                                        <input type="range" id="scoreSlider" min="400" max="999999" value="2000" style="flex:1; accent-color: var(--jade-bright);" oninput="syncScore('slider')" />
+                                        <input type="number" id="scoreInput" min="400" max="999999" value="2000" class="form-input" style="width:100px; padding:6px 10px;" oninput="syncScore('input')" />
+                                    </div>
+                                    <div style="display:flex; gap:5px; flex-wrap:wrap;">
+                                        <button class="btn btn-ghost btn-sm" onclick="setScore(2000)">2000</button>
+                                        <button class="btn btn-ghost btn-sm" onclick="setScore(5000)">5000</button>
+                                        <button class="btn btn-ghost btn-sm" onclick="setScore(9999)">9999</button>
+                                        <button class="btn btn-ghost btn-sm" onclick="setScore(99999)">99999</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item open">
+                        <button class="accordion-trigger" onclick="toggleAccordion(this)">
+                            <span class="section-badge badge-visual">🎞 Frame Gen</span>
+                            Frame Generation (KuroFI)
+                            <div class="accordion-icon">▾</div>
+                        </button>
+                        <div class="accordion-body">
+                            <div class="accordion-content">
+                                <div class="toggle-item" onclick="toggleOption('kurofi', event)">
+                                    <input type="checkbox" class="toggle-checkbox" id="kurofi" />
+                                    <div class="toggle-label">
+                                        <span class="toggle-name">Enable Kuro Frame Interpolation (KuroFI)</span>
+                                        <span class="toggle-desc">Activates Kuro Games' proprietary frame interpolation system, which generates intermediate frames to smooth perceived motion beyond the hardware's native render rate. Can significantly improve visual fluidity on high-refresh-rate displays.</span>
+                                        <span class="toggle-note">⚠ Known to cause graphical glitches or KuroFI init failures on some MediaTek chipsets (observed in v3.3). Works reliably on Snapdragon 8 Gen 2 and above. Check your Client.log for <code style="font-family:var(--font-mono);font-size:10px;color:var(--gold-bright);">KuroFI_INIT_FAILED</code> if issues occur.</span>
+                                        <span class="cvar-key">CVars=r.KuroFI.Enable=1</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <button class="accordion-trigger" onclick="toggleAccordion(this)">
+                            <span class="section-badge badge-submit">📨 Community</span>
+                            Submit Your Device
+                            <div class="accordion-icon">▾</div>
+                        </button>
+                        <div class="accordion-body">
+                            <div class="accordion-content">
+                                <p style="font-size:12px; color:var(--text-secondary); margin-bottom:14px; line-height:1.6;">
+                                    Can't find your device in the list? Submit it here so it can be added in a future update.
+                                    Please provide the <strong style="color:var(--text-primary);">exact retail name</strong> of your device and the
+                                    <strong style="color:var(--text-primary);">correct DeviceProfile name</strong> from WuWa's game files or known sources.
+                                </p>
+                                <div class="submit-form">
+                                    <div class="form-group">
+                                        <label class="form-label">Exact Device Name</label>
+                                        <input type="text" class="form-input" id="submitDevice"
+                                               placeholder="e.g. Realme GT6T 5G"
+                                               maxlength="80" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">DeviceProfile Name</label>
+                                        <input type="text" class="form-input" id="submitProfile"
+                                               placeholder="e.g. Android_Adreno_8xx"
+                                               maxlength="80" />
+                                    </div>
+                                    <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+                                        <button class="btn btn-purple btn-sm" onclick="submitDevice()">📨 Submit via Email</button>
+                                        <span style="font-size:11px; color:var(--text-muted);">Opens your default email client — your report goes directly to the developer.</span>
+                                    </div>
+                                    <p style="font-size:11px; color:var(--text-muted); line-height:1.5; margin-top:4px;">
+                                        Submissions are reviewed by <strong style="color:var(--jade-bright);">Arglax</strong> and will be added to future versions of the device-profiles CSV. You can also open a GitHub issue or reach out via Discord.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div style="display:flex; gap:10px; margin-top:18px; flex-wrap:wrap;">
+                    <button class="btn btn-ghost btn-sm" onclick="resetAll()">↺ Reset All</button>
+                    <button class="btn btn-ghost btn-sm" onclick="generateConfig()">⟳ Refresh Output</button>
+                    <button class="btn btn-gold" onclick="showPreview()">👁 Preview</button>
+                </div>
+
+            </div><aside class="gen-sidebar">
+                <div class="output-card">
+                    <div class="output-header">
+                        <span class="output-title">📄 DeviceProfiles.ini Output</span>
+                        <span class="status-badge status-live" style="font-size:10px;">
+                            <span class="dot"></span>Live Preview
+                        </span>
+                    </div>
+                    <div class="output-meta" id="outputMeta">
+                        <span class="meta-pill">CVars: <span id="cvarCount">0</span></span>
+                        <span class="meta-pill">Lines: <span id="lineCount">0</span></span>
+                        <span class="meta-pill">Device: <span id="deviceLabel">—</span></span>
+                    </div>
+                    <div id="configOutput" spellcheck="false"></div>
+                    <div class="output-actions">
+                        <button class="btn btn-primary btn-sm" style="flex:1;" onclick="copyConfig()">⎘ Copy</button>
+                        <button class="btn btn-gold btn-sm" style="flex:1;" onclick="downloadConfig()">↓ Download</button>
+                        <button class="btn btn-ghost btn-sm" onclick="generateConfig()" data-tooltip="Refresh output">↺</button>
+                    </div>
+                </div>
+
+                <div class="card" style="margin-top:16px;">
+                    <div style="font-size:11px; font-family:var(--font-mono); color:var(--text-muted); text-transform:uppercase; letter-spacing:0.1em; margin-bottom:8px;">Placement Path</div>
+                    <code style="font-family:var(--font-mono);font-size:10.5px;color:var(--jade-bright);line-height:1.8;word-break:break-all;display:block;">
+                        \Internal shared storage\Android\data\<br />
+                        com.kurogame.wutheringwaves.global\files\<br />
+                        UE4Game\Client\Client\Saved\Config\Android
+                    </code>
+                    <div style="height:1px; background:linear-gradient(90deg,transparent,var(--border-mid),transparent); margin:12px 0;"></div>
+                    <p style="font-size:11.5px; color:var(--text-muted); line-height:1.6;">
+                        DeviceProfiles CVars are applied at the <strong style="color:var(--text-secondary);">SetByDeviceProfile</strong> priority. They are <strong style="color:red;">overriden by the Engine.ini</strong> on the same CVar.
+                    </p>
+                </div>
+            </aside>
+
+        </div><footer class="site-footer">
+            <span class="footer-text">WuWa Portal · DeviceProfiles.ini Generator · Not affiliated with Kuro Games</span>
+            <div class="footer-links">
+                <a href="../index.html" class="footer-link">← Hub</a>
+                <a href="../engine-generator.html" class="footer-link">Engine.ini Generator</a>
+                <a href="../log-decryptor.html" class="footer-link">Log Decryptor</a>
+            </div>
+        </footer>
+
+    </div><div class="toast-container" id="toastContainer"></div>
+
+    <div id="preview-modal" class="preview-modal">
+        <div class="preview-window card">
+            <div class="preview-header">
+                <div>
+                    <div class="section-label">DeviceProfile Preview</div>
+                    <div class="preview-title">DeviceProfiles.ini</div>
+                </div>
+                <button class="preview-close" onclick="closePreview()">✕</button>
+            </div>
+            <div id="preview-content" class="code-output"></div>
+        </div>
+    </div>
+
+    <script>
+        // ══════════════════════════════════════════════════════════
+        //  WuWa Portal — DeviceProfiles.ini Generator
+        //  by Arglax
+        // ══════════════════════════════════════════════════════════
+
+        let deviceDatabase = []; // Loaded from CSV
+        let currentProfile = "";
+        let currentDeviceName = "";
+        let currentRawOutputText = ""; // Holds actual plain text for clipboard/download
+        const SG_LABELS = {
+            "-1": "OFF",
+            0: "Potato",
+            1: "Low End",
+            2: "Mid End",
+            3: "Mid/High End",
+            4: "High End / Cinematic"
+        };
+        const SG_MAP = {
+            vd: { cvar: "sg.ViewDistanceQuality", id: "sg-vd" },
+            aa: { cvar: "sg.AntiAliasingQuality", id: "sg-aa" },
+            sh: { cvar: "sg.ShadowQuality", id: "sg-sh" },
+            pp: { cvar: "sg.PostProcessQuality", id: "sg-pp" },
+            tx: { cvar: "sg.TextureQuality", id: "sg-tx" },
+            ef: { cvar: "sg.EffectsQuality", id: "sg-ef" },
+            fo: { cvar: "sg.FoliageQuality", id: "sg-fo" },
+            sd: { cvar: "sg.ShadingQuality", id: "sg-sd" },
+        };
+
+        // ── CSV Loader ──────────────────────────────────────────
+        async function loadDeviceCSV() {
+            try {
+                const resp = await fetch("dp.csv");
+                if (!resp.ok) throw new Error("fetch failed");
+                const text = await resp.text();
+                parseCSV(text);
+            } catch {
+                const fallback = `device_name,profile_name,chipset_family,notes
+Generic Android,Android_Default,Generic,Fallback profile
+Poco X6 Pro 5G,Android_Mali_G61x,MediaTek,Dimensity 8300U · Mali G615 MC6
+Poco F6 Pro,Android_Adreno_8xx,Qualcomm,SD 8 Gen 2 · Adreno 740
+Samsung Galaxy S24 Ultra,Android_Adreno_8xx,Qualcomm,SD 8 Gen 3 · Adreno 750
+Xiaomi 14 Ultra,Android_Adreno_8xx,Qualcomm,SD 8 Gen 3 · Adreno 750
+OnePlus 12,Android_Adreno_8xx,Qualcomm,SD 8 Gen 3 · Adreno 750
+ASUS ROG Phone 8 Pro,Android_Adreno_8xx,Qualcomm,SD 8 Gen 3 · Adreno 750
+Vivo X100 Pro,Android_Mali_Immortalis,MediaTek,Dimensity 9300 · Immortalis G720`;
+                parseCSV(fallback);
+            }
+        }
+
+        function parseCSV(text) {
+            const lines = text.trim().split("\n");
+            deviceDatabase = lines.slice(1).map(line => {
+                const cols = line.split(",");
+                return {
+                    device_name: cols[0]?.trim() || "",
+                    profile_name: cols[1]?.trim() || "",
+                    chipset_family: cols[2]?.trim() || "",
+                    notes: cols.slice(3).join(",").trim() || ""
+                };
+            }).filter(d => d.device_name && d.profile_name);
+
+            buildDeviceDropdown();
+            document.getElementById("deviceLoadStatus").textContent = `${deviceDatabase.length} devices loaded`;
+        }
+
+        function buildDeviceDropdown() {
+            const sel = document.getElementById("deviceSelect");
+            while (sel.options.length > 1) sel.remove(1);
+
+            const families = {};
+            deviceDatabase.forEach(d => {
+                if (!families[d.chipset_family]) families[d.chipset_family] = [];
+                families[d.chipset_family].push(d);
+            });
+
+            const familyOrder = ["Qualcomm", "MediaTek", "Samsung Exynos", "Google Tensor", "Apple", "Generic"];
+            const sortedFamilies = [...Object.keys(families)].sort((a, b) => {
+                const ia = familyOrder.indexOf(a), ib = familyOrder.indexOf(b);
+                if (ia === -1 && ib === -1) return a.localeCompare(b);
+                if (ia === -1) return 1;
+                if (ib === -1) return -1;
+                return ia - ib;
+            });
+
+            sortedFamilies.forEach(family => {
+                const group = document.createElement("optgroup");
+                group.label = `── ${family} ──`;
+                families[family].sort((a, b) => a.device_name.localeCompare(b.device_name)).forEach(d => {
+                    const opt = document.createElement("option");
+                    opt.value = d.device_name;
+                    opt.textContent = d.device_name;
+                    opt.dataset.profile = d.profile_name;
+                    opt.dataset.notes = d.notes;
+                    group.appendChild(opt);
+                });
+                sel.appendChild(group);
+            });
+        }
+
+        // ── Device Selection ────────────────────────────────────
+        function onDeviceChange() {
+            const sel = document.getElementById("deviceSelect");
+            const opt = sel.options[sel.selectedIndex];
+            if (!opt || !opt.value) {
+                currentProfile = "";
+                currentDeviceName = "";
+                document.getElementById("profileResolved").style.display = "none";
+                generateConfig();
+                return;
+            }
+
+            currentDeviceName = opt.value;
+            currentProfile = opt.dataset.profile || "Android_Default";
+
+            document.getElementById("resolvedProfileName").textContent = `[${currentProfile} DeviceProfile]`;
+            document.getElementById("profileResolved").style.display = "flex";
+            document.getElementById("deviceLabel").textContent = currentDeviceName;
+            generateConfig();
+        }
+
+        // ── Accordion Toggle ─────────────────────────────────────
+        function toggleAccordion(trigger) {
+            const item = trigger.closest(".accordion-item");
+            item.classList.toggle("open");
+        }
+
+        // ── Toggle Option (checkbox + visual state) ───────────────
+        function toggleOption(id, event) {
+            const cb = document.getElementById(id);
+            if (!cb) return;
+
+            // Harmonizes direct checkbox clicks and parent card clicks safely
+            if (event && event.target === cb) {
+                // Browser natively processed state change
+            } else {
+                cb.checked = !cb.checked;
+            }
+
+            const wrap = cb.closest(".toggle-item");
+            if (wrap) wrap.classList.toggle("selected-active", cb.checked);
+
+            if (id === "sgEnable") {
+                const sliders = document.getElementById("scalabilitySliders");
+                sliders.style.opacity = cb.checked ? "1" : "0.4";
+                sliders.style.pointerEvents = cb.checked ? "auto" : "none";
+            }
+
+            if (id === "scoreEnable") {
+                const controls = document.getElementById("scoreControls");
+                controls.style.opacity = cb.checked ? "1" : "0.4";
+                controls.style.pointerEvents = cb.checked ? "auto" : "none";
+            }
+
+            generateConfig();
+        }
+
+        // ── Sliders sync ──────────────────────────────────────────
+        function syncSlider(key) {
+            const el = document.getElementById(`sg-${key}`);
+            const val = parseInt(el.value);
+            document.getElementById(`${key}-val`).textContent =
+                val === -1 ? "OFF" : val;
+            const hintEl = document.getElementById(`${key}-hint`);
+            if (key === "ef") {
+                hintEl.textContent = val <= 1
+                    ? `⚠ Capped at 2 — currently ${SG_LABELS[val]}`
+                    : "⚠ Capped at 2 — values above 2 cause game crash";
+            } else {
+                hintEl.textContent = SG_LABELS[val];
+            }
+            generateConfig();
+        }
+
+        function syncScore(source) {
+            const slider = document.getElementById("scoreSlider");
+            const input = document.getElementById("scoreInput");
+            if (source === 'slider') {
+                input.value = slider.value;
+            } else {
+                slider.value = input.value;
+            }
+            generateConfig();
+        }
+
+        function setScore(val) {
+            document.getElementById("scoreSlider").value = val;
+            document.getElementById("scoreInput").value = val;
+            generateConfig();
+        }
+
+        // ── Config Generator ──────────────────────────────────────
+        function generateConfig() {
+            const out = document.getElementById("configOutput");
+            if (!out) return;
+
+            if (!currentProfile) {
+                out.innerHTML = '<span style="color: lightgreen;">; WuWa DeviceProfiles.ini — select a device above to begin…</span>';
+                currentRawOutputText = "; WuWa DeviceProfiles.ini — select a device above to begin…";
+                updateMeta(0, 0);
+                return;
+            }
+
+            let rawLines = [];
+            let htmlLines = [];
+
+            function addLine(text) {
+                rawLines.push(text);
+                if (text.startsWith(";")) {
+                    htmlLines.push(`<span style="color: lightgreen;">${text}</span>`);
+                } else if (text.startsWith("CVars=") || text.startsWith("DeviceScore=")) {
+                    htmlLines.push(`<span style="color: orange;">${text}</span>`);
+                } else {
+                    htmlLines.push(`<span style="color: var(--jade-bright);">${text}</span>`);
+                }
+            }
+
+            addLine("; ──────────");
+            addLine(`; WuWa DeviceProfiles.ini — Generated by WuWa Portal`);
+            addLine(`; Device  : ${currentDeviceName}`);
+            addLine(`; Profile : [${currentProfile} DeviceProfile]`);
+            addLine(`; Tool Link · https://arglax.github.io/Mobile-WuWa-Config/tools/devprof-generator.html`);
+            addLine("; ─────────");
+            addLine("");
+            addLine(`[${currentProfile} DeviceProfile]`);
+
+            let cvarCount = 0;
+
+            // Device Score
+            if (document.getElementById("scoreEnable")?.checked) {
+                addLine("; -- Device Score Spoofing --");
+                addLine(`DeviceScore=${document.getElementById("scoreInput").value}`);
+                cvarCount++;
+            }
+
+            // Vulkan
+            if (document.getElementById("vulkan")?.checked) {
+                addLine("; -- Graphics API --");
+                addLine("CVars=r.Vulkan.Enable=1");
+                cvarCount++;
+            }
+
+            // Scalability Groups
+            if (document.getElementById("sgEnable")?.checked) {
+                addLine("; -- Scalability Groups --");
+                Object.entries(SG_MAP).forEach(([key, meta]) => {
+                    const el = document.getElementById(meta.id);
+
+                    if (!el) return;
+
+                    const value = parseInt(el.value);
+
+                    // OFF (-1) means do not emit the CVar
+                    if (value === -1) return;
+
+                    addLine(`CVars=${meta.cvar}=${value}`);
+                    cvarCount++;
+                });
+            }
+
+            // Anti Thermal Throttle
+            if (document.getElementById("thermal")?.checked) {
+                addLine("; -- Anti Thermal Throttling --");
+                addLine("CVars=r.Mobile.EnergySavingFrameInterpolation=0");
+                addLine("CVars=r.DontLimitOnBattery=1");
+                cvarCount += 2;
+            }
+
+            // Frame Generation
+            if (document.getElementById("kurofi")?.checked) {
+                addLine("; -- Frame Generation (KuroFI) --");
+                addLine("CVars=r.KuroFI.Enable=1");
+                cvarCount++;
+            }
+
+            if (cvarCount === 0) {
+                addLine("; No CVars selected — check options on the left to add overrides.");
+            }
+
+            currentRawOutputText = rawLines.join("\n");
+            out.innerHTML = htmlLines.join("\n");
+
+            updateMeta(cvarCount, rawLines.length);
+        }
+
+        function updateMeta(cvars, lineCount) {
+            document.getElementById("cvarCount").textContent = cvars;
+            document.getElementById("lineCount").textContent = lineCount;
+        }
+
+        // ── Copy ────────────────────────────────────────────────
+        function copyConfig() {
+            if (!currentRawOutputText || currentRawOutputText.startsWith("; WuWa DeviceProfiles.ini — select")) {
+                showToast("No config to copy — select a device first.", "error"); return;
+            }
+            navigator.clipboard.writeText(currentRawOutputText)
+                .then(() => showToast("✓ Config copied to clipboard!", "success"))
+                .catch(() => showToast("Copy failed — try selecting and copying manually.", "error"));
+        }
+
+        // ── Download ────────────────────────────────────────────
+        function downloadConfig() {
+            if (!currentRawOutputText || currentRawOutputText.startsWith("; WuWa DeviceProfiles.ini — select")) {
+                showToast("No config to download — select a device first.", "error"); return;
+            }
+            const blob = new Blob([currentRawOutputText], { type: "text/plain; charset=utf-8" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = "DeviceProfiles.ini";
+            a.click();
+            URL.revokeObjectURL(url);
+            showToast("↓ DeviceProfiles.ini downloaded!", "success");
+        }
+
+        // ── Reset All ────────────────────────────────────────────
+        function resetAll() {
+            document.querySelectorAll(".toggle-checkbox").forEach(cb => {
+                cb.checked = false;
+                const wrap = cb.closest(".toggle-item");
+                if (wrap) wrap.classList.remove("selected-active");
+            });
+
+            const defaults = { vd: 3, aa: 3, sh: 2, pp: 3, tx: 4, ef: 2, fo: 2, sd: 3 };
+            Object.entries(defaults).forEach(([key, val]) => {
+                const el = document.getElementById(`sg-${key}`);
+                if (el) { el.value = val; syncSlider(key); }
+            });
+
+            document.getElementById("scalabilitySliders").style.opacity = "0.4";
+            document.getElementById("scalabilitySliders").style.pointerEvents = "none";
+            document.getElementById("scoreControls").style.opacity = "0.4";
+            document.getElementById("scoreControls").style.pointerEvents = "none";
+
+            setScore(2000);
+
+            document.getElementById("deviceSelect").value = "";
+            document.getElementById("profileResolved").style.display = "none";
+            currentProfile = "";
+            currentDeviceName = "";
+            document.getElementById("deviceLabel").textContent = "—";
+
+            generateConfig();
+            showToast("↺ All settings reset.", "info");
+        }
+
+        // ── Device Submission ────────────────────────────────────
+        function submitDevice() {
+            const deviceInput = document.getElementById("submitDevice");
+            const profileInput = document.getElementById("submitProfile");
+            const deviceVal = deviceInput.value.trim();
+            const profileVal = profileInput.value.trim();
+
+            let valid = true;
+            if (!deviceVal) { deviceInput.classList.add("error"); valid = false; } else { deviceInput.classList.remove("error"); }
+            if (!profileVal) { profileInput.classList.add("error"); valid = false; } else { profileInput.classList.remove("error"); }
+            if (!valid) { showToast("Please fill in both fields before submitting.", "error"); return; }
+
+            const subject = encodeURIComponent(`[WuWa Portal] Device Submission: ${deviceVal}`);
+            const body = encodeURIComponent(
+                `WuWa Portal — Device Profile Submission
+=========================================
+Device Name   : ${deviceVal}
+Profile Name  : ${profileVal}
+
+Submitted via the WuWa Portal DeviceProfiles.ini Generator.
+Please verify and add to device-profiles.csv.
+`);
+            const mailtoLink = `mailto:arglaxgaming.official@gmail.com?subject=${subject}&body=${body}`;
+            window.location.href = mailtoLink;
+            showToast("📨 Opening email client…", "info");
+        }
+
+        // ── Toast Notifications ───────────────────────────────────
+        function showToast(message, type = "success") {
+            const container = document.getElementById("toastContainer");
+            const toast = document.createElement("div");
+            toast.className = `toast-ping ${type}`;
+            toast.textContent = message;
+            container.appendChild(toast);
+            requestAnimationFrame(() => { toast.classList.add("show"); });
+            setTimeout(() => {
+                toast.classList.remove("show");
+                setTimeout(() => toast.remove(), 350);
+            }, 3000);
+        }
+
+        // ── Preview Handlers ─────────────────────────────────────
+        function showPreview() {
+            generateConfig();
+            const configOut = document.getElementById("configOutput");
+            const previewOut = document.getElementById("preview-content");
+            if (configOut && previewOut) {
+                previewOut.innerHTML = configOut.innerHTML;
+            }
+            const modal = document.getElementById("preview-modal");
+            if (modal) {
+                modal.classList.add("show");
+            }
+        }
+
+        function closePreview() {
+            const modal = document.getElementById("preview-modal");
+            if (modal) {
+                modal.classList.remove("show");
+            }
+        }
+
+        // ── Init ──────────────────────────────────────────────────
+        document.addEventListener("DOMContentLoaded", () => {
+            loadDeviceCSV();
+            generateConfig();
+        });
+    </script>
+</body>
+</html>
