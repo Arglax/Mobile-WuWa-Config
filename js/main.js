@@ -1,22 +1,26 @@
 // Global framework components for WuWa Portal Layout Templates
 function toggleMobileNav() {
-    const nav = document.getElementById('siteNav');
+    const nav = document.getElementById('mainNav');
     if (nav) {
-        nav.classList.toggle('nav-expanded');
+        nav.classList.toggle('open');
     }
 }
+
 document.addEventListener('DOMContentLoaded', () => {
     const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
     const headerNav = document.querySelector('.header-nav');
 
     if (mobileMenuBtn && headerNav) {
-        // Toggle the 'open' class when the hamburger menu is clicked
+        // Remove inline onclick to avoid double-firing, then handle via listener
+        mobileMenuBtn.removeAttribute('onclick');
+
+        // Toggle open when hamburger is clicked
         mobileMenuBtn.addEventListener('click', (e) => {
-            e.stopPropagation(); // Prevents immediate closing if clicking directly on the button
+            e.stopPropagation();
             headerNav.classList.toggle('open');
         });
 
-        // Optional: Close the menu when tapping any navigation link (Hub, Devprof Gen, Decryptor)
+        // Close menu when any nav link is tapped
         const navLinks = headerNav.querySelectorAll('.nav-link');
         navLinks.forEach(link => {
             link.addEventListener('click', () => {
@@ -24,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
 
-        // Optional: Close the menu if tapping anywhere outside the navigation drawer
+        // Close menu when tapping anywhere outside
         document.addEventListener('click', (e) => {
             if (!headerNav.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
                 headerNav.classList.remove('open');
