@@ -512,6 +512,7 @@ function obtainDeviceProfile() {
             rawModel = "Generic Android Mobile Device";
         }
     }
+<<<<<<< HEAD
 
     nameSpan.textContent = rawProfile;
     deviceSpan.textContent = rawModel;
@@ -536,3 +537,30 @@ function copyDeviceProfile() {
         showToastPing("DeviceProfile name copied!");
     });
 }
+=======
+
+    nameSpan.textContent = rawProfile;
+    deviceSpan.textContent = rawModel;
+
+    resultDiv.style.display = 'block';
+    showToastPing("Profile metrics resolved!");
+}
+
+function copyDeviceProfile() {
+    const name = document.getElementById('devprofName').textContent;
+    if (!name) return;
+    navigator.clipboard.writeText(name).then(() => {
+        showToastPing("DeviceProfile name copied!");
+    }).catch(() => {
+        // fallback fallback execution
+        const ta = document.createElement('textarea');
+        ta.value = name;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        showToastPing("DeviceProfile name copied!");
+    });
+}
+
+>>>>>>> 25db10caed8040b902f5cf5d517a81723adc57af
