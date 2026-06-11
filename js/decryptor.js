@@ -1,4 +1,4 @@
-﻿/**
+/**
  * WuWa Log Decryptor - Logic & Cipher Implementation
  * Upgraded with robust validation, smooth mobile scrolling, dynamic labels, and notification pings.
  */
@@ -25,6 +25,8 @@ const CRASH_SIGNATURES = [
 
 let selectedFile = null;
 let fullDecryptedText = "";
+let cachedLogLines = []; // Fast search cache
+let searchDebounceTimeout = null;
 
 // --- UI Interaction Functions ---
 
@@ -130,6 +132,7 @@ SUGGESTED ACTIONS:
 ======================================================================`;
 
     output.value = errorReport;
+    cachedLogLines = errorReport.split('\n');
 
     // Trigger failure notification ping
     showToastPing("Decryption Failed!", "error");
@@ -305,8 +308,9 @@ function finalizeUI(text) {
     const output = document.getElementById('decryptedOutput');
     output.value = text;
 
-    const lines = text.split('\n');
-    document.getElementById('statLines').textContent = lines.length.toLocaleString();
+    // Cache the split output array once here to save memory allocation pipelines during active searching
+    cachedLogLines = text.split('\n');
+    document.getElementById('statLines').textContent = cachedLogLines.length.toLocaleString();
 
     const errorCount = (text.match(/\[Error\]|error:|failed/gi) || []).length;
     const warnCount = (text.match(/\[Warning\]|warning:/gi) || []).length;
@@ -318,6 +322,7 @@ function finalizeUI(text) {
     document.getElementById('filterErrors').disabled = false;
     document.getElementById('copyDecBtn').disabled = false;
     document.getElementById('dlDecBtn').disabled = false;
+    document.getElementById('devprofBtn').disabled = false;
 
     // Ensure text is explicitly "Save Log File" on successful output streams
     document.getElementById('dlDecBtn').textContent = "↓ Save Log File";
@@ -357,7 +362,14 @@ function scanSignatures(text) {
     });
 }
 
-// --- Utility Actions ---
+// --- Optimized Non-blocking Debounced Search Log Function ---
+
+function debouncedSearchLog(query) {
+    clearTimeout(searchDebounceTimeout);
+    searchDebounceTimeout = setTimeout(() => {
+        searchLog(query);
+    }, 150); // 150ms structural debounce delays string scans to prevent input stuttering
+}
 
 function searchLog(query) {
     const output = document.getElementById('decryptedOutput');
@@ -365,9 +377,19 @@ function searchLog(query) {
         output.value = fullDecryptedText;
         return;
     }
-    const lines = fullDecryptedText.split('\n');
-    const filtered = lines.filter(line => line.toLowerCase().includes(query.toLowerCase()));
-    output.value = filtered.join('\n');
+
+    const normalizedQuery = query.toLowerCase();
+    const len = cachedLogLines.length;
+    const matches = [];
+
+    // Linear high performance loop through cached array strings
+    for (let i = 0; i < len; i++) {
+        if (cachedLogLines[i].toLowerCase().includes(normalizedQuery)) {
+            matches.push(cachedLogLines[i]);
+        }
+    }
+
+    output.value = matches.join('\n');
 }
 
 // Fixed bug where filtering error states on custom text streams threw errors if dynamic label tags matched
@@ -377,8 +399,7 @@ function toggleErrorFilter() {
 
     if (isActive) {
         btn.style.background = "var(--jade-mid)";
-        const lines = fullDecryptedText.split('\n');
-        const filtered = lines.filter(line => /error|failed|fatal/gi.test(line));
+        const filtered = cachedLogLines.filter(line => /error|failed|fatal/gi.test(line));
         document.getElementById('decryptedOutput').value = filtered.join('\n');
     } else {
         btn.style.background = "";
@@ -411,11 +432,16 @@ function downloadDecrypted() {
 function clearDecryptor() {
     selectedFile = null;
     fullDecryptedText = "";
+    cachedLogLines = [];
     document.getElementById('fileInput').value = "";
     document.getElementById('decryptedOutput').value = "";
     document.getElementById('fileInfoBar').classList.remove('visible');
     document.getElementById('dropZone').classList.remove('has-file');
     document.getElementById('decryptBtn').disabled = true;
+    document.getElementById('devprofBtn').disabled = true;
+    document.getElementById('devprofResult').style.display = 'none';
+    document.getElementById('devprofName').textContent = '';
+    document.getElementById('retailDeviceName').textContent = '';
 
     document.getElementById('statLines').textContent = "—";
     document.getElementById('statErrors').textContent = "—";
@@ -426,30 +452,87 @@ function clearDecryptor() {
 
     resetDetectionUI();
 }
-document.addEventListener('DOMContentLoaded', () => {
-    const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
-    const headerNav = document.querySelector('.header-nav');
 
-    if (mobileMenuBtn && headerNav) {
-        // Toggle the 'open' class when the hamburger menu is clicked
-        mobileMenuBtn.addEventListener('click', (e) => {
-            e.stopPropagation(); // Prevents immediate closing if clicking directly on the button
-            headerNav.classList.toggle('open');
-        });
+// --- Advanced DeviceProfile and Device Hardware Mapping Extractor ---
 
-        // Optional: Close the menu when tapping any navigation link (Hub, Devprof Gen, Decryptor)
-        const navLinks = headerNav.querySelectorAll('.nav-link');
-        navLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                headerNav.classList.remove('open');
-            });
-        });
+function obtainDeviceProfile() {
+    const source = fullDecryptedText || document.getElementById('decryptedOutput').value;
 
-        // Optional: Close the menu if tapping anywhere outside the navigation drawer
-        document.addEventListener('click', (e) => {
-            if (!headerNav.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
-                headerNav.classList.remove('open');
-            }
-        });
+    if (!source) {
+        showToastPing("No log content to scan.", "error");
+        return;
     }
-});
+
+    // 1. Parse for the Engine-Level DeviceProfile string assignment
+    const profileMatch = source.match(/selected\s+device\s+profile\s*[:\-]?\s*(\S+)/i);
+
+    // 2. Parse common hardware log headers to read direct retail component branding
+    // Matches UE4 tags like "Android Device Model: [Model]", "DeviceModel=[Model]", or hardware build tags
+    const modelMatch = source.match(/(?:android\s+device\s+model|hardware|device_model)\s*[:=]\s*([^\r\n,;]+)/i);
+
+    const resultDiv = document.getElementById('devprofResult');
+    const nameSpan = document.getElementById('devprofName');
+    const deviceSpan = document.getElementById('retailDeviceName');
+
+    let rawProfile = profileMatch ? profileMatch[1].trim() : "DefaultDeviceProfile";
+    let rawModel = modelMatch ? modelMatch[1].trim() : "";
+
+    // Parse out common internal hardware ID codes into standard market designations
+    if (rawModel) {
+        // Clean up common system wrapper formatting strings if present
+        rawModel = rawModel.replace(/[\[\]"']/g, '').trim();
+
+        // Dictionary lookup mapper for flagship/common chip codebases found inside logs
+        const modelMap = {
+            "2311DRK48G": "Poco X6 Pro 5G",
+            "23113RKC6C": "Xiaomi Redmi K70E",
+            "23127PN0CC": "Xiaomi 14 Pro",
+            "23116PN5BC": "Xiaomi 14 Ultra",
+            "CPH2581": "OnePlus 12 R",
+            "PJD110": "OnePlus 12",
+            "SM-S928": "Samsung Galaxy S24 Ultra",
+            "SM-S926": "Samsung Galaxy S24+",
+            "SM-S921": "Samsung Galaxy S24",
+            "SM-F946": "Samsung Galaxy Z Fold 5"
+        };
+
+        for (const [key, val] of Object.entries(modelMap)) {
+            if (rawModel.toUpperCase().includes(key)) {
+                rawModel = val;
+                break;
+            }
+        }
+    } else {
+        // Fallback guess inference matching from common structured profile suffixes
+        if (rawProfile.toLowerCase().includes("pocox6pro")) {
+            rawModel = "Poco X6 Pro 5G";
+        } else if (rawProfile.toLowerCase().includes("s24ultra")) {
+            rawModel = "Samsung Galaxy S24 Ultra";
+        } else {
+            rawModel = "Generic Android Mobile Device";
+        }
+    }
+
+    nameSpan.textContent = rawProfile;
+    deviceSpan.textContent = rawModel;
+
+    resultDiv.style.display = 'block';
+    showToastPing("Profile metrics resolved!");
+}
+
+function copyDeviceProfile() {
+    const name = document.getElementById('devprofName').textContent;
+    if (!name) return;
+    navigator.clipboard.writeText(name).then(() => {
+        showToastPing("DeviceProfile name copied!");
+    }).catch(() => {
+        // fallback fallback execution
+        const ta = document.createElement('textarea');
+        ta.value = name;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        showToastPing("DeviceProfile name copied!");
+    });
+}
