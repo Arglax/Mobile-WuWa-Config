@@ -1,0 +1,28 @@
+Phone (Examples),CPU / GPU,Config to Use
+Galaxy S25 Ultra / Xiaomi 15,Snapdragon 8 Elite / Adreno 830,Stable Config – A / (High Visuals)
+iPhone 16 Pro Max / 16 Pro,Apple A18 Pro / Apple 6-Core GPU,Stable Config – A / (High Visuals)
+Galaxy S24 Ultra / OnePlus 12,Snapdragon 8 Gen 3 / Adreno 750,Stable Config – A / (High Visuals)
+Xiaomi 14 / Realme GT 6,Snapdragon 8 Gen 3 / Adreno 750,Stable Config – A / (High Visuals)
+Vivo X200 Pro / Oppo Find X8,Dimensity 9400 / Immortalis-G925,Stable Config – A / (High Visuals)
+Vivo X100,Dimensity 9300 / Mali-G720,Stable Config – A / (High Visuals)
+iPhone 15 Pro / 15 Pro Max,Apple A17 Pro / Apple 6-Core GPU,Stable Config – A / (High Visuals)
+Poco F6 / Realme GT 6,Snapdragon 8s Gen 3 / Adreno 735,Stable Config – B
+Galaxy S23 / S23+ / S23 Ultra,Snapdragon 8 Gen 2 / Adreno 740,Stable Config – B
+Galaxy S24 (Exynos),Exynos 2400 / Mali-G715,Stable Config – B
+Poco X6 Pro,Dimensity 8300 / Mali-G615,Stable Config – B
+iPhone 15 / 15 Plus,Apple A16 Bionic / Apple 5-Core GPU,Stable Config – B
+Nothing Phone (2a),Dimensity 7200 Pro / Mali-G610 MC4,Stable Config – B
+Galaxy A55 5G,Exynos 1480 / Xclipse 530,Stable Config – C
+Galaxy A54,Exynos 1380 / Mali-G68,Stable Config – C
+Galaxy A34 / Redmi Note 13 Pro,Dimensity 1080 / Mali-G68,Stable Config – C
+Redmi Note 12 Pro,Dimensity 1080 / Mali-G68,Stable Config – C
+Poco X5 Pro,Snapdragon 778G / Adreno 642L,Stable Config – C
+Nothing Phone (2a) Plus,Dimensity 7350 Pro / Mali-G610 MC4,Stable Config – C
+Infinix Zero 30,Dimensity 8020 / Mali-G77,Stable Config – C
+Tecno Camon 20 Pro,Dimensity 8050 / Mali-G77,Stable Config – C
+Redmi Note 13 (4G),Snapdragon 685 / Adreno 610,Potato Config
+Redmi 13C / Poco C65,Helio G85 / Mali-G52,Potato Config
+Galaxy A05 / A05s,Helio G85 / Mali-G52,Potato Config
+Realme C55 / C53,Helio G88 / Mali-G52,Potato Config
+Infinix Smart 8,Unisoc T606 / Mali-G57 MC1,Potato Config
+Tecno Spark Go / Spark 20,Unisoc T606 / Mali-G57 MC1,Potato Config
