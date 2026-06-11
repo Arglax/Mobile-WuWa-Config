@@ -30,30 +30,35 @@ let searchDebounceTimeout = null;
 
 // --- UI Interaction Functions ---
 
-function triggerFileInput() {
-    document.getElementById('fileInput').click();
+function triggerFileInput(e) {
+    if (e) e.stopPropagation();
+    const input = document.getElementById('fileInput');
+    if (input) input.click();
 }
 
 function handleDragOver(e) {
     e.preventDefault();
-    document.getElementById('dropZone').classList.add('drag-over');
+    const zone = document.getElementById('dropZone');
+    if (zone) zone.classList.add('drag-over');
 }
 
 function handleDragLeave(e) {
     e.preventDefault();
-    document.getElementById('dropZone').classList.remove('drag-over');
+    const zone = document.getElementById('dropZone');
+    if (zone) zone.classList.remove('drag-over');
 }
 
 function handleDrop(e) {
     e.preventDefault();
-    document.getElementById('dropZone').classList.remove('drag-over');
-    if (e.dataTransfer.files.length > 0) {
+    const zone = document.getElementById('dropZone');
+    if (zone) zone.classList.remove('drag-over');
+    if (e.dataTransfer && e.dataTransfer.files.length > 0) {
         processFileSelection(e.dataTransfer.files[0]);
     }
 }
 
 function handleFileSelect(e) {
-    if (e.target.files.length > 0) {
+    if (e.target && e.target.files.length > 0) {
         processFileSelection(e.target.files[0]);
     }
 }
@@ -66,8 +71,8 @@ function processFileSelection(file) {
     document.getElementById('fileInfoName').textContent = file.name;
     document.getElementById('fileInfoSize').textContent = (file.size / 1024).toFixed(2) + " KB";
 
-    infoBar.classList.add('visible');
-    dropZone.classList.add('has-file');
+    if (infoBar) infoBar.classList.add('visible');
+    if (dropZone) dropZone.classList.add('has-file');
     document.getElementById('decryptBtn').disabled = false;
 
     // Reset download button label back to its initial state when a new file is uploaded
@@ -77,7 +82,8 @@ function processFileSelection(file) {
 }
 
 function resetDetectionUI() {
-    document.getElementById('schemeDetector').classList.remove('visible');
+    const detector = document.getElementById('schemeDetector');
+    if (detector) detector.classList.remove('visible');
     document.getElementById('dotA').classList.remove('active');
     document.getElementById('dotB').classList.remove('active');
     document.getElementById('dotPlain').classList.remove('active');
@@ -131,7 +137,7 @@ SUGGESTED ACTIONS:
    decryption operations are unnecessary.
 ======================================================================`;
 
-    output.value = errorReport;
+    if (output) output.value = errorReport;
     cachedLogLines = errorReport.split('\n');
 
     // Trigger failure notification ping
@@ -158,13 +164,16 @@ SUGGESTED ACTIONS:
     cards.forEach(card => {
         card.className = 'sig-card';
         const badge = card.querySelector('.sig-badge');
-        badge.className = 'sig-badge pending';
-        badge.textContent = '—';
+        if (badge) {
+            badge.className = 'sig-badge pending';
+            badge.textContent = '—';
+        }
     });
 
     // Reset detection UI state cleanly
     resetDetectionUI();
-    document.getElementById('schemeDetector').classList.add('visible');
+    const detector = document.getElementById('schemeDetector');
+    if (detector) detector.classList.add('visible');
     document.getElementById('detectedScheme').textContent = "FAILED";
 
     // Clean up interface loader
@@ -172,8 +181,8 @@ SUGGESTED ACTIONS:
     document.getElementById('progressWrap').classList.remove('visible');
 
     // Smoothly scroll down to output panel on mobile screens
-    if (window.innerWidth <= 900) {
-        document.getElementById('decryptedOutput').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    if (window.innerWidth <= 900 && output) {
+        output.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 }
 
@@ -195,9 +204,9 @@ async function decryptFile() {
     const progressWrap = document.getElementById('progressWrap');
     const progressBar = document.getElementById('progressBar');
 
-    btn.disabled = true;
-    progressWrap.classList.add('visible');
-    progressBar.style.width = "20%";
+    if (btn) btn.disabled = true;
+    if (progressWrap) progressWrap.classList.add('visible');
+    if (progressBar) progressBar.style.width = "20%";
 
     const reader = new FileReader();
 
@@ -208,7 +217,7 @@ async function decryptFile() {
     reader.onload = function (e) {
         try {
             const buffer = new Uint8Array(e.target.result);
-            progressBar.style.width = "50%";
+            if (progressBar) progressBar.style.width = "50%";
 
             // 2. Structural Check: Check if file has at least enough space for headers
             if (buffer.length < 3) {
@@ -229,7 +238,8 @@ async function decryptFile() {
                 scheme = 'B';
             }
 
-            document.getElementById('schemeDetector').classList.add('visible');
+            const detector = document.getElementById('schemeDetector');
+            if (detector) detector.classList.add('visible');
 
             // 3. File content evaluation criteria
             if (scheme) {
@@ -249,20 +259,16 @@ async function decryptFile() {
                 document.getElementById(scheme === 'A' ? 'dotA' : 'dotB').classList.add('active');
                 document.getElementById('detectedScheme').textContent = `Scheme ${scheme}`;
             } else {
-                // Not Scheme A or B. Let's see if it looks like plain text or a completely different asset.
-                // We test the first 16 bytes to check if it's printable plain text characters.
                 let unprintableCount = 0;
                 const sampleLength = Math.min(buffer.length, 32);
 
                 for (let i = 0; i < sampleLength; i++) {
-                    // Typical ASCII/UTF text values are generally >= 32 (or tabs 9, newlines 10/13)
                     const ch = buffer[i];
                     if (ch < 32 && ch !== 9 && ch !== 10 && ch !== 13) {
                         unprintableCount++;
                     }
                 }
 
-                // If it contains multiple arbitrary binary bytes, it's not plaintext log data
                 if (unprintableCount > 3) {
                     handleDecryptionFailure(
                         "Unknown Encryption Signature or Binary Asset",
@@ -272,13 +278,12 @@ async function decryptFile() {
                     return;
                 }
 
-                // Treat safely as structural Plaintext fallback
                 decryptedData = buffer;
                 document.getElementById('dotPlain').classList.add('active');
                 document.getElementById('detectedScheme').textContent = "Plaintext";
             }
 
-            progressBar.style.width = "80%";
+            if (progressBar) progressBar.style.width = "80%";
 
             // 4. Decode validation
             const decoder = new TextDecoder("utf-8", { fatal: true });
@@ -292,7 +297,6 @@ async function decryptFile() {
                 return;
             }
 
-            // Trigger success notification ping
             showToastPing("Decrypted Successfully!");
             finalizeUI(fullDecryptedText);
 
@@ -306,9 +310,8 @@ async function decryptFile() {
 
 function finalizeUI(text) {
     const output = document.getElementById('decryptedOutput');
-    output.value = text;
+    if (output) output.value = text;
 
-    // Cache the split output array once here to save memory allocation pipelines during active searching
     cachedLogLines = text.split('\n');
     document.getElementById('statLines').textContent = cachedLogLines.length.toLocaleString();
 
@@ -324,19 +327,20 @@ function finalizeUI(text) {
     document.getElementById('dlDecBtn').disabled = false;
     document.getElementById('devprofBtn').disabled = false;
 
-    // Ensure text is explicitly "Save Log File" on successful output streams
     document.getElementById('dlDecBtn').textContent = "↓ Save Log File";
 
     scanSignatures(text);
 
-    document.getElementById('progressBar').style.width = "100%";
+    const bar = document.getElementById('progressBar');
+    if (bar) bar.style.width = "100%";
     setTimeout(() => {
-        document.getElementById('progressWrap').classList.remove('visible');
-        document.getElementById('decryptBtn').disabled = false;
+        const wrap = document.getElementById('progressWrap');
+        if (wrap) wrap.classList.remove('visible');
+        const dBtn = document.getElementById('decryptBtn');
+        if (dBtn) dBtn.disabled = false;
     }, 500);
 
-    // Smoothly scroll down to output panel on mobile screens
-    if (window.innerWidth <= 900) {
+    if (window.innerWidth <= 900 && output) {
         output.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 }
@@ -347,32 +351,36 @@ function scanSignatures(text) {
     CRASH_SIGNATURES.forEach((sig, index) => {
         const found = sig.pattern.test(text);
         const card = cards[index];
+        if (!card) return;
         const badge = card.querySelector('.sig-badge');
 
-        card.classList.remove('found', 'clean'); // reset
+        card.classList.remove('found', 'clean');
         if (found) {
             card.classList.add('found');
-            badge.className = 'sig-badge found';
-            badge.textContent = 'FOUND';
+            if (badge) {
+                badge.className = 'sig-badge found';
+                badge.textContent = 'FOUND';
+            }
         } else {
             card.classList.add('clean');
-            badge.className = 'sig-badge clean';
-            badge.textContent = 'CLEAN';
+            if (badge) {
+                badge.className = 'sig-badge clean';
+                badge.textContent = 'CLEAN';
+            }
         }
     });
 }
-
-// --- Optimized Non-blocking Debounced Search Log Function ---
 
 function debouncedSearchLog(query) {
     clearTimeout(searchDebounceTimeout);
     searchDebounceTimeout = setTimeout(() => {
         searchLog(query);
-    }, 150); // 150ms structural debounce delays string scans to prevent input stuttering
+    }, 150);
 }
 
 function searchLog(query) {
     const output = document.getElementById('decryptedOutput');
+    if (!output) return;
     if (!query) {
         output.value = fullDecryptedText;
         return;
@@ -382,7 +390,6 @@ function searchLog(query) {
     const len = cachedLogLines.length;
     const matches = [];
 
-    // Linear high performance loop through cached array strings
     for (let i = 0; i < len; i++) {
         if (cachedLogLines[i].toLowerCase().includes(normalizedQuery)) {
             matches.push(cachedLogLines[i]);
@@ -392,35 +399,38 @@ function searchLog(query) {
     output.value = matches.join('\n');
 }
 
-// Fixed bug where filtering error states on custom text streams threw errors if dynamic label tags matched
 function toggleErrorFilter() {
     const btn = document.getElementById('filterErrors');
+    if (!btn) return;
     const isActive = btn.classList.toggle('active');
+    const output = document.getElementById('decryptedOutput');
 
     if (isActive) {
         btn.style.background = "var(--jade-mid)";
         const filtered = cachedLogLines.filter(line => /error|failed|fatal/gi.test(line));
-        document.getElementById('decryptedOutput').value = filtered.join('\n');
+        if (output) output.value = filtered.join('\n');
     } else {
         btn.style.background = "";
-        document.getElementById('decryptedOutput').value = fullDecryptedText;
+        if (output) output.value = fullDecryptedText;
     }
 }
 
 function copyDecrypted() {
     const output = document.getElementById('decryptedOutput');
+    if (!output) return;
     output.select();
     document.execCommand('copy');
     showToastPing("Copied to clipboard!");
 }
 
 function downloadDecrypted() {
-    const blob = new Blob([document.getElementById('decryptedOutput').value], { type: 'text/plain' });
+    const output = document.getElementById('decryptedOutput');
+    if (!output) return;
+    const blob = new Blob([output.value], { type: 'text/plain' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
 
-    // Check current label configuration to match naming scheme
     const isError = document.getElementById('dlDecBtn').textContent.includes("Error");
     const prefix = isError ? "error_diagnostic_" : "decrypted_";
 
@@ -434,7 +444,8 @@ function clearDecryptor() {
     fullDecryptedText = "";
     cachedLogLines = [];
     document.getElementById('fileInput').value = "";
-    document.getElementById('decryptedOutput').value = "";
+    const output = document.getElementById('decryptedOutput');
+    if (output) output.value = "";
     document.getElementById('fileInfoBar').classList.remove('visible');
     document.getElementById('dropZone').classList.remove('has-file');
     document.getElementById('decryptBtn').disabled = true;
@@ -447,27 +458,21 @@ function clearDecryptor() {
     document.getElementById('statErrors').textContent = "—";
     document.getElementById('statWarnings').textContent = "—";
 
-    // Revert save button text state
     document.getElementById('dlDecBtn').textContent = "↓ Save Log File";
 
     resetDetectionUI();
 }
 
-// --- Advanced DeviceProfile and Device Hardware Mapping Extractor ---
-
 function obtainDeviceProfile() {
-    const source = fullDecryptedText || document.getElementById('decryptedOutput').value;
+    const output = document.getElementById('decryptedOutput');
+    const source = fullDecryptedText || (output ? output.value : "");
 
     if (!source) {
         showToastPing("No log content to scan.", "error");
         return;
     }
 
-    // 1. Parse for the Engine-Level DeviceProfile string assignment
     const profileMatch = source.match(/selected\s+device\s+profile\s*[:\-]?\s*(\S+)/i);
-
-    // 2. Parse common hardware log headers to read direct retail component branding
-    // Matches UE4 tags like "Android Device Model: [Model]", "DeviceModel=[Model]", or hardware build tags
     const modelMatch = source.match(/(?:android\s+device\s+model|hardware|device_model)\s*[:=]\s*([^\r\n,;]+)/i);
 
     const resultDiv = document.getElementById('devprofResult');
@@ -477,12 +482,9 @@ function obtainDeviceProfile() {
     let rawProfile = profileMatch ? profileMatch[1].trim() : "DefaultDeviceProfile";
     let rawModel = modelMatch ? modelMatch[1].trim() : "";
 
-    // Parse out common internal hardware ID codes into standard market designations
     if (rawModel) {
-        // Clean up common system wrapper formatting strings if present
         rawModel = rawModel.replace(/[\[\]"']/g, '').trim();
 
-        // Dictionary lookup mapper for flagship/common chip codebases found inside logs
         const modelMap = {
             "2311DRK48G": "Poco X6 Pro 5G",
             "23113RKC6C": "Xiaomi Redmi K70E",
@@ -503,7 +505,6 @@ function obtainDeviceProfile() {
             }
         }
     } else {
-        // Fallback guess inference matching from common structured profile suffixes
         if (rawProfile.toLowerCase().includes("pocox6pro")) {
             rawModel = "Poco X6 Pro 5G";
         } else if (rawProfile.toLowerCase().includes("s24ultra")) {
@@ -513,20 +514,20 @@ function obtainDeviceProfile() {
         }
     }
 
-    nameSpan.textContent = rawProfile;
-    deviceSpan.textContent = rawModel;
+    if (nameSpan) nameSpan.textContent = rawProfile;
+    if (deviceSpan) deviceSpan.textContent = rawModel;
 
-    resultDiv.style.display = 'block';
+    if (resultDiv) resultDiv.style.display = 'block';
     showToastPing("Profile metrics resolved!");
 }
 
 function copyDeviceProfile() {
-    const name = document.getElementById('devprofName').textContent;
+    const nameSpan = document.getElementById('devprofName');
+    const name = nameSpan ? nameSpan.textContent : "";
     if (!name) return;
     navigator.clipboard.writeText(name).then(() => {
         showToastPing("DeviceProfile name copied!");
     }).catch(() => {
-        // fallback fallback execution
         const ta = document.createElement('textarea');
         ta.value = name;
         document.body.appendChild(ta);
@@ -536,3 +537,18 @@ function copyDeviceProfile() {
         showToastPing("DeviceProfile name copied!");
     });
 }
+
+// Global Explicit Scope Exposing to map inline HTML element triggers safely across routing path updates
+window.triggerFileInput = triggerFileInput;
+window.handleDragOver = handleDragOver;
+window.handleDragLeave = handleDragLeave;
+window.handleDrop = handleDrop;
+window.handleFileSelect = handleFileSelect;
+window.decryptFile = decryptFile;
+window.clearDecryptor = clearDecryptor;
+window.debouncedSearchLog = debouncedSearchLog;
+window.toggleErrorFilter = toggleErrorFilter;
+window.copyDecrypted = copyDecrypted;
+window.downloadDecrypted = downloadDecrypted;
+window.obtainDeviceProfile = obtainDeviceProfile;
+window.copyDeviceProfile = copyDeviceProfile;

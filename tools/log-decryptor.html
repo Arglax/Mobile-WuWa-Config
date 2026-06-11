@@ -420,14 +420,14 @@
                      ondrop="handleDrop(event)"
                      ondragover="handleDragOver(event)"
                      ondragleave="handleDragLeave(event)"
-                     onclick="triggerFileInput()">
+                     onclick="triggerFileInput(event)">
                     <span class="drop-icon">🔐</span>
                     <div class="drop-title">Drop Client.log Here</div>
                     <div class="drop-sub">
                         Drag &amp; drop your encrypted log file, or click to browse.<br>
                         Supports both Kuro encryption variants.
                     </div>
-                    <button class="btn btn-ghost btn-sm" onclick="event.stopPropagation(); triggerFileInput()">Browse File</button>
+                    <button class="btn btn-ghost btn-sm" onclick="event.stopPropagation(); triggerFileInput(event)">Browse File</button>
                     <input type="file" class="drop-file-input" id="fileInput" accept=".log,.txt,*" onchange="handleFileSelect(event)" />
 
                     <div class="file-info-bar" id="fileInfoBar">
@@ -594,7 +594,7 @@
                         <span class="card-title">Tool Notes</span>
                     </div>
                     <div class="card-body" style="font-size:12px; color:var(--text-secondary); line-height:1.7;">
-                        <p>This tool implements both encryption schemes reverse-engineered from Kuro Games' <code style="font-family:var(--font-mono);font-size:11px;color:var(--jade-bright);">Client.log</code> format.</p>
+                        <p>This tool implements both encryption schemes reverse-engineered from Kuro Games' <code style="font-family:var(--font-mono);font-size:11px;color:var(--jade-bright);\">Client.log</code> format.</p>
                         <p style="margin-top:8px;"><strong style="color:var(--text-primary);">Scheme A</strong> uses a fixed magic header (<code style="font-family:var(--font-mono);font-size:11px;">KGLOG</code>) followed by XOR with a static LUT.</p>
                         <p style="margin-top:8px;"><strong style="color:var(--text-primary);">Scheme B</strong> uses a rolling 256-byte key with position-based offset rotation. Auto-detection reads the first 16 bytes to determine which scheme applies.</p>
                         <p style="margin-top:8px; color:var(--text-muted);">Also available as a CLI tool: <code style="font-family:var(--font-mono);font-size:11px;color:var(--jade-mid);">wuwa_ld</code> on GitHub.</p>
@@ -613,7 +613,7 @@
 
     <div class="toast-container" id="toastContainer"></div>
 
-    <script src="../js/main.js"></script>
-    <script src="../js/decryptor.js"></script>
+    <script src="../js/main.js" defer></script>
+    <script src="../js/decryptor.js" defer></script>
 </body>
 </html>
