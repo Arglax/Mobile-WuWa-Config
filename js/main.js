@@ -36,6 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
 // ── Mobile Config Selector Engine ──
 
 // Fallback lookup table database based on your chipset dataset mapping
@@ -60,18 +61,19 @@ const fallbackConfigSelectorData = [
     { phone: "Tecno Spark Go", chip: "Unisoc T606 / Mali-G57 MC1", config: "Potato Config" }
 ];
 
-// Reference URL definitions
+// Updated comprehensive link map
 const configLinks = {
-    "Stable Config – A": "https://github.com/Arglax/Mobile-WuWa-Config/tree/main/%5BV3.x%5D%20Working%20Configs/Stable%20Configs/A%20High-End",
-    "Stable Config – B": "https://github.com/Arglax/Mobile-WuWa-Config/tree/main/%5BV3.x%5D%20Working%20Configs/Stable%20Configs/B%20Mid-End",
-    "Stable Config – C": "https://github.com/Arglax/Mobile-WuWa-Config/tree/main/%5BV3.x%5D%20Working%20Configs/Stable%20Configs/C%20Low-End",
-    "High Visuals": "https://github.com/Arglax/Mobile-WuWa-Config/tree/main/%5BV3.x%5D%20Working%20Configs/High-Visual%20Config",
+    "Stable Config A": "https://github.com/Arglax/Mobile-WuWa-Config/tree/main/%5BV3.x%5D%20Working%20Configs/Stable%20Configs/A%20High-End",
+    "Stable Config B": "https://github.com/Arglax/Mobile-WuWa-Config/tree/main/%5BV3.x%5D%20Working%20Configs/Stable%20Configs/B%20Mid-End",
+    "Stable Config C": "https://github.com/Arglax/Mobile-WuWa-Config/tree/main/%5BV3.x%5D%20Working%20Configs/Stable%20Configs/C%20Low-End",
+    "High-Visual Config": "https://github.com/Arglax/Mobile-WuWa-Config/tree/main/%5BV3.x%5D%20Working%20Configs/High-Visual%20Config",
+    "Experimental Config": "https://github.com/Arglax/Mobile-WuWa-Config/tree/main/%5BV3.x%5D%20Working%20Configs/High-Visual%20Config/Z_Experimental%20Config",
+    "Performance Config": "https://github.com/Arglax/Mobile-WuWa-Config/tree/main/%5BV3.x%5D%20Working%20Configs/Performance%20Configs",
     "Potato Config": "https://github.com/Arglax/Mobile-WuWa-Config/tree/main/%5BV3.x%5D%20Working%20Configs/Performance%20Configs/Potato%20Config"
 };
 
 let activeSelectorData = [...fallbackConfigSelectorData];
 
-// Logic to check and fetch configselector files (.txt / .csv) asynchronously if present
 // Logic to check and fetch configselector files (.txt / .csv) asynchronously if present
 async function loadExternalConfigSelector() {
     try {
@@ -158,9 +160,23 @@ function selectDeviceProfile(item) {
 
     container.style.display = 'block';
 
-    // Find matching links from target array configurations
-    Object.keys(configLinks).forEach(key => {
-        if (item.config.toLowerCase().includes(key.toLowerCase())) {
+    const configStr = item.config.toLowerCase();
+    let targetKeys = [];
+
+    // Map hardware config definitions directly to matching tier arrays
+    if (configStr.includes('config – a') || configStr.includes('high-end') || configStr.includes('high visuals')) {
+        targetKeys = ["Stable Config A", "High-Visual Config", "Experimental Config"];
+    } else if (configStr.includes('config – b') || configStr.includes('mid-end')) {
+        targetKeys = ["Stable Config B", "Experimental Config"];
+    } else if (configStr.includes('config – c') || configStr.includes('low-end')) {
+        targetKeys = ["Stable Config C", "Performance Config", "Potato Config"];
+    } else if (configStr.includes('potato') || configStr.includes('super low-end')) {
+        targetKeys = ["Potato Config"];
+    }
+
+    // Build the dynamic output elements safely
+    targetKeys.forEach(key => {
+        if (configLinks[key]) {
             const linkElement = document.createElement('a');
             linkElement.className = 'config-out-btn';
             linkElement.href = configLinks[key];
@@ -170,4 +186,19 @@ function selectDeviceProfile(item) {
             linksBox.appendChild(linkElement);
         }
     });
+
+    // Fallback security loop if the text data falls out of typical bounds
+    if (targetKeys.length === 0) {
+        Object.keys(configLinks).forEach(key => {
+            if (configStr.includes(key.toLowerCase())) {
+                const linkElement = document.createElement('a');
+                linkElement.className = 'config-out-btn';
+                linkElement.href = configLinks[key];
+                linkElement.target = '_blank';
+                linkElement.rel = 'noopener';
+                linkElement.innerHTML = `<span>Get ${key}</span><span>→</span>`;
+                linksBox.appendChild(linkElement);
+            }
+        });
+    }
 }
