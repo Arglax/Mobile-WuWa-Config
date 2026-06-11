@@ -549,6 +549,113 @@
             }
         }
 
+        /* ── Device Strip ── */
+        .device-strip {
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(118, 255, 208, 0.08);
+        }
+
+        .device-strip-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 10px;
+        }
+
+        .device-strip-label {
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            font-family: var(--font-mono);
+        }
+
+        .device-profile-resolved {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 8px;
+            padding: 6px 12px;
+            background: rgba(29, 158, 117, 0.06);
+            border: 1px solid rgba(29, 158, 117, 0.18);
+            border-radius: var(--r-sm);
+            flex-wrap: wrap;
+        }
+
+        .profile-label {
+            font-size: 11px;
+            color: var(--text-muted);
+            font-family: var(--font-mono);
+            flex-shrink: 0;
+        }
+
+        #resolvedProfileName {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--jade-bright);
+            font-family: var(--font-mono);
+            word-break: break-all;
+        }
+
+        /* ── Sections Stack ── */
+        .sections-stack {
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ── Section Badges (accordion header pills) ── */
+        .section-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            font-family: var(--font-mono);
+            flex-shrink: 0;
+            white-space: nowrap;
+        }
+
+        .badge-stable {
+            background: rgba(29, 158, 117, 0.12);
+            color: var(--jade-bright);
+            border: 1px solid rgba(29, 158, 117, 0.25);
+        }
+
+        .badge-visual {
+            background: rgba(186, 117, 23, 0.12);
+            color: var(--gold-bright);
+            border: 1px solid rgba(186, 117, 23, 0.25);
+        }
+
+        .badge-perf {
+            background: rgba(239, 159, 39, 0.10);
+            color: var(--gold-mid);
+            border: 1px solid rgba(239, 159, 39, 0.2);
+        }
+
+        .badge-submit {
+            background: rgba(130, 40, 190, 0.12);
+            color: #c87de8;
+            border: 1px solid rgba(160, 60, 200, 0.25);
+        }
+
+        /* ── Output Actions Row ── */
+        .output-actions {
+            display: flex;
+            gap: 8px;
+            padding: 12px 18px;
+            border-top: 1px solid rgba(118, 255, 208, 0.08);
+            background: rgba(2, 8, 5, 0.3);
+        }
+
         @media (max-width: 480px) {
             .scalability-grid {
                 grid-template-columns: 1fr;
@@ -556,6 +663,100 @@
 
             .generator-layout {
                 padding: 12px 12px 100px;
+            }
+
+            /* Tighter control panel padding on small phones */
+            .gen-controls {
+                padding: 14px !important;
+            }
+
+            .accordion-content {
+                padding: 12px 14px;
+            }
+
+            /* Score controls: stack slider and number input vertically */
+            #scoreControls > div:first-child {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            #scoreInput {
+                width: 100% !important;
+            }
+
+            /* Accordion trigger: allow badge to wrap below if needed */
+            .accordion-trigger {
+                flex-wrap: wrap;
+                row-gap: 4px;
+                padding: 14px 14px;
+                font-size: 13px;
+            }
+
+            /* Prevent accordion icon from wrapping away */
+            .accordion-icon {
+                margin-left: auto;
+                flex-shrink: 0;
+            }
+
+            /* Device strip header stacks cleanly */
+            .device-strip-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            /* Hero text tighter */
+            .hero-subtitle {
+                font-size: 13px !important;
+            }
+
+            /* Mobile action bar buttons smaller text */
+            .mobile-action-bar .btn {
+                font-size: 12px;
+                padding: 11px 8px;
+            }
+
+            /* Toast clears above the action bar */
+            .toast-container {
+                bottom: 110px;
+            }
+        }
+
+        @media (max-width: 390px) {
+            .generator-layout {
+                padding: 10px 10px 100px;
+            }
+
+            .gen-controls {
+                padding: 12px !important;
+            }
+
+            /* Score preset buttons wrap naturally */
+            #scoreControls > div:last-child {
+                gap: 4px;
+            }
+
+            #scoreControls .btn-sm {
+                padding: 6px 9px;
+                font-size: 11px;
+            }
+
+            /* Toggle items: reduce gap so checkbox + text don't crowd */
+            .toggle-item {
+                gap: 10px !important;
+                padding: 12px !important;
+            }
+
+            .toggle-name {
+                font-size: 13px;
+            }
+
+            .toggle-desc,
+            .toggle-note {
+                font-size: 11px;
+            }
+
+            .cvar-key {
+                font-size: 10px;
             }
         }
 
@@ -904,59 +1105,59 @@
                                         Submissions are reviewed by <strong style="color:var(--jade-bright);">Arglax</strong> and will be added to future versions of the device-profiles CSV. You can also open a GitHub issue or reach out via Discord.
                                     </p>
                                 </div>
+                            </div>
                         </div>
+                    </div>
+
+                </div>
+                <div class="desktop-controls-row">
+                    <button class="btn btn-ghost btn-sm" onclick="resetAll()">↺ Reset All</button>
+                    <button class="btn btn-ghost btn-sm" onclick="generateConfig()">⟳ Refresh Output</button>
+                    <button class="btn btn-gold" onclick="showPreview()">👁 Preview</button>
+                </div>
+
+            </div><aside class="gen-sidebar">
+                <div class="output-card">
+                    <div class="output-header">
+                        <span class="output-title">📄 DeviceProfiles.ini Output</span>
+                        <span class="status-badge status-live" style="font-size:10px;">
+                            <span class="dot"></span>Live Preview
+                        </span>
+                    </div>
+                    <div class="output-meta" id="outputMeta">
+                        <span class="meta-pill">CVars: <span id="cvarCount">0</span></span>
+                        <span class="meta-pill">Lines: <span id="lineCount">0</span></span>
+                        <span class="meta-pill">Device: <span id="deviceLabel">—</span></span>
+                    </div>
+                    <div id="configOutput" spellcheck="false"></div>
+                    <div class="output-actions">
+                        <button class="btn btn-primary btn-sm" style="flex:1;" onclick="copyConfig()">⎘ Copy</button>
+                        <button class="btn btn-gold btn-sm" style="flex:1;" onclick="downloadConfig()">↓ Download</button>
+                        <button class="btn btn-ghost btn-sm" onclick="generateConfig()" data-tooltip="Refresh output">↺</button>
                     </div>
                 </div>
 
-            </div>
-            <div class="desktop-controls-row">
-                <button class="btn btn-ghost btn-sm" onclick="resetAll()">↺ Reset All</button>
-                <button class="btn btn-ghost btn-sm" onclick="generateConfig()">⟳ Refresh Output</button>
-                <button class="btn btn-gold" onclick="showPreview()">👁 Preview</button>
-            </div>
-
-        </div><aside class="gen-sidebar">
-            <div class="output-card">
-                <div class="output-header">
-                    <span class="output-title">📄 DeviceProfiles.ini Output</span>
-                    <span class="status-badge status-live" style="font-size:10px;">
-                        <span class="dot"></span>Live Preview
-                    </span>
+                <div class="card" style="margin-top:16px;">
+                    <div style="font-size:11px; font-family:var(--font-mono); color:var(--text-muted); text-transform:uppercase; letter-spacing:0.1em; margin-bottom:8px;">Placement Path</div>
+                    <code style="font-family:var(--font-mono);font-size:10.5px;color:var(--jade-bright);line-height:1.8;word-break:break-all;display:block;">
+                        \Internal shared storage\Android\data\<br />
+                        com.kurogame.wutheringwaves.global\files\<br />
+                        UE4Game\Client\Client\Saved\Config\Android
+                    </code>
+                    <div style="height:1px; background:linear-gradient(90deg,transparent,var(--border-mid),transparent); margin:12px 0;"></div>
+                    <p style="font-size:11.5px; color:var(--text-muted); line-height:1.6;">
+                        DeviceProfiles CVars are applied at the <strong style="color:var(--text-secondary);">SetByDeviceProfile</strong> priority. They are <strong style="color:red;">overriden by the Engine.ini</strong> on the same CVar.
+                    </p>
                 </div>
-                <div class="output-meta" id="outputMeta">
-                    <span class="meta-pill">CVars: <span id="cvarCount">0</span></span>
-                    <span class="meta-pill">Lines: <span id="lineCount">0</span></span>
-                    <span class="meta-pill">Device: <span id="deviceLabel">—</span></span>
-                </div>
-                <div id="configOutput" spellcheck="false"></div>
-                <div class="output-actions">
-                    <button class="btn btn-primary btn-sm" style="flex:1;" onclick="copyConfig()">⎘ Copy</button>
-                    <button class="btn btn-gold btn-sm" style="flex:1;" onclick="downloadConfig()">↓ Download</button>
-                    <button class="btn btn-ghost btn-sm" onclick="generateConfig()" data-tooltip="Refresh output">↺</button>
-                </div>
-            </div>
+            </aside>
 
-            <div class="card" style="margin-top:16px;">
-                <div style="font-size:11px; font-family:var(--font-mono); color:var(--text-muted); text-transform:uppercase; letter-spacing:0.1em; margin-bottom:8px;">Placement Path</div>
-                <code style="font-family:var(--font-mono);font-size:10.5px;color:var(--jade-bright);line-height:1.8;word-break:break-all;display:block;">
-                    \Internal shared storage\Android\data\<br />
-                    com.kurogame.wutheringwaves.global\files\<br />
-                    UE4Game\Client\Client\Saved\Config\Android
-                </code>
-                <div style="height:1px; background:linear-gradient(90deg,transparent,var(--border-mid),transparent); margin:12px 0;"></div>
-                <p style="font-size:11.5px; color:var(--text-muted); line-height:1.6;">
-                    DeviceProfiles CVars are applied at the <strong style="color:var(--text-secondary);">SetByDeviceProfile</strong> priority. They are <strong style="color:red;">overriden by the Engine.ini</strong> on the same CVar.
-                </p>
+        </div><footer class="site-footer">
+            <span class="footer-text">WuWa Portal · DeviceProfiles.ini Generator · Not affiliated with Kuro Games</span>
+            <div class="footer-links">
+                <a href="../index.html" class="footer-link">← Hub</a>
+                <a href="log-decryptor.html" class="footer-link">Log Decryptor</a>
             </div>
-        </aside>
-
-    </div><footer class="site-footer">
-        <span class="footer-text">WuWa Portal · DeviceProfiles.ini Generator · Not affiliated with Kuro Games</span>
-        <div class="footer-links">
-            <a href="../index.html" class="footer-link">← Hub</a>
-            <a href="log-decryptor.html" class="footer-link">Log Decryptor</a>
-        </div>
-    </footer>
+        </footer>
 
     </div><div class="toast-container" id="toastContainer"></div>
 
@@ -1332,51 +1533,50 @@ Vivo X100 Pro,Android_Mali_Immortalis,MediaTek,Dimensity 9300 · Immortalis G720
 
         // ── Device Submission ────────────────────────────────────
         async function submitDevice(event) {
-            // 1. Prevent the page from reloading/breaking your SPA flow
             if (event) event.preventDefault();
 
             const deviceInput = document.getElementById("submitDevice");
             const profileInput = document.getElementById("submitProfile");
+            const contributorInput = document.getElementById("submitContributor");
             const submitBtn = document.getElementById("submitBtn");
             const accessKeyInput = document.getElementById("web3AccessKey");
 
             const deviceVal = deviceInput.value.trim();
             const profileVal = profileInput.value.trim();
+            const contributorVal = contributorInput ? contributorInput.value.trim() : "";
 
-            // Validation
+            // Validation (contributor is optional)
             let valid = true;
             if (!deviceVal) { deviceInput.classList.add("error"); valid = false; } else { deviceInput.classList.remove("error"); }
             if (!profileVal) { profileInput.classList.add("error"); valid = false; } else { profileInput.classList.remove("error"); }
             if (!valid) { showToast("Please fill in both fields before submitting.", "error"); return; }
 
-            // Visual button state during transit
             submitBtn.disabled = true;
             submitBtn.textContent = "⏳ Submitting...";
 
             try {
-                // 2. Create a FormData object (This mimics the exact HTML format Web3Forms expects)
                 const formData = new FormData();
                 formData.append("access_key", accessKeyInput ? accessKeyInput.value : "20fc44a6-f1c5-4b31-9cc0-3d046f099ec5");
-                formData.append("subject", `[WuWa Portal] New Anonymous Device: ${deviceVal}`);
+                formData.append("subject", contributorVal
+                    ? `[WuWa Portal] New Device Submission by ${contributorVal}: ${deviceVal}`
+                    : `[WuWa Portal] New Anonymous Device: ${deviceVal}`);
                 formData.append("from_name", "WuWa Portal System");
-
-                // These will show up beautifully in your email inbox notifications
                 formData.append("Exact Device Name", deviceVal);
                 formData.append("Device Profile Name", profileVal);
+                formData.append("Contributor", contributorVal || "Anonymous");
 
-                // 3. Send via Fetch using FormData instead of application/json
                 const response = await fetch("https://api.web3forms.com/submit", {
                     method: "POST",
-                    body: formData // No headers needed! Fetch sets the boundary automatically for FormData
+                    body: formData
                 });
 
                 const result = await response.json();
 
                 if (result.success) {
-                    showToast("✓ Device submitted anonymously!", "success");
-                    // Clear inputs on success
+                    showToast(contributorVal ? `✓ Submitted — thanks, ${contributorVal}!` : "✓ Device submitted anonymously!", "success");
                     deviceInput.value = "";
                     profileInput.value = "";
+                    if (contributorInput) contributorInput.value = "";
                 } else {
                     throw new Error(result.message || "API rejection");
                 }
@@ -1384,7 +1584,6 @@ Vivo X100 Pro,Android_Mali_Immortalis,MediaTek,Dimensity 9300 · Immortalis G720
                 console.error("Submission error:", error);
                 showToast("Submission failed. Please check your network or try again.", "error");
             } finally {
-                // Restore button state perfectly
                 submitBtn.disabled = false;
                 submitBtn.textContent = "📨 Submit Device";
             }
