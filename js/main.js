@@ -1,4 +1,4 @@
-// Global framework components for WuWa Portal Layout Templates
+﻿// Global framework components for WuWa Portal Layout Templates
 function toggleMobileNav() {
     const nav = document.getElementById('mainNav');
     if (nav) {

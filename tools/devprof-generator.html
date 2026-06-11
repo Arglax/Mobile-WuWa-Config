@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
@@ -888,15 +888,22 @@
                                                placeholder="e.g. Android_Adreno_8xx"
                                                maxlength="80" />
                                     </div>
-                                    <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
-                                        <button class="btn btn-purple btn-sm" onclick="submitDevice()">📨 Submit Device</button>
-                                        <span style="font-size:11px; color:var(--text-muted);">Submitted anonymously instantly to the developer—no email or login required.</span>
+                                    <div class="form-group">
+                                        <label class="form-label">Contributor Name (Optional)</label>
+                                        <input type="text" class="form-input" id="submitContributor"
+                                               placeholder="e.g. Your Username or Alias"
+                                               maxlength="50" />
                                     </div>
+                                    <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+                                        <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+                                            <button class="btn btn-purple btn-sm" id="submitBtn" onclick="submitDevice(event)">📨 Submit Device</button>
+                                            <span style="font-size:11px; color:var(--text-muted);">Submitted instantly to the developer—no email or login required.</span>
+                                        </div>
+                                    </div>
+                                    <p style="font-size:11px; color:var(--text-muted); line-height:1.5; margin-top:4px;">
+                                        Submissions are reviewed by <strong style="color:var(--jade-bright);">Arglax</strong> and will be added to future versions of the device-profiles CSV. You can also open a GitHub issue or reach out via Discord.
+                                    </p>
                                 </div>
-                                <p style="font-size:11px; color:var(--text-muted); line-height:1.5; margin-top:4px;">
-                                    Submissions are reviewed by <strong style="color:var(--jade-bright);">Arglax</strong> and will be added to future versions of the device-profiles CSV. You can also open a GitHub issue or reach out via Discord.
-                                </p>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -953,7 +960,6 @@
 
     </div><div class="toast-container" id="toastContainer"></div>
 
-    <!-- Mobile sticky action bar (hidden on desktop via CSS) -->
     <div class="mobile-action-bar">
         <button class="btn btn-ghost btn-sm" onclick="resetAll()">↺ Reset</button>
         <button class="btn btn-primary" onclick="showPreview()" style="flex:2;">👁 View Config</button>
@@ -1151,6 +1157,7 @@ Vivo X100 Pro,Android_Mali_Immortalis,MediaTek,Dimensity 9300 · Immortalis G720
             generateConfig();
         }
 
+        // Score Sync System
         function syncScore(source) {
             const slider = document.getElementById("scoreSlider");
             const input = document.getElementById("scoreInput");
@@ -1324,44 +1331,48 @@ Vivo X100 Pro,Android_Mali_Immortalis,MediaTek,Dimensity 9300 · Immortalis G720
         }
 
         // ── Device Submission ────────────────────────────────────
-        async function submitDevice() {
+        async function submitDevice(event) {
+            // 1. Prevent the page from reloading/breaking your SPA flow
+            if (event) event.preventDefault();
+
             const deviceInput = document.getElementById("submitDevice");
             const profileInput = document.getElementById("submitProfile");
-            const submitBtn = document.getElementById("submitBtn"); // Targets the submit button
+            const submitBtn = document.getElementById("submitBtn");
+            const accessKeyInput = document.getElementById("web3AccessKey");
+
             const deviceVal = deviceInput.value.trim();
             const profileVal = profileInput.value.trim();
 
+            // Validation
             let valid = true;
             if (!deviceVal) { deviceInput.classList.add("error"); valid = false; } else { deviceInput.classList.remove("error"); }
             if (!profileVal) { profileInput.classList.add("error"); valid = false; } else { profileInput.classList.remove("error"); }
             if (!valid) { showToast("Please fill in both fields before submitting.", "error"); return; }
 
-            // Change visual button state during transit to prevent double-clicks
+            // Visual button state during transit
             submitBtn.disabled = true;
             submitBtn.textContent = "⏳ Submitting...";
 
             try {
-                // Go to web3forms.com, drop your email, and paste the access key they give you here:
-                const ACCESS_KEY = "20fc44a6-f1c5-4b31-9cc0-3d046f099ec5";
+                // 2. Create a FormData object (This mimics the exact HTML format Web3Forms expects)
+                const formData = new FormData();
+                formData.append("access_key", accessKeyInput ? accessKeyInput.value : "20fc44a6-f1c5-4b31-9cc0-3d046f099ec5");
+                formData.append("subject", `[WuWa Portal] New Anonymous Device: ${deviceVal}`);
+                formData.append("from_name", "WuWa Portal System");
 
+                // These will show up beautifully in your email inbox notifications
+                formData.append("Exact Device Name", deviceVal);
+                formData.append("Device Profile Name", profileVal);
+
+                // 3. Send via Fetch using FormData instead of application/json
                 const response = await fetch("https://api.web3forms.com/submit", {
                     method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Accept": "application/json"
-                    },
-                    body: JSON.stringify({
-                        access_key: ACCESS_KEY,
-                        subject: `[WuWa Portal] New Anonymous Device: ${deviceVal}`,
-                        from_name: "WuWa Portal System",
-                        "Exact Device Name": deviceVal,
-                        "DeviceProfile Name": profileVal
-                    })
+                    body: formData // No headers needed! Fetch sets the boundary automatically for FormData
                 });
 
                 const result = await response.json();
 
-                if (response.status === 200 || result.success) {
+                if (result.success) {
                     showToast("✓ Device submitted anonymously!", "success");
                     // Clear inputs on success
                     deviceInput.value = "";
@@ -1373,7 +1384,7 @@ Vivo X100 Pro,Android_Mali_Immortalis,MediaTek,Dimensity 9300 · Immortalis G720
                 console.error("Submission error:", error);
                 showToast("Submission failed. Please check your network or try again.", "error");
             } finally {
-                // Restore button state
+                // Restore button state perfectly
                 submitBtn.disabled = false;
                 submitBtn.textContent = "📨 Submit Device";
             }
