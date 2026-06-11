@@ -17,16 +17,15 @@
 Hopefully, this guide will help you unlock your device's full visual and gameplay potential.
 
 ---
-
-## 📢 Announcements — June 8, 2026
+## 📢 Announcements — June 10, 2026
 ---
 > [!IMPORTANT]
 > **Client.log is Now Encrypted**
->
 > Kuro has encrypted `Client.log` which is our most valuable reference for config development. This is a significant hurdle that may slow down or even halt future config work.
 
-Update as of 7:41 PM. I released a user-friendly log decryptor where you can just upload your log and download the decrypted file.  
-[Decrypt your Client.Log files here.](https://arglax.github.io/Mobile-WuWa-Config/tools/log-decryptor.html)    
+>[!TIP]
+>[I released a user-friendly log decryptor](https://arglax.github.io/Mobile-WuWa-Config/tools/log-decryptor.html) where you can just upload your log and download the decrypted file.  
+> Also, if you need to quickly know what config is recommended for you <a href="https://arglax.github.io/Mobile-WuWa-Config/index.html" target="_blank"> <img src="https://img.shields.io/badge/Launch_Config_Selector-1D9E75?style=for-the-badge&logo=cpu&logoColor=fff" alt="Launch Mobile Config Selector Engine" /> </a>
 
 > [!NOTE]
 > ***If KuroGames requests to take down this tool, it will be taken down***.   
