@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
@@ -531,6 +531,29 @@
 
             <div class="output-panel">
 
+                <button class="btn btn-ghost" style="width:100%;" id="devprofBtn" onclick="obtainDeviceProfile()" disabled>
+                    📱 Obtain DeviceProfile Name
+                </button>
+
+                <div id="devprofResult" style="display:none; padding:14px 16px;
+                     background:rgba(186,117,23,0.08); border:1px solid rgba(186,117,23,0.3);
+                     border-radius:var(--r-lg);">
+                    <div style="font-size:11px; color:var(--text-muted); margin-bottom:6px; letter-spacing:0.05em; text-transform:uppercase;">
+                        Detected Device Profile Data
+                    </div>
+                    <div style="display:flex; flex-direction:column; gap:6px;">
+                        <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+                            <span style="font-size:12px; color:var(--text-secondary);">Retail Hardware Model:</span>
+                            <span id="retailDeviceName" style="color:var(--text-primary); font-size:1.15rem; font-weight:700;"></span>
+                        </div>
+                        <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+                            <span style="font-size:11px; color:var(--text-muted);">Profile Assignment:</span>
+                            <span id="devprofName" style="color:var(--gold-bright); font-size:1rem; font-weight:600; font-family:monospace; word-break:break-all;"></span>
+                        </div>
+                        <button class="btn btn-ghost btn-sm" onclick="copyDeviceProfile()" style="align-self:flex-start; margin-top:4px;">⧉ Copy Profile</button>
+                    </div>
+                </div>
+
                 <div class="output-stats">
                     <div class="stat-mini">
                         <div class="stat-mini-val" id="statLines">—</div>
@@ -549,7 +572,7 @@
                 <div class="search-row">
                     <input type="text" class="search-input" id="searchInput"
                            placeholder="Search decrypted log…"
-                           oninput="searchLog(this.value)"
+                           oninput="debouncedSearchLog(this.value)"
                            disabled />
                     <button class="btn btn-ghost btn-sm" id="filterErrors" onclick="toggleErrorFilter()" disabled>
                         🔴 Errors Only
@@ -561,7 +584,7 @@
         </textarea>
 
                 <div style="display:flex; gap:8px;">
-                    <button class="btn btn-primary btn-sm" style="flex:1;" onclick="copyDecrypted()" id="copyDecBtn" disabled>⎘ Copy Output</button>
+                    <button class="btn btn-primary btn-sm" style="flex:1;" onclick="copyDecrypted()" id="copyDecBtn" disabled>⦾ Copy Output</button>
                     <button class="btn btn-gold btn-sm" style="flex:1;" onclick="downloadDecrypted()" id="dlDecBtn" disabled>↓ Save Log File</button>
                 </div>
 
