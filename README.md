@@ -4,6 +4,9 @@ A browser-based utility hub for **Wuthering Waves** on Android — no installs, 
 
 **[→ Open WuWa Portal](https://arglax.github.io/Mobile-WuWa-Config/index.html)**
 
+>[!NOTE]
+>This is an open source project, as well as my configs. You may freely share or submit pull requests for contributions. Credits to me is optional but would be appreciated.
+
 ---
 
 ## 🛠️ Performance & Engine Tools
