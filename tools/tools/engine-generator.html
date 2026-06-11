@@ -1,0 +1,908 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Engine.ini Generator — WuWa Portal</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <style>
+        /* ── Core Background Fixes & White Washout Removal ── */
+        body, .page-wrapper {
+            background-color: transparent !important;
+        }
+
+        .video-bg {
+            position: fixed !important;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1 !important; /* Forces video completely behind all UI layers */
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+            .video-bg video {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+
+        /* ── Modern Transparent Smoky Panels (Eliminates White Washout) ── */
+        .gen-controls {
+            background: rgba(4, 14, 9, 0.45) !important;
+            backdrop-filter: blur(12px) !important;
+            -webkit-backdrop-filter: blur(12px) !important;
+            border: 1px solid rgba(29, 158, 117, 0.15) !important;
+            border-radius: var(--r-lg);
+            padding: 24px !important;
+        }
+
+        .tab-panel {
+            background: transparent !important;
+            border: none !important;
+            padding: 0 !important;
+            box-shadow: none !important;
+        }
+
+        .accordion-item {
+            background: rgba(6, 14, 11, 0.6) !important;
+            backdrop-filter: blur(8px) !important;
+            -webkit-backdrop-filter: blur(8px) !important;
+            border: 1px solid rgba(118, 255, 208, 0.1) !important;
+            border-radius: var(--r-md) !important;
+            overflow: hidden;
+            margin-bottom: 12px;
+        }
+
+        .accordion-trigger {
+            background: rgba(10, 26, 20, 0.4) !important;
+            border-bottom: 1px solid rgba(118, 255, 208, 0.05) !important;
+            color: var(--text-primary) !important;
+        }
+
+        .accordion-body {
+            background: transparent !important;
+        }
+
+        /* ── Generator Layout Grid ── */
+        .generator-layout {
+            display: grid;
+            grid-template-columns: 1fr var(--sidebar-w);
+            gap: 24px;
+            align-items: start;
+            max-width: var(--content-max);
+            margin: 0 auto;
+            padding: 32px clamp(16px, 4vw, 48px);
+        }
+
+        /* ── Stylish Dropdown System (Matrix Theme Style) ── */
+        .form-select {
+            width: 100%;
+            background: rgba(6, 18, 14, 0.85) !important;
+            border: 1px solid rgba(29, 158, 117, 0.3) !important;
+            border-radius: var(--r-sm) !important;
+            color: var(--text-primary) !important;
+            font-family: var(--font-ui) !important;
+            font-size: 13px !important;
+            padding: 10px 36px 10px 14px !important;
+            transition: border-color var(--t-fast), box-shadow var(--t-fast);
+            cursor: pointer;
+            /* Strip default system rendering engines */
+            appearance: none !important;
+            -webkit-appearance: none !important;
+            -moz-appearance: none !important;
+            /* Cyber Jade arrow asset indicator */
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%235DCAA5' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E") !important;
+            background-repeat: no-repeat !important;
+            background-position: calc(100% - 14px) center !important;
+        }
+
+            .form-select:hover {
+                border-color: var(--jade-bright) !important;
+                box-shadow: 0 0 10px var(--jade-glow-sm) !important;
+            }
+
+            .form-select:focus {
+                outline: none !important;
+                border-color: var(--jade-bright) !important;
+                box-shadow: 0 0 14px var(--jade-glow) !important;
+            }
+
+            .form-select option {
+                background-color: #060e0b !important;
+                color: var(--text-primary) !important;
+                padding: 10px;
+            }
+
+            .form-select optgroup {
+                background-color: #04100d !important;
+                color: var(--jade-mid) !important;
+                font-style: normal;
+                font-weight: 600;
+            }
+
+        /* ── Custom Low-Opacity Selection Cards ── */
+        .toggle-item {
+            display: flex !important;
+            align-items: flex-start !important;
+            gap: 14px !important;
+            padding: 14px !important;
+            border: 1px solid rgba(118, 255, 208, 0.08) !important;
+            border-radius: var(--r-sm);
+            margin-bottom: 8px !important;
+            background: rgba(7, 46, 36, 0.12) !important;
+            cursor: pointer;
+            transition: all 120ms ease;
+            user-select: none;
+        }
+
+            .toggle-item:hover {
+                background: rgba(37, 199, 148, 0.06) !important;
+                border-color: rgba(37, 199, 148, 0.25) !important;
+            }
+
+            .toggle-item.selected-active {
+                background: rgba(37, 199, 148, 0.14) !important;
+                border-color: var(--jade-bright) !important;
+                box-shadow: 0 0 12px rgba(37, 199, 148, 0.1);
+            }
+
+        .toggle-checkbox {
+            pointer-events: none !important; /* Lets click event drop cleanly to parent card template */
+            width: 16px !important;
+            height: 16px !important;
+            margin-top: 3px !important;
+            flex-shrink: 0 !important;
+        }
+
+        .toggle-label {
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .toggle-name {
+            color: #ffffff !important;
+            font-weight: 600 !important;
+        }
+
+        /* ── Sidebar & Live Output ── */
+        .gen-sidebar {
+            position: sticky;
+            top: calc(var(--header-h) + 16px);
+        }
+
+        .output-card {
+            background: linear-gradient(145deg, rgba(4, 14, 9, 0.8), rgba(7, 15, 10, 0.85) 60%, rgba(13, 9, 0, 0.85)) !important;
+            backdrop-filter: blur(12px) !important;
+            -webkit-backdrop-filter: blur(12px) !important;
+            border: 1px solid rgba(29, 158, 117, 0.2) !important;
+            border-radius: var(--r-lg);
+            box-shadow: var(--shadow-card), 0 0 40px rgba(29,158,117,0.06);
+            overflow: hidden;
+        }
+
+        .output-header {
+            padding: 14px 18px;
+            border-bottom: 1px solid rgba(118, 255, 208, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: linear-gradient(90deg, rgba(7,46,36,0.4), transparent);
+        }
+
+        .output-title {
+            font-family: var(--font-display);
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--jade-mid);
+        }
+
+        .output-meta {
+            padding: 10px 18px;
+            background: rgba(2,8,5,0.3);
+            border-bottom: 1px solid rgba(118, 255, 208, 0.08);
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .meta-pill {
+            font-size: 11px;
+            font-family: var(--font-mono);
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+            .meta-pill span {
+                color: var(--jade-bright);
+                font-weight: 600;
+            }
+
+        #configOutput {
+            min-height: 420px;
+            max-height: 600px;
+            overflow-y: auto;
+            padding: 18px;
+            font-family: var(--font-mono);
+            font-size: 12px;
+            line-height: 1.75;
+            color: var(--jade-bright);
+            background: rgba(2, 8, 5, 0.35) !important;
+            border: none;
+            resize: none;
+            width: 100%;
+            outline: none;
+            box-sizing: border-box;
+        }
+
+        .output-actions {
+            padding: 12px 14px;
+            border-top: 1px solid rgba(118, 255, 208, 0.1);
+            display: flex;
+            gap: 8px;
+            background: rgba(4,14,10,0.4);
+        }
+
+        /* ── Device Profile Strip ── */
+        .device-strip {
+            background: linear-gradient(135deg, rgba(7,46,36,0.35), rgba(7,15,10,0.4)) !important;
+            border: 1px solid rgba(118, 255, 208, 0.1) !important;
+            border-radius: var(--r-md);
+            padding: 16px 20px;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .device-strip-label {
+            font-size: 12px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            flex-shrink: 0;
+            font-family: var(--font-mono);
+        }
+
+        .device-strip .form-group {
+            margin: 0;
+            flex: 1 1 200px;
+        }
+
+        /* ── Sections ── */
+        .sections-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .section-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-family: var(--font-mono);
+            font-size: 10px;
+            font-weight: 600;
+            padding: 2px 8px;
+            border-radius: 4px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .badge-perf {
+            background: rgba(29,158,117,0.12);
+            color: var(--jade-mid);
+            border: 1px solid rgba(29,158,117,0.2);
+        }
+
+        .badge-visual {
+            background: rgba(186,117,23,0.12);
+            color: var(--gold-mid);
+            border: 1px solid rgba(186,117,23,0.2);
+        }
+
+        .badge-stable {
+            background: rgba(80,120,200,0.12);
+            color: #7ba8ef;
+            border: 1px solid rgba(80,120,200,0.2);
+        }
+
+        .badge-adv {
+            background: rgba(160,60,200,0.10);
+            color: #c87de8;
+            border: 1px solid rgba(160,60,200,0.2);
+        }
+
+        .badge-danger {
+            background: rgba(220,50,50,0.10);
+            color: #f87171;
+            border: 1px solid rgba(220,50,50,0.2);
+        }
+
+        .cvar-key {
+            font-family: var(--font-mono);
+            font-size: 10.5px;
+            color: var(--jade-dim);
+            margin-top: 4px;
+            display: block;
+        }
+
+        /* ── Preset Buttons ── */
+        .preset-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 24px;
+        }
+
+        .preset-btn {
+            padding: 7px 14px;
+            border-radius: var(--r-sm);
+            background: rgba(7,46,36,0.2) !important;
+            border: 1px solid rgba(118, 255, 208, 0.1) !important;
+            color: var(--text-secondary);
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all var(--t-fast);
+            font-family: var(--font-ui);
+        }
+
+            .preset-btn:hover {
+                border-color: var(--jade-mid) !important;
+                color: var(--jade-bright) !important;
+                background: rgba(29, 158, 117, 0.1) !important;
+            }
+
+            .preset-btn.active {
+                border-color: var(--jade-mid) !important;
+                color: var(--jade-bright) !important;
+                background: linear-gradient(135deg, rgba(29,158,117,0.15), rgba(29,158,117,0.05)) !important;
+            }
+
+        /* ── Glassmorphic Info Card ── */
+        .card {
+            background: rgba(4, 14, 9, 0.5) !important;
+            backdrop-filter: blur(10px) !important;
+            -webkit-backdrop-filter: blur(10px) !important;
+            border: 1px solid rgba(29, 158, 117, 0.15) !important;
+        }
+
+        /* ── Responsive Mobile Menu Collapse ── */
+        @media (max-width: 900px) {
+            .generator-layout {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto auto;
+                padding: 20px 16px;
+            }
+
+            .gen-sidebar {
+                position: static;
+                order: -1;
+            }
+
+            #configOutput {
+                min-height: 200px;
+                max-height: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="video-bg">
+        <video autoplay muted loop playsinline>
+            <source src="assets/video/MovingBG.mp4" type="video/mp4" />
+        </video>
+    </div>
+
+    <div class="page-wrapper">
+        <header class="site-header">
+            <a href="index.html" class="header-brand">
+                <div class="header-brand-icon">⚙</div>
+                <div class="header-brand-text">
+                    <span class="header-brand-title">WUWA PORTAL</span>
+                    <span class="header-brand-sub">by Arglax</span>
+                </div>
+            </a>
+            <nav class="header-nav" id="mainNav">
+                <a href="index.html" class="nav-link">Hub</a>
+                <a href="engine-generator.html" class="nav-link active">Engine.ini Generator</a>
+                <a href="log-decryptor.html" class="nav-link">Log Decryptor</a>
+            </nav>
+            <div class="header-spacer"></div>
+            <span class="header-badge">Engine.ini</span>
+            <button class="mobile-menu-btn" onclick="toggleMobileNav()" aria-label="Menu">☰</button>
+        </header>
+
+        <div style="padding: 32px clamp(16px,4vw,48px) 0; max-width: var(--content-max); margin: 0 auto; width:100%;">
+            <div class="page-hero" style="text-align:left; padding-top:24px;">
+                <div class="hero-eyebrow">UE4 Configuration Builder</div>
+                <h1 class="hero-title" style="font-size: clamp(22px,3.5vw,38px);">
+                    Engine.ini <span class="accent">Generator</span>
+                </h1>
+                <p class="hero-subtitle" style="margin-left:0; max-width:640px; font-size:14px;">
+                    Toggle CVars by category, select your device profile, and generate a clean config ready to drop into
+                    <code style="font-family:var(--font-mono);font-size:12px;color:var(--jade-bright);">Android/UE4Game/WutheringWaves/WutheringWaves/Saved/Config/Android/</code>
+                </p>
+            </div>
+        </div>
+
+        <div class="generator-layout">
+
+            <div class="gen-controls">
+
+                <div class="device-strip">
+                    <span class="device-strip-label">Device / SoC</span>
+                    <div class="form-group">
+                        <select class="form-select" id="deviceProfile" onchange="onDeviceChange()">
+                            <option value="generic">Generic Android</option>
+                            <optgroup label="── Qualcomm ──">
+                                <option value="adreno750">Adreno 750 (SD 8 Gen 3)</option>
+                                <option value="adreno830">Adreno 830 (SD 8 Elite)</option>
+                                <option value="adreno735">Adreno 735 (SD 7s Gen 3)</option>
+                                <option value="adreno660">Adreno 660 (SD 888)</option>
+                            </optgroup>
+                            <optgroup label="── ARM Mali ──">
+                                <option value="maliG615">Mali G615 MC6 (Exynos 2400)</option>
+                                <option value="maliG715">Mali G715 MC11 (Dimensity 9300)</option>
+                                <option value="maliG720">Mali G720 (Exynos 2500)</option>
+                            </optgroup>
+                            <optgroup label="── Apple ──">
+                                <option value="appleiOS">Apple GPU (iOS)</option>
+                            </optgroup>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <select class="form-select" id="targetQuality" onchange="generateConfig()">
+                            <option value="high">High Quality</option>
+                            <option value="balanced" selected>Balanced</option>
+                            <option value="performance">Performance</option>
+                            <option value="ultraperf">Ultra Performance</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="section-label">Quick Presets</div>
+                <div class="preset-row">
+                    <button class="preset-btn" onclick="applyPreset('stock')">📦 Stock</button>
+                    <button class="preset-btn" onclick="applyPreset('smooth')">⚡ Smooth 60</button>
+                    <button class="preset-btn active" onclick="applyPreset('balanced')">⚖️ Balanced</button>
+                    <button class="preset-btn" onclick="applyPreset('eyecandy')">✨ Eye Candy</button>
+                    <button class="preset-btn" onclick="applyPreset('competitive')">🎯 Competitive</button>
+                    <button class="preset-btn" onclick="clearAll()">🗑 Clear All</button>
+                </div>
+
+                <div class="tab-bar mb-16" id="catTabs" style="margin-bottom:16px;">
+                    <button class="tab-btn active" onclick="switchTab('resolution',this)">Resolution</button>
+                    <button class="tab-btn" onclick="switchTab('rendering',this)">Rendering</button>
+                    <button class="tab-btn" onclick="switchTab('shadows',this)">Shadows</button>
+                    <button class="tab-btn" onclick="switchTab('postfx',this)">Post FX</button>
+                    <button class="tab-btn" onclick="switchTab('gpu',this)">GPU / Driver</button>
+                    <button class="tab-btn" onclick="switchTab('advanced',this)">Advanced</button>
+                </div>
+
+                <div class="tab-panel active sections-stack" id="tab-resolution">
+                    <div class="accordion-item open">
+                        <button class="accordion-trigger" onclick="toggleAccordion(this)">
+                            <span class="section-badge badge-perf">Perf</span>
+                            Resolution Scaling
+                            <div class="accordion-icon">▾</div>
+                        </button>
+                        <div class="accordion-body">
+                            <div class="accordion-content">
+                                <div class="form-group">
+                                    <label class="form-label">r.MobileContentScaleFactor</label>
+                                    <select class="form-select" id="mcsf" onchange="generateConfig()">
+                                        <option value="0.0">0.0 — Native (heaviest)</option>
+                                        <option value="1.0" selected>1.0 — Full HD equivalent</option>
+                                        <option value="1.25">1.25 — Slight upscale</option>
+                                        <option value="1.5">1.5 — HD resolution</option>
+                                        <option value="2.0">2.0 — Half resolution</option>
+                                        <option value="3.0">3.0 — Low resolution</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">r.SecondaryScreenPercentage.GameViewport (%)</label>
+                                    <select class="form-select" id="ssp" onchange="generateConfig()">
+                                        <option value="100" selected>100 — Native</option>
+                                        <option value="85">85 — Slight softening</option>
+                                        <option value="75">75 — Noticeable upscale</option>
+                                        <option value="66">66 — Aggressive upscale</option>
+                                        <option value="50">50 — Very low (max performance)</option>
+                                    </select>
+                                </div>
+
+                                <div class="section-label" style="margin-top:16px;">Upscaling</div>
+                                <div class="toggle-item" onclick="var cb=document.getElementById('fsr3'); cb.checked=!cb.checked; generateConfig(); this.classList.toggle('selected-active', cb.checked);">
+                                    <input type="checkbox" class="toggle-checkbox" id="fsr3" onchange="generateConfig()" onclick="event.stopPropagation(); this.parentElement.classList.toggle('selected-active', this.checked);" />
+                                    <div class="toggle-label">
+                                        <span class="toggle-name">FSR3 Frame Interpolation</span>
+                                        <span class="toggle-desc">KuroFI-backed frame gen. Requires r.FidelityFX.FSR3.Enable=1. May conflict on unsupported drivers.</span>
+                                        <span class="cvar-key">r.FidelityFX.FSR3.FrameInterpolation=1 | r.FidelityFX.FSR3.Enable=1</span>
+                                    </div>
+                                </div>
+                                <div class="toggle-item" onclick="var cb=document.getElementById('sgsr2'); cb.checked=!cb.checked; generateConfig(); this.classList.toggle('selected-active', cb.checked);">
+                                    <input type="checkbox" class="toggle-checkbox" id="sgsr2" onchange="generateConfig()" onclick="event.stopPropagation(); this.parentElement.classList.toggle('selected-active', this.checked);" />
+                                    <div class="toggle-label">
+                                        <span class="toggle-name">SGSR2 (Snapdragon GSR)</span>
+                                        <span class="toggle-desc">Qualcomm-native temporal upscaler. Adreno 7xx+ recommended.</span>
+                                        <span class="cvar-key">r.MobileTonemapperFilm=1 | kuro.SGSR2.Enable=1</span>
+                                    </div>
+                                </div>
+                                <div class="toggle-item selected-active" onclick="var cb=document.getElementById('taa'); cb.checked=!cb.checked; generateConfig(); this.classList.toggle('selected-active', cb.checked);">
+                                    <input type="checkbox" class="toggle-checkbox" id="taa" onchange="generateConfig()" onclick="event.stopPropagation(); this.parentElement.classList.toggle('selected-active', this.checked);" checked />
+                                    <div class="toggle-label">
+                                        <span class="toggle-name">Temporal Anti-Aliasing (TAA)</span>
+                                        <span class="toggle-desc">Enable UE4 TAA. Disable if ghosting is visible on Mali hardware.</span>
+                                        <span class="cvar-key">r.TemporalAA.Upsampling=1 | r.AntiAliasingMethod=2</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-panel sections-stack" id="tab-rendering">
+                    <div class="accordion-item open">
+                        <button class="accordion-trigger" onclick="toggleAccordion(this)">
+                            <span class="section-badge badge-visual">Visual</span>
+                            Core Rendering
+                            <div class="accordion-icon">▾</div>
+                        </button>
+                        <div class="accordion-body">
+                            <div class="accordion-content">
+                                <div class="toggle-item selected-active" onclick="var cb=document.getElementById('earlyz'); cb.checked=!cb.checked; generateConfig(); this.classList.toggle('selected-active', cb.checked);">
+                                    <input type="checkbox" class="toggle-checkbox" id="earlyz" onchange="generateConfig()" onclick="event.stopPropagation(); this.parentElement.classList.toggle('selected-active', this.checked);" checked />
+                                    <div class="toggle-label">
+                                        <span class="toggle-name">EarlyZ Pass</span>
+                                        <span class="toggle-desc">Depth pre-pass for occlusion. Reduces overdraw on complex scenes.</span>
+                                        <span class="cvar-key">r.EarlyZPass=3 | r.EarlyZPassMovable=1</span>
+                                    </div>
+                                </div>
+                                <div class="toggle-item selected-active" onclick="var cb=document.getElementById('hzb'); cb.checked=!cb.checked; generateConfig(); this.classList.toggle('selected-active', cb.checked);">
+                                    <input type="checkbox" class="toggle-checkbox" id="hzb" onchange="generateConfig()" onclick="event.stopPropagation(); this.parentElement.classList.toggle('selected-active', this.checked);" checked />
+                                    <div class="toggle-label">
+                                        <span class="toggle-name">HZB Occlusion Culling</span>
+                                        <span class="toggle-desc">Hierarchical Z-Buffer culling. Significant draw-call reduction outdoors.</span>
+                                        <span class="cvar-key">r.HZBOcclusion=1</span>
+                                    </div>
+                                </div>
+                                <div class="toggle-item selected-active" onclick="var cb=document.getElementById('foliagecull'); cb.checked=!cb.checked; generateConfig(); this.classList.toggle('selected-active', cb.checked);">
+                                    <input type="checkbox" class="toggle-checkbox" id="foliagecull" onchange="generateConfig()" onclick="event.stopPropagation(); this.parentElement.classList.toggle('selected-active', this.checked);" checked />
+                                    <div class="toggle-label">
+                                        <span class="toggle-name">Foliage & Grass Culling</span>
+                                        <span class="toggle-desc">Reduces grass/foliage render distance significantly. Major perf gain in open world zones.</span>
+                                        <span class="cvar-key">grass.DensityScale=0.5 | foliage.DensityScale=0.6 | r.DetailMode=1</span>
+                                    </div>
+                                </div>
+                                <div class="toggle-item" onclick="var cb=document.getElementById('staticlighting'); cb.checked=!cb.checked; generateConfig(); this.classList.toggle('selected-active', cb.checked);">
+                                    <input type="checkbox" class="toggle-checkbox" id="staticlighting" onchange="generateConfig()" onclick="event.stopPropagation(); this.parentElement.classList.toggle('selected-active', this.checked);" />
+                                    <div class="toggle-label">
+                                        <span class="toggle-name">Force Static Lighting</span>
+                                        <span class="toggle-desc">Disables dynamic lighting contribution on stationary lights. Flatter but faster.</span>
+                                        <span class="cvar-key">r.AllowStaticLighting=1 | r.SupportAllShaderPermutations=0</span>
+                                    </div>
+                                </div>
+                                <div class="toggle-item selected-active" onclick="var cb=document.getElementById('particlelod'); cb.checked=!cb.checked; generateConfig(); this.classList.toggle('selected-active', cb.checked);">
+                                    <input type="checkbox" class="toggle-checkbox" id="particlelod" onchange="generateConfig()" onclick="event.stopPropagation(); this.parentElement.classList.toggle('selected-active', this.checked);" checked />
+                                    <div class="toggle-label">
+                                        <span class="toggle-name">Particle LOD Scaling</span>
+                                        <span class="toggle-desc">Reduces particle spawn rates. Lower visual fidelity on skill FX but major perf gain.</span>
+                                        <span class="cvar-key">fx.NiagaraMaxGPUParticlesSpawnPerFrame=256 | r.ParticleLODBias=1</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="accordion-item">
+                        <button class="accordion-trigger" onclick="toggleAccordion(this)">
+                            <span class="section-badge badge-perf">Perf</span>
+                            LOD & Draw Distance
+                            <div class="accordion-icon">▾</div>
+                        </button>
+                        <div class="accordion-body">
+                            <div class="accordion-content">
+                                <div class="form-group">
+                                    <label class="form-label">r.StaticMeshLODDistanceScale</label>
+                                    <select class="form-select" id="smlod" onchange="generateConfig()">
+                                        <option value="0.5">0.5 — Aggressive (max performance)</option>
+                                        <option value="0.8" selected>0.8 — Balanced</option>
+                                        <option value="1.0">1.0 — Stock</option>
+                                        <option value="1.5">1.5 — High detail</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">r.SkeletalMeshLODBias</label>
+                                    <select class="form-select" id="sklod" onchange="generateConfig()">
+                                        <option value="-1">-1 — Higher detail</option>
+                                        <option value="0" selected>0 — Stock</option>
+                                        <option value="1">1 — Lower detail (performance)</option>
+                                        <option value="2">2 — Very low (degraded characters)</option>
+                                    </select>
+                                </div>
+                                <div class="toggle-item selected-active" onclick="var cb=document.getElementById('distcull'); cb.checked=!cb.checked; generateConfig(); this.classList.toggle('selected-active', cb.checked);">
+                                    <input type="checkbox" class="toggle-checkbox" id="distcull" onchange="generateConfig()" onclick="event.stopPropagation(); this.parentElement.classList.toggle('selected-active', this.checked);" checked />
+                                    <div class="toggle-label">
+                                        <span class="toggle-name">Distance Culling</span>
+                                        <span class="toggle-desc">Aggressively culls distant small objects.</span>
+                                        <span class="cvar-key">r.MinScreenRadiusForLights=0.03 | r.MinScreenRadiusForDepthPrepass=0.03</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-panel sections-stack" id="tab-shadows">
+                    <div class="accordion-item open">
+                        <button class="accordion-trigger" onclick="toggleAccordion(this)">
+                            <span class="section-badge badge-visual">Visual</span>
+                            Cascade Shadow Maps (CSM)
+                            <div class="accordion-icon">▾</div>
+                        </button>
+                        <div class="accordion-body">
+                            <div class="accordion-content">
+                                <div class="form-group">
+                                    <label class="form-label">Shadow Quality</label>
+                                    <select class="form-select" id="shadowQuality" onchange="generateConfig()">
+                                        <option value="0">0 — Disabled (max perf)</option>
+                                        <option value="1">1 — Low (16px maps)</option>
+                                        <option value="2" selected>2 — Medium (512px maps)</option>
+                                        <option value="3">3 — High (1024px maps)</option>
+                                        <option value="4">4 — Cinematic</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">r.Shadow.CSM.MaxCascades</label>
+                                    <select class="form-select" id="csmcascades" onchange="generateConfig()">
+                                        <option value="1">1 — Single cascade</option>
+                                        <option value="2" selected>2 — Two cascades (balanced)</option>
+                                        <option value="3">3 — Three cascades</option>
+                                        <option value="4">4 — Stock (heaviest)</option>
+                                    </select>
+                                </div>
+                                <div class="toggle-item" onclick="var cb=document.getElementById('contactshadow'); cb.checked=!cb.checked; generateConfig(); this.classList.toggle('selected-active', cb.checked);">
+                                    <input type="checkbox" class="toggle-checkbox" id="contactshadow" onchange="generateConfig()" onclick="event.stopPropagation(); this.parentElement.classList.toggle('selected-active', this.checked);" />
+                                    <div class="toggle-label">
+                                        <span class="toggle-name">Contact Shadows</span>
+                                        <span class="toggle-desc">Screen-space contact shadows. GPU-intensive; disable on low-end SoCs.</span>
+                                        <span class="cvar-key">r.ContactShadows=1</span>
+                                    </div>
+                                </div>
+                                <div class="toggle-item selected-active" onclick="var cb=document.getElementById('distshadow'); cb.checked=!cb.checked; generateConfig(); this.classList.toggle('selected-active', cb.checked);">
+                                    <input type="checkbox" class="toggle-checkbox" id="distshadow" onchange="generateConfig()" onclick="event.stopPropagation(); this.parentElement.classList.toggle('selected-active', this.checked);" checked />
+                                    <div class="toggle-label">
+                                        <span class="toggle-name">Distant Field Shadows</span>
+                                        <span class="toggle-desc">Allows far-range shadow casting using SDF approximations.</span>
+                                        <span class="cvar-key">r.DistanceFieldShadowing=1</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-panel sections-stack" id="tab-postfx">
+                    <div class="accordion-item open">
+                        <button class="accordion-trigger" onclick="toggleAccordion(this)">
+                            <span class="section-badge badge-visual">Visual</span>
+                            Post-Processing Effects
+                            <div class="accordion-icon">▾</div>
+                        </button>
+                        <div class="accordion-body">
+                            <div class="accordion-content">
+                                <div class="toggle-item selected-active" onclick="var cb=document.getElementById('bloom'); cb.checked=!cb.checked; generateConfig(); this.classList.toggle('selected-active', cb.checked);">
+                                    <input type="checkbox" class="toggle-checkbox" id="bloom" onchange="generateConfig()" onclick="event.stopPropagation(); this.parentElement.classList.toggle('selected-active', this.checked);" checked />
+                                    <div class="toggle-label">
+                                        <span class="toggle-name">Bloom</span>
+                                        <span class="toggle-desc">Glow around bright light sources. Medium GPU cost.</span>
+                                        <span class="cvar-key">r.BloomQuality=4</span>
+                                    </div>
+                                </div>
+                                <div class="toggle-item" onclick="var cb=document.getElementById('dof'); cb.checked=!cb.checked; generateConfig(); this.classList.toggle('selected-active', cb.checked);">
+                                    <input type="checkbox" class="toggle-checkbox" id="dof" onchange="generateConfig()" onclick="event.stopPropagation(); this.parentElement.classList.toggle('selected-active', this.checked);" />
+                                    <div class="toggle-label">
+                                        <span class="toggle-name">Depth of Field</span>
+                                        <span class="toggle-desc">Cinematic DoF blur. High GPU cost on mobile — disable for performance.</span>
+                                        <span class="cvar-key">r.DepthOfFieldQuality=2</span>
+                                    </div>
+                                </div>
+                                <div class="toggle-item" onclick="var cb=document.getElementById('lensflare'); cb.checked=!cb.checked; generateConfig(); this.classList.toggle('selected-active', cb.checked);">
+                                    <input type="checkbox" class="toggle-checkbox" id="lensflare" onchange="generateConfig()" onclick="event.stopPropagation(); this.parentElement.classList.toggle('selected-active', this.checked);" />
+                                    <div class="toggle-label">
+                                        <span class="toggle-name">Lens Flares</span>
+                                        <span class="toggle-desc">Optical lens flare artifacts on bright sources.</span>
+                                        <span class="cvar-key">r.LensFlareQuality=1</span>
+                                    </div>
+                                </div>
+                                <div class="toggle-item selected-active" onclick="var cb=document.getElementById('ao'); cb.checked=!cb.checked; generateConfig(); this.classList.toggle('selected-active', cb.checked);">
+                                    <input type="checkbox" class="toggle-checkbox" id="ao" onchange="generateConfig()" onclick="event.stopPropagation(); this.parentElement.classList.toggle('selected-active', this.checked);" checked />
+                                    <div class="toggle-label">
+                                        <span class="toggle-name">Ambient Occlusion (SSAO)</span>
+                                        <span class="toggle-desc">Screen-space ambient occlusion adds depth to crevices. Medium cost.</span>
+                                        <span class="cvar-key">r.AmbientOcclusionLevels=1 | r.AmbientOcclusionRadiusScale=0.8</span>
+                                    </div>
+                                </div>
+                                <div class="toggle-item" onclick="var cb=document.getElementById('motionblur'); cb.checked=!cb.checked; generateConfig(); this.classList.toggle('selected-active', cb.checked);">
+                                    <input type="checkbox" class="toggle-checkbox" id="motionblur" onchange="generateConfig()" onclick="event.stopPropagation(); this.parentElement.classList.toggle('selected-active', this.checked);" />
+                                    <div class="toggle-label">
+                                        <span class="toggle-name">Motion Blur</span>
+                                        <span class="toggle-desc">Velocity-based motion blur. Disable for cleaner competitive gameplay.</span>
+                                        <span class="cvar-key">r.MotionBlurQuality=1</span>
+                                    </div>
+                                </div>
+                                <div class="toggle-item" onclick="var cb=document.getElementById('hdr'); cb.checked=!cb.checked; generateConfig(); this.classList.toggle('selected-active', cb.checked);">
+                                    <input type="checkbox" class="toggle-checkbox" id="hdr" onchange="generateConfig()" onclick="event.stopPropagation(); this.parentElement.classList.toggle('selected-active', this.checked);" />
+                                    <div class="toggle-label">
+                                        <span class="toggle-name">HDR Swapchain (scRGB / PQ)</span>
+                                        <span class="toggle-desc">Only enable on certified HDR panels. Causes black-blink on unsupported displays.</span>
+                                        <span class="cvar-key">r.HDR.EnableHDROutput=1 | r.HDR.Display.OutputDevice=6</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-panel sections-stack" id="tab-gpu">
+                    <div class="accordion-item open">
+                        <button class="accordion-trigger" onclick="toggleAccordion(this)">
+                            <span class="section-badge badge-stable">Stability</span>
+                            GPU Driver Tweaks
+                            <div class="accordion-icon">▾</div>
+                        </button>
+                        <div class="accordion-body">
+                            <div class="accordion-content">
+                                <div class="toggle-item" onclick="var cb=document.getElementById('robustbuffer'); cb.checked=!cb.checked; generateConfig(); this.classList.toggle('selected-active', cb.checked);">
+                                    <input type="checkbox" class="toggle-checkbox" id="robustbuffer" onchange="generateConfig()" onclick="event.stopPropagation(); this.parentElement.classList.toggle('selected-active', this.checked);" />
+                                    <div class="toggle-label">
+                                        <span class="toggle-name">Robust Buffer Access (robustBufferAccess)</span>
+                                        <span class="toggle-desc">Forces in-bounds buffer reads. Required on some Mali drivers. Slight performance cost.</span>
+                                        <span class="cvar-key">r.Vulkan.RobustBufferAccess=1</span>
+                                    </div>
+                                </div>
+                                <div class="toggle-item selected-active" onclick="var cb=document.getElementById('gpucrash'); cb.checked=!cb.checked; generateConfig(); this.classList.toggle('selected-active', cb.checked);">
+                                    <input type="checkbox" class="toggle-checkbox" id="gpucrash" onchange="generateConfig()" onclick="event.stopPropagation(); this.parentElement.classList.toggle('selected-active', this.checked);" checked />
+                                    <div class="toggle-label">
+                                        <span class="toggle-name">GPU Crash Debug Logging</span>
+                                        <span class="toggle-desc">Emits breadcrumb markers before GPU crash. Useful for diagnosing Vulkan TDRs.</span>
+                                        <span class="cvar-key">r.GPUCrashDebugging=1 | r.GPUCrashDump=1</span>
+                                    </div>
+                                </div>
+                                <div class="toggle-item" onclick="var cb=document.getElementById('vkpool'); cb.checked=!cb.checked; generateConfig(); this.classList.toggle('selected-active', cb.checked);">
+                                    <input type="checkbox" class="toggle-checkbox" id="vkpool" onchange="generateConfig()" onclick="event.stopPropagation(); this.parentElement.classList.toggle('selected-active', this.checked);" />
+                                    <div class="toggle-label">
+                                        <span class="toggle-name">Vulkan Memory Pool Tuning</span>
+                                        <span class="toggle-desc">Preallocates Vulkan memory pools. Reduces mid-session stutter on 8GB+ RAM devices.</span>
+                                        <span class="cvar-key">r.Vulkan.GarbageCollectEveryFrame=1 | r.Vulkan.PoolSizeScale=1.5</span>
+                                    </div>
+                                </div>
+                                <div class="toggle-item" onclick="var cb=document.getElementById('threadaffinity'); cb.checked=!cb.checked; generateConfig(); this.classList.toggle('selected-active', cb.checked);">
+                                    <input type="checkbox" class="toggle-checkbox" id="threadaffinity" onchange="generateConfig()" onclick="event.stopPropagation(); this.parentElement.classList.toggle('selected-active', this.checked);" />
+                                    <div class="toggle-label">
+                                        <span class="toggle-name">Big.LITTLE Thread Affinity</span>
+                                        <span class="toggle-desc">Pins render threads to big cores. Effective on SD 8 Gen / Dimensity 9xxx SoCs.</span>
+                                        <span class="cvar-key">r.Android.DisableThreadedRendering=0 | TaskGraph.NumForegroundWorkers=2</span>
+                                    </div>
+                                </div>
+                                <div class="form-group" style="margin-top:12px;">
+                                    <label class="form-label">Vulkan Validation Layer</label>
+                                    <select class="form-select" id="vulkanval" onchange="generateConfig()">
+                                        <option value="0" selected>0 — Disabled (production)</option>
+                                        <option value="1">1 — Errors only</option>
+                                        <option value="2">2 — Full validation (debugging)</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-panel sections-stack" id="tab-advanced">
+                    <div class="accordion-item open">
+                        <button class="accordion-trigger" onclick="toggleAccordion(this)">
+                            <span class="section-badge badge-danger">⚠ Risk</span>
+                            Advanced / Experimental
+                            <div class="accordion-icon">▾</div>
+                        </button>
+                        <div class="accordion-body">
+                            <div class="accordion-content">
+                                <div style="padding:10px 14px; background:rgba(220,50,50,0.06); border:1px solid rgba(220,50,50,0.2); border-radius:var(--r-sm); margin-bottom:14px; font-size:12px; color:#f87171; line-height:1.6;">
+                                    ⚠ These CVars may trigger Kuro's ConfigMonitor watchdog or cause crashes on unsupported hardware. Use at your own risk.
+                                </div>
+                                <div class="toggle-item" onclick="var cb=document.getElementById('shaderprecomp'); cb.checked=!cb.checked; generateConfig(); this.classList.toggle('selected-active', cb.checked);">
+                                    <input type="checkbox" class="toggle-checkbox" id="shaderprecomp" onchange="generateConfig()" onclick="event.stopPropagation(); this.parentElement.classList.toggle('selected-active', this.checked);" />
+                                    <div class="toggle-label">
+                                        <span class="toggle-name">Shader Pre-Compilation Hint</span>
+                                        <span class="toggle-desc">Signals the engine to compile shaders aggressively at boot. May extend loading time but reduces in-game stutter.</span>
+                                        <span class="cvar-key">r.ShaderPipelineCache.Enabled=1 | r.ShaderPipelineCache.BatchSize=128</span>
+                                    </div>
+                                </div>
+                                <div class="toggle-item" onclick="var cb=document.getElementById('asynccomp'); cb.checked=!cb.checked; generateConfig(); this.classList.toggle('selected-active', cb.checked);">
+                                    <input type="checkbox" class="toggle-checkbox" id="asynccomp" onchange="generateConfig()" onclick="event.stopPropagation(); this.parentElement.classList.toggle('selected-active', this.checked);" />
+                                    <div class="toggle-label">
+                                        <span class="toggle-name">Async Compute</span>
+                                        <span class="toggle-desc">Enables asynchronous compute queue on Vulkan. Overlaps compute and render work. Adreno 7xx+ / Mali G715+ only.</span>
+                                        <span class="cvar-key">r.Vulkan.EnableAsyncCompute=1</span>
+                                    </div>
+                                </div>
+                                <div class="toggle-item" onclick="var cb=document.getElementById('mfrc'); cb.checked=!cb.checked; generateConfig(); this.classList.toggle('selected-active', cb.checked);">
+                                    <input type="checkbox" class="toggle-checkbox" id="mfrc" onchange="generateConfig()" onclick="event.stopPropagation(); this.parentElement.classList.toggle('selected-active', this.checked);" />
+                                    <div class="toggle-label">
+                                        <span class="toggle-name">MFRC Frame Rate Controller</span>
+                                        <span class="toggle-desc">Kuro's proprietary frame pacing system. Disable if you see MFRC_INIT_FAILED in logs on your device.</span>
+                                        <span class="cvar-key">kuro.MFRC.Enable=0</span>
+                                    </div>
+                                </div>
+                                <div class="form-group" style="margin-top:12px;">
+                                    <label class="form-label">Custom INI Snippet (appended verbatim)</label>
+                                    <textarea class="code-output" id="customSnippet" rows="5"
+                                              placeholder="; Add any additional CVars here&#10;; e.g. r.MyCustomCVar=1"
+                                              oninput="generateConfig()"
+                                              style="color: var(--text-secondary); min-height:80px; max-height:180px; width: 100%; box-sizing: border-box;"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div><aside class="gen-sidebar">
+                <div class="output-card">
+                    <div class="output-header">
+                        <span class="output-title">📄 Engine.ini Output</span>
+                        <span class="status-badge status-live" style="font-size:10px;">
+                            <span class="dot"></span>Live Preview
+                        </span>
+                    </div>
+                    <div class="output-meta" id="outputMeta">
+                        <span class="meta-pill">Lines: <span id="lineCount">0</span></span>
+                        <span class="meta-pill">CVars: <span id="cvarCount">0</span></span>
+                        <span class="meta-pill">Device: <span id="deviceLabel">Generic</span></span>
+                    </div>
+                    <textarea id="configOutput" readonly spellcheck="false">; WuWa Engine.ini — generating...</textarea>
+                    <div class="output-actions">
+                        <button class="btn btn-primary btn-sm" style="flex:1;" onclick="copyConfig()">⎘ Copy</button>
+                        <button class="btn btn-gold btn-sm" style="flex:1;" onclick="downloadConfig()">↓ Download</button>
+                        <button class="btn btn-ghost btn-sm" onclick="generateConfig()" data-tooltip="Refresh output">↺</button>
+                    </div>
+                </div>
+
+                <div class="card" style="margin-top:16px; padding:16px;">
+                    <div class="section-label">Placement Path</div>
+                    <code style="font-family:var(--font-mono);font-size:10.5px;color:var(--jade-bright);line-height:1.8;word-break:break-all;">
+                        /sdcard/Android/data/<br>
+                        com.kurogame.wutheringwaves.global/<br>
+                        files/UE4Game/WutheringWaves/<br>
+                        WutheringWaves/Saved/Config/<br>
+                        Android/Engine.ini
+                    </code>
+                    <div class="divider" style="margin:12px 0;"></div>
+                    <p style="font-size:11.5px; color:var(--text-muted); line-height:1.6;">
+                        Back up your original Engine.ini first. ConfigMonitor may reset forbidden CVars on launch.
+                    </p>
+                </div>
+            </aside>
+
+        </div><footer class="site-footer">
+            <span class="footer-text">WuWa Portal · Engine.ini Generator · Not affiliated with Kuro Games</span>
+            <div class="footer-links">
+                <a href="index.html" class="footer-link">← Hub</a>
+                <a href="log-decryptor.html" class="footer-link">Log Decryptor</a>
+            </div>
+        </footer>
+    </div>
+
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="js/main.js"></script>
+    <script src="js/generator.js"></script>
+</body>
+</html>

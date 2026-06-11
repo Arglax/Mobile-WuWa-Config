@@ -1,0 +1,619 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Log Decryptor — WuWa Portal</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <style>
+        /* ── Decryptor-specific ── */
+        .decryptor-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            max-width: var(--content-max);
+            margin: 0 auto;
+            padding: 0 clamp(16px, 4vw, 48px) 40px;
+        }
+
+        /* Drop Zone */
+        .drop-zone {
+            position: relative;
+            border: 2px dashed var(--border-mid);
+            border-radius: var(--r-xl);
+            padding: 48px 32px;
+            text-align: center;
+            cursor: pointer;
+            background: linear-gradient(145deg, rgba(7,46,36,0.15), rgba(7,15,10,0.3));
+            transition: all var(--t-mid);
+            overflow: hidden;
+            user-select: none;
+        }
+
+            .drop-zone::before {
+                content: '';
+                position: absolute;
+                inset: 0;
+                border-radius: inherit;
+                background: radial-gradient(ellipse 70% 60% at 50% 50%, rgba(29,158,117,0.05) 0%, transparent 70%);
+                pointer-events: none;
+            }
+
+            .drop-zone:hover,
+            .drop-zone.drag-over {
+                border-color: var(--jade-mid);
+                background: linear-gradient(145deg, rgba(29,158,117,0.08), rgba(7,15,10,0.4));
+                box-shadow: 0 0 40px rgba(29,158,117,0.1), inset 0 0 20px rgba(29,158,117,0.04);
+            }
+
+            .drop-zone.drag-over {
+                border-style: solid;
+            }
+
+            .drop-zone.has-file {
+                border-color: var(--jade-mid);
+                border-style: solid;
+            }
+
+        .drop-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+            display: block;
+            line-height: 1;
+            transition: transform var(--t-mid);
+        }
+
+        .drop-zone:hover .drop-icon {
+            transform: scale(1.08);
+        }
+
+        .drop-title {
+            font-family: var(--font-display);
+            font-size: 18px;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .drop-sub {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-bottom: 24px;
+            line-height: 1.6;
+        }
+
+        .drop-file-input {
+            display: none;
+        }
+
+        /* File Info Bar */
+        .file-info-bar {
+            display: none;
+            margin-top: 20px;
+            padding: 12px 16px;
+            background: rgba(29,158,117,0.08);
+            border: 1px solid var(--border-mid);
+            border-radius: var(--r-md);
+            font-size: 12px;
+            font-family: var(--font-mono);
+            color: var(--jade-bright);
+            align-items: center;
+            gap: 10px;
+            text-align: left;
+            flex-wrap: wrap;
+        }
+
+            .file-info-bar.visible {
+                display: flex;
+            }
+
+        .file-info-name {
+            font-weight: 600;
+            flex: 1;
+            word-break: break-all;
+        }
+
+        .file-info-size {
+            color: var(--text-muted);
+            flex-shrink: 0;
+        }
+
+        /* Scheme detector */
+        .scheme-detector {
+            margin-top: 16px;
+            padding: 12px 16px;
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--r-md);
+            font-size: 12px;
+            display: none;
+        }
+
+            .scheme-detector.visible {
+                display: block;
+            }
+
+        .scheme-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 4px 0;
+        }
+
+        .scheme-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--text-muted);
+            flex-shrink: 0;
+        }
+
+            .scheme-dot.active {
+                background: var(--jade-bright);
+                box-shadow: 0 0 6px var(--jade-bright);
+            }
+
+        .scheme-label {
+            font-family: var(--font-mono);
+            color: var(--text-secondary);
+        }
+
+            .scheme-label.detected {
+                color: var(--jade-bright);
+                font-weight: 600;
+            }
+
+        /* Output Panel */
+        .output-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .output-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+        }
+
+        .stat-mini {
+            padding: 12px 14px;
+            background: rgba(7,46,36,0.3);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--r-md);
+            text-align: center;
+        }
+
+        .stat-mini-val {
+            font-family: var(--font-display);
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--jade-bright);
+            line-height: 1;
+        }
+
+            .stat-mini-val.gold {
+                color: var(--gold-bright);
+            }
+
+        .stat-mini-label {
+            font-size: 10px;
+            color: var(--text-muted);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-top: 4px;
+        }
+
+        #decryptedOutput {
+            flex: 1;
+            min-height: 400px;
+            max-height: 540px;
+        }
+
+        /* Search bar */
+        .search-row {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .search-input {
+            flex: 1;
+            background: rgba(4,14,10,0.8);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--r-sm);
+            color: var(--text-primary);
+            font-family: var(--font-mono);
+            font-size: 12px;
+            padding: 8px 12px;
+            outline: none;
+            transition: border-color var(--t-fast);
+        }
+
+            .search-input:focus {
+                border-color: var(--jade-mid);
+            }
+
+            .search-input::placeholder {
+                color: var(--text-muted);
+            }
+
+        /* Highlight matches */
+        .highlight {
+            background: rgba(239,159,39,0.3);
+            color: var(--gold-bright);
+            border-radius: 2px;
+        }
+
+        /* Crash signature cards */
+        .sig-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .sig-card {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 12px 14px;
+            background: rgba(4,14,10,0.6);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--r-md);
+            font-size: 12px;
+            transition: border-color var(--t-fast), background var(--t-fast);
+        }
+
+            .sig-card:hover {
+                border-color: var(--border-mid);
+                background: rgba(7,46,36,0.2);
+            }
+
+            .sig-card.found {
+                border-color: rgba(220,50,50,0.4);
+                background: rgba(220,50,50,0.04);
+            }
+
+            .sig-card.clean {
+                border-color: rgba(29,158,117,0.25);
+                background: rgba(29,158,117,0.04);
+            }
+
+        .sig-icon {
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+
+        .sig-name {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 2px;
+        }
+
+            .sig-name.found {
+                color: #f87171;
+            }
+
+        .sig-desc {
+            font-size: 11px;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        .sig-badge {
+            margin-left: auto;
+            flex-shrink: 0;
+            font-size: 10px;
+            font-family: var(--font-mono);
+            font-weight: 600;
+            padding: 2px 7px;
+            border-radius: 4px;
+        }
+
+            .sig-badge.found {
+                background: rgba(220,50,50,0.12);
+                color: #f87171;
+                border: 1px solid rgba(220,50,50,0.3);
+            }
+
+            .sig-badge.clean {
+                background: rgba(29,158,117,0.10);
+                color: var(--jade-mid);
+                border: 1px solid rgba(29,158,117,0.2);
+            }
+
+            .sig-badge.pending {
+                background: rgba(77,107,94,0.1);
+                color: var(--text-muted);
+                border: 1px solid var(--border-subtle);
+            }
+
+        /* Progress bar */
+        .progress-wrap {
+            display: none;
+            height: 2px;
+            background: var(--border-subtle);
+            border-radius: 99px;
+            overflow: hidden;
+            margin: 8px 0;
+        }
+
+            .progress-wrap.visible {
+                display: block;
+            }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--jade-dim), var(--jade-bright));
+            border-radius: 99px;
+            transition: width 0.2s ease;
+            width: 0%;
+        }
+
+        @media (max-width: 900px) {
+            .decryptor-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="video-bg">
+        <video autoplay muted loop playsinline>
+            <source src="../assets/video/MovingBG.mp4" type="video/mp4" />
+        </video>
+    </div>
+
+    <div class="page-wrapper">
+        <header class="site-header">
+            <a href="../index.html" class="header-brand">
+                <div class="header-brand-icon">⚙</div>
+                <div class="header-brand-text">
+                    <span class="header-brand-title">WUWA PORTAL</span>
+                    <span class="header-brand-sub">by Arglax</span>
+                </div>
+            </a>
+            <nav class="header-nav" id="mainNav">
+                <a href="../index.html" class="nav-link">Home</a>
+                <a href="https://github.com/Arglax/Mobile-WuWa-Config" class="nav-link" target="_blank" rel="noopener">GitHub</a>
+                <a href="log-decryptor.html" class="nav-link active">Log Decryptor</a>
+                <a href="devprof-generator.html" class="nav-link">DevProf Generator</a>
+            </nav>
+            <div class="header-spacer"></div>
+            <span class="header-badge" style="border-color:var(--border-gold);color:var(--gold-bright);">Client.log</span>
+            <button class="mobile-menu-btn" aria-label="Menu">☰</button>
+        </header>
+
+        <div style="padding: 32px clamp(16px,4vw,48px) 24px; max-width:var(--content-max); margin: 0 auto; width:100%;">
+            <div class="page-hero" style="text-align:left; padding-top:24px; padding-bottom:16px;">
+                <div class="hero-eyebrow" style="color:var(--gold-mid);">Kuro Games · Client.log</div>
+                <h1 class="hero-title" style="font-size:clamp(22px,3.5vw,38px);">
+                    Log <span class="gold">Decryptor</span>
+                </h1>
+                <p class="hero-subtitle" style="margin-left:0; font-size:14px;">
+                    Drop a <code style="font-family:var(--font-mono);font-size:12px;color:var(--jade-bright);">Client.log</code> file below.
+                    The decryptor auto-detects both Kuro encryption schemes, applies the LUT XOR transform,
+                    and outputs human-readable text — entirely in your browser. No uploads, no servers.
+                </p>
+            </div>
+
+            <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:24px;">
+                <div style="padding:8px 14px; background:rgba(29,158,117,0.08); border:1px solid var(--border-mid); border-radius:var(--r-sm); font-size:11px; font-family:var(--font-mono); color:var(--text-secondary);">
+                    <span style="color:var(--jade-bright); font-weight:600;">Scheme A</span> · Magic bytes <code>4B 47 4C 4F 47</code>
+                </div>
+                <div style="padding:8px 14px; background:rgba(186,117,23,0.08); border:1px solid var(--border-gold); border-radius:var(--r-sm); font-size:11px; font-family:var(--font-mono); color:var(--text-secondary);">
+                    <span style="color:var(--gold-bright); font-weight:600;">Scheme B</span> · Offset LUT with 256-byte key rotation
+                </div>
+                <div style="padding:8px 14px; background:rgba(77,107,94,0.1); border:1px solid var(--border-subtle); border-radius:var(--r-sm); font-size:11px; font-family:var(--font-mono); color:var(--text-muted);">
+                    🔒 All processing is client-side only
+                </div>
+            </div>
+        </div>
+
+        <div class="decryptor-layout">
+
+            <div style="display:flex; flex-direction:column; gap:20px;">
+
+                <div class="drop-zone" id="dropZone"
+                     ondrop="handleDrop(event)"
+                     ondragover="handleDragOver(event)"
+                     ondragleave="handleDragLeave(event)"
+                     onclick="triggerFileInput(event)">
+                    <span class="drop-icon">🔐</span>
+                    <div class="drop-title">Drop Client.log Here</div>
+                    <div class="drop-sub">
+                        Drag &amp; drop your encrypted log file, or click to browse.<br>
+                        Supports both Kuro encryption variants.
+                    </div>
+                    <button class="btn btn-ghost btn-sm" onclick="event.stopPropagation(); triggerFileInput(event)">Browse File</button>
+                    <input type="file" class="drop-file-input" id="fileInput" accept=".log,.txt,*" onchange="handleFileSelect(event)" />
+
+                    <div class="file-info-bar" id="fileInfoBar">
+                        <span class="file-info-name" id="fileInfoName">—</span>
+                        <span class="file-info-size" id="fileInfoSize">—</span>
+                    </div>
+                </div>
+
+                <div class="progress-wrap" id="progressWrap">
+                    <div class="progress-bar" id="progressBar"></div>
+                </div>
+
+                <div class="scheme-detector card card-body" id="schemeDetector" style="padding:16px;">
+                    <div class="section-label">Encryption Detection</div>
+                    <div class="scheme-row">
+                        <div class="scheme-dot" id="dotA"></div>
+                        <span class="scheme-label" id="labelA">Scheme A — Magic header (KGLOG)</span>
+                    </div>
+                    <div class="scheme-row">
+                        <div class="scheme-dot" id="dotB"></div>
+                        <span class="scheme-label" id="labelB">Scheme B — Offset LUT rotation</span>
+                    </div>
+                    <div class="scheme-row">
+                        <div class="scheme-dot" id="dotPlain"></div>
+                        <span class="scheme-label" id="labelPlain">Plaintext / Unencrypted</span>
+                    </div>
+                    <div class="divider" style="margin:10px 0;"></div>
+                    <div style="font-size:12px; color:var(--text-muted);">
+                        Detected: <span id="detectedScheme" style="color:var(--jade-bright); font-family:var(--font-mono); font-weight:600;">—</span>
+                    </div>
+                </div>
+
+                <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                    <button class="btn btn-gold" style="flex:1;" id="decryptBtn" onclick="decryptFile()" disabled>🔓 Decrypt Log</button>
+                    <button class="btn btn-ghost" onclick="clearDecryptor()">✕ Clear</button>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">🩺</div>
+                        <span class="card-title">Crash Signature Scan</span>
+                    </div>
+                    <div class="card-body">
+                        <p style="font-size:12px;color:var(--text-muted);margin-bottom:14px;line-height:1.6;">
+                            After decryption, the tool scans for known Kuro/UE4 crash patterns and flags them below.
+                        </p>
+                        <div class="sig-list" id="sigList">
+                            <div class="sig-card">
+                                <span class="sig-icon">💾</span>
+                                <div>
+                                    <div class="sig-name">KuroFI Shader Archive</div>
+                                    <div class="sig-desc">KuroFI_ShaderArchive_Failed — FSR3 pipeline compile error</div>
+                                </div>
+                                <span class="sig-badge pending">—</span>
+                            </div>
+                            <div class="sig-card">
+                                <span class="sig-icon">📟</span>
+                                <div>
+                                    <div class="sig-name">MFRC Init Failure</div>
+                                    <div class="sig-desc">MFRC_INIT_FAILED — Frame rate controller not supported on this SoC</div>
+                                </div>
+                                <span class="sig-badge pending">—</span>
+                            </div>
+                            <div class="sig-card">
+                                <span class="sig-icon">🖥</span>
+                                <div>
+                                    <div class="sig-name">Vulkan Swapchain Mismatch</div>
+                                    <div class="sig-desc">vkCreateSwapchainKHR error — HDR format unsupported or surface lost</div>
+                                </div>
+                                <span class="sig-badge pending">—</span>
+                            </div>
+                            <div class="sig-card">
+                                <span class="sig-icon">⚡</span>
+                                <div>
+                                    <div class="sig-name">Niagara GPU Overflow</div>
+                                    <div class="sig-desc">NiagaraGPUInstanceCountManager buffer overflow — particle count exceeded</div>
+                                </div>
+                                <span class="sig-badge pending">—</span>
+                            </div>
+                            <div class="sig-card">
+                                <span class="sig-icon">📜</span>
+                                <div>
+                                    <div class="sig-name">Puerts Race Condition</div>
+                                    <div class="sig-desc">Puerts JS runtime race — async JS/C++ boundary violation</div>
+                                </div>
+                                <span class="sig-badge pending">—</span>
+                            </div>
+                            <div class="sig-card">
+                                <span class="sig-icon">🪟</span>
+                                <div>
+                                    <div class="sig-name">LGUI Null Dereference</div>
+                                    <div class="sig-desc">LGUIRenderer null ptr access — UI widget destroyed while rendering</div>
+                                </div>
+                                <span class="sig-badge pending">—</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="output-panel">
+
+                <button class="btn btn-ghost" style="width:100%;" id="devprofBtn" onclick="obtainDeviceProfile()" disabled>
+                    📱 Obtain DeviceProfile Name
+                </button>
+
+                <div id="devprofResult" style="display:none; padding:14px 16px;
+                     background:rgba(186,117,23,0.08); border:1px solid rgba(186,117,23,0.3);
+                     border-radius:var(--r-lg);">
+                    <div style="font-size:11px; color:var(--text-muted); margin-bottom:6px; letter-spacing:0.05em; text-transform:uppercase;">
+                        Detected Device Profile Data
+                    </div>
+                    <div style="display:flex; flex-direction:column; gap:6px;">
+                        <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+                            <span style="font-size:12px; color:var(--text-secondary);">Retail Hardware Model:</span>
+                            <span id="retailDeviceName" style="color:var(--text-primary); font-size:1.15rem; font-weight:700;"></span>
+                        </div>
+                        <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+                            <span style="font-size:11px; color:var(--text-muted);">Profile Assignment:</span>
+                            <span id="devprofName" style="color:var(--gold-bright); font-size:1rem; font-weight:600; font-family:monospace; word-break:break-all;"></span>
+                        </div>
+                        <button class="btn btn-ghost btn-sm" onclick="copyDeviceProfile()" style="align-self:flex-start; margin-top:4px;">⧉ Copy Profile</button>
+                    </div>
+                </div>
+
+                <div class="output-stats">
+                    <div class="stat-mini">
+                        <div class="stat-mini-val" id="statLines">—</div>
+                        <div class="stat-mini-label">Lines</div>
+                    </div>
+                    <div class="stat-mini">
+                        <div class="stat-mini-val gold" id="statErrors">—</div>
+                        <div class="stat-mini-label">Errors</div>
+                    </div>
+                    <div class="stat-mini">
+                        <div class="stat-mini-val" id="statWarnings">—</div>
+                        <div class="stat-mini-label">Warnings</div>
+                    </div>
+                </div>
+
+                <div class="search-row">
+                    <input type="text" class="search-input" id="searchInput"
+                           placeholder="Search decrypted log…"
+                           oninput="debouncedSearchLog(this.value)"
+                           disabled />
+                    <button class="btn btn-ghost btn-sm" id="filterErrors" onclick="toggleErrorFilter()" disabled>
+                        🔴 Errors Only
+                    </button>
+                </div>
+
+                <textarea id="decryptedOutput" class="code-output" readonly spellcheck="false"
+                          placeholder="; Decrypted log output will appear here after processing...&#10;;&#10;; Drop a Client.log file on the left to begin.">
+        </textarea>
+
+                <div style="display:flex; gap:8px;">
+                    <button class="btn btn-primary btn-sm" style="flex:1;" onclick="copyDecrypted()" id="copyDecBtn" disabled>⦾ Copy Output</button>
+                    <button class="btn btn-gold btn-sm" style="flex:1;" onclick="downloadDecrypted()" id="dlDecBtn" disabled>↓ Save Log File</button>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon" style="background:linear-gradient(135deg,rgba(186,117,23,0.2),rgba(186,117,23,0.06));border-color:rgba(186,117,23,0.25);">ℹ</div>
+                        <span class="card-title">Tool Notes</span>
+                    </div>
+                    <div class="card-body" style="font-size:12px; color:var(--text-secondary); line-height:1.7;">
+                        <p>This tool implements both encryption schemes reverse-engineered from Kuro Games' <code style="font-family:var(--font-mono);font-size:11px;color:var(--jade-bright);\">Client.log</code> format.</p>
+                        <p style="margin-top:8px;"><strong style="color:var(--text-primary);">Scheme A</strong> uses a fixed magic header (<code style="font-family:var(--font-mono);font-size:11px;">KGLOG</code>) followed by XOR with a static LUT.</p>
+                        <p style="margin-top:8px;"><strong style="color:var(--text-primary);">Scheme B</strong> uses a rolling 256-byte key with position-based offset rotation. Auto-detection reads the first 16 bytes to determine which scheme applies.</p>
+                        <p style="margin-top:8px; color:var(--text-muted);">Also available as a CLI tool: <code style="font-family:var(--font-mono);font-size:11px;color:var(--jade-mid);">wuwa_ld</code> on GitHub.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div><footer class="site-footer">
+            <span class="footer-text">WuWa Portal · Log Decryptor · Browser-only · No uploads</span>
+            <div class="footer-links">
+                <a href="../index.html" class="footer-link">← Hub</a>
+                <a href="devprof-generator.html" class="footer-link">DevProf Generator</a>
+            </div>
+        </footer>
+    </div>
+
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="../js/main.js" defer></script>
+    <script src="../js/decryptor.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WuWa Portal</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    /* ── Hub-specific styles ── */
+    .hub-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 20px;
+    }
+
+    .tool-card {
+      background: linear-gradient(145deg, var(--card-grad-1) 0%, var(--card-grad-2) 55%, var(--card-grad-3) 100%);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--r-xl);
+      padding: 28px;
+      position: relative;
+      overflow: hidden;
+      text-decoration: none;
+      display: flex; flex-direction: column; gap: 16px;
+      transition: border-color var(--t-mid), box-shadow var(--t-mid), transform var(--t-mid);
+      cursor: pointer;
+    }
+    .tool-card::before {
+      content: '';
+      position: absolute;
+      inset: 0; border-radius: inherit;
+      background: radial-gradient(ellipse 80% 50% at 0% 110%, rgba(29,158,117,0.07) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .tool-card::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(93,202,165,0.3), transparent);
+      opacity: 0;
+      transition: opacity var(--t-mid);
+    }
+    .tool-card:hover {
+      border-color: var(--border-mid);
+      box-shadow: var(--shadow-card), var(--shadow-glow);
+      transform: translateY(-4px);
+    }
+    .tool-card:hover::after { opacity: 1; }
+
+    .tool-card.gold-tint:hover {
+      box-shadow: var(--shadow-card), var(--shadow-gold);
+    }
+    .tool-card.gold-tint::before {
+      background: radial-gradient(ellipse 80% 50% at 0% 110%, rgba(186,117,23,0.06) 0%, transparent 65%);
+    }
+    .tool-card.disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+
+    .tool-card-header {
+      display: flex; align-items: flex-start; justify-content: space-between; gap: 12px;
+    }
+
+    .tool-icon-wrap {
+      width: 52px; height: 52px;
+      border-radius: var(--r-md);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 24px; flex-shrink: 0;
+      position: relative;
+    }
+    .tool-icon-wrap.jade {
+      background: linear-gradient(135deg, rgba(29,158,117,0.2), rgba(29,158,117,0.06));
+      border: 1px solid rgba(29,158,117,0.25);
+      box-shadow: 0 0 20px rgba(29,158,117,0.1);
+    }
+    .tool-icon-wrap.gold {
+      background: linear-gradient(135deg, rgba(186,117,23,0.2), rgba(186,117,23,0.06));
+      border: 1px solid rgba(186,117,23,0.25);
+      box-shadow: 0 0 20px rgba(186,117,23,0.1);
+    }
+    .tool-icon-wrap.muted {
+      background: rgba(13,30,22,0.7);
+      border: 1px solid var(--border-subtle);
+    }
+
+    .tool-card-body { flex: 1; }
+    .tool-name {
+      font-family: var(--font-display);
+      font-size: 17px; font-weight: 700;
+      letter-spacing: 0.05em;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+    }
+    .tool-desc {
+      font-size: 13px; line-height: 1.65;
+      color: var(--text-secondary);
+    }
+
+    .tool-tags {
+      display: flex; flex-wrap: wrap; gap: 6px;
+      margin-top: 12px;
+    }
+    .tag {
+      font-size: 10px; font-weight: 600;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 3px 8px; border-radius: 4px;
+      font-family: var(--font-mono);
+    }
+    .tag-jade { background: rgba(29,158,117,0.1); color: var(--jade-mid); border: 1px solid rgba(29,158,117,0.2); }
+    .tag-gold { background: rgba(186,117,23,0.1); color: var(--gold-mid); border: 1px solid rgba(186,117,23,0.2); }
+    .tag-muted { background: rgba(77,107,94,0.1); color: var(--text-muted); border: 1px solid var(--border-subtle); }
+
+    .tool-card-footer {
+      display: flex; align-items: center; justify-content: space-between;
+      padding-top: 16px;
+      border-top: 1px solid var(--border-subtle);
+    }
+
+    .tool-arrow {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      border: 1px solid var(--border-mid);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px; color: var(--jade-mid);
+      transition: all var(--t-fast);
+    }
+    .tool-card:hover .tool-arrow {
+      border-color: var(--jade-mid);
+      background: var(--jade-glow-sm);
+      transform: translateX(3px);
+    }
+
+    /* ── Stats Bar ── */
+    .stats-bar {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 1px;
+      background: var(--border-subtle);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--r-lg);
+      overflow: hidden;
+      margin-bottom: 40px;
+    }
+    .stat-item {
+      background: linear-gradient(135deg, rgba(7,46,36,0.4), rgba(7,15,10,0.6));
+      padding: 20px 24px;
+      display: flex; flex-direction: column; gap: 4px;
+    }
+    .stat-value {
+      font-family: var(--font-display);
+      font-size: 28px; font-weight: 700;
+      color: var(--jade-bright);
+      line-height: 1;
+    }
+    .stat-value.gold { color: var(--gold-bright); }
+    .stat-label {
+      font-size: 11px; font-weight: 500;
+      color: var(--text-muted);
+      letter-spacing: 0.1em; text-transform: uppercase;
+    }
+
+    /* ── Announcement Banner ── */
+    .announcement {
+      display: flex; align-items: center; gap: 12px;
+      padding: 12px 18px;
+      background: linear-gradient(90deg, rgba(186,117,23,0.08), rgba(186,117,23,0.04));
+      border: 1px solid var(--border-gold);
+      border-radius: var(--r-md);
+      margin-bottom: 32px;
+      font-size: 13px; color: var(--text-secondary);
+    }
+    .announcement-icon { font-size: 16px; flex-shrink: 0; }
+    .announcement strong { color: var(--gold-bright); }
+
+    /* ── Section heading ── */
+    .hub-section-title {
+      font-family: var(--font-display);
+      font-size: 13px; font-weight: 600;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .hub-section-title::after {
+      content: ''; flex: 1; height: 1px;
+      background: var(--border-subtle);
+    }
+  </style>
+</head>
+<body>
+    <!-- Video BG -->
+    <div class="video-bg">
+        <video autoplay muted loop playsinline>
+            <source src="assets/video/MovingBG.mp4" type="video/mp4" />
+        </video>
+    </div>
+
+    <div class="page-wrapper">
+        <!-- HEADER -->
+        <header class="site-header">
+            <a href="index.html" class="header-brand">
+                <div class="header-brand-icon">⚙</div>
+                <div class="header-brand-text">
+                    <span class="header-brand-title">WUWA PORTAL</span>
+                    <span class="header-brand-sub">by Arglax</span>
+                </div>
+            </a>
+
+            <nav class="header-nav" id="mainNav">
+                <a href="index.html" class="nav-link active">Home</a>
+                <a href="https://github.com/Arglax/Mobile-WuWa-Config" class="nav-link" target="_blank" rel="noopener">GitHub</a>
+                <a href="tools/log-decryptor.html" class="nav-link">Log Decryptor</a>
+                <a href="tools/devprof-generator.html" class="nav-link">DevProf Generator</a>
+            </nav>
+
+            <div class="header-spacer"></div>
+            <span class="header-badge">v2.0.0</span>
+            <button class="mobile-menu-btn" onclick="toggleMobileNav()" aria-label="Menu">☰</button>
+        </header>
+
+        <!-- MAIN -->
+        <main class="main-content">
+            <!-- HERO -->
+            <section class="page-hero">
+                <div class="hero-eyebrow"> Mobile WuWa Config Suite</div>
+                <h1 class="hero-title">
+                    The <span class="accent">Performance</span> &amp;<br>
+                    <span class="gold">Optimization</span> Portal
+                </h1>
+                <p class="hero-subtitle">
+                    Utility tools for config creation on Android.
+                    Decrypt Client.log files, generate configs and push your device to its limits.
+                </p>
+            </section>
+
+            <!-- STATS -->
+            <div class="stats-bar">
+                <div class="stat-item">
+                    <span class="stat-value">3</span>
+                    <span class="stat-label">Active Tools</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-value gold">3.4</span>
+                    <span class="stat-label">WuWa Target Version</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-value">UE4.26</span>
+                    <span class="stat-label">Engine Base</span>
+                </div>
+            </div>
+
+            <!-- ANNOUNCEMENT
+            <div class="announcement">
+              <span class="announcement-icon">📡</span>
+              <span>
+                <strong>Notice:</strong> Always back up your original Engine.ini before applying any custom config.
+                CVar support varies by device SoC and driver version.
+              </span>
+            </div>
+              -->
+            <!-- CORE TOOLS -->
+            <h2 class="hub-section-title">Core Tools</h2>
+            <div class="hub-grid" id="toolGrid">
+                <div class="tool-card jade-tint" onclick="openConfigSelector()">
+                    <div class="tool-card-header">
+                        <div class="tool-icon-wrap jade">⚡</div>
+                        <span class="status-badge status-live">
+                            <span class="dot"></span>Live
+                        </span>
+                    </div>
+                    <div class="tool-card-body">
+                        <h3 class="tool-name">Mobile Config Selector</h3>
+                        <p class="tool-desc">
+                            Unsure which preset matches your device hardware? Select your phone unit, CPU, or GPU
+                            family to instantly find the optimized configuration baseline for your specific SoC layout.
+                        </p>
+                        <div class="tool-tags">
+                            <span class="tag tag-jade">SoC Lookup</span>
+                            <span class="tag tag-gold">Presets</span>
+                            <span class="tag tag-muted">Auto-Detect</span>
+                        </div>
+                    </div>
+                    <div class="tool-card-footer">
+                        <span class="text-sm text-muted text-mono">Selector Engine</span>
+                        <div class="tool-arrow">→</div>
+                    </div>
+                </div>
+                <!-- Log Decryptor -->
+                <a href="tools/log-decryptor.html" class="tool-card gold-tint">
+                    <div class="tool-card-header">
+                        <div class="tool-icon-wrap gold">🔓</div>
+                        <span class="status-badge status-live">
+                            <span class="dot"></span>Live
+                        </span>
+                    </div>
+                    <div class="tool-card-body">
+                        <h3 class="tool-name">Log Decryptor</h3>
+                        <p class="tool-desc">
+                            Decrypt Kuro Games' Client.log files directly in your browser.
+                            Auto-detects both encryption schemes, applies the correct LUT transformation,
+                            and outputs a clean, human-readable log — no server uploads required.
+                        </p>
+                        <div class="tool-tags">
+                            <span class="tag tag-gold">Client.log</span>
+                            <span class="tag tag-jade">Auto-detect</span>
+                            <span class="tag tag-jade">Browser-only</span>
+                            <span class="tag tag-muted">LUT XOR</span>
+                        </div>
+                    </div>
+                    <div class="tool-card-footer">
+                        <span class="text-sm text-muted text-mono">tools/log-decryptor.html</span>
+                        <div class="tool-arrow">→</div>
+                    </div>
+                </a>
+
+                <!-- DeviceProfiles Generator -->
+                <a href="tools/devprof-generator.html" class="tool-card">
+                    <div class="tool-card-header">
+                        <div class="tool-icon-wrap">📱</div>
+                        <span class="status-badge status-wip">
+                            <span class="dot"></span>WIP
+                        </span>
+                        <span class="status-badge status-live" style="margin-left:6px;">
+                            <span class="dot"></span>Live
+                        </span>
+                    </div>
+                    <div class="tool-card-body">
+                        <h3 class="tool-name">DeviceProfiles.ini Builder</h3>
+                        <p class="tool-desc">
+                            Generate device-specific profile overrides targeting individual GPU families.
+                            Select your device, tune scalability groups, frame generation, and thermal settings —
+                            outputs a ready-to-drop DeviceProfiles.ini.
+                        </p>
+                        <div class="tool-tags">
+                            <span class="tag tag-jade">DeviceProfile</span>
+                            <span class="tag tag-jade">Browser-only</span>
+                            <span class="tag tag-muted">Adreno · Mali · Exynos</span>
+                        </div>
+                    </div>
+                    <div class="tool-card-footer">
+                        <span class="text-sm text-muted text-mono">tools/devprof-generator.html</span>
+                        <div class="tool-arrow">→</div>
+                    </div>
+                </a>
+
+            </div><!-- /.hub-grid (Core Tools) -->
+            <!-- IN DEVELOPMENT -->
+            <h2 class="hub-section-title" style="margin-top: 60px;">In Development</h2>
+            <div class="hub-grid">
+
+                <!-- Engine.ini Generator -->
+                <div class="tool-card disabled">
+                    <div class="tool-card-header">
+                        <div class="tool-icon-wrap muted">⚙️</div>
+                        <span class="status-badge status-wip">
+                            <span class="dot"></span>WIP
+                        </span>
+                    </div>
+                    <div class="tool-card-body">
+                        <h3 class="tool-name">Engine.ini Generator</h3>
+                        <p class="tool-desc">
+                            Build a fully customized Engine.ini configuration for your Android device.
+                            Toggle performance CVars, resolution scaling, GPU culling, shadow quality,
+                            anti-aliasing, and more — then export in one click.
+                        </p>
+                        <div class="tool-tags">
+                            <span class="tag tag-muted">UE4 CVar</span>
+                            <span class="tag tag-muted">Android</span>
+                            <span class="tag tag-muted">Adreno</span>
+                            <span class="tag tag-muted">Mali</span>
+                            <span class="tag tag-muted">DeviceProfile</span>
+                        </div>
+                    </div>
+                    <div class="tool-card-footer">
+                        <span class="text-sm text-muted text-mono">TBD</span>
+                        <div class="tool-arrow" style="opacity:0.3;">→</div>
+                    </div>
+                </div>
+
+                <!-- Crash Log Analyzer -->
+                <div class="tool-card disabled">
+                    <div class="tool-card-header">
+                        <div class="tool-icon-wrap muted">🩺</div>
+                        <span class="status-badge status-wip">
+                            <span class="dot"></span>WIP
+                        </span>
+                    </div>
+                    <div class="tool-card-body">
+                        <h3 class="tool-name">Crash Log Analyzer</h3>
+                        <p class="tool-desc">
+                            Parse decrypted Client.log output and flag known crash signatures:
+                            KuroFI shader archive failures, MFRC init errors, Vulkan swapchain mismatches,
+                            and Niagara GPU buffer overflows.
+                        </p>
+                        <div class="tool-tags">
+                            <span class="tag tag-muted">WIP</span>
+                            <span class="tag tag-muted">Crash Diag</span>
+                        </div>
+                    </div>
+                    <div class="tool-card-footer">
+                        <span class="text-sm text-muted text-mono">TBD</span>
+                        <div class="tool-arrow" style="opacity:0.3;">→</div>
+                    </div>
+                </div>
+
+            </div><!-- /.hub-grid (In Development) -->
+            <!--
+              ╔══════════════════════════════════════════════════════╗
+              ║  ADD MORE TOOL CARDS HERE — copy any .tool-card div ║
+              ║  and update href, icon, title, desc, tags, and      ║
+              ║  status-badge class accordingly.                    ║
+              ╚══════════════════════════════════════════════════════╝
+            -->
+    </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="site-footer">
+        <span class="footer-text">© 2025 Arglax · WuWa Portal · Not affiliated with Kuro Games</span>
+        <div class="footer-links">
+            <a href="https://github.com" class="footer-link" target="_blank" rel="noopener">GitHub</a>
+            <a href="https://discord.com" class="footer-link" target="_blank" rel="noopener">Discord</a>
+        </div>
+    </footer>
+    </div>
+
+    <!-- Toast container -->
+    <div class="toast-container" id="toastContainer"></div>
+    <div class="selector-modal-overlay" id="configModalOverlay" onclick="closeConfigSelector(event)">
+        <div class="selector-modal" onclick="event.stopPropagation()">
+            <div class="selector-modal-header">
+                <h3 class="selector-modal-title">Mobile Config Selector</h3>
+                <button class="selector-modal-close" onclick="closeConfigSelector(null, true)">×</button>
+            </div>
+            <div class="selector-modal-body">
+                <p style="color: var(--text-secondary); font-size: 13px; margin-bottom: 20px; line-height: 1.5;">
+                    Select your device or nearest matching hardware profile below to discover your recommended performance target.
+                </p>
+
+                <div style="display: flex; flex-direction: column; gap: 14px;">
+                    <div>
+                        <label class="stat-label" style="display:block; margin-bottom: 6px;">Search Device / Chipset / GPU</label>
+                        <input type="text" id="selectorSearch" placeholder="e.g., S24, Snapdragon 8 Gen 3, Adreno 750, Mali-G52..."
+                               style="width: 100%; padding: 12px; background: rgba(0,0,0,0.3); border: 1px solid var(--border-subtle); border-radius: var(--r-md); color: var(--text-primary); font-family: var(--font-display); outline: none;"
+                               oninput="filterDevices()">
+                    </div>
+
+                    <div>
+                        <label class="stat-label" style="display:block; margin-bottom: 6px;">Or Quick Select matches:</label>
+                        <div id="deviceResultsList" style="max-height: 220px; overflow-y: auto; border: 1px solid var(--border-subtle); border-radius: var(--r-md); background: rgba(7,15,10,0.4);">
+                        </div>
+                    </div>
+                </div>
+
+                <div id="selectorResultContainer" style="display: none; margin-top: 24px; padding: 16px; background: linear-gradient(135deg, rgba(29,158,117,0.1), rgba(7,46,36,0.3)); border: 1px solid rgba(29,158,117,0.3); border-radius: var(--r-md);">
+                    <div class="stat-label" style="color: var(--jade-bright); margin-bottom: 8px;">Recommended Profile Targets:</div>
+                    <div id="selectorResultLinks" style="display: flex; flex-direction: column; gap: 8px;">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        /* Modal styles integrated directly */
+        .selector-modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity var(--t-mid);
+        }
+
+            .selector-modal-overlay.active {
+                opacity: 1;
+                pointer-events: auto;
+            }
+
+        .selector-modal {
+            background: linear-gradient(145deg, var(--card-grad-1) 0%, var(--card-grad-2) 100%);
+            border: 1px solid var(--border-mid);
+            border-radius: var(--r-xl);
+            width: 90%;
+            max-width: 500px;
+            padding: 24px;
+            box-shadow: var(--shadow-card);
+            transform: scale(0.95);
+            transition: transform var(--t-mid);
+        }
+
+        .selector-modal-overlay.active .selector-modal {
+            transform: scale(1);
+        }
+
+        .selector-modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+
+        .selector-modal-title {
+            font-family: var(--font-display);
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: 0.05em;
+        }
+
+        .selector-modal-close {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 24px;
+            cursor: pointer;
+            transition: color var(--t-fast);
+        }
+
+            .selector-modal-close:hover {
+                color: var(--text-primary);
+            }
+
+        .device-row {
+            padding: 10px 14px;
+            cursor: pointer;
+            border-bottom: 1px solid rgba(255,255,255,0.03);
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+            .device-row:hover {
+                background: rgba(29,158,117,0.1);
+            }
+
+        .device-row-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .device-row-sub {
+            font-size: 11px;
+            color: var(--text-muted);
+            font-family: var(--font-mono);
+        }
+
+        .config-out-btn {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 14px;
+            background: rgba(0,0,0,0.4);
+            border: 1px solid rgba(29,158,117,0.4);
+            border-radius: var(--r-md);
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            transition: all var(--t-fast);
+        }
+
+            .config-out-btn:hover {
+                border-color: var(--jade-bright);
+                background: rgba(29,158,117,0.15);
+                transform: translateX(2px);
+            }
+    </style>
+    <script src="js/main.js"></script>
+</body>
+</html>
