@@ -7,6 +7,7 @@ Poco F6,Android_Adreno_7xx,Qualcomm,SD 8s Gen 3 · Adreno 735
 Poco F6 Pro,Android_Adreno_8xx,Qualcomm,SD 8 Gen 2 · Adreno 740
 Poco F5,Android_Adreno_7xx,Qualcomm,SD 7+ Gen 2 · Adreno 725
 Poco F4 GT,Android_Adreno_7xx,Qualcomm,SD 8 Gen 1 · Adreno 730
+Poco F4,Android_Adreno_6xx,Qualcomm,SD 870 · Adreno 650
 Poco F7,Android_Adreno825,Qualcomm,SD 8s Gen 4 · Adreno 825
 Poco F7 Pro,Android_Adreno825,Qualcomm,SD 8s Gen 4 · Adreno 825
 Xiaomi 16,Android_Adreno840,Qualcomm,SD 8 Elite Gen 5 · Adreno 840
@@ -39,7 +40,7 @@ Samsung Galaxy S24,Android_Xclipse940,Samsung Exynos,Exynos 2400 · Xclipse 940 
 Samsung Galaxy S24 FE,Android_Xclipse940,Samsung Exynos,Exynos 2400e · Xclipse 940
 Samsung Galaxy S23 Ultra,Android_Adreno_8xx,Qualcomm,SD 8 Gen 2 · Adreno 740
 Samsung Galaxy S23,Android_Adreno_8xx,Qualcomm,SD 8 Gen 2 · Adreno 740
-Samsung Galaxy S22 Ultra,Android_Xclipse930,Samsung Exynos,Exynos 2200 · Xclipse 920 (Europe) / SD 8 Gen 1 (Global)
+Samsung Galaxy S22 Ultra,Android_Adreno7xx_Low,Samsung Exynos,Exynos 2200 · Xclipse 920 (Europe) / SD 8 Gen 1 (Global)
 Samsung Galaxy S22+,Android_Xclipse930,Samsung Exynos,Exynos 2200 · Xclipse 920 (Europe) / SD 8 Gen 1 (Global)
 Samsung Galaxy S22,Android_Xclipse930,Samsung Exynos,Exynos 2200 · Xclipse 920 (Europe) / SD 8 Gen 1 (Global)
 Samsung Galaxy S23 FE,Android_Xclipse930,Samsung Exynos,Exynos 2200 · Xclipse 920
