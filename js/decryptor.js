@@ -1,10 +1,14 @@
-﻿/**
+/**
  * WuWa Log Decryptor - Logic & Cipher Implementation
  * Upgraded with robust validation, smooth mobile scrolling, dynamic labels, and notification pings.
+ * Enhanced: Loosened Scheme A header verification to accept multiple variants (e.g., 00 54 50 / 20 54 50).
  */
 
 // --- Constants & LUTs ---
-const HEADER_A = [0x00, 0x54, 0x50]; // TP
+// Scheme A's real signature is the 'TP' byte pairing at index 1 and 2
+const FINGERPRINT_A_1 = 0x54; // T
+const FINGERPRINT_A_2 = 0x50; // P
+
 const HEADER_B = [0x00, 0x4C, 0x4F]; // LO
 const BOM = [0xEF, 0xBB, 0xBF];
 
@@ -231,8 +235,8 @@ async function decryptFile() {
             let scheme = null;
             let decryptedData;
 
-            // Header Matching
-            if (buffer[0] === HEADER_A[0] && buffer[1] === HEADER_A[1] && buffer[2] === HEADER_A[2]) {
+            // Loosened Header Matching for Scheme A (matches ?? 54 50, supporting both 00 and 20 leading offsets)
+            if (buffer[1] === FINGERPRINT_A_1 && buffer[2] === FINGERPRINT_A_2) {
                 scheme = 'A';
             } else if (buffer[0] === HEADER_B[0] && buffer[1] === HEADER_B[1] && buffer[2] === HEADER_B[2]) {
                 scheme = 'B';
