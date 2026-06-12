@@ -2,7 +2,7 @@ device_name,profile_name,chipset_family,notes
 Generic Android,Android_Default,Generic,Fallback profile for unrecognized devices
 Nvidia Shield Tablet,Android_TegraK1,Nvidia Tegra,Nvidia Tegra K1 · Kepler GPU (2014 tablet — legacy profile)
 Poco X6 Pro 5G,Android_Mali_G61x,MediaTek,Dimensity 8300U · Mali G615 MC6
-Poco X5 Pro 5G,Android_Adreno_7xx,Qualcomm,SD 778G · Adreno 642L
+Poco X5 Pro 5G,Android_Adreno_7xx,Qualcomm,SD 782G · Adreno 642L
 Poco F6,Android_Adreno_7xx,Qualcomm,SD 8s Gen 3 · Adreno 735
 Poco F6 Pro,Android_Adreno_8xx,Qualcomm,SD 8 Gen 2 · Adreno 740
 Poco F5,Android_Adreno_7xx,Qualcomm,SD 7+ Gen 2 · Adreno 725
@@ -84,75 +84,7 @@ Google Pixel 8,Android_Tensor_G3,Google Tensor,Tensor G3 · Custom GPU
 iPhone 16 Pro Max,iOS_Apple,Apple,A18 Pro (iOS not supported by WuWa Android configs)
 Tecno Camon 30 Pro 5G,Android_Mali_G61x,MediaTek,Dimensity 8200 · Mali G610
 Poco X8 Pro Max,Android_Mali_G92x,MediaTek,Dimensity 9400 · Immortalis G925
-Infinix GT 30 Pro 5G,Android_Mali_G61x,MediaTek,Dimensity 8350 Ultimate · Mali G615 MC6
-Xiaomi 14T,Android_Mali_G61x,MediaTek,Dimensity 8300-Ultra · Mali G615 MC6
-Oppo Reno13 Pro,Android_Mali_G61x,MediaTek,Dimensity 8350 · Mali G615 MC6
-Motorola Edge 60 Pro,Android_Mali_G61x,MediaTek,Dimensity 8350 · Mali G615 MC6
-Realme P3 Ultra,Android_Mali_G61x,MediaTek,Dimensity 8350 · Mali G615 MC6
-OnePlus Nord CE 5,Android_Mali_G61x,MediaTek,Dimensity 8350 · Mali G615 MC6
-Infinix Note 50 Pro+,Android_Mali_G61x,MediaTek,Dimensity 8350 · Mali G615 MC6
-Tecno Camon 40 Premier 5G,Android_Mali_G61x,MediaTek,Dimensity 8350 · Mali G615 MC6
-Oppo Reno14,Android_Mali_G61x,MediaTek,Dimensity 8350 · Mali G615 MC6
-Xiaomi 15 Pro,Android_Adreno830,Qualcomm,SD 8 Elite · Adreno 830
-Redmi K80 Pro,Android_Adreno830,Qualcomm,SD 8 Elite · Adreno 830
-Redmi K90,Android_Adreno830,Qualcomm,SD 8 Elite · Adreno 830
-ASUS ROG Phone 9,Android_Adreno830,Qualcomm,SD 8 Elite · Adreno 830
-ASUS Zenfone 12 Ultra,Android_Adreno830,Qualcomm,SD 8 Elite · Adreno 830
-Nubia Red Magic 10 Pro,Android_Adreno830,Qualcomm,SD 8 Elite · Adreno 830
-Nubia Red Magic 10 Pro+,Android_Adreno830,Qualcomm,SD 8 Elite · Adreno 830
-Nubia Z70 Ultra,Android_Adreno830,Qualcomm,SD 8 Elite · Adreno 830
-OnePlus Ace 5 Pro,Android_Adreno830,Qualcomm,SD 8 Elite · Adreno 830
-OnePlus 13T,Android_Adreno830,Qualcomm,SD 8 Elite · Adreno 830
-Honor Magic 7,Android_Adreno830,Qualcomm,SD 8 Elite · Adreno 830
-Oppo Find X8 Ultra,Android_Adreno830,Qualcomm,SD 8 Elite · Adreno 830
-Motorola Razr Ultra 2025,Android_Adreno830,Qualcomm,SD 8 Elite · Adreno 830
-Vivo X200 Ultra,Android_Adreno830,Qualcomm,SD 8 Elite · Adreno 830
-Poco F7 Ultra,Android_Adreno830,Qualcomm,SD 8 Elite · Adreno 830
-Vivo X200,Android_Mali_G92x,MediaTek,Dimensity 9400 · Immortalis G925 MC12
-Vivo X200 Pro Mini,Android_Mali_G92x,MediaTek,Dimensity 9400 · Immortalis G925 MC12
-Oppo Find X8,Android_Mali_G92x,MediaTek,Dimensity 9400 · Immortalis G925 MC12
-iQOO Neo 10 Pro,Android_Mali_G92x,MediaTek,Dimensity 9400 · Immortalis G925 MC12
-Nothing Phone (3),Android_Adreno825,Qualcomm,SD 8s Gen 4 · Adreno 825
-iQOO Neo 10,Android_Adreno825,Qualcomm,SD 8s Gen 4 · Adreno 825
-iQOO Z10 Turbo Pro,Android_Adreno825,Qualcomm,SD 8s Gen 4 · Adreno 825
-Oppo K13 Turbo Pro,Android_Adreno825,Qualcomm,SD 8s Gen 4 · Adreno 825
-OnePlus Nord 6,Android_Adreno825,Qualcomm,SD 8s Gen 4 · Adreno 825
-OnePlus Turbo 6,Android_Adreno825,Qualcomm,SD 8s Gen 4 · Adreno 825
-Meizu 22,Android_Adreno825,Qualcomm,SD 8s Gen 4 · Adreno 825
-Xiaomi 17,Android_Adreno840,Qualcomm,SD 8 Elite Gen 5 · Adreno 840
-Xiaomi 17 Pro,Android_Adreno840,Qualcomm,SD 8 Elite Gen 5 · Adreno 840
-Xiaomi 17 Pro Max,Android_Adreno840,Qualcomm,SD 8 Elite Gen 5 · Adreno 840
-Xiaomi 17 Ultra,Android_Adreno840,Qualcomm,SD 8 Elite Gen 5 · Adreno 840
-Realme GT 8 Pro,Android_Adreno840,Qualcomm,SD 8 Elite Gen 5 · Adreno 840
-Poco F8 Ultra,Android_Adreno840,Qualcomm,SD 8 Elite Gen 5 · Adreno 840
-Nubia RedMagic 11 Pro,Android_Adreno840,Qualcomm,SD 8 Elite Gen 5 · Adreno 840
-Nubia RedMagic 11 Pro+,Android_Adreno840,Qualcomm,SD 8 Elite Gen 5 · Adreno 840
-Nubia Z80 Ultra,Android_Adreno840,Qualcomm,SD 8 Elite Gen 5 · Adreno 840
-Honor Magic 8,Android_Adreno840,Qualcomm,SD 8 Elite Gen 5 · Adreno 840
-Honor Magic 8 Pro,Android_Adreno840,Qualcomm,SD 8 Elite Gen 5 · Adreno 840
-Honor Win,Android_Adreno840,Qualcomm,SD 8 Elite Gen 5 · Adreno 840
-Samsung Galaxy S25 Edge,Android_Adreno830,Qualcomm,SD 8 Elite for Galaxy · Adreno 830
-OnePlus Open 2,Android_Adreno830,Qualcomm,SD 8 Elite · Adreno 830
-iQOO Neo 10 Pro+,Android_Adreno830,Qualcomm,SD 8 Elite · Adreno 830
-Motorola Razr 60 Ultra,Android_Adreno830,Qualcomm,SD 8 Elite · Adreno 830
-Realme 14 Pro+,Android_Adreno810,Qualcomm,SD 7s Gen 3 · Adreno 810
-Realme P3 Pro,Android_Adreno810,Qualcomm,SD 7s Gen 3 · Adreno 810
-Vivo T4,Android_Adreno810,Qualcomm,SD 7s Gen 3 · Adreno 810
-Vivo Y300 Pro+,Android_Adreno810,Qualcomm,SD 7s Gen 3 · Adreno 810
-Motorola Edge 70 Fusion,Android_Adreno810,Qualcomm,SD 7s Gen 3 · Adreno 810
-Vivo X90,Android_Mali_Immortalis,MediaTek,Dimensity 9200 · Immortalis G715 MC11
-Oppo Find X6,Android_Mali_Immortalis,MediaTek,Dimensity 9200 · Immortalis G715 MC11
-Vivo X100,Android_Mali_Immortalis,MediaTek,Dimensity 9300 · Immortalis G720 MC12
-Oppo Find X7,Android_Mali_Immortalis,MediaTek,Dimensity 9300 · Immortalis G720 MC12
-Oppo Find X7 Pro,Android_Mali_Immortalis,MediaTek,Dimensity 9300 · Immortalis G720 MC12
-iQOO Neo 9 Pro,Android_Mali_Immortalis,MediaTek,Dimensity 9300 · Immortalis G720 MC12
-Vivo X100S,Android_Mali_Immortalis,MediaTek,Dimensity 9300+ · Immortalis G720 MC12
-Vivo X200 FE,Android_Mali_Immortalis,MediaTek,Dimensity 9300+ · Immortalis G720 MC12
-Vivo T4 Ultra,Android_Mali_Immortalis,MediaTek,Dimensity 9300+ · Immortalis G720 MC12
-Google Pixel 9,Android_Tensor_G4,Google Tensor,Tensor G4 · Custom GPU
-Google Pixel 9 Pro XL,Android_Tensor_G4,Google Tensor,Tensor G4 · Custom GPU
-Google Pixel 9 Pro Fold,Android_Tensor_G4,Google Tensor,Tensor G4 · Custom GPU
-Google Pixel 9a,Android_Tensor_G4,Google Tensor,Tensor G4 · Custom GPU
-Google Pixel 8a,Android_Tensor_G3,Google Tensor,Tensor G3 · Custom GPU
-Oppo Find X8S,Android_Mali_G92x,MediaTek,Dimensity 9400+ · Immortalis G925 MC12
-Vivo X200s,Android_Mali_G92x,MediaTek,Dimensity 9400+ · Immortalis G925 MC12
+Motorola Edge 50 Fusion,Android_Adreno_7xx,Qualcomm,SD 7s Gen 2 · Adreno 710
+Poco X8 Pro,Android_Mali_Immortalis,MediaTek,Dimensity 9300+ · Immortalis G720
+Infinix GT 20 Pro,Android_Mali_G61x,MediaTek,Dimensity 8200 Ultimate · Mali G610 MC6
+Xiaomi 14T,Android_Mali_G61x,MediaTek,Dimensity 8300 Ultra · Mali G615 MC6
