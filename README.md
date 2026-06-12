@@ -25,6 +25,7 @@ A browser-based utility hub for **Wuthering Waves** on Android — no installs, 
 - nagasemana5608
 - jeannerou
 - Cynide
+- lawdb727
 
 ---
 
