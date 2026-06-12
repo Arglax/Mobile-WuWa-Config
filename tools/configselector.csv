@@ -1,69 +1,82 @@
 Phone (Examples),CPU / GPU,Config to Use
-Galaxy S26 Ultra / OnePlus 15,Snapdragon 8 Elite Gen 5 / Adreno 840,Stable Config – A / (High Visuals) / Experimental
-Xiaomi 17 / Xiaomi 17 Pro,Snapdragon 8 Elite Gen 5 / Adreno 840,Stable Config – A / (High Visuals) / Experimental
-iQOO 15 Ultra / Realme GT 8 Pro,Snapdragon 8 Elite Gen 5 / Adreno 840,Stable Config – A / (High Visuals) / Experimental
-Honor Magic 8 Pro / Vivo X300 Ultra,Snapdragon 8 Elite Gen 5 / Adreno 840,Stable Config – A / (High Visuals) / Experimental
-Galaxy S25 Ultra / Xiaomi 15,Snapdragon 8 Elite / Adreno 830,Stable Config – A / (High Visuals) / Experimental
-OnePlus 13 / Asus ROG Phone 9,Snapdragon 8 Elite / Adreno 830,Stable Config – A / (High Visuals) / Experimental
-Honor Magic 7 Pro / iQOO 13,Snapdragon 8 Elite / Adreno 830,Stable Config – A / (High Visuals) / Experimental
-Galaxy S24 Ultra / OnePlus 12,Snapdragon 8 Gen 3 / Adreno 750,Stable Config – A / (High Visuals)
-Xiaomi 14 / Realme GT 6,Snapdragon 8 Gen 3 / Adreno 750,Stable Config – A / (High Visuals)
-Asus ROG Phone 8 / Nubia RedMagic 9 Pro,Snapdragon 8 Gen 3 / Adreno 750,Stable Config – A / (High Visuals)
-RedMagic Nova (Tablet) / RedMagic Astra (Tablet),Snapdragon 8 Gen 3 / Adreno 750,Stable Config – A / (High Visuals)
-Vivo X200 Pro / Oppo Find X8 Pro,Dimensity 9400 / Immortalis-G925,Stable Config – A / (High Visuals)
-Galaxy Tab S11 Ultra / Galaxy Tab S11,Dimensity 9400+ / Immortalis-G925,Stable Config – A / (High Visuals)
-Vivo X100 Pro / Oppo Find X7 Ultra,Dimensity 9300 / Immortalis-G720,Stable Config – A / (High Visuals)
-Vivo X100 / Galaxy Tab S10 Ultra / Tab S10+,Dimensity 9300+ / Immortalis-G720,Stable Config – A / (High Visuals)
-Huawei MatePad Pro 12.2 (2024) / MatePad Pro 13.2 (2024),Kirin 9010W / Maleoon 910,Stable Config – A / (High Visuals)
-iPhone 16 Pro / 16 Pro Max,Apple A18 Pro / Apple GPU,iPhones do not support configs
-iPhone 17 Pro / 17 Pro Max,Apple A19 Pro / Apple GPU,iPhones do not support configs
-iPhone 15 Pro / 15 Pro Max,Apple A17 Pro / Apple GPU,iPhones do not support configs
-iPhone 16 / 16 Plus,Apple A18 / Apple GPU,iPhones do not support configs
+Galaxy S26 Ultra / OnePlus 15 / Galaxy S26 / Galaxy S26+ / OnePlus 15 Pro,Snapdragon 8 Elite Gen 5 / Adreno 840,Stable Config – A / (High Visuals) / Experimental
+Xiaomi 17 / Xiaomi 17 Pro / Xiaomi 17 Ultra / Xiaomi 17 Lite,Snapdragon 8 Elite Gen 5 / Adreno 840,Stable Config – A / (High Visuals) / Experimental
+iQOO 15 Ultra / Realme GT 8 Pro / iQOO 15 / Realme GT 8,Snapdragon 8 Elite Gen 5 / Adreno 840,Stable Config – A / (High Visuals) / Experimental
+Honor Magic 8 Pro / Vivo X300 Ultra / Honor Magic 8 Ultimate / Vivo X300 Pro,Snapdragon 8 Elite Gen 5 / Adreno 840,Stable Config – A / (High Visuals) / Experimental
+Galaxy S25 Ultra / Xiaomi 15 / Galaxy S25 / Galaxy S25+ / Xiaomi 15 Pro / Xiaomi 15 Ultra,Snapdragon 8 Elite / Adreno 830,Stable Config – A / (High Visuals) / Experimental
+OnePlus 13 / Asus ROG Phone 9 / OnePlus 13R / Asus ROG Phone 9 Pro,Snapdragon 8 Elite / Adreno 830,Stable Config – A / (High Visuals) / Experimental
+Honor Magic 7 Pro / iQOO 13 / Honor Magic 7 / iQOO 13 Pro,Snapdragon 8 Elite / Adreno 830,Stable Config – A / (High Visuals) / Experimental
+Galaxy S24 Ultra / OnePlus 12 / Galaxy S24 / Galaxy S24+ / OnePlus 12R,Snapdragon 8 Gen 3 / Adreno 750,Stable Config – A / (High Visuals)
+Xiaomi 14 / Realme GT 6 / Xiaomi 14 Pro / Xiaomi 14 Ultra / Realme GT 6 Pro,Snapdragon 8 Gen 3 / Adreno 750,Stable Config – A / (High Visuals)
+Asus ROG Phone 8 / Nubia RedMagic 9 Pro / Asus ROG Phone 8 Pro / RedMagic 9S Pro / Nubia Z60 Ultra,Snapdragon 8 Gen 3 / Adreno 750,Stable Config – A / (High Visuals)
+RedMagic Nova (Tablet) / RedMagic Astra (Tablet) / Xiaomi Pad 7 Pro / OnePlus Pad 2 / Lenovo Legion Tab,Snapdragon 8 Gen 3 / Adreno 750,Stable Config – A / (High Visuals)
+Vivo X200 Pro / Oppo Find X8 Pro / Vivo X200 / Vivo X200 Pro Mini / Oppo Find X8 Ultra,Dimensity 9400 / Immortalis-G925,Stable Config – A / (High Visuals)
+Galaxy Tab S11 Ultra / Galaxy Tab S11 / Galaxy Tab S11+,Dimensity 9400+ / Immortalis-G925,Stable Config – A / (High Visuals)
+Vivo X100 Pro / Oppo Find X7 Ultra / Vivo X100 / Oppo Find X7,Dimensity 9300 / Immortalis-G720,Stable Config – A / (High Visuals)
+Vivo X100 / Galaxy Tab S10 Ultra / Tab S10+ / Vivo X100s / Vivo X100s Pro,Dimensity 9300+ / Immortalis-G720,Stable Config – A / (High Visuals)
+Huawei MatePad Pro 12.2 (2024) / MatePad Pro 13.2 (2024) / Huawei Pura 70 Ultra / Pura 70 Pro,Kirin 9010W / Maleoon 910,Stable Config – A / (High Visuals)
+iPhone 16 Pro / 16 Pro Max / iPhone 16 Pro Max 1TB,Apple A18 Pro / Apple GPU,iPhones do not support configs
+iPhone 17 Pro / 17 Pro Max / iPhone 17 Ultra / iPhone 17 Slim,Apple A19 Pro / Apple GPU,iPhones do not support configs
+iPhone 15 Pro / 15 Pro Max / iPhone 15 Pro Max 512GB,Apple A17 Pro / Apple GPU,iPhones do not support configs
+iPhone 16 / 16 Plus / iPhone 16 Plus 256GB,Apple A18 / Apple GPU,iPhones do not support configs
 iPhone 15 / 15 Plus,Apple A16 Bionic / Apple GPU,iPhones do not support configs
 iPhone 14 / 14 Plus / 14 Pro / 14 Pro Max,Apple A15 / A16 Bionic / Apple GPU,iPhones do not support configs
 Any iPhone model,Apple Ax / Apple GPU,iPhones do not support configs
-Poco F6 Pro / iQOO Neo 9 Pro,Snapdragon 8 Gen 2 / Adreno 740,Stable Config – B / Experimental
-Galaxy S23 / S23+ / S23 Ultra,Snapdragon 8 Gen 2 / Adreno 740,Stable Config – B / Experimental
-Galaxy S24 FE,Exynos 2500 / Xclipse 940,Stable Config – B / Experimental
-Galaxy S24 (Exynos),Exynos 2400 / Xclipse 940,Stable Config – B / Experimental
-Poco F6 / Realme GT 6T,Snapdragon 8s Gen 3 / Adreno 735,Stable Config – B / Experimental
-OnePlus Nord 4 / iQOO Z9 Turbo,Snapdragon 7+ Gen 3 / Adreno 732,Stable Config – B / Experimental
-Poco X6 Pro / Redmi K70E,Dimensity 8300 / Mali-G615,Stable Config – B / Experimental
-Poco X7 Pro / Redmi Note 14 Pro+,Dimensity 8400 / Mali-G720,Stable Config – B / Experimental
-Nothing Phone (2a) / Vivo V40,Snapdragon 7 Gen 3 / Adreno 720,Stable Config – B / Experimental
-Google Pixel 9 / Pixel 9 Pro,Google Tensor G4 / Immortalis-G715,Stable Config – B / Experimental
-Google Pixel 8 / Pixel 8 Pro,Google Tensor G3 / Immortalis-G715,Stable Config – B / Experimental
-Realme 12 Pro+ / Oppo Reno 12 Pro,Snapdragon 7s Gen 3 / Adreno 710,Stable Config – B / Experimental
-Redmi Note 14 Pro+ 5G / Poco X6 NFC,Snapdragon 7s Gen 3 / Adreno 710,Stable Config – B / Experimental
-Huawei MatePad Pro 11 (2024) / MatePad Air (2024),Kirin 9000S / Maleoon 910 MP4,Stable Config – B / Experimental
-Galaxy Tab S9 Ultra / Tab S9+,Snapdragon 8 Gen 2 / Adreno 740,Stable Config – B / Experimental
+Poco F6 Pro / iQOO Neo 9 Pro / iQOO 11 / iQOO 11 Pro / Poco F5 Pro,Snapdragon 8 Gen 2 / Adreno 740,Stable Config – B / Experimental
+Galaxy S23 / S23+ / S23 Ultra / Galaxy S23 FE (Snapdragon variant),Snapdragon 8 Gen 2 / Adreno 740,Stable Config – B / Experimental
+Galaxy S24 FE / Galaxy S25 (Exynos) / Galaxy S25+ (Exynos),Exynos 2500 / Xclipse 940,Stable Config – B / Experimental
+Galaxy S24 (Exynos) / Galaxy S24+ (Exynos),Exynos 2400 / Xclipse 940,Stable Config – B / Experimental
+Poco F6 / Realme GT 6T / Xiaomi Civi 4 Pro / iQOO Z9 Turbo / Motorola Edge 50 Ultra,Snapdragon 8s Gen 3 / Adreno 735,Stable Config – B / Experimental
+OnePlus Nord 4 / iQOO Z9 Turbo / OnePlus Ace 3V / Realme GT Neo6 SE,Snapdragon 7+ Gen 3 / Adreno 732,Stable Config – B / Experimental
+Poco X6 Pro / Redmi K70E / Xiaomi Redmi K70E / Poco X6 Pro 5G,Dimensity 8300 / Mali-G615,Stable Config – B / Experimental
+Poco X7 Pro / Redmi Note 14 Pro+ / Redmi K80E / Poco X7 Pro 5G,Dimensity 8400 / Mali-G720,Stable Config – B / Experimental
+Nothing Phone (2a) / Vivo V40 / Motorola Edge 50 Pro / Honor 200 / Vivo V30,Snapdragon 7 Gen 3 / Adreno 720,Stable Config – B / Experimental
+Google Pixel 9 / Pixel 9 Pro / Google Pixel 9 Pro XL / Google Pixel 9 Pro Fold,Google Tensor G4 / Immortalis-G715,Stable Config – B / Experimental
+Google Pixel 8 / Pixel 8 Pro / Google Pixel 8a,Google Tensor G3 / Immortalis-G715,Stable Config – B / Experimental
+Realme 12 Pro+ / Oppo Reno 12 Pro / Realme 13 Pro+ / Oppo Reno 13 Pro,Snapdragon 7s Gen 3 / Adreno 710,Stable Config – B / Experimental
+Redmi Note 14 Pro+ 5G / Poco X6 NFC / Redmi Note 14 Pro 5G / Poco X7 NFC,Snapdragon 7s Gen 3 / Adreno 710,Stable Config – B / Experimental
+Huawei MatePad Pro 11 (2024) / MatePad Air (2024) / Huawei Mate 60 / Huawei Mate 60 Pro,Kirin 9000S / Maleoon 910 MP4,Stable Config – B / Experimental
+Galaxy Tab S9 Ultra / Tab S9+ / Galaxy Tab S9 FE+,Snapdragon 8 Gen 2 / Adreno 740,Stable Config – B / Experimental
 Galaxy Tab S9,Snapdragon 8 Gen 2 / Adreno 740,Stable Config – B / Experimental
-Galaxy A35 / Moto Edge 50 Fusion,Exynos 1380 / Mali-G68 MP5,Stable Config – C
-Galaxy A55 5G,Exynos 1480 / Xclipse 530,Stable Config – C
-Galaxy A56 5G / Tab S10 FE / Tab S10 FE+,Exynos 1580 / Xclipse 540,Stable Config – C
-Galaxy A54 / Galaxy A36,Exynos 1380 / Mali-G68 MP5,Stable Config – C
-Galaxy A34 / Redmi Note 13 Pro,Dimensity 1080 / Mali-G68 MP4,Stable Config – C
-Redmi Note 12 Pro / Poco M5 Pro,Dimensity 1080 / Mali-G68 MP4,Stable Config – C
-Poco X5 Pro / Moto Edge 30,Snapdragon 778G / Adreno 642L,Stable Config – C
-Nothing Phone (2a) Plus,Dimensity 7350 Pro / Mali-G610 MC4,Stable Config – C
-Redmi Note 13 Pro+ / Poco X6,Dimensity 7200 Ultra / Mali-G610 MC4,Stable Config – C
-Realme 12+ 5G / Vivo V29e,Dimensity 7050 / Mali-G610 MC2,Stable Config – C
-Infinix Zero 30 / Tecno Phantom V Flip,Dimensity 8020 / Mali-G77 MC9,Stable Config – C
-Tecno Camon 20 Pro / Infinix Note 30 Pro,Dimensity 8050 / Mali-G77 MC9,Stable Config – C
-Motorola Edge 40 / Xiaomi 12 Lite,Dimensity 8020 / Mali-G77 MC9,Stable Config – C
-Galaxy A25 5G,Exynos 1280 / Mali-G68 MP4,Stable Config – C
-Redmi 12 5G / Poco M6 Pro 5G,Snapdragon 4 Gen 2 / Adreno 613,Stable Config – C
+Galaxy A35 / Moto Edge 50 Fusion / Galaxy M35 / Galaxy F35,Exynos 1380 / Mali-G68 MP5,Stable Config – C
+Galaxy A55 5G / Galaxy M55 / Galaxy C55,Exynos 1480 / Xclipse 530,Stable Config – C
+Galaxy A56 5G / Tab S10 FE / Tab S10 FE+ / Galaxy M56 5G,Exynos 1580 / Xclipse 540,Stable Config – C
+Galaxy A54 / Galaxy A36 / Galaxy M54 / Galaxy F54,Exynos 1380 / Mali-G68 MP5,Stable Config – C
+Galaxy A34 / Redmi Note 13 Pro / Redmi Note 12 Pro+ / Galaxy M34,Dimensity 1080 / Mali-G68 MP4,Stable Config – C
+Redmi Note 12 Pro / Poco M5 Pro / Poco X5 5G / Redmi Note 12 Pro 5G,Dimensity 1080 / Mali-G68 MP4,Stable Config – C
+Poco X5 Pro / Moto Edge 30 / Samsung Galaxy A52s 5G / Galaxy M52 5G / Xiaomi 11 Lite 5G NE,Snapdragon 778G / Adreno 642L,Stable Config – C
+Nothing Phone (2a) Plus / Nothing Phone (2a) Plus 5G,Dimensity 7350 Pro / Mali-G610 MC4,Stable Config – C
+Redmi Note 13 Pro+ / Poco X6 / Redmi Note 13 Pro+ 5G / iQOO Z9,Dimensity 7200 Ultra / Mali-G610 MC4,Stable Config – C
+Realme 12+ 5G / Vivo V29e / Realme 11 Pro / Realme 11 Pro+ / Oppo Reno 11 / Oppo Reno 10,Dimensity 7050 / Mali-G610 MC2,Stable Config – C
+Infinix Zero 30 / Tecno Phantom V Flip / Motorola Edge 40 Neo,Dimensity 8020 / Mali-G77 MC9,Stable Config – C
+Tecno Camon 20 Pro / Infinix Note 30 Pro / Tecno Camon 20 Pro 5G / Infinix Note 30 VIP,Dimensity 8050 / Mali-G77 MC9,Stable Config – C
+Motorola Edge 40 / Xiaomi 12 Lite / Vivo V27 Pro,Dimensity 8020 / Mali-G77 MC9,Stable Config – C
+Galaxy A25 5G / Galaxy A33 5G / Galaxy A53 5G / Galaxy M33 5G,Exynos 1280 / Mali-G68 MP4,Stable Config – C
+Redmi 12 5G / Poco M6 Pro 5G / Redmi 13R 5G / Poco M6 5G / Vivo Y200e 5G,Snapdragon 4 Gen 2 / Adreno 613,Stable Config – C
 Galaxy Tab S9 FE / Tab S10 Lite,Exynos 1380 / Mali-G68 MP5,Stable Config – C
-Galaxy Tab A9+ / Huawei MatePad 11.5 (2024),Snapdragon 695 / Adreno 619,Stable Config – C
-Redmi Note 14 4G / Moto G85,Helio G99 / Mali-G57 MC2,Potato Config
-Samsung Galaxy A15 4G / Realme C67,Helio G99 / Mali-G57 MC2,Potato Config
-Redmi 13C / Poco C65,Helio G85 / Mali-G52 MC2,Potato Config
-Galaxy A05 / A05s,Helio G85 / Mali-G52 MC2,Potato Config
-Realme C55 / C53 / C65,Helio G88 / Mali-G52 MC2,Potato Config
-Redmi Note 13 (4G) / Moto G24,Snapdragon 685 / Adreno 610,Potato Config
-Redmi A3 / Poco C61,Helio G36 / PowerVR GE8320,Potato Config
-Galaxy A06 / Infinix Smart 8 Plus,Helio G85 / Mali-G52 MC2,Potato Config
-Infinix Smart 8 / Tecno Spark 20,Unisoc T606 / Mali-G57 MC1,Potato Config
-Tecno Spark Go / Infinix Smart 10,Unisoc T616 / Mali-G57 MC1,Potato Config
-Redmi A5 / Itel City 100,Unisoc T615 / Mali-G57 MC1,Potato Config
-Galaxy A05s (SD variant),Snapdragon 680 / Adreno 610,Potato Config
+Galaxy Tab A9+ / Huawei MatePad 11.5 (2024) / OnePlus Nord CE 3 Lite / Redmi Note 11 Pro+ 5G / Moto G84 5G,Snapdragon 695 / Adreno 619,Stable Config – C
+Redmi Note 14 4G / Moto G85 / Poco M6 Pro 4G / Redmi Note 13 4G,Helio G99 / Mali-G57 MC2,Potato Config
+Samsung Galaxy A15 4G / Realme C67 / Tecno Pova 5 / Infinix Note 30 / Oppo A98,Helio G99 / Mali-G57 MC2,Potato Config
+Redmi 13C / Poco C65 / Redmi 12C / Poco C55,Helio G85 / Mali-G52 MC2,Potato Config
+Galaxy A05 / A05s / Galaxy A14 4G / Galaxy M05,Helio G85 / Mali-G52 MC2,Potato Config
+Realme C55 / C53 / C65 / Redmi 10 Prime / Infinix Hot 30,Helio G88 / Mali-G52 MC2,Potato Config
+Redmi Note 13 (4G) / Moto G24 / Redmi Note 12 4G / Realme C67 4G,Snapdragon 685 / Adreno 610,Potato Config
+Redmi A3 / Poco C61 / Redmi A2 / Poco C51,Helio G36 / PowerVR GE8320,Potato Config
+Galaxy A06 / Infinix Smart 8 Plus / Tecno Spark 20C / Infinix Hot 40i,Helio G85 / Mali-G52 MC2,Potato Config
+Infinix Smart 8 / Tecno Spark 20 / Moto G04 / Itel P40 / Tecno Pop 8,Unisoc T606 / Mali-G57 MC1,Potato Config
+Tecno Spark Go / Infinix Smart 10 / Realme C35 / Moto G14 / Infinix Hot 30i,Unisoc T616 / Mali-G57 MC1,Potato Config
+Redmi A5 / Itel City 100 / Moto G24 Power,Unisoc T615 / Mali-G57 MC1,Potato Config
+Galaxy A05s (SD variant) / Redmi 10C / Moto G52 / Oppo A78 4G,Snapdragon 680 / Adreno 610,Potato Config
+ROG Phone 10 Pro / RedMagic 11 Pro / Nubia Z80 Ultra / OnePlus Ace 6 Pro / Honor GT Pro / RedMagic 10 Pro+ / Nubia Z70S Pro,Snapdragon 8 Elite / Adreno 830,Stable Config – A / (High Visuals) / Experimental
+RedMagic 10 Pro / ROG Phone 9 / Honor Magic6 Pro / Nubia Z70 Ultra / Xiaomi 14 Ultra / Realme GT7 Pro / RedMagic 9S Pro+ / Nubia Z60S Pro,Snapdragon 8 Gen 3 / Adreno 750,Stable Config – A / (High Visuals) / Experimental
+Vivo X100 Pro / iQOO Neo9 Pro / Redmi K70 Ultra / Vivo X100 Ultra / Oppo Find X8 / iQOO 12 Pro / Redmi K70 Pro,Dimensity 9300 / Immortalis-G720,Stable Config – A / (High Visuals) / Experimental
+Galaxy S23 FE (SD) / OnePlus Ace 2 Pro / Xiaomi 13T Pro / RedMagic 9 Pro / iQOO Neo9 / OnePlus 11 / Xiaomi 13 / Xiaomi 13 Pro / RedMagic 8 Pro,Snapdragon 8 Gen 2 / Adreno 740,Stable Config – B / Experimental
+Realme Neo7 / Redmi Turbo 4 / iQOO Z10 Turbo / Poco F7 / Redmi Turbo 4 Pro / iQOO Z10,Dimensity 8400 / Mali-G720,Stable Config – B / Experimental
+Poco F7 Pro / Redmi Turbo 5 Pro / iQOO Z10 Turbo Pro / Xiaomi Civi 6 Pro,Snapdragon 8s Gen 4 / Adreno 825,Stable Config – B / Experimental
+Infinix GT 20 Pro / Redmi K70E / Realme Neo6 SE / Tecno Camon 40 Pro / Infinix GT 20 Pro 5G / Tecno Camon 30 Premier,Dimensity 8300 / Mali-G615,Stable Config – B / Experimental
+OnePlus Ace 3V / Realme GT Neo6 SE / Redmi Note 13 Turbo / Redmi Note 14 Turbo,Snapdragon 7+ Gen 3 / Adreno 732,Stable Config – B / Experimental
+Honor 200 / Vivo V50 / Vivo V40 Pro / OnePlus Nord 4 / Vivo V50 Pro / Honor 300,Snapdragon 7 Gen 3 / Adreno 720,Stable Config – B / Experimental
+CMF Phone 2 Pro / Poco X7 / Motorola Edge 60 Fusion / Infinix Note 50 Pro+ / Oppo Reno 12 / Oppo Reno 12 Pro (Global) / CMF Phone 1,Dimensity 7300 / Mali-G615 MC2,Stable Config – C
+Realme 15 Pro / Honor X70 / Vivo Y400 Pro / Realme 14 Pro / Honor X60 Pro,Snapdragon 6 Gen 4 / Adreno 810,Stable Config – C
+Tecno Camon 40 / Infinix Note 50 / Redmi Note 14 4G / Realme P3x / Tecno Camon 30S / Infinix Hot 50 Pro,Helio G100 / Mali-G57,Potato Config
+Samsung Galaxy A06 5G / Itel RS4 / Tecno Spark 30C / Tecno Spark 20 Pro 5G,Unisoc T7250 / Mali-G57 MC1,Potato Config
