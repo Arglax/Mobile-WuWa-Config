@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
@@ -401,7 +401,7 @@
 
             <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:24px;">
                 <div style="padding:8px 14px; background:rgba(29,158,117,0.08); border:1px solid var(--border-mid); border-radius:var(--r-sm); font-size:11px; font-family:var(--font-mono); color:var(--text-secondary);">
-                    <span style="color:var(--jade-bright); font-weight:600;">Scheme A</span> · Magic bytes <code>4B 47 4C 4F 47</code>
+                    <span style="color:var(--jade-bright); font-weight:600;">Scheme A</span> · Magic fingerprints <code>?? 54 50</code>
                 </div>
                 <div style="padding:8px 14px; background:rgba(186,117,23,0.08); border:1px solid var(--border-gold); border-radius:var(--r-sm); font-size:11px; font-family:var(--font-mono); color:var(--text-secondary);">
                     <span style="color:var(--gold-bright); font-weight:600;">Scheme B</span> · Offset LUT with 256-byte key rotation
@@ -444,7 +444,7 @@
                     <div class="section-label">Encryption Detection</div>
                     <div class="scheme-row">
                         <div class="scheme-dot" id="dotA"></div>
-                        <span class="scheme-label" id="labelA">Scheme A — Magic header (KGLOG)</span>
+                        <span class="scheme-label" id="labelA">Scheme A — Offset-loose header (TP Variant)</span>
                     </div>
                     <div class="scheme-row">
                         <div class="scheme-dot" id="dotB"></div>
@@ -594,8 +594,8 @@
                         <span class="card-title">Tool Notes</span>
                     </div>
                     <div class="card-body" style="font-size:12px; color:var(--text-secondary); line-height:1.7;">
-                        <p>This tool implements both encryption schemes reverse-engineered from Kuro Games' <code style="font-family:var(--font-mono);font-size:11px;color:var(--jade-bright);\">Client.log</code> format.</p>
-                        <p style="margin-top:8px;"><strong style="color:var(--text-primary);">Scheme A</strong> uses a fixed magic header (<code style="font-family:var(--font-mono);font-size:11px;">KGLOG</code>) followed by XOR with a static LUT.</p>
+                        <p>This tool implements both encryption schemes reverse-engineered from Kuro Games' <code style="font-family:var(--font-mono);font-size:11px;color:var(--jade-bright);">Client.log</code> format.</p>
+                        <p style="margin-top:8px;"><strong style="color:var(--text-primary);">Scheme A</strong> uses a loose magic fingerprint verification check targeting the structural sequence offset values (<code style="font-family:var(--font-mono);font-size:11px;">54 50</code>) to natively process multiple runtime byte variations.</p>
                         <p style="margin-top:8px;"><strong style="color:var(--text-primary);">Scheme B</strong> uses a rolling 256-byte key with position-based offset rotation. Auto-detection reads the first 16 bytes to determine which scheme applies.</p>
                         <p style="margin-top:8px; color:var(--text-muted);">Also available as a CLI tool: <code style="font-family:var(--font-mono);font-size:11px;color:var(--jade-mid);">wuwa_ld</code> on GitHub.</p>
                     </div>
