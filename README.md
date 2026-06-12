@@ -26,7 +26,7 @@ A browser-based utility hub for **Wuthering Waves** on Android — no installs, 
 - jeannerou
 - Cynide
 - lawdb727
-
+- chovll_
 ---
 
 > Auxiliary part of the [Mobile-WuWa-Config](https://github.com/Arglax/Mobile-WuWa-Config) project.
