@@ -1,4 +1,4 @@
-/**
+﻿/**
  * WuWa Log Decryptor - Logic & Cipher Implementation
  * Upgraded with robust validation, smooth mobile scrolling, dynamic labels, and notification pings.
  * Enhanced: Loosened Scheme A header verification to accept multiple variants (e.g., 00 54 50 / 20 54 50).
@@ -331,6 +331,15 @@ function finalizeUI(text) {
     document.getElementById('dlDecBtn').disabled = false;
     document.getElementById('devprofBtn').disabled = false;
 
+    // Enable CVar filter buttons
+    ['cvarResBtn', 'cvarForbBtn', 'cvarCommBtn'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.disabled = false;
+    });
+    // Hide any previous CVar output
+    const cvarOut = document.getElementById('cvarOutput');
+    if (cvarOut) { cvarOut.classList.remove('visible'); cvarOut.innerHTML = ''; }
+
     document.getElementById('dlDecBtn').textContent = "↓ Save Log File";
 
     scanSignatures(text);
@@ -458,6 +467,13 @@ function clearDecryptor() {
     document.getElementById('devprofName').textContent = '';
     document.getElementById('retailDeviceName').textContent = '';
 
+    ['cvarResBtn', 'cvarForbBtn', 'cvarCommBtn'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.disabled = true;
+    });
+    const cvarOut = document.getElementById('cvarOutput');
+    if (cvarOut) { cvarOut.classList.remove('visible'); cvarOut.innerHTML = ''; }
+
     document.getElementById('statLines').textContent = "—";
     document.getElementById('statErrors').textContent = "—";
     document.getElementById('statWarnings').textContent = "—";
@@ -465,64 +481,6 @@ function clearDecryptor() {
     document.getElementById('dlDecBtn').textContent = "↓ Save Log File";
 
     resetDetectionUI();
-}
-
-function obtainDeviceProfile() {
-    const output = document.getElementById('decryptedOutput');
-    const source = fullDecryptedText || (output ? output.value : "");
-
-    if (!source) {
-        showToastPing("No log content to scan.", "error");
-        return;
-    }
-
-    const profileMatch = source.match(/selected\s+device\s+profile\s*[:\-]?\s*(\S+)/i);
-    const modelMatch = source.match(/(?:android\s+device\s+model|hardware|device_model)\s*[:=]\s*([^\r\n,;]+)/i);
-
-    const resultDiv = document.getElementById('devprofResult');
-    const nameSpan = document.getElementById('devprofName');
-    const deviceSpan = document.getElementById('retailDeviceName');
-
-    let rawProfile = profileMatch ? profileMatch[1].trim() : "DefaultDeviceProfile";
-    let rawModel = modelMatch ? modelMatch[1].trim() : "";
-
-    if (rawModel) {
-        rawModel = rawModel.replace(/[\[\]"']/g, '').trim();
-
-        const modelMap = {
-            "2311DRK48G": "Poco X6 Pro 5G",
-            "23113RKC6C": "Xiaomi Redmi K70E",
-            "23127PN0CC": "Xiaomi 14 Pro",
-            "23116PN5BC": "Xiaomi 14 Ultra",
-            "CPH2581": "OnePlus 12 R",
-            "PJD110": "OnePlus 12",
-            "SM-S928": "Samsung Galaxy S24 Ultra",
-            "SM-S926": "Samsung Galaxy S24+",
-            "SM-S921": "Samsung Galaxy S24",
-            "SM-F946": "Samsung Galaxy Z Fold 5"
-        };
-
-        for (const [key, val] of Object.entries(modelMap)) {
-            if (rawModel.toUpperCase().includes(key)) {
-                rawModel = val;
-                break;
-            }
-        }
-    } else {
-        if (rawProfile.toLowerCase().includes("pocox6pro")) {
-            rawModel = "Poco X6 Pro 5G";
-        } else if (rawProfile.toLowerCase().includes("s24ultra")) {
-            rawModel = "Samsung Galaxy S24 Ultra";
-        } else {
-            rawModel = "Generic Android Mobile Device";
-        }
-    }
-
-    if (nameSpan) nameSpan.textContent = rawProfile;
-    if (deviceSpan) deviceSpan.textContent = rawModel;
-
-    if (resultDiv) resultDiv.style.display = 'block';
-    showToastPing("Profile metrics resolved!");
 }
 
 function copyDeviceProfile() {
@@ -542,6 +500,289 @@ function copyDeviceProfile() {
     });
 }
 
+// --- CVar Quick-View ---
+
+const CVAR_GROUPS = {
+    resolution: [
+        'r.ScreenPercentage',
+        'r.MobileContentScaleFactor',
+        'r.SecondaryScreenPercentage.GameViewport'
+    ],
+    forbidden: [
+        'r.Kuro.SkeletalMesh.LODDistanceScale',
+        'r.Streaming.Boost',
+        'r.Streaming.PoolSize',
+        'r.Streaming.LimitPoolSizeTOVRAM',
+        'r.Shadow.MaxCSMResolution',
+        'r.Streaming.MinBoost',
+        'r.MipMapLODBias',
+        'r.TextureGroup.Landscape.TextureLODBias',
+        'r.Kuro.TexturePool.ExtraBudgetMB',
+        'r.Streaming.CPUReadback',
+        'r.Streaming.UseAsyncCPUReadback',
+        'r.Streaming.MaxNumTexturesToStreamPerFrame',
+        'r.Streaming.MinMipForSplitRequest',
+        'r.Streaming.UseFixedPoolSize',
+        'r.Streaming.UseAllMips',
+        'r.Streaming.MaxTempMemoryAllowed',
+        'r.RayTracing.LimitDevice',
+        'r.DetailMode',
+        'r.MaterialQualityLevel',
+        'r.KuroMaterialQualityLevel',
+        'r.ViewDistanceScale',
+        'Kuro.CppEffectSystem.UseLowMemoryPlayerEffectLruCapacity',
+        'r.AsyncComputePSO',
+        'r.Streamline.DLSSG.RetainResourcesWhenOff',
+        'r.MobileContentScaleFactor',
+        'r.SecondaryScreenPercentage.GameViewport',
+        'r.ScreenPercentage',
+        'r.AFME.Enable',
+        'r.MFRC.Enable',
+        'r.FEstimation.Option'
+    ],
+    common: [
+        'r.ViewDistanceScale',
+        'r.KuroMaterialQualityLevel',
+        'r.DetailMode',
+        'r.MaterialQualityLevel',
+        'r.Streaming.Boost',
+        'r.Streaming.PoolSize',
+        'r.Streaming.LimitPoolSizeTOVRAM',
+        'r.Shadow.MaxCSMResolution',
+        'r.MobileContentScaleFactor',
+        'r.SecondaryScreenPercentage.GameViewport'
+    ]
+};
+
+const GROUP_LABELS = {
+    resolution: '📐 Resolution CVars — Last Logged Values',
+    forbidden: '🚫 Forbidden CVars — Last Logged Values',
+    common: '⚙️  Common CVars — Last Logged Values'
+};
+
+/**
+ * Find the LAST occurrence of a CVar in the log.
+ * Matches patterns like:
+ *   r.ScreenPercentage = 100
+ *   r.ScreenPercentage=100
+ *   [LogConsoleResponse] r.ScreenPercentage = 100 LastSetBy=...
+ *   CVar r.ScreenPercentage set to "100"
+ * Returns the value string or null.
+ */
+function findLastCVarValue(lines, cvarName) {
+    // Escape dots for regex
+    const escaped = cvarName.replace(/\./g, '\\.').replace(/\*/g, '\\*');
+    const re = new RegExp(
+        '(?:^|\\s)' + escaped + '\\s*[=\\s]\\s*"?([\\d.\\-+eE]+)"?',
+        'i'
+    );
+    let last = null;
+    for (let i = 0; i < lines.length; i++) {
+        const m = lines[i].match(re);
+        if (m) last = m[1];
+    }
+    return last;
+}
+
+/**
+ * Detect Vulkan usage and version from the decrypted log.
+ * Looks for lines that confirm Vulkan is the active RHI and any version string.
+ */
+function detectVulkanInfo(lines) {
+    let vulkanLine = null;
+    let version = null;
+
+    const rhi = /(?:using|selected|initializing|created|RHI)\s+vulkan|vulkan\s+(?:RHI|renderer|backend|device)/i;
+    const ver = /vulkan\s*(?:api\s*)?(?:version|ver|v)[\s:=]*(\d+\.\d+[\d.]*)/i;
+    const ver2 = /(?:api\s*version|VkPhysicalDeviceProperties)[\s\S]{0,60}?(\d+\.\d+\.\d+)/i;
+    const ver3 = /\bVK_API_VERSION[\s=:]*(\d+[\._]\d+[\._]\d+)/i;
+
+    for (let i = 0; i < lines.length; i++) {
+        const l = lines[i];
+        if (rhi.test(l) && !vulkanLine) vulkanLine = l.trim();
+        const mv = l.match(ver) || l.match(ver2) || l.match(ver3);
+        if (mv) version = mv[1].replace(/_/g, '.');
+    }
+    return { vulkanLine, version };
+}
+
+function showCVarValues(type) {
+    const out = document.getElementById('cvarOutput');
+    if (!out) return;
+    if (!fullDecryptedText) {
+        out.classList.remove('visible');
+        return;
+    }
+
+    const lines = cachedLogLines.length ? cachedLogLines : fullDecryptedText.split('\n');
+    const cvars = CVAR_GROUPS[type];
+    const label = GROUP_LABELS[type];
+
+    // Build HTML output
+    const rows = [];
+    rows.push(`<span class="cvar-line-head">${label}</span>\n`);
+
+    for (const name of cvars) {
+        const val = findLastCVarValue(lines, name);
+        if (val !== null) {
+            rows.push(
+                `<span class="cvar-line-key">${name.padEnd(52)}</span>` +
+                `= <span class="cvar-line-val">${val}</span>\n`
+            );
+        } else {
+            rows.push(
+                `<span class="cvar-line-miss">${name.padEnd(52)}  — not found in log</span>\n`
+            );
+        }
+    }
+
+    // For resolution type, also append Vulkan info
+    if (type === 'resolution') {
+        const { vulkanLine, version } = detectVulkanInfo(lines);
+        rows.push('\n<span class="cvar-line-head">🖥️  Vulkan Renderer</span>\n');
+        if (vulkanLine) {
+            rows.push(`<span class="cvar-line-vulk">${vulkanLine}</span>\n`);
+        } else {
+            rows.push(`<span class="cvar-line-miss">  — No Vulkan RHI confirmation line found</span>\n`);
+        }
+        if (version) {
+            rows.push(`<span class="cvar-line-key">  Vulkan API Version          </span>` +
+                `= <span class="cvar-line-val">${version}</span>\n`);
+        } else {
+            rows.push(`<span class="cvar-line-miss">  Vulkan API Version          — not found in log</span>\n`);
+        }
+    }
+
+    out.innerHTML = rows.join('');
+    out.classList.add('visible');
+}
+
+// --- Improved Device Profile Detection ---
+
+function obtainDeviceProfile() {
+    const output = document.getElementById('decryptedOutput');
+    const source = fullDecryptedText || (output ? output.value : "");
+
+    if (!source) {
+        showToastPing("No log content to scan.", "error");
+        return;
+    }
+
+    const lines = cachedLogLines.length ? cachedLogLines : source.split('\n');
+
+    // Find last profile assignment line
+    const profileMatch = source.match(/selected\s+device\s+profile\s*[:\-]?\s*(\S+)/gi);
+    let rawProfile = "DefaultDeviceProfile";
+    if (profileMatch && profileMatch.length > 0) {
+        const last = profileMatch[profileMatch.length - 1];
+        const m = last.match(/selected\s+device\s+profile\s*[:\-]?\s*(\S+)/i);
+        if (m) rawProfile = m[1].trim();
+    }
+
+    // --- Branded device name resolution ---
+    // Priority 1: Look for explicit branded model name in log
+    // WuWa logs often contain lines like:
+    //   DeviceName: Poco X6 Pro 5G
+    //   ProductModel: Poco X6 Pro 5G
+    //   ro.product.model: Poco X6 Pro 5G
+    //   Hardware model: Poco X6 Pro 5G
+    let rawModel = "";
+
+    const brandedPatterns = [
+        /(?:DeviceName|ProductModel|ro\.product\.model|ro\.product\.name|device\s+name|product\s+model)\s*[:=]\s*([^\r\n,;]{3,60})/i,
+        /(?:android\s+device\s+model|hardware\s+model)\s*[:=]\s*([^\r\n,;]{3,60})/i,
+        /\bModel\s*[:=]\s*([^\r\n,;]{3,60})/i,
+        /(?:hardware|device_model)\s*[:=]\s*([^\r\n,;]{3,60})/i
+    ];
+
+    for (const re of brandedPatterns) {
+        const m = source.match(re);
+        if (m) {
+            rawModel = m[1].trim().replace(/[[\]"']/g, '').trim();
+            break;
+        }
+    }
+
+    // Priority 2: SKU/model-code to branded name lookup (partial match)
+    const modelMap = {
+        "2311DRK48G": "Poco X6 Pro 5G",
+        "23113RKC6C": "Xiaomi Redmi K70E",
+        "23127PN0CC": "Xiaomi 14 Pro",
+        "23116PN5BC": "Xiaomi 14 Ultra",
+        "CPH2581": "OnePlus 12R",
+        "PJD110": "OnePlus 12",
+        "SM-S928": "Samsung Galaxy S24 Ultra",
+        "SM-S926": "Samsung Galaxy S24+",
+        "SM-S921": "Samsung Galaxy S24",
+        "SM-F946": "Samsung Galaxy Z Fold 5",
+        "SM-A546": "Samsung Galaxy A54 5G",
+        "SM-A546": "Samsung Galaxy A54 5G",
+        "22081212UG": "Xiaomi 12T Pro",
+        "2210132G": "Xiaomi 12",
+        "NE2215": "OnePlus 10 Pro",
+        "CPH2413": "OnePlus 10T",
+        "PGKM10": "OnePlus 10T",
+        "PGT110": "OnePlus 11",
+        "RMX3310": "Realme GT Neo 3",
+        "RMX3741": "Realme GT 5",
+        "RMX3831": "Realme GT5 Pro",
+        "V2309A": "vivo X100",
+        "V2324A": "vivo X100 Pro",
+        "SM-G998": "Samsung Galaxy S21 Ultra",
+        "SM-G996": "Samsung Galaxy S21+",
+        "SM-G991": "Samsung Galaxy S21",
+        "SM-S911": "Samsung Galaxy S23",
+        "SM-S916": "Samsung Galaxy S23+",
+        "SM-S918": "Samsung Galaxy S23 Ultra",
+        "XT2301": "Motorola Edge 40 Pro",
+        "XT2341": "Motorola Edge 50 Ultra",
+        "23049PCD8G": "Redmi Note 12 Turbo",
+        "2304FPN6DC": "Poco F5",
+        "23013PC75G": "Poco X5 Pro 5G"
+    };
+
+    // If rawModel already looks like a branded name (has spaces, not just alphanumeric code), keep it
+    const looksLikeBranded = rawModel && /\s/.test(rawModel) && rawModel.length > 4;
+
+    if (!looksLikeBranded) {
+        // Try matching against model map from the raw model string or from the profile name
+        const searchStr = (rawModel + ' ' + rawProfile).toUpperCase();
+        let mapped = false;
+        for (const [key, val] of Object.entries(modelMap)) {
+            if (searchStr.includes(key.toUpperCase())) {
+                rawModel = val;
+                mapped = true;
+                break;
+            }
+        }
+        // Priority 3: Infer from profile name keywords
+        if (!mapped) {
+            const p = rawProfile.toLowerCase();
+            if (p.includes('pocox6pro')) rawModel = "Poco X6 Pro 5G";
+            else if (p.includes('pocox5pro')) rawModel = "Poco X5 Pro 5G";
+            else if (p.includes('pocof5')) rawModel = "Poco F5";
+            else if (p.includes('s24ultra')) rawModel = "Samsung Galaxy S24 Ultra";
+            else if (p.includes('s24')) rawModel = "Samsung Galaxy S24";
+            else if (p.includes('s23ultra')) rawModel = "Samsung Galaxy S23 Ultra";
+            else if (p.includes('s23')) rawModel = "Samsung Galaxy S23";
+            else if (p.includes('onep12')) rawModel = "OnePlus 12";
+            else if (p.includes('mi14ultra')) rawModel = "Xiaomi 14 Ultra";
+            else if (p.includes('mi14pro')) rawModel = "Xiaomi 14 Pro";
+            else if (p.includes('mi14')) rawModel = "Xiaomi 14";
+            else rawModel = rawProfile.replace(/([A-Z])/g, ' $1').trim() || "Generic Android Device";
+        }
+    }
+
+    const resultDiv = document.getElementById('devprofResult');
+    const nameSpan = document.getElementById('devprofName');
+    const deviceSpan = document.getElementById('retailDeviceName');
+
+    if (nameSpan) nameSpan.textContent = rawProfile;
+    if (deviceSpan) deviceSpan.textContent = rawModel;
+    if (resultDiv) resultDiv.style.display = 'block';
+    showToastPing("Profile metrics resolved!");
+}
+
 // Global Explicit Scope Exposing to map inline HTML element triggers safely across routing path updates
 window.triggerFileInput = triggerFileInput;
 window.handleDragOver = handleDragOver;
@@ -556,3 +797,4 @@ window.copyDecrypted = copyDecrypted;
 window.downloadDecrypted = downloadDecrypted;
 window.obtainDeviceProfile = obtainDeviceProfile;
 window.copyDeviceProfile = copyDeviceProfile;
+window.showCVarValues = showCVarValues;
