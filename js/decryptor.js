@@ -1,4 +1,4 @@
-﻿/**
+/**
  * WuWa Log Decryptor - Logic & Cipher Implementation
  * Upgraded with robust validation, smooth mobile scrolling, dynamic labels, and notification pings.
  * Enhanced: Loosened Scheme A header verification to accept multiple variants (e.g., 00 54 50 / 20 54 50).
@@ -332,7 +332,7 @@ function finalizeUI(text) {
     document.getElementById('devprofBtn').disabled = false;
 
     // Enable CVar filter buttons
-    ['cvarResBtn', 'cvarForbBtn', 'cvarCommBtn'].forEach(id => {
+    ['cvarResBtn','cvarForbBtn','cvarCommBtn'].forEach(id => {
         const el = document.getElementById(id);
         if (el) el.disabled = false;
     });
@@ -467,7 +467,7 @@ function clearDecryptor() {
     document.getElementById('devprofName').textContent = '';
     document.getElementById('retailDeviceName').textContent = '';
 
-    ['cvarResBtn', 'cvarForbBtn', 'cvarCommBtn'].forEach(id => {
+    ['cvarResBtn','cvarForbBtn','cvarCommBtn'].forEach(id => {
         const el = document.getElementById(id);
         if (el) el.disabled = true;
     });
@@ -556,8 +556,8 @@ const CVAR_GROUPS = {
 
 const GROUP_LABELS = {
     resolution: '📐 Resolution CVars — Last Logged Values',
-    forbidden: '🚫 Forbidden CVars — Last Logged Values',
-    common: '⚙️  Common CVars — Last Logged Values'
+    forbidden:  '🚫 Forbidden CVars — Last Logged Values',
+    common:     '⚙️  Common CVars — Last Logged Values'
 };
 
 /**
@@ -570,16 +570,37 @@ const GROUP_LABELS = {
  * Returns the value string or null.
  */
 function findLastCVarValue(lines, cvarName) {
-    // Escape dots for regex
-    const escaped = cvarName.replace(/\./g, '\\.').replace(/\*/g, '\\*');
-    const re = new RegExp(
-        '(?:^|\\s)' + escaped + '\\s*[=\\s]\\s*"?([\\d.\\-+eE]+)"?',
-        'i'
-    );
+    // Escape dots/asterisks for regex
+    const esc = cvarName.replace(/\./g, '\\.').replace(/\*/g, '\\*');
+
+    // WuWa Client.log CVar formats observed in the wild:
+    //   [[r.ViewDistanceScale:2.0]]                    ← GameThread LogConfig / LogConsoleManager
+    //   [r.ViewDistanceScale:2.0]                      ← single bracket variant
+    //   Setting CVar [[r.ViewDistanceScale:2.0]]
+    //   r.ViewDistanceScale = 2.0                      ← plain ini-style echo
+    //   r.ViewDistanceScale=2                          ← compact
+    //   CVar r.ViewDistanceScale set to "2.0"          ← verbose UE4 log
+    //   r.ViewDistanceScale 2.0                        ← space-separated
+    const patterns = [
+        // [[CVar:value]] or [CVar:value]  (primary WuWa format)
+        new RegExp('\\[{1,2}' + esc + ':([\\d.\\-+eE]+)\\]{1,2}', 'i'),
+        // CVar = value  or  CVar=value  (ini echo / console)
+        new RegExp('(?:^|\\s)' + esc + '\\s*=\\s*"?([\\d.\\-+eE]+)"?', 'i'),
+        // set to "value"
+        new RegExp(esc + '\\s+set\\s+to\\s+"?([\\d.\\-+eE]+)"?', 'i'),
+        // CVar <space> value  (space-separated fallback)
+        new RegExp('(?:^|\\s)' + esc + '\\s+([\\d.\\-+eE]+)(?:\\s|$)', 'i'),
+    ];
+
     let last = null;
     for (let i = 0; i < lines.length; i++) {
-        const m = lines[i].match(re);
-        if (m) last = m[1];
+        const line = lines[i];
+        // Quick pre-filter: line must contain the cvar name (case-insensitive)
+        if (line.toLowerCase().indexOf(cvarName.toLowerCase()) === -1) continue;
+        for (const re of patterns) {
+            const m = line.match(re);
+            if (m) { last = m[1]; break; }
+        }
     }
     return last;
 }
@@ -592,10 +613,10 @@ function detectVulkanInfo(lines) {
     let vulkanLine = null;
     let version = null;
 
-    const rhi = /(?:using|selected|initializing|created|RHI)\s+vulkan|vulkan\s+(?:RHI|renderer|backend|device)/i;
-    const ver = /vulkan\s*(?:api\s*)?(?:version|ver|v)[\s:=]*(\d+\.\d+[\d.]*)/i;
-    const ver2 = /(?:api\s*version|VkPhysicalDeviceProperties)[\s\S]{0,60}?(\d+\.\d+\.\d+)/i;
-    const ver3 = /\bVK_API_VERSION[\s=:]*(\d+[\._]\d+[\._]\d+)/i;
+    const rhi    = /(?:using|selected|initializing|created|RHI)\s+vulkan|vulkan\s+(?:RHI|renderer|backend|device)/i;
+    const ver    = /vulkan\s*(?:api\s*)?(?:version|ver|v)[\s:=]*(\d+\.\d+[\d.]*)/i;
+    const ver2   = /(?:api\s*version|VkPhysicalDeviceProperties)[\s\S]{0,60}?(\d+\.\d+\.\d+)/i;
+    const ver3   = /\bVK_API_VERSION[\s=:]*(\d+[\._]\d+[\._]\d+)/i;
 
     for (let i = 0; i < lines.length; i++) {
         const l = lines[i];
@@ -647,7 +668,7 @@ function showCVarValues(type) {
         }
         if (version) {
             rows.push(`<span class="cvar-line-key">  Vulkan API Version          </span>` +
-                `= <span class="cvar-line-val">${version}</span>\n`);
+                      `= <span class="cvar-line-val">${version}</span>\n`);
         } else {
             rows.push(`<span class="cvar-line-miss">  Vulkan API Version          — not found in log</span>\n`);
         }
@@ -705,40 +726,40 @@ function obtainDeviceProfile() {
 
     // Priority 2: SKU/model-code to branded name lookup (partial match)
     const modelMap = {
-        "2311DRK48G": "Poco X6 Pro 5G",
-        "23113RKC6C": "Xiaomi Redmi K70E",
-        "23127PN0CC": "Xiaomi 14 Pro",
-        "23116PN5BC": "Xiaomi 14 Ultra",
-        "CPH2581": "OnePlus 12R",
-        "PJD110": "OnePlus 12",
-        "SM-S928": "Samsung Galaxy S24 Ultra",
-        "SM-S926": "Samsung Galaxy S24+",
-        "SM-S921": "Samsung Galaxy S24",
-        "SM-F946": "Samsung Galaxy Z Fold 5",
-        "SM-A546": "Samsung Galaxy A54 5G",
-        "SM-A546": "Samsung Galaxy A54 5G",
-        "22081212UG": "Xiaomi 12T Pro",
-        "2210132G": "Xiaomi 12",
-        "NE2215": "OnePlus 10 Pro",
-        "CPH2413": "OnePlus 10T",
-        "PGKM10": "OnePlus 10T",
-        "PGT110": "OnePlus 11",
-        "RMX3310": "Realme GT Neo 3",
-        "RMX3741": "Realme GT 5",
-        "RMX3831": "Realme GT5 Pro",
-        "V2309A": "vivo X100",
-        "V2324A": "vivo X100 Pro",
-        "SM-G998": "Samsung Galaxy S21 Ultra",
-        "SM-G996": "Samsung Galaxy S21+",
-        "SM-G991": "Samsung Galaxy S21",
-        "SM-S911": "Samsung Galaxy S23",
-        "SM-S916": "Samsung Galaxy S23+",
-        "SM-S918": "Samsung Galaxy S23 Ultra",
-        "XT2301": "Motorola Edge 40 Pro",
-        "XT2341": "Motorola Edge 50 Ultra",
-        "23049PCD8G": "Redmi Note 12 Turbo",
-        "2304FPN6DC": "Poco F5",
-        "23013PC75G": "Poco X5 Pro 5G"
+        "2311DRK48G":  "Poco X6 Pro 5G",
+        "23113RKC6C":  "Xiaomi Redmi K70E",
+        "23127PN0CC":  "Xiaomi 14 Pro",
+        "23116PN5BC":  "Xiaomi 14 Ultra",
+        "CPH2581":     "OnePlus 12R",
+        "PJD110":      "OnePlus 12",
+        "SM-S928":     "Samsung Galaxy S24 Ultra",
+        "SM-S926":     "Samsung Galaxy S24+",
+        "SM-S921":     "Samsung Galaxy S24",
+        "SM-F946":     "Samsung Galaxy Z Fold 5",
+        "SM-A546":     "Samsung Galaxy A54 5G",
+        "SM-A546":     "Samsung Galaxy A54 5G",
+        "22081212UG":  "Xiaomi 12T Pro",
+        "2210132G":    "Xiaomi 12",
+        "NE2215":      "OnePlus 10 Pro",
+        "CPH2413":     "OnePlus 10T",
+        "PGKM10":      "OnePlus 10T",
+        "PGT110":      "OnePlus 11",
+        "RMX3310":     "Realme GT Neo 3",
+        "RMX3741":     "Realme GT 5",
+        "RMX3831":     "Realme GT5 Pro",
+        "V2309A":      "vivo X100",
+        "V2324A":      "vivo X100 Pro",
+        "SM-G998":     "Samsung Galaxy S21 Ultra",
+        "SM-G996":     "Samsung Galaxy S21+",
+        "SM-G991":     "Samsung Galaxy S21",
+        "SM-S911":     "Samsung Galaxy S23",
+        "SM-S916":     "Samsung Galaxy S23+",
+        "SM-S918":     "Samsung Galaxy S23 Ultra",
+        "XT2301":      "Motorola Edge 40 Pro",
+        "XT2341":      "Motorola Edge 50 Ultra",
+        "23049PCD8G":  "Redmi Note 12 Turbo",
+        "2304FPN6DC":  "Poco F5",
+        "23013PC75G":  "Poco X5 Pro 5G"
     };
 
     // If rawModel already looks like a branded name (has spaces, not just alphanumeric code), keep it
@@ -758,28 +779,28 @@ function obtainDeviceProfile() {
         // Priority 3: Infer from profile name keywords
         if (!mapped) {
             const p = rawProfile.toLowerCase();
-            if (p.includes('pocox6pro')) rawModel = "Poco X6 Pro 5G";
-            else if (p.includes('pocox5pro')) rawModel = "Poco X5 Pro 5G";
-            else if (p.includes('pocof5')) rawModel = "Poco F5";
-            else if (p.includes('s24ultra')) rawModel = "Samsung Galaxy S24 Ultra";
-            else if (p.includes('s24')) rawModel = "Samsung Galaxy S24";
-            else if (p.includes('s23ultra')) rawModel = "Samsung Galaxy S23 Ultra";
-            else if (p.includes('s23')) rawModel = "Samsung Galaxy S23";
-            else if (p.includes('onep12')) rawModel = "OnePlus 12";
-            else if (p.includes('mi14ultra')) rawModel = "Xiaomi 14 Ultra";
-            else if (p.includes('mi14pro')) rawModel = "Xiaomi 14 Pro";
-            else if (p.includes('mi14')) rawModel = "Xiaomi 14";
+            if      (p.includes('pocox6pro'))         rawModel = "Poco X6 Pro 5G";
+            else if (p.includes('pocox5pro'))         rawModel = "Poco X5 Pro 5G";
+            else if (p.includes('pocof5'))            rawModel = "Poco F5";
+            else if (p.includes('s24ultra'))          rawModel = "Samsung Galaxy S24 Ultra";
+            else if (p.includes('s24'))               rawModel = "Samsung Galaxy S24";
+            else if (p.includes('s23ultra'))          rawModel = "Samsung Galaxy S23 Ultra";
+            else if (p.includes('s23'))               rawModel = "Samsung Galaxy S23";
+            else if (p.includes('onep12'))            rawModel = "OnePlus 12";
+            else if (p.includes('mi14ultra'))         rawModel = "Xiaomi 14 Ultra";
+            else if (p.includes('mi14pro'))           rawModel = "Xiaomi 14 Pro";
+            else if (p.includes('mi14'))              rawModel = "Xiaomi 14";
             else rawModel = rawProfile.replace(/([A-Z])/g, ' $1').trim() || "Generic Android Device";
         }
     }
 
-    const resultDiv = document.getElementById('devprofResult');
-    const nameSpan = document.getElementById('devprofName');
-    const deviceSpan = document.getElementById('retailDeviceName');
+    const resultDiv   = document.getElementById('devprofResult');
+    const nameSpan    = document.getElementById('devprofName');
+    const deviceSpan  = document.getElementById('retailDeviceName');
 
-    if (nameSpan) nameSpan.textContent = rawProfile;
+    if (nameSpan)   nameSpan.textContent   = rawProfile;
     if (deviceSpan) deviceSpan.textContent = rawModel;
-    if (resultDiv) resultDiv.style.display = 'block';
+    if (resultDiv)  resultDiv.style.display = 'block';
     showToastPing("Profile metrics resolved!");
 }
 
