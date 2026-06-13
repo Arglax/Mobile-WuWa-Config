@@ -1224,7 +1224,7 @@
                 const fallback = `device_name,profile_name,chipset_family,notes
 Generic Android,Android_Default,Generic,Fallback profile
 Poco X6 Pro 5G,Android_Mali_G61x,MediaTek,Dimensity 8300U · Mali G615 MC6
-Poco F6 Pro,Android_Adreno_8xx,Qualcomm,SD 8 Gen 2 · Adreno 740
+Poco F6 Pro,Android_Adreno740,Qualcomm,SD 8 Gen 2 · Adreno 740
 Samsung Galaxy S24 Ultra,Android_Adreno_8xx,Qualcomm,SD 8 Gen 3 · Adreno 750
 Xiaomi 14 Ultra,Android_Adreno_8xx,Qualcomm,SD 8 Gen 3 · Adreno 750
 OnePlus 12,Android_Adreno_8xx,Qualcomm,SD 8 Gen 3 · Adreno 750
@@ -1260,7 +1260,7 @@ Vivo X100 Pro,Android_Mali_Immortalis,MediaTek,Dimensity 9300 · Immortalis G720
                 families[d.chipset_family].push(d);
             });
 
-            const familyOrder = ["Qualcomm", "MediaTek", "Samsung Exynos", "Google Tensor", "Apple", "Generic"];
+            const familyOrder = ["Qualcomm", "MediaTek", "Samsung Exynos", "Google Tensor", "Unisoc", "Apple", "Generic"];
             const sortedFamilies = [...Object.keys(families)].sort((a, b) => {
                 const ia = familyOrder.indexOf(a), ib = familyOrder.indexOf(b);
                 if (ia === -1 && ib === -1) return a.localeCompare(b);

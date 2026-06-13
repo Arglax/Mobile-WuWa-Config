@@ -33,6 +33,12 @@ A browser-based utility hub for **Wuthering Waves** on Android — no installs, 
 - Asphyxth3
 - Phantom
 - Yuniketsu
+- Aelius_Nyx
+- Chael0ng
+- Seany
+- Jansil
+- _sushime.
+- meshi_1202
 ---
 
 > Auxiliary part of the [Mobile-WuWa-Config](https://github.com/Arglax/Mobile-WuWa-Config) project.
