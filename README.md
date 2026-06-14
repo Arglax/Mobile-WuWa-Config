@@ -17,8 +17,10 @@
 Hopefully, this guide will help you unlock your device's full visual and gameplay potential.
 
 ---
-## 📢 Announcements — June 10, 2026
+## 📢 Announcements — June 14, 2026
 ---
+All DeviceProfiles.ini GPU Lists have been updated to prevent the screen flickering bug at game load.  
+
 > [!IMPORTANT]
 > **Client.log is Now Encrypted**
 > Kuro has encrypted `Client.log` which is our most valuable reference for config development. This is a significant hurdle that may slow down or even halt future config work.
