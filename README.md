@@ -56,6 +56,9 @@ A browser-based utility hub for **Wuthering Waves** on Android — no installs, 
 - siesta_1295
 - arty_6029
 - Lord_Fuqwad
+- KRG6187
+- yuri_o2r_22566
+- yuureii
 ---
 
 > Auxiliary part of the [Mobile-WuWa-Config](https://github.com/Arglax/Mobile-WuWa-Config) project.
