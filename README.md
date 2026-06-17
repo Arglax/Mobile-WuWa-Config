@@ -17,8 +17,10 @@
 Hopefully, this guide will help you unlock your device's full visual and gameplay potential.
 
 ---
-## 📢 Announcements — June 14, 2026
+## 📢 Announcements — June 17, 2026
 ---
+Community Config folder is now back! Other config creators can submit a pull request for their configs to be included.  
+
 All DeviceProfiles.ini GPU Lists have been updated to prevent the screen flickering bug at game load.  
 
 > [!IMPORTANT]
