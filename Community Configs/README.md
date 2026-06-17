@@ -7,15 +7,6 @@ Welcome! This repository is a community-driven collection of optimized Unreal En
 
 >[!IMPORTANT] 
 >I do not personaly own or create these configurations. They are entirely submitted and updated by the community through **Pull Requests**. If a config is outdated or broken, we rely on the original creators or other community members to submit a fix!
-
----
-
-## 🚀 How to Use a Configuration
-
-1. **Find your config:** Browse the repository folders to find the configuration that matches your game or hardware needs.
-2. **Locate your game file:** Find your game's local configuration folder (usually under `%LOCALAPPDATA%\[GameName]\Saved\Config\WindowsNoEditor\`).
-3. **Apply the tweaks:** Open `Engine.ini` with a text editor, paste the community settings at the bottom, and save the file.
-
 ---
 
 ## 🤝 Contributing & Updates
