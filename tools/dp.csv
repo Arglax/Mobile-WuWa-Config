@@ -20,8 +20,9 @@ Vivo X100 Pro,Android_Mali_Immortalis,MediaTek,Dimensity 9300 · Immortalis G720
 Vivo X200 Pro,Android_Mali_G92x,MediaTek,Dimensity 9400 · Immortalis G925
 Vivo X300 Pro,Android_Mali_Gx_Ultra,MediaTek,Dimensity 9500 · Mali G1 Ultra MC12
 Xiaomi 13T Pro,Android_Mali_Immortalis,MediaTek,Dimensity 9200+ · Immortalis G715
-Xiaomi 14T,Android_Mali_G61x,MediaTek,Dimensity 8300 Ultra · Mali G615 MC6Motorola G35,Android_Adreno_6xx,Unisoc,Unisoc T760 · Mali G57 MC4 (submitted as Adreno 6xx — profile may need verification)
-Nvidia Shield Tablet,Android_TegraK1,Nvidia Tegra,Nvidia Tegra K1 · Kepler GPU (2014 tablet — legacy profile)
+Xiaomi 14T,Android_Mali_G61x,MediaTek,Dimensity 8300 Ultra · Mali G615 MC6
+Motorola G35,Android_Adreno_6xx,Unisoc,Unisoc T760 · Mali G57 MC4
+Nvidia Shield Tablet,Android_TegraK1,Nvidia Tegra,Nvidia Tegra K1 · Kepler GPU
 ASUS ROG Phone 7,Android_Adreno_8xx,Qualcomm,SD 8 Gen 2 · Adreno 740
 ASUS ROG Phone 8 Pro,Android_Adreno_8xx,Qualcomm,SD 8 Gen 3 · Adreno 750
 ASUS ROG Phone 9 Pro,Android_Adreno830,Qualcomm,SD 8 Elite · Adreno 830
