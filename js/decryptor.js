@@ -1,4 +1,4 @@
-/**
+﻿/**
  * WuWa Log Decryptor - Logic & Cipher Implementation
  * Upgraded with robust validation, smooth mobile scrolling, dynamic labels, and notification pings.
  * Enhanced: Loosened Scheme A header verification to accept multiple variants (e.g., 00 54 50 / 20 54 50).
@@ -332,7 +332,7 @@ function finalizeUI(text) {
     document.getElementById('devprofBtn').disabled = false;
 
     // Enable CVar filter buttons
-    ['cvarResBtn','cvarForbBtn','cvarCommBtn'].forEach(id => {
+    ['cvarResBtn', 'cvarForbBtn', 'cvarCommBtn'].forEach(id => {
         const el = document.getElementById(id);
         if (el) el.disabled = false;
     });
@@ -467,7 +467,7 @@ function clearDecryptor() {
     document.getElementById('devprofName').textContent = '';
     document.getElementById('retailDeviceName').textContent = '';
 
-    ['cvarResBtn','cvarForbBtn','cvarCommBtn'].forEach(id => {
+    ['cvarResBtn', 'cvarForbBtn', 'cvarCommBtn'].forEach(id => {
         const el = document.getElementById(id);
         if (el) el.disabled = true;
     });
@@ -556,8 +556,8 @@ const CVAR_GROUPS = {
 
 const GROUP_LABELS = {
     resolution: '📐 Resolution CVars — Last Logged Values',
-    forbidden:  '🚫 Forbidden CVars — Last Logged Values',
-    common:     '⚙️  Common CVars — Last Logged Values'
+    forbidden: '🚫 Forbidden CVars — Last Logged Values',
+    common: '⚙️  Common CVars — Last Logged Values'
 };
 
 /**
@@ -570,37 +570,16 @@ const GROUP_LABELS = {
  * Returns the value string or null.
  */
 function findLastCVarValue(lines, cvarName) {
-    // Escape dots/asterisks for regex
-    const esc = cvarName.replace(/\./g, '\\.').replace(/\*/g, '\\*');
-
-    // WuWa Client.log CVar formats observed in the wild:
-    //   [[r.ViewDistanceScale:2.0]]                    ← GameThread LogConfig / LogConsoleManager
-    //   [r.ViewDistanceScale:2.0]                      ← single bracket variant
-    //   Setting CVar [[r.ViewDistanceScale:2.0]]
-    //   r.ViewDistanceScale = 2.0                      ← plain ini-style echo
-    //   r.ViewDistanceScale=2                          ← compact
-    //   CVar r.ViewDistanceScale set to "2.0"          ← verbose UE4 log
-    //   r.ViewDistanceScale 2.0                        ← space-separated
-    const patterns = [
-        // [[CVar:value]] or [CVar:value]  (primary WuWa format)
-        new RegExp('\\[{1,2}' + esc + ':([\\d.\\-+eE]+)\\]{1,2}', 'i'),
-        // CVar = value  or  CVar=value  (ini echo / console)
-        new RegExp('(?:^|\\s)' + esc + '\\s*=\\s*"?([\\d.\\-+eE]+)"?', 'i'),
-        // set to "value"
-        new RegExp(esc + '\\s+set\\s+to\\s+"?([\\d.\\-+eE]+)"?', 'i'),
-        // CVar <space> value  (space-separated fallback)
-        new RegExp('(?:^|\\s)' + esc + '\\s+([\\d.\\-+eE]+)(?:\\s|$)', 'i'),
-    ];
-
+    // Escape dots for regex
+    const escaped = cvarName.replace(/\./g, '\\.').replace(/\*/g, '\\*');
+    const re = new RegExp(
+        '(?:^|\\s)' + escaped + '\\s*[=\\s]\\s*"?([\\d.\\-+eE]+)"?',
+        'i'
+    );
     let last = null;
     for (let i = 0; i < lines.length; i++) {
-        const line = lines[i];
-        // Quick pre-filter: line must contain the cvar name (case-insensitive)
-        if (line.toLowerCase().indexOf(cvarName.toLowerCase()) === -1) continue;
-        for (const re of patterns) {
-            const m = line.match(re);
-            if (m) { last = m[1]; break; }
-        }
+        const m = lines[i].match(re);
+        if (m) last = m[1];
     }
     return last;
 }
@@ -613,10 +592,10 @@ function detectVulkanInfo(lines) {
     let vulkanLine = null;
     let version = null;
 
-    const rhi    = /(?:using|selected|initializing|created|RHI)\s+vulkan|vulkan\s+(?:RHI|renderer|backend|device)/i;
-    const ver    = /vulkan\s*(?:api\s*)?(?:version|ver|v)[\s:=]*(\d+\.\d+[\d.]*)/i;
-    const ver2   = /(?:api\s*version|VkPhysicalDeviceProperties)[\s\S]{0,60}?(\d+\.\d+\.\d+)/i;
-    const ver3   = /\bVK_API_VERSION[\s=:]*(\d+[\._]\d+[\._]\d+)/i;
+    const rhi = /(?:using|selected|initializing|created|RHI)\s+vulkan|vulkan\s+(?:RHI|renderer|backend|device)/i;
+    const ver = /vulkan\s*(?:api\s*)?(?:version|ver|v)[\s:=]*(\d+\.\d+[\d.]*)/i;
+    const ver2 = /(?:api\s*version|VkPhysicalDeviceProperties)[\s\S]{0,60}?(\d+\.\d+\.\d+)/i;
+    const ver3 = /\bVK_API_VERSION[\s=:]*(\d+[\._]\d+[\._]\d+)/i;
 
     for (let i = 0; i < lines.length; i++) {
         const l = lines[i];
@@ -668,7 +647,7 @@ function showCVarValues(type) {
         }
         if (version) {
             rows.push(`<span class="cvar-line-key">  Vulkan API Version          </span>` +
-                      `= <span class="cvar-line-val">${version}</span>\n`);
+                `= <span class="cvar-line-val">${version}</span>\n`);
         } else {
             rows.push(`<span class="cvar-line-miss">  Vulkan API Version          — not found in log</span>\n`);
         }
@@ -701,163 +680,65 @@ function obtainDeviceProfile() {
     }
 
     // --- Branded device name resolution ---
-
-    // Priority 0: Android OS Build FingerPrint line — most reliable source
-    // Format: POCO/duchamp_global/duchamp:16/... or xiaomi/marble_global/marble:13/...
-    // The codename (e.g. "duchamp", "marble") uniquely identifies the retail model.
-    const CODENAME_MAP = {
-        // Poco
-        "duchamp":      "Poco X6 Pro 5G",
-        "moonstone":    "Poco X6 5G",
-        "marble":       "Poco F5 / Redmi Note 12 Turbo",
-        "garnet":       "Poco X5 Pro 5G / Redmi Note 12 Pro+ 5G",
-        "sky":          "Poco X5 5G / Redmi Note 12 5G",
-        "fog":          "Poco M5 / Redmi 10C",
-        "topaz":        "Poco M5s / Redmi Note 11S",
-        "redwood":      "Poco X4 GT / Redmi Note 11T Pro",
-        "thor":         "Poco F6 Pro / Redmi K70 Pro",
-        "vermeer":      "Poco F6 / Redmi Turbo 3",
-        "peridot":      "Poco X6 Pro / Redmi K70E",
-        "diting":       "Poco X5 Pro / Redmi Note 12 Pro Speed",
-        "mondrian":     "Poco F4 GT / Redmi K50G",
-        "sunstone":     "Poco M6 Pro 5G",
-        "cannon":       "Poco M3 Pro 5G / Redmi Note 10 5G",
-        "socrates":     "Poco F4 / Redmi K40S",
-        // Xiaomi / Redmi
-        "aurora":       "Xiaomi 15 Ultra",
-        "haydn":        "Xiaomi 14 Ultra",
-        "houji":        "Xiaomi 14 Pro",
-        "huaxing":      "Xiaomi 14",
-        "corot":        "Xiaomi 14T Pro",
-        "daumier":      "Xiaomi 14T",
-        "aristotle":    "Xiaomi 13 Ultra",
-        "fuxi":         "Xiaomi 13 Pro",
-        "zizhan":       "Xiaomi 13",
-        "cupid":        "Xiaomi 12 Pro",
-        "zeus":         "Xiaomi 12",
-        "ingres":       "Redmi K70 Pro",
-        "pearl":        "Redmi K70",
-        "gold":         "Redmi K60 Pro / POCO F5 Pro",
-        "diting":       "Redmi K60 / Poco X5 Pro",
-        "rubens":       "Redmi Note 13 Pro+",
-        "sapphire":     "Redmi Note 13 Pro",
-        "emerald":      "Redmi Note 13",
-        "sword":        "Redmi Note 12 Pro+",
-        "rhodium":      "Redmi Note 12 Pro",
-        "tapas":        "Redmi Note 12",
-        "corot":        "Redmi K60E",
-        // Samsung (uses marketing names in fingerprint, but codenames appear in some builds)
-        "dm3q":         "Samsung Galaxy S23 Ultra",
-        "dm2q":         "Samsung Galaxy S23+",
-        "dm1q":         "Samsung Galaxy S23",
-        "e3q":          "Samsung Galaxy S24 Ultra",
-        "e2q":          "Samsung Galaxy S24+",
-        "e1q":          "Samsung Galaxy S24",
-        "f3q":          "Samsung Galaxy S25 Ultra",
-        "f2q":          "Samsung Galaxy Z Fold 5",
-        "q5q":          "Samsung Galaxy Z Fold 4",
-        "b0q":          "Samsung Galaxy S22 Ultra",
-        // OnePlus
-        "dre":          "OnePlus 12",
-        "aston":        "OnePlus 12R",
-        "oos12":        "OnePlus 10 Pro",
-        "salami":       "OnePlus 11",
-        "ovaltine":     "OnePlus 10T",
-        // ASUS ROG
-        "AI2201":       "ASUS ROG Phone 6",
-        "AI2301":       "ASUS ROG Phone 7",
-        "AI2401":       "ASUS ROG Phone 8 Pro",
-        // Realme
-        "salaa":        "Realme GT5 Pro",
-        "oscar":        "Realme GT5",
-        "RE58C2":       "Realme GT Neo 5",
-        // vivo / iQOO
-        "V2324A":       "vivo X100 Pro",
-        "V2309A":       "vivo X100",
-        "PD2230":       "iQOO 12",
-    };
-
+    // Priority 1: Look for explicit branded model name in log
+    // WuWa logs often contain lines like:
+    //   DeviceName: Poco X6 Pro 5G
+    //   ProductModel: Poco X6 Pro 5G
+    //   ro.product.model: Poco X6 Pro 5G
+    //   Hardware model: Poco X6 Pro 5G
     let rawModel = "";
 
-    // Parse fingerprint: "BRAND/codename_global/codename:version/..."
-    // LogRHI: Display: Android OS Build FingerPrint: POCO/duchamp_global/duchamp:16/...
-    const fpMatch = source.match(/(?:FingerPrint|fingerprint)\s*:\s*([^\r\n]+)/i);
-    if (fpMatch) {
-        // Extract codename — second segment before underscore or colon
-        // e.g. "POCO/duchamp_global/duchamp:16/..." → "duchamp"
-        const fpParts = fpMatch[1].trim().split('/');
-        if (fpParts.length >= 2) {
-            // Try segment index 1 (codename_global) and index 2 (codename:version)
-            for (const seg of [fpParts[1], fpParts[2]]) {
-                if (!seg) continue;
-                const codename = seg.split(/[_:]/)[0].toLowerCase();
-                if (CODENAME_MAP[codename]) {
-                    rawModel = CODENAME_MAP[codename];
-                    break;
-                }
-            }
-        }
-        // If not in map, use brand + codename as fallback label
-        if (!rawModel && fpParts.length >= 2) {
-            const brand = fpParts[0].trim();
-            const codename = fpParts[1].split('_')[0];
-            if (brand && codename) rawModel = `${brand} (${codename})`;
-        }
-    }
+    const brandedPatterns = [
+        /(?:DeviceName|ProductModel|ro\.product\.model|ro\.product\.name|device\s+name|product\s+model)\s*[:=]\s*([^\r\n,;]{3,60})/i,
+        /(?:android\s+device\s+model|hardware\s+model)\s*[:=]\s*([^\r\n,;]{3,60})/i,
+        /\bModel\s*[:=]\s*([^\r\n,;]{3,60})/i,
+        /(?:hardware|device_model)\s*[:=]\s*([^\r\n,;]{3,60})/i
+    ];
 
-    // Priority 1: explicit branded model name fields in log
-    if (!rawModel) {
-        const brandedPatterns = [
-            /(?:DeviceName|ProductModel|ro\.product\.model|ro\.product\.name|device\s+name|product\s+model)\s*[:=]\s*([^\r\n,;]{3,60})/i,
-            /(?:android\s+device\s+model|hardware\s+model)\s*[:=]\s*([^\r\n,;]{3,60})/i,
-            /\bModel\s*[:=]\s*([^\r\n,;]{3,60})/i,
-            /(?:hardware|device_model)\s*[:=]\s*([^\r\n,;]{3,60})/i
-        ];
-        for (const re of brandedPatterns) {
-            const m = source.match(re);
-            if (m) {
-                rawModel = m[1].trim().replace(/[[\]"']/g, '').trim();
-                break;
-            }
+    for (const re of brandedPatterns) {
+        const m = source.match(re);
+        if (m) {
+            rawModel = m[1].trim().replace(/[[\]"']/g, '').trim();
+            break;
         }
     }
 
     // Priority 2: SKU/model-code to branded name lookup (partial match)
     const modelMap = {
-        "2311DRK48G":  "Poco X6 Pro 5G",
-        "23113RKC6C":  "Xiaomi Redmi K70E",
-        "23127PN0CC":  "Xiaomi 14 Pro",
-        "23116PN5BC":  "Xiaomi 14 Ultra",
-        "CPH2581":     "OnePlus 12R",
-        "PJD110":      "OnePlus 12",
-        "SM-S928":     "Samsung Galaxy S24 Ultra",
-        "SM-S926":     "Samsung Galaxy S24+",
-        "SM-S921":     "Samsung Galaxy S24",
-        "SM-F946":     "Samsung Galaxy Z Fold 5",
-        "SM-A546":     "Samsung Galaxy A54 5G",
-        "SM-A546":     "Samsung Galaxy A54 5G",
-        "22081212UG":  "Xiaomi 12T Pro",
-        "2210132G":    "Xiaomi 12",
-        "NE2215":      "OnePlus 10 Pro",
-        "CPH2413":     "OnePlus 10T",
-        "PGKM10":      "OnePlus 10T",
-        "PGT110":      "OnePlus 11",
-        "RMX3310":     "Realme GT Neo 3",
-        "RMX3741":     "Realme GT 5",
-        "RMX3831":     "Realme GT5 Pro",
-        "V2309A":      "vivo X100",
-        "V2324A":      "vivo X100 Pro",
-        "SM-G998":     "Samsung Galaxy S21 Ultra",
-        "SM-G996":     "Samsung Galaxy S21+",
-        "SM-G991":     "Samsung Galaxy S21",
-        "SM-S911":     "Samsung Galaxy S23",
-        "SM-S916":     "Samsung Galaxy S23+",
-        "SM-S918":     "Samsung Galaxy S23 Ultra",
-        "XT2301":      "Motorola Edge 40 Pro",
-        "XT2341":      "Motorola Edge 50 Ultra",
-        "23049PCD8G":  "Redmi Note 12 Turbo",
-        "2304FPN6DC":  "Poco F5",
-        "23013PC75G":  "Poco X5 Pro 5G"
+        "2311DRK48G": "Poco X6 Pro 5G",
+        "23113RKC6C": "Xiaomi Redmi K70E",
+        "23127PN0CC": "Xiaomi 14 Pro",
+        "23116PN5BC": "Xiaomi 14 Ultra",
+        "CPH2581": "OnePlus 12R",
+        "PJD110": "OnePlus 12",
+        "SM-S928": "Samsung Galaxy S24 Ultra",
+        "SM-S926": "Samsung Galaxy S24+",
+        "SM-S921": "Samsung Galaxy S24",
+        "SM-F946": "Samsung Galaxy Z Fold 5",
+        "SM-A546": "Samsung Galaxy A54 5G",
+        "SM-A546": "Samsung Galaxy A54 5G",
+        "22081212UG": "Xiaomi 12T Pro",
+        "2210132G": "Xiaomi 12",
+        "NE2215": "OnePlus 10 Pro",
+        "CPH2413": "OnePlus 10T",
+        "PGKM10": "OnePlus 10T",
+        "PGT110": "OnePlus 11",
+        "RMX3310": "Realme GT Neo 3",
+        "RMX3741": "Realme GT 5",
+        "RMX3831": "Realme GT5 Pro",
+        "V2309A": "vivo X100",
+        "V2324A": "vivo X100 Pro",
+        "SM-G998": "Samsung Galaxy S21 Ultra",
+        "SM-G996": "Samsung Galaxy S21+",
+        "SM-G991": "Samsung Galaxy S21",
+        "SM-S911": "Samsung Galaxy S23",
+        "SM-S916": "Samsung Galaxy S23+",
+        "SM-S918": "Samsung Galaxy S23 Ultra",
+        "XT2301": "Motorola Edge 40 Pro",
+        "XT2341": "Motorola Edge 50 Ultra",
+        "23049PCD8G": "Redmi Note 12 Turbo",
+        "2304FPN6DC": "Poco F5",
+        "23013PC75G": "Poco X5 Pro 5G"
     };
 
     // If rawModel already looks like a branded name (has spaces, not just alphanumeric code), keep it
@@ -877,28 +758,28 @@ function obtainDeviceProfile() {
         // Priority 3: Infer from profile name keywords
         if (!mapped) {
             const p = rawProfile.toLowerCase();
-            if      (p.includes('pocox6pro'))         rawModel = "Poco X6 Pro 5G";
-            else if (p.includes('pocox5pro'))         rawModel = "Poco X5 Pro 5G";
-            else if (p.includes('pocof5'))            rawModel = "Poco F5";
-            else if (p.includes('s24ultra'))          rawModel = "Samsung Galaxy S24 Ultra";
-            else if (p.includes('s24'))               rawModel = "Samsung Galaxy S24";
-            else if (p.includes('s23ultra'))          rawModel = "Samsung Galaxy S23 Ultra";
-            else if (p.includes('s23'))               rawModel = "Samsung Galaxy S23";
-            else if (p.includes('onep12'))            rawModel = "OnePlus 12";
-            else if (p.includes('mi14ultra'))         rawModel = "Xiaomi 14 Ultra";
-            else if (p.includes('mi14pro'))           rawModel = "Xiaomi 14 Pro";
-            else if (p.includes('mi14'))              rawModel = "Xiaomi 14";
+            if (p.includes('pocox6pro')) rawModel = "Poco X6 Pro 5G";
+            else if (p.includes('pocox5pro')) rawModel = "Poco X5 Pro 5G";
+            else if (p.includes('pocof5')) rawModel = "Poco F5";
+            else if (p.includes('s24ultra')) rawModel = "Samsung Galaxy S24 Ultra";
+            else if (p.includes('s24')) rawModel = "Samsung Galaxy S24";
+            else if (p.includes('s23ultra')) rawModel = "Samsung Galaxy S23 Ultra";
+            else if (p.includes('s23')) rawModel = "Samsung Galaxy S23";
+            else if (p.includes('onep12')) rawModel = "OnePlus 12";
+            else if (p.includes('mi14ultra')) rawModel = "Xiaomi 14 Ultra";
+            else if (p.includes('mi14pro')) rawModel = "Xiaomi 14 Pro";
+            else if (p.includes('mi14')) rawModel = "Xiaomi 14";
             else rawModel = rawProfile.replace(/([A-Z])/g, ' $1').trim() || "Generic Android Device";
         }
     }
 
-    const resultDiv   = document.getElementById('devprofResult');
-    const nameSpan    = document.getElementById('devprofName');
-    const deviceSpan  = document.getElementById('retailDeviceName');
+    const resultDiv = document.getElementById('devprofResult');
+    const nameSpan = document.getElementById('devprofName');
+    const deviceSpan = document.getElementById('retailDeviceName');
 
-    if (nameSpan)   nameSpan.textContent   = rawProfile;
+    if (nameSpan) nameSpan.textContent = rawProfile;
     if (deviceSpan) deviceSpan.textContent = rawModel;
-    if (resultDiv)  resultDiv.style.display = 'block';
+    if (resultDiv) resultDiv.style.display = 'block';
     showToastPing("Profile metrics resolved!");
 }
 

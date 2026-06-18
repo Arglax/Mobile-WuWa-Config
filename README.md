@@ -1,4 +1,4 @@
-# 🌐 WuWa Portal — v2.2.0
+# 🌐 WuWa Portal — v2.2.1
 
 A browser-based utility hub for **Wuthering Waves** on Android — no installs, no Python, just open and use.
 
@@ -10,6 +10,10 @@ A browser-based utility hub for **Wuthering Waves** on Android — no installs, 
 ---
 
 ## 📋 Changelog
+
+### v2.2.1
+- **Engine.ini Generator** — Launched WIP site. Open for ideas, just tag me on discord.  
+- Updated csv files for mobile selector configs and deviceprofiles.ini builder  
 
 ### v2.2.0
 - **Log Decryptor** — Added CVar Quick-View: one-tap buttons to surface the last logged values of Resolution, Forbidden, and Common CVars directly from the decrypted log.
