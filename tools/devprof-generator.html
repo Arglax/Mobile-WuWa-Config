@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
@@ -189,6 +189,8 @@
         .toggle-label {
             cursor: pointer;
             width: 100%;
+            min-width: 0;
+            overflow: hidden;
         }
 
         .toggle-name {
@@ -203,6 +205,9 @@
             color: var(--text-secondary);
             display: block;
             line-height: 1.5;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            word-break: break-word;
         }
 
         .cvar-key {
@@ -211,6 +216,9 @@
             color: var(--jade-dim);
             margin-top: 5px;
             display: block;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            word-break: break-all;
         }
 
         .toggle-note {
@@ -678,10 +686,12 @@
             #scoreControls > div:first-child {
                 flex-direction: column;
                 align-items: stretch;
+                gap: 8px;
             }
 
             #scoreInput {
                 width: 100% !important;
+                max-width: none;
             }
 
             /* Accordion trigger: allow badge to wrap below if needed */
@@ -748,6 +758,57 @@
 
             .toggle-name {
                 font-size: 13px;
+                font-weight: 600;
+            }
+
+            .toggle-desc {
+                font-size: 11px;
+            }
+
+            .cvar-key {
+                font-size: 9px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .generator-layout {
+                padding: 8px 8px 100px;
+            }
+
+            .gen-controls {
+                padding: 10px !important;
+            }
+
+            .accordion-content {
+                padding: 10px 12px;
+            }
+
+            .toggle-item {
+                gap: 8px !important;
+                padding: 10px !important;
+            }
+
+            .toggle-desc {
+                font-size: 11px;
+            }
+
+            /* Accordion trigger more compact */
+            .accordion-trigger {
+                padding: 12px 12px;
+                font-size: 12px;
+            }
+
+            /* Smaller form elements */
+            .form-select {
+                font-size: 12px !important;
+                padding: 8px 32px 8px 12px !important;
+            }
+
+            .mobile-action-bar .btn {
+                font-size: 11px;
+                padding: 10px 6px;
+            }
+        }
             }
 
             .toggle-desc,
