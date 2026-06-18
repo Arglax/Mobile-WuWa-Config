@@ -10,12 +10,14 @@
         html {
             margin: 0;
             padding: 0;
+            overflow-x: hidden;
         }
 
         body, .page-wrapper {
             background-color: transparent !important;
             margin: 0;
             padding: 0;
+            overflow-x: hidden;
         }
 
         .video-bg {
@@ -112,7 +114,7 @@
             margin: 0 auto;
             padding: 32px clamp(16px, 4vw, 48px);
             width: 100%;
-            justify-items: center;
+            box-sizing: border-box;
         }
 
         /* ── Dropdown ── */
@@ -521,18 +523,34 @@
 
         /* Mobile: single column, sidebar hidden, sticky action bar */
         @media (max-width: 900px) {
+            .main-content {
+                max-width: 100% !important;
+                padding: 16px 14px !important;
+            }
+
             .generator-layout {
                 grid-template-columns: 1fr;
                 padding: 16px 14px 70px; /* reduced from 100px since action bar is fixed */
                 gap: 16px;
                 max-width: 100%;
-                margin: 0 auto;
+                margin: 0;
                 width: 100%;
-                justify-self: center;
+                box-sizing: border-box;
             }
 
             .gen-controls {
+                width: 100% !important;
+                box-sizing: border-box;
+            }
+
+            .accordion-content {
                 width: 100%;
+                box-sizing: border-box;
+            }
+
+            .toggle-item {
+                width: 100%;
+                box-sizing: border-box;
             }
 
             /* Hide the sidebar output card on mobile — use preview modal instead */
