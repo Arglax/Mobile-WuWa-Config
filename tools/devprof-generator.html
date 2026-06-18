@@ -2,21 +2,25 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>DeviceProfiles.ini Generator — WuWa Portal</title>
     <link rel="stylesheet" href="../css/style.css" />
     <style>
         /* ── Core Background & Panel Fixes ── */
+        html {
+            margin: 0;
+            padding: 0;
+        }
+
         body, .page-wrapper {
             background-color: transparent !important;
+            margin: 0;
+            padding: 0;
         }
 
         .video-bg {
             position: fixed !important;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
+            inset: 0 !important;
             z-index: -1 !important;
             overflow: hidden;
             pointer-events: none;
@@ -875,6 +879,14 @@
 
             .preview-close {
                 display: flex !important;
+                position: absolute;
+                top: 16px;
+                right: 16px;
+                z-index: 10001;
+            }
+
+            .preview-header {
+                padding-right: 60px;
             }
         }
     </style>
