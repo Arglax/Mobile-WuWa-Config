@@ -28,11 +28,6 @@
                 object-fit: cover;
             }
 
-        /* Hide hamburger menu on devprof generator */
-        .mobile-menu-btn {
-            display: none !important;
-        }
-
         .gen-controls {
             background: rgba(4, 14, 9, 0.45) !important;
             backdrop-filter: blur(12px) !important;
@@ -111,6 +106,7 @@
             max-width: var(--content-max);
             margin: 0 auto;
             padding: 32px clamp(16px, 4vw, 48px);
+            width: 100%;
         }
 
         /* ── Dropdown ── */
@@ -523,6 +519,8 @@
                 grid-template-columns: 1fr;
                 padding: 16px 14px 70px; /* reduced from 100px since action bar is fixed */
                 gap: 16px;
+                max-width: 100%;
+                margin: 0;
             }
 
             /* Hide the sidebar output card on mobile — use preview modal instead */
@@ -868,6 +866,15 @@
             .preview-modal-copy,
             .preview-modal-download {
                 display: inline-flex;
+            }
+
+            .preview-window {
+                width: 95vw !important;
+                height: 90vh !important;
+            }
+
+            .preview-close {
+                display: flex !important;
             }
         }
     </style>
