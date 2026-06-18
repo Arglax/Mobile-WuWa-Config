@@ -39,6 +39,7 @@
             border: 1px solid rgba(29, 158, 117, 0.15) !important;
             border-radius: var(--r-lg);
             padding: 24px !important;
+            width: 100%;
         }
 
         .accordion-item {
@@ -111,6 +112,7 @@
             margin: 0 auto;
             padding: 32px clamp(16px, 4vw, 48px);
             width: 100%;
+            justify-items: center;
         }
 
         /* ── Dropdown ── */
@@ -524,7 +526,13 @@
                 padding: 16px 14px 70px; /* reduced from 100px since action bar is fixed */
                 gap: 16px;
                 max-width: 100%;
-                margin: 0;
+                margin: 0 auto;
+                width: 100%;
+                justify-self: center;
+            }
+
+            .gen-controls {
+                width: 100%;
             }
 
             /* Hide the sidebar output card on mobile — use preview modal instead */
@@ -843,6 +851,7 @@
             padding: 12px 14px 16px;
             gap: 8px;
             align-items: center;
+            justify-content: center;
         }
 
             .mobile-action-bar .btn {
