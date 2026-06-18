@@ -28,6 +28,11 @@
                 object-fit: cover;
             }
 
+        /* Hide hamburger menu on devprof generator */
+        .mobile-menu-btn {
+            display: none !important;
+        }
+
         .gen-controls {
             background: rgba(4, 14, 9, 0.45) !important;
             backdrop-filter: blur(12px) !important;
@@ -516,7 +521,7 @@
         @media (max-width: 900px) {
             .generator-layout {
                 grid-template-columns: 1fr;
-                padding: 16px 14px 100px; /* bottom padding for sticky bar */
+                padding: 16px 14px 70px; /* reduced from 100px since action bar is fixed */
                 gap: 16px;
             }
 
@@ -670,7 +675,7 @@
             }
 
             .generator-layout {
-                padding: 12px 12px 100px;
+                padding: 12px 12px 70px;
             }
 
             /* Tighter control panel padding on small phones */
@@ -727,7 +732,7 @@
 
             /* Toast clears above the action bar */
             .toast-container {
-                bottom: 110px;
+                bottom: 80px;
             }
         }
 
@@ -772,7 +777,7 @@
 
         @media (max-width: 360px) {
             .generator-layout {
-                padding: 8px 8px 100px;
+                padding: 8px 8px 70px;
             }
 
             .gen-controls {
