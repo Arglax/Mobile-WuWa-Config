@@ -699,15 +699,23 @@
 
             <div class="output-panel">
 
-                <button class="btn btn-ghost" style="width:100%;" id="devprofBtn" onclick="obtainDeviceProfile()" disabled>
-                    📱 Obtain DeviceProfile Name
-                </button>
+                <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                    <button class="btn btn-ghost" style="flex:1;" id="devprofBtn" onclick="obtainDeviceProfile()" disabled>
+                        📱 DeviceProfile Name
+                    </button>
+                    <button class="btn btn-ghost" style="flex:1;" id="deviceBtn" onclick="extractDeviceInfo()" disabled>
+                        ⚙️ Device
+                    </button>
+                </div>
 
                 <div id="devprofResult" style="display:none; padding:14px 16px;
                      background:rgba(186,117,23,0.08); border:1px solid rgba(186,117,23,0.3);
                      border-radius:var(--r-lg);">
-                    <div style="font-size:11px; color:var(--text-muted); margin-bottom:6px; letter-spacing:0.05em; text-transform:uppercase;">
-                        Detected Device Profile Data
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                        <div style="font-size:11px; color:var(--text-muted); letter-spacing:0.05em; text-transform:uppercase;">
+                            Detected Device Profile Data
+                        </div>
+                        <button class="btn btn-ghost btn-xs" onclick="closeDeviceProfilePanel()" style="padding:4px 8px; font-size:12px;">✕</button>
                     </div>
                     <div style="display:flex; flex-direction:column; gap:6px;">
                         <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
@@ -720,6 +728,20 @@
                         </div>
                         <button class="btn btn-ghost btn-sm" onclick="copyDeviceProfile()" style="align-self:flex-start; margin-top:4px;">⧉ Copy Profile</button>
                     </div>
+                </div>
+
+                <div id="deviceResult" style="display:none; padding:14px 16px;
+                     background:rgba(29,158,117,0.08); border:1px solid rgba(29,158,117,0.3);
+                     border-radius:var(--r-lg);">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                        <div style="font-size:11px; color:var(--text-muted); letter-spacing:0.05em; text-transform:uppercase;">
+                            Device Initialization Parameters
+                        </div>
+                        <button class="btn btn-ghost btn-xs" onclick="closeDevicePanel()" style="padding:4px 8px; font-size:12px;">✕</button>
+                    </div>
+                    <div id="deviceInfoContent" style="display:flex; flex-direction:column; gap:4px; font-family:var(--font-mono); font-size:11px; color:var(--text-secondary); line-height:1.6;">
+                    </div>
+                    <button class="btn btn-ghost btn-sm" onclick="copyDeviceInfo()" style="align-self:flex-start; margin-top:10px;">⧉ Copy All</button>
                 </div>
 
                 <div class="output-stats">
@@ -758,7 +780,13 @@
                         Common
                     </button>
                 </div>
-                <div id="cvarOutput" role="region" aria-label="CVar values"></div>
+                <div id="cvarOutputWrapper" style="display:none; margin-top:6px; padding:12px 14px; background:rgba(4,14,10,0.85); border:1px solid var(--border-mid); border-radius:var(--r-md);">
+                    <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px;">
+                        <div style="flex:1;"></div>
+                        <button class="btn btn-ghost btn-xs" onclick="closeCVarPanel()" style="padding:4px 8px; font-size:12px;">✕</button>
+                    </div>
+                    <div id="cvarOutput" role="region" aria-label="CVar values"></div>
+                </div>
 
                 <div class="search-row">
                     <input type="text" class="search-input" id="searchInput"

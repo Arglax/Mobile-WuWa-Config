@@ -330,6 +330,7 @@ function finalizeUI(text) {
     document.getElementById('copyDecBtn').disabled = false;
     document.getElementById('dlDecBtn').disabled = false;
     document.getElementById('devprofBtn').disabled = false;
+    document.getElementById('deviceBtn').disabled = false;
 
     // Enable CVar filter buttons
     ['cvarResBtn', 'cvarForbBtn', 'cvarCommBtn'].forEach(id => {
@@ -565,6 +566,7 @@ const GROUP_LABELS = {
  * Matches patterns like:
  *   r.ScreenPercentage = 100
  *   r.ScreenPercentage=100
+ *   [r.ScreenPercentage:1.0]
  *   [LogConsoleResponse] r.ScreenPercentage = 100 LastSetBy=...
  *   CVar r.ScreenPercentage set to "100"
  * Returns the value string or null.
@@ -572,14 +574,32 @@ const GROUP_LABELS = {
 function findLastCVarValue(lines, cvarName) {
     // Escape dots for regex
     const escaped = cvarName.replace(/\./g, '\\.').replace(/\*/g, '\\*');
-    const re = new RegExp(
+
+    // Pattern 1: [CVar:value] format
+    const bracketPattern = new RegExp(
+        '\\[' + escaped + ':\\s*([^\\]]+)\\]',
+        'i'
+    );
+
+    // Pattern 2: Standard CVar = value format
+    const standardPattern = new RegExp(
         '(?:^|\\s)' + escaped + '\\s*[=\\s]\\s*"?([\\d.\\-+eE]+)"?',
         'i'
     );
+
     let last = null;
     for (let i = 0; i < lines.length; i++) {
-        const m = lines[i].match(re);
-        if (m) last = m[1];
+        // Try bracket format first
+        let m = lines[i].match(bracketPattern);
+        if (m) {
+            last = m[1].trim();
+            continue;
+        }
+        // Try standard format
+        m = lines[i].match(standardPattern);
+        if (m) {
+            last = m[1];
+        }
     }
     return last;
 }
@@ -608,9 +628,11 @@ function detectVulkanInfo(lines) {
 
 function showCVarValues(type) {
     const out = document.getElementById('cvarOutput');
+    const wrapper = document.getElementById('cvarOutputWrapper');
     if (!out) return;
     if (!fullDecryptedText) {
         out.classList.remove('visible');
+        if (wrapper) wrapper.style.display = 'none';
         return;
     }
 
@@ -655,6 +677,24 @@ function showCVarValues(type) {
 
     out.innerHTML = rows.join('');
     out.classList.add('visible');
+    if (wrapper) wrapper.style.display = 'block';
+}
+
+// --- Close Panel Functions ---
+
+function closeDevicePanel() {
+    const resultDiv = document.getElementById('deviceResult');
+    if (resultDiv) resultDiv.style.display = 'none';
+}
+
+function closeDeviceProfilePanel() {
+    const resultDiv = document.getElementById('devprofResult');
+    if (resultDiv) resultDiv.style.display = 'none';
+}
+
+function closeCVarPanel() {
+    const out = document.getElementById('cvarOutput');
+    if (out) out.classList.remove('visible');
 }
 
 // --- Improved Device Profile Detection ---
@@ -783,7 +823,99 @@ function obtainDeviceProfile() {
     showToastPing("Profile metrics resolved!");
 }
 
-// Global Explicit Scope Exposing to map inline HTML element triggers safely across routing path updates
+// --- Device Initialization Info Extraction ---
+
+function extractDeviceInfo() {
+    const output = document.getElementById('decryptedOutput');
+    const source = fullDecryptedText || (output ? output.value : "");
+
+    if (!source) {
+        showToastPing("No log content to scan.", "error");
+        return;
+    }
+
+    // Search for the device initialization marker
+    if (!source.includes('初始化当前设备基本信息')) {
+        showToastPing("Device initialization info not found in log.", "error");
+        return;
+    }
+
+    // Specific fields to extract and display (in exact order)
+    const fieldsToExtract = [
+        'VendorName',
+        'CPUBrand',
+        'DeviceName',
+        'BaseProfileName',
+        'DriverVersion',
+        'PhysicalGBRam',
+        'VideoGbRam',
+        'DeviceScore',
+        'RHIName',
+        'HardwareLevel',
+        'DeviceType',
+        'QualityRange',
+        'MobileDeviceModel',
+        'LowMemoryDeviceMark'
+    ];
+
+    const outputLines = [];
+    let foundAny = false;
+
+    // For each field, search for [FieldName: value]
+    for (const fieldName of fieldsToExtract) {
+        // Search for opening bracket + field name + colon
+        const searchStr = `[${fieldName}:`;
+        const startIdx = source.indexOf(searchStr);
+
+        if (startIdx !== -1) {
+            // Find the closing bracket after the opening bracket
+            let closingIdx = source.indexOf(']', startIdx);
+
+            if (closingIdx !== -1) {
+                // Extract everything between the colon and closing bracket
+                const afterColon = startIdx + searchStr.length;
+                const value = source.substring(afterColon, closingIdx).trim();
+                outputLines.push(`[${fieldName}: ${value}]`);
+                foundAny = true;
+            }
+        }
+    }
+
+    if (!foundAny) {
+        showToastPing("No device fields found in log.", "error");
+        return;
+    }
+
+    // Display the results
+    const resultDiv = document.getElementById('deviceResult');
+    const contentDiv = document.getElementById('deviceInfoContent');
+
+    if (contentDiv) {
+        contentDiv.innerHTML = outputLines.map(line =>
+            `<div>${line}</div>`
+        ).join('');
+    }
+
+    if (resultDiv) resultDiv.style.display = 'block';
+    showToastPing("Device info extracted!");
+}
+
+function copyDeviceInfo() {
+    const contentDiv = document.getElementById('deviceInfoContent');
+    if (!contentDiv) return;
+
+    // Extract text from all divs
+    const text = Array.from(contentDiv.querySelectorAll('div'))
+        .map(div => div.textContent)
+        .join('\n');
+
+    if (text) {
+        navigator.clipboard.writeText(text).then(() => {
+            showToastPing("Device info copied to clipboard!");
+        });
+    }
+}
+
 window.triggerFileInput = triggerFileInput;
 window.handleDragOver = handleDragOver;
 window.handleDragLeave = handleDragLeave;
@@ -797,4 +929,9 @@ window.copyDecrypted = copyDecrypted;
 window.downloadDecrypted = downloadDecrypted;
 window.obtainDeviceProfile = obtainDeviceProfile;
 window.copyDeviceProfile = copyDeviceProfile;
+window.extractDeviceInfo = extractDeviceInfo;
+window.copyDeviceInfo = copyDeviceInfo;
 window.showCVarValues = showCVarValues;
+window.closeDevicePanel = closeDevicePanel;
+window.closeDeviceProfilePanel = closeDeviceProfilePanel;
+window.closeCVarPanel = closeCVarPanel;
