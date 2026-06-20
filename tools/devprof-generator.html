@@ -1,28 +1,22 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>DeviceProfiles.ini Generator — WuWa Portal</title>
     <link rel="stylesheet" href="../css/style.css" />
     <style>
         /* ── Core Background & Panel Fixes ── */
-        html {
-            margin: 0;
-            padding: 0;
-            overflow-x: hidden;
-        }
-
         body, .page-wrapper {
             background-color: transparent !important;
-            margin: 0;
-            padding: 0;
-            overflow-x: hidden;
         }
 
         .video-bg {
             position: fixed !important;
-            inset: 0 !important;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
             z-index: -1 !important;
             overflow: hidden;
             pointer-events: none;
@@ -41,7 +35,6 @@
             border: 1px solid rgba(29, 158, 117, 0.15) !important;
             border-radius: var(--r-lg);
             padding: 24px !important;
-            width: 100%;
         }
 
         .accordion-item {
@@ -113,8 +106,6 @@
             max-width: var(--content-max);
             margin: 0 auto;
             padding: 32px clamp(16px, 4vw, 48px);
-            width: 100%;
-            box-sizing: border-box;
         }
 
         /* ── Dropdown ── */
@@ -198,8 +189,6 @@
         .toggle-label {
             cursor: pointer;
             width: 100%;
-            min-width: 0;
-            overflow: hidden;
         }
 
         .toggle-name {
@@ -214,9 +203,6 @@
             color: var(--text-secondary);
             display: block;
             line-height: 1.5;
-            word-wrap: break-word;
-            overflow-wrap: break-word;
-            word-break: break-word;
         }
 
         .cvar-key {
@@ -225,9 +211,6 @@
             color: var(--jade-dim);
             margin-top: 5px;
             display: block;
-            word-wrap: break-word;
-            overflow-wrap: break-word;
-            word-break: break-all;
         }
 
         .toggle-note {
@@ -523,38 +506,10 @@
 
         /* Mobile: single column, sidebar hidden, sticky action bar */
         @media (max-width: 900px) {
-            .mobile-menu-btn {
-                display: flex !important;
-            }
-
-            .main-content {
-                max-width: 100% !important;
-                padding: 16px 14px !important;
-            }
-
             .generator-layout {
                 grid-template-columns: 1fr;
-                padding: 16px 14px 70px; /* reduced from 100px since action bar is fixed */
+                padding: 16px 14px 100px; /* bottom padding for sticky bar */
                 gap: 16px;
-                max-width: 100%;
-                margin: 0;
-                width: 100%;
-                box-sizing: border-box;
-            }
-
-            .gen-controls {
-                width: 100% !important;
-                box-sizing: border-box;
-            }
-
-            .accordion-content {
-                width: 100%;
-                box-sizing: border-box;
-            }
-
-            .toggle-item {
-                width: 100%;
-                box-sizing: border-box;
             }
 
             /* Hide the sidebar output card on mobile — use preview modal instead */
@@ -707,7 +662,7 @@
             }
 
             .generator-layout {
-                padding: 12px 12px 70px;
+                padding: 12px 12px 100px;
             }
 
             /* Tighter control panel padding on small phones */
@@ -723,12 +678,10 @@
             #scoreControls > div:first-child {
                 flex-direction: column;
                 align-items: stretch;
-                gap: 8px;
             }
 
             #scoreInput {
                 width: 100% !important;
-                max-width: none;
             }
 
             /* Accordion trigger: allow badge to wrap below if needed */
@@ -764,7 +717,7 @@
 
             /* Toast clears above the action bar */
             .toast-container {
-                bottom: 80px;
+                bottom: 110px;
             }
         }
 
@@ -795,57 +748,6 @@
 
             .toggle-name {
                 font-size: 13px;
-                font-weight: 600;
-            }
-
-            .toggle-desc {
-                font-size: 11px;
-            }
-
-            .cvar-key {
-                font-size: 9px;
-            }
-        }
-
-        @media (max-width: 360px) {
-            .generator-layout {
-                padding: 8px 8px 70px;
-            }
-
-            .gen-controls {
-                padding: 10px !important;
-            }
-
-            .accordion-content {
-                padding: 10px 12px;
-            }
-
-            .toggle-item {
-                gap: 8px !important;
-                padding: 10px !important;
-            }
-
-            .toggle-desc {
-                font-size: 11px;
-            }
-
-            /* Accordion trigger more compact */
-            .accordion-trigger {
-                padding: 12px 12px;
-                font-size: 12px;
-            }
-
-            /* Smaller form elements */
-            .form-select {
-                font-size: 12px !important;
-                padding: 8px 32px 8px 12px !important;
-            }
-
-            .mobile-action-bar .btn {
-                font-size: 11px;
-                padding: 10px 6px;
-            }
-        }
             }
 
             .toggle-desc,
@@ -873,7 +775,6 @@
             padding: 12px 14px 16px;
             gap: 8px;
             align-items: center;
-            justify-content: center;
         }
 
             .mobile-action-bar .btn {
@@ -901,23 +802,6 @@
             .preview-modal-copy,
             .preview-modal-download {
                 display: inline-flex;
-            }
-
-            .preview-window {
-                width: 95vw !important;
-                height: 90vh !important;
-            }
-
-            .preview-close {
-                display: flex !important;
-                position: absolute;
-                top: 16px;
-                right: 16px;
-                z-index: 10001;
-            }
-
-            .preview-header {
-                padding-right: 60px;
             }
         }
     </style>
@@ -962,9 +846,11 @@
                     <code style="font-family:var(--font-mono);font-size:12px;color:var(--jade-bright);">DeviceProfiles.ini</code>
                     targeted to your hardware profile.
                 </p>
-                <div class="status-badge status-wip" style="margin-top:14px;">
-                    <span class="dot"></span>
-                    Work In Progress (WIP)
+                <div style="margin-top:14px; display:inline-flex; align-items:center; gap:6px; padding:6px 12px; background:rgba(99,149,118,0.12); border:1px solid rgba(99,149,118,0.3); border-radius:var(--r-md); font-size:11px; color:var(--text-secondary);">
+                    Page not updating? Click this button: 
+                    <button class="btn btn-ghost btn-xs" onclick="clearCacheAndRefresh()" style="padding:4px 8px; font-size:11px; white-space:nowrap;">
+                        Clear Cache + Refresh
+                    </button>
                 </div>
 
                 <p style="
@@ -1742,6 +1628,22 @@ Vivo X100 Pro,Android_Mali_Immortalis,MediaTek,Dimensity 9300 · Immortalis G720
                 modal.classList.remove("show");
             }
         }
+
+        // ── Cache Clear Function ───────────────────────────────────
+        function clearCacheAndRefresh() {
+            // Clear service worker caches
+            if ('caches' in window) {
+                caches.keys().then(names => {
+                    names.forEach(name => caches.delete(name));
+                });
+            }
+            // Clear local/session storage
+            localStorage.clear();
+            sessionStorage.clear();
+            // Force hard refresh (bypass browser cache)
+            location.reload(true);
+        }
+        window.clearCacheAndRefresh = clearCacheAndRefresh;
 
         // ── Init ──────────────────────────────────────────────────
         document.addEventListener("DOMContentLoaded", () => {
