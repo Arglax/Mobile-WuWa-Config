@@ -1,14 +1,16 @@
 ﻿/**
- * WuWa Log Decryptor - Logic & Cipher Implementation
- * Upgraded with robust validation, smooth mobile scrolling, dynamic labels, and notification pings.
- * Enhanced: Loosened Scheme A header verification to accept multiple variants (e.g., 00 54 50 / 20 54 50).
+ * WuWa Log Decryptor - Enhanced Logic & Cipher Implementation
+ * Improvements:
+ * - Robust plaintext detection via keyword scanning
+ * - Scheme A/B with fallback plaintext detection
+ * - CVar "CVars Only" filter (GameThread + LogConsoleManager lines)
+ * - Finds LAST logged CVar values instead of first
+ * - Better error handling and diagnostics
  */
 
 // --- Constants & LUTs ---
-// Scheme A's real signature is the 'TP' byte pairing at index 1 and 2
 const FINGERPRINT_A_1 = 0x54; // T
 const FINGERPRINT_A_2 = 0x50; // P
-
 const HEADER_B = [0x00, 0x4C, 0x4F]; // LO
 const BOM = [0xEF, 0xBB, 0xBF];
 
@@ -16,6 +18,21 @@ const BOM = [0xEF, 0xBB, 0xBF];
 const LUT_A = Uint8Array.from({ length: 256 }, (_, i) => (i & 1) ? (i ^ 0xA5) : (i ^ 0xEF));
 // Scheme B uses a standard 0x55 XOR
 const LUT_B = Uint8Array.from({ length: 256 }, (_, i) => i ^ 0x55);
+
+// Keywords to detect plaintext logs (common WuWa log markers)
+const PLAINTEXT_KEYWORDS = [
+    'Log file opened',
+    'Device profile',
+    'initialized device',
+    'LogConsoleManager',
+    '[GameThread]',
+    'Vulkan',
+    'RHI',
+    'shader',
+    'Wuthering Waves',
+    'WuWa',
+    'Kuro Games'
+];
 
 // Crash Signatures to scan for
 const CRASH_SIGNATURES = [
@@ -79,9 +96,7 @@ function processFileSelection(file) {
     if (dropZone) dropZone.classList.add('has-file');
     document.getElementById('decryptBtn').disabled = false;
 
-    // Reset download button label back to its initial state when a new file is uploaded
     document.getElementById('dlDecBtn').textContent = "↓ Save Log File";
-
     resetDetectionUI();
 }
 
@@ -104,11 +119,7 @@ function showToastPing(message, type = 'success') {
     toast.innerHTML = type === 'success' ? `✨ ${message}` : `⚠️ ${message}`;
 
     container.appendChild(toast);
-
-    // Trigger frame animation entry
     setTimeout(() => toast.classList.add('show'), 50);
-
-    // Fade out and remove after exactly 2 seconds
     setTimeout(() => {
         toast.classList.remove('show');
         setTimeout(() => toast.remove(), 300);
@@ -121,7 +132,6 @@ function handleDecryptionFailure(reason, details = "") {
     const output = document.getElementById('decryptedOutput');
     const timestamp = new Date().toISOString().replace('T', ' ').substring(0, 19);
 
-    // Construct readable error report
     const errorReport =
         `======================================================================
 [ERROR] DECRYPTION PIPELINE FAILED
@@ -143,27 +153,27 @@ SUGGESTED ACTIONS:
 
     if (output) output.value = errorReport;
     cachedLogLines = errorReport.split('\n');
-
-    // Trigger failure notification ping
     showToastPing("Decryption Failed!", "error");
 
-    // Clear display stats
     document.getElementById('statLines').textContent = "ERR";
     document.getElementById('statErrors').textContent = "1";
     document.getElementById('statWarnings').textContent = "0";
 
-    // Disable searching/filtering since output is just an error report
     document.getElementById('searchInput').disabled = true;
     document.getElementById('filterErrors').disabled = true;
+    document.getElementById('filterErrors').classList.remove('active');
+    document.getElementById('filterErrors').style.background = "";
+    const filterCVarsBtnFail = document.getElementById('filterCVars');
+    if (filterCVarsBtnFail) {
+        filterCVarsBtnFail.disabled = true;
+        filterCVarsBtnFail.classList.remove('active');
+        filterCVarsBtnFail.style.background = "";
+    }
 
-    // Enable copy/save buttons so users can share the diagnostic report if needed
     document.getElementById('copyDecBtn').disabled = false;
     document.getElementById('dlDecBtn').disabled = false;
-
-    // Quality of Life: Adjust button title to indicate error saving routine
     document.getElementById('dlDecBtn').textContent = "↓ Save Error Log";
 
-    // Reset crash signature cards to default clean/pending state
     const cards = document.querySelectorAll('.sig-card');
     cards.forEach(card => {
         card.className = 'sig-card';
@@ -173,21 +183,101 @@ SUGGESTED ACTIONS:
             badge.textContent = '—';
         }
     });
+    const puertsSubtext = document.getElementById('puertsSubtext');
+    if (puertsSubtext) puertsSubtext.style.display = 'none';
 
-    // Reset detection UI state cleanly
     resetDetectionUI();
     const detector = document.getElementById('schemeDetector');
     if (detector) detector.classList.add('visible');
     document.getElementById('detectedScheme').textContent = "FAILED";
 
-    // Clean up interface loader
     document.getElementById('decryptBtn').disabled = false;
     document.getElementById('progressWrap').classList.remove('visible');
 
-    // Smoothly scroll down to output panel on mobile screens
     if (window.innerWidth <= 900 && output) {
         output.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
+}
+
+// --- Helper: Count how many known plaintext markers appear in a sample ---
+function countKeywordMatches(sample) {
+    if (!sample) return 0;
+    const upperSample = sample.toUpperCase();
+    let keywordMatches = 0;
+    for (const keyword of PLAINTEXT_KEYWORDS) {
+        if (upperSample.includes(keyword.toUpperCase())) {
+            keywordMatches++;
+        }
+    }
+    return keywordMatches;
+}
+
+// --- Helper: Detect plaintext via keyword scanning ---
+function detectPlaintextViaKeywords(buffer) {
+    const decoder = new TextDecoder("utf-8", { fatal: false });
+    const sample = decoder.decode(buffer.slice(0, Math.min(8192, buffer.length)));
+
+    if (!sample || sample.includes('\ufffd')) return false; // Bad UTF-8
+
+    // If we find 2+ keywords, it's likely plaintext
+    return countKeywordMatches(sample) >= 2;
+}
+
+/**
+ * --- Helper: Fallback scheme detection by content verification ---
+ * Some Client.log variants carry a valid Scheme A/B encrypted body but the
+ * leading "magic" header bytes don't land exactly on the expected
+ * fingerprint (e.g. doesn't start with the "TP" marker). Rather than giving
+ * up, this tries decrypting a sample of the file with BOTH known LUTs, at
+ * both the standard 3-byte header offset and a zero offset, and checks the
+ * result for strong plaintext markers like "Log file opened". Whichever
+ * combination produces the most keyword hits (>= 2) wins, and the file is
+ * decrypted in full using that scheme/offset. Returns null if nothing
+ * decrypts into recognizable log text, so normal error handling can proceed.
+ */
+function tryFallbackDecryption(buffer) {
+    if (buffer.length === 0) return null;
+
+    const decoder = new TextDecoder('utf-8', { fatal: false });
+    const offsetsToTry = buffer.length > 3 ? [3, 0] : [0];
+    const schemesToTry = [{ name: 'A', lut: LUT_A }, { name: 'B', lut: LUT_B }];
+
+    let bestMatch = null;
+    let bestScore = 0;
+
+    for (const offset of offsetsToTry) {
+        const body = buffer.slice(offset);
+        if (body.length === 0) continue;
+
+        for (const { name, lut } of schemesToTry) {
+            const sampleLen = Math.min(8192, body.length);
+            const decryptedSample = new Uint8Array(sampleLen);
+            for (let i = 0; i < sampleLen; i++) {
+                decryptedSample[i] = lut[body[i]];
+            }
+
+            const sample = decoder.decode(decryptedSample);
+            if (!sample || sample.includes('\ufffd')) continue; // Garbage decode, not a real text match
+
+            const score = countKeywordMatches(sample);
+            if (score >= 2 && score > bestScore) {
+                bestScore = score;
+                bestMatch = { scheme: name, offset };
+            }
+        }
+    }
+
+    if (!bestMatch) return null;
+
+    // Re-decrypt the FULL body using the winning scheme + offset combo
+    const body = buffer.slice(bestMatch.offset);
+    const lut = bestMatch.scheme === 'A' ? LUT_A : LUT_B;
+    const decrypted = new Uint8Array(body.length);
+    for (let i = 0; i < body.length; i++) {
+        decrypted[i] = lut[body[i]];
+    }
+
+    return { scheme: bestMatch.scheme, data: decrypted, offset: bestMatch.offset, score: bestScore };
 }
 
 // --- Decryption Implementation ---
@@ -198,7 +288,6 @@ async function decryptFile() {
         return;
     }
 
-    // 1. Initial Validation: Check if empty
     if (selectedFile.size === 0) {
         handleDecryptionFailure("Empty File Target", "The selected file contains 0 bytes of data and cannot be parsed.");
         return;
@@ -223,7 +312,6 @@ async function decryptFile() {
             const buffer = new Uint8Array(e.target.result);
             if (progressBar) progressBar.style.width = "50%";
 
-            // 2. Structural Check: Check if file has at least enough space for headers
             if (buffer.length < 3) {
                 handleDecryptionFailure(
                     "Truncated Header Signature",
@@ -235,18 +323,20 @@ async function decryptFile() {
             let scheme = null;
             let decryptedData;
 
-            // Loosened Header Matching for Scheme A (matches ?? 54 50, supporting both 00 and 20 leading offsets)
+            // Try Scheme A header
             if (buffer[1] === FINGERPRINT_A_1 && buffer[2] === FINGERPRINT_A_2) {
                 scheme = 'A';
-            } else if (buffer[0] === HEADER_B[0] && buffer[1] === HEADER_B[1] && buffer[2] === HEADER_B[2]) {
+            }
+            // Try Scheme B header
+            else if (buffer[0] === HEADER_B[0] && buffer[1] === HEADER_B[1] && buffer[2] === HEADER_B[2]) {
                 scheme = 'B';
             }
 
             const detector = document.getElementById('schemeDetector');
             if (detector) detector.classList.add('visible');
 
-            // 3. File content evaluation criteria
             if (scheme) {
+                // Decrypt using detected scheme
                 const lut = (scheme === 'A') ? LUT_A : LUT_B;
                 const body = buffer.slice(3);
 
@@ -263,33 +353,61 @@ async function decryptFile() {
                 document.getElementById(scheme === 'A' ? 'dotA' : 'dotB').classList.add('active');
                 document.getElementById('detectedScheme').textContent = `Scheme ${scheme}`;
             } else {
-                let unprintableCount = 0;
-                const sampleLength = Math.min(buffer.length, 32);
+                // No clear encryption header found
+                // Check if it's plaintext via keyword scanning
+                if (detectPlaintextViaKeywords(buffer)) {
+                    // Treat as plaintext
+                    decryptedData = buffer;
+                    document.getElementById('dotPlain').classList.add('active');
+                    document.getElementById('detectedScheme').textContent = "Plaintext";
+                } else {
+                    // Header magic didn't match either scheme, and it isn't raw plaintext.
+                    // It may still be a Scheme A/B log whose file just doesn't start with
+                    // the usual "TP"/"LO" marker bytes (truncated header, different build,
+                    // partial capture, etc). Try decrypting against both LUTs and look for
+                    // a recognizable marker like "Log file opened" before giving up.
+                    const fallback = tryFallbackDecryption(buffer);
 
-                for (let i = 0; i < sampleLength; i++) {
-                    const ch = buffer[i];
-                    if (ch < 32 && ch !== 9 && ch !== 10 && ch !== 13) {
-                        unprintableCount++;
+                    if (fallback) {
+                        scheme = fallback.scheme;
+                        decryptedData = fallback.data;
+
+                        document.getElementById(scheme === 'A' ? 'dotA' : 'dotB').classList.add('active');
+                        document.getElementById('detectedScheme').textContent =
+                            `Scheme ${scheme} (fallback match, no header)`;
+                    } else {
+                        // Check for excessive binary data
+                        let unprintableCount = 0;
+                        const sampleLength = Math.min(buffer.length, 32);
+
+                        for (let i = 0; i < sampleLength; i++) {
+                            const ch = buffer[i];
+                            if (ch < 32 && ch !== 9 && ch !== 10 && ch !== 13) {
+                                unprintableCount++;
+                            }
+                        }
+
+                        if (unprintableCount > 3) {
+                            handleDecryptionFailure(
+                                "Unknown Encryption Signature or Binary Asset",
+                                `Hex Headers: [${Array.from(buffer.slice(0, 5)).map(b => b.toString(16).toUpperCase().padStart(2, '0')).join(' ')}]\n` +
+                                `This target contains illegal binary sequences. It is neither a Scheme A/B log (even with fallback content scanning), nor is it raw, unencrypted log plain text.\n` +
+                                `Try searching for plaintext keywords like "Log file opened", "Device profile", or "[GameThread]" in a hex editor.`
+                            );
+                            return;
+                        }
+
+                        // Assume plaintext
+                        decryptedData = buffer;
+                        document.getElementById('dotPlain').classList.add('active');
+                        document.getElementById('detectedScheme').textContent = "Plaintext";
                     }
                 }
-
-                if (unprintableCount > 3) {
-                    handleDecryptionFailure(
-                        "Unknown Encryption Signature or Binary Asset",
-                        `Hex Headers: [${Array.from(buffer.slice(0, 5)).map(b => b.toString(16).toUpperCase().padStart(2, '0')).join(' ')}]\n` +
-                        `This target contains illegal binary sequences. It is neither a Scheme A/B log, nor is it raw, unencrypted log plain text.`
-                    );
-                    return;
-                }
-
-                decryptedData = buffer;
-                document.getElementById('dotPlain').classList.add('active');
-                document.getElementById('detectedScheme').textContent = "Plaintext";
             }
 
             if (progressBar) progressBar.style.width = "80%";
 
-            // 4. Decode validation
+            // Decode to UTF-8
             const decoder = new TextDecoder("utf-8", { fatal: true });
             try {
                 fullDecryptedText = decoder.decode(decryptedData);
@@ -327,22 +445,23 @@ function finalizeUI(text) {
 
     document.getElementById('searchInput').disabled = false;
     document.getElementById('filterErrors').disabled = false;
+    const filterCVarsBtn = document.getElementById('filterCVars');
+    if (filterCVarsBtn) filterCVarsBtn.disabled = false;
     document.getElementById('copyDecBtn').disabled = false;
     document.getElementById('dlDecBtn').disabled = false;
     document.getElementById('devprofBtn').disabled = false;
     document.getElementById('deviceBtn').disabled = false;
 
-    // Enable CVar filter buttons
-    ['cvarResBtn', 'cvarForbBtn', 'cvarCommBtn'].forEach(id => {
+    // Enable CVar filter buttons including CVars Only
+    ['cvarResBtn', 'cvarForbBtn', 'cvarCommBtn', 'cvarOnlyBtn'].forEach(id => {
         const el = document.getElementById(id);
         if (el) el.disabled = false;
     });
-    // Hide any previous CVar output
+
     const cvarOut = document.getElementById('cvarOutput');
-    if (cvarOut) { cvarOut.classList.remove('visible'); cvarOut.innerHTML = ''; }
+    if (cvarOut) { cvarOut.innerHTML = ''; }
 
     document.getElementById('dlDecBtn').textContent = "↓ Save Log File";
-
     scanSignatures(text);
 
     const bar = document.getElementById('progressBar');
@@ -382,6 +501,14 @@ function scanSignatures(text) {
                 badge.textContent = 'CLEAN';
             }
         }
+
+        // Puerts race condition is a known engine-side scheduling issue on
+        // Kuro's end (async JS/C++ boundary), not something caused by the
+        // player's device, drivers, or settings — surface that context here.
+        if (sig.id === 'puerts') {
+            const subtext = document.getElementById('puertsSubtext');
+            if (subtext) subtext.style.display = found ? 'block' : 'none';
+        }
     });
 }
 
@@ -389,7 +516,7 @@ function debouncedSearchLog(query) {
     clearTimeout(searchDebounceTimeout);
     searchDebounceTimeout = setTimeout(() => {
         searchLog(query);
-    }, 150);
+    }, 250);
 }
 
 function searchLog(query) {
@@ -416,13 +543,63 @@ function searchLog(query) {
 function toggleErrorFilter() {
     const btn = document.getElementById('filterErrors');
     if (!btn) return;
-    const isActive = btn.classList.toggle('active');
     const output = document.getElementById('decryptedOutput');
+
+    const willActivate = !btn.classList.contains('active');
+
+    // Mutual exclusivity: turn off the CVars Only filter before switching to Errors Only
+    if (willActivate) {
+        const cvarBtn = document.getElementById('filterCVars');
+        if (cvarBtn && cvarBtn.classList.contains('active')) {
+            cvarBtn.classList.remove('active');
+            cvarBtn.style.background = "";
+        }
+    }
+
+    const isActive = btn.classList.toggle('active');
 
     if (isActive) {
         btn.style.background = "var(--jade-mid)";
         const filtered = cachedLogLines.filter(line => /error|failed|fatal/gi.test(line));
         if (output) output.value = filtered.join('\n');
+    } else {
+        btn.style.background = "";
+        if (output) output.value = fullDecryptedText;
+    }
+}
+
+/**
+ * "CVars Only" toggle — shows just the [GameThread] CVar assignment lines
+ * and LogConsoleManager output (overrides that were accepted vs ignored),
+ * filtered directly into the main output textarea. Mutually exclusive with
+ * the Errors Only filter so the textarea always reflects a single, clear view.
+ */
+function toggleCVarFilter() {
+    const btn = document.getElementById('filterCVars');
+    if (!btn) return;
+    const output = document.getElementById('decryptedOutput');
+
+    const willActivate = !btn.classList.contains('active');
+
+    // Mutual exclusivity: turn off the Errors Only filter before switching to CVars Only
+    if (willActivate) {
+        const errBtn = document.getElementById('filterErrors');
+        if (errBtn && errBtn.classList.contains('active')) {
+            errBtn.classList.remove('active');
+            errBtn.style.background = "";
+        }
+    }
+
+    const isActive = btn.classList.toggle('active');
+
+    if (isActive) {
+        btn.style.background = "var(--gold-mid)";
+        const filtered = extractCVarOnlyLines(cachedLogLines);
+        if (output) {
+            output.value = filtered.length
+                ? filtered.join('\n')
+                : "; No [GameThread] or LogConsoleManager CVar lines found in this log.";
+        }
     } else {
         btn.style.background = "";
         if (output) output.value = fullDecryptedText;
@@ -468,19 +645,40 @@ function clearDecryptor() {
     document.getElementById('devprofName').textContent = '';
     document.getElementById('retailDeviceName').textContent = '';
 
-    ['cvarResBtn', 'cvarForbBtn', 'cvarCommBtn'].forEach(id => {
+    const searchInputEl = document.getElementById('searchInput');
+    if (searchInputEl) { searchInputEl.disabled = true; searchInputEl.value = ''; }
+
+    const filterErrorsBtn = document.getElementById('filterErrors');
+    if (filterErrorsBtn) {
+        filterErrorsBtn.disabled = true;
+        filterErrorsBtn.classList.remove('active');
+        filterErrorsBtn.style.background = "";
+    }
+
+    const filterCVarsBtnClear = document.getElementById('filterCVars');
+    if (filterCVarsBtnClear) {
+        filterCVarsBtnClear.disabled = true;
+        filterCVarsBtnClear.classList.remove('active');
+        filterCVarsBtnClear.style.background = "";
+    }
+
+    ['cvarResBtn', 'cvarForbBtn', 'cvarCommBtn', 'cvarOnlyBtn'].forEach(id => {
         const el = document.getElementById(id);
         if (el) el.disabled = true;
     });
     const cvarOut = document.getElementById('cvarOutput');
-    if (cvarOut) { cvarOut.classList.remove('visible'); cvarOut.innerHTML = ''; }
+    if (cvarOut) { cvarOut.innerHTML = ''; }
+    const cvarWrapper = document.getElementById('cvarOutputWrapper');
+    if (cvarWrapper) cvarWrapper.style.display = 'none';
+    if (cvarOut) cvarOut.classList.remove('visible');
+    const puertsSubtextClear = document.getElementById('puertsSubtext');
+    if (puertsSubtextClear) puertsSubtextClear.style.display = 'none';
 
     document.getElementById('statLines').textContent = "—";
     document.getElementById('statErrors').textContent = "—";
     document.getElementById('statWarnings').textContent = "—";
 
     document.getElementById('dlDecBtn').textContent = "↓ Save Log File";
-
     resetDetectionUI();
 }
 
@@ -558,11 +756,13 @@ const CVAR_GROUPS = {
 const GROUP_LABELS = {
     resolution: '📐 Resolution CVars — Last Logged Values',
     forbidden: '🚫 Forbidden CVars — Last Logged Values',
-    common: '⚙️  Common CVars — Last Logged Values'
+    common: '⚙️  Common CVars — Last Logged Values',
+    cvars_only: '📝 All CVars from [GameThread] & LogConsoleManager'
 };
 
 /**
  * Find the LAST occurrence of a CVar in the log.
+ * Iterates through all lines and keeps updating the match, so final value is the last occurrence.
  * Matches patterns like:
  *   r.ScreenPercentage = 100
  *   r.ScreenPercentage=100
@@ -572,30 +772,44 @@ const GROUP_LABELS = {
  * Returns the value string or null.
  */
 function findLastCVarValue(lines, cvarName) {
-    // Escape dots for regex
     const escaped = cvarName.replace(/\./g, '\\.').replace(/\*/g, '\\*');
 
-    // Pattern 1: [CVar:value] format
     const bracketPattern = new RegExp(
         '\\[' + escaped + ':\\s*([^\\]]+)\\]',
         'i'
     );
 
-    // Pattern 2: Standard CVar = value format
     const standardPattern = new RegExp(
-        '(?:^|\\s)' + escaped + '\\s*[=\\s]\\s*"?([\\d.\\-+eE]+)"?',
+        '\\b' + escaped + '\\s*[=\\s]\\s*"?([\\d.\\-+eE]+)"?',
+        'i'
+    );
+
+    // Handles LogConsoleManager set/ignore messages, e.g.:
+    //   Setting the console variable 'r.X' with 'SetByConsole' to '100'
+    //   Setting the console variable 'r.X' with 'SetByScalability' was ignored
+    //     as it is lower priority than the previous 'SetByConsole'. Value remains '100'
+    // Both message forms report the CVar's true effective value at that point in
+    // the log — including the "ignored" case, where a lower-priority system tried
+    // to override the value but was rejected, and the value held instead. Without
+    // this, a rejected/ignored attempt's value could get silently overridden by an
+    // earlier (now-superseded) match, masking what's actually in effect.
+    const consoleManagerPattern = new RegExp(
+        "console variable\\s+['\"]" + escaped + "['\"][\\s\\S]*?\\b(?:to|remains)\\b\\s*(?:at\\s+)?['\"]([^'\"]+)['\"]",
         'i'
     );
 
     let last = null;
     for (let i = 0; i < lines.length; i++) {
-        // Try bracket format first
         let m = lines[i].match(bracketPattern);
         if (m) {
             last = m[1].trim();
             continue;
         }
-        // Try standard format
+        m = lines[i].match(consoleManagerPattern);
+        if (m) {
+            last = m[1].trim();
+            continue;
+        }
         m = lines[i].match(standardPattern);
         if (m) {
             last = m[1];
@@ -606,7 +820,6 @@ function findLastCVarValue(lines, cvarName) {
 
 /**
  * Detect Vulkan usage and version from the decrypted log.
- * Looks for lines that confirm Vulkan is the active RHI and any version string.
  */
 function detectVulkanInfo(lines) {
     let vulkanLine = null;
@@ -626,52 +839,89 @@ function detectVulkanInfo(lines) {
     return { vulkanLine, version };
 }
 
+/**
+ * Extract CVar lines from [GameThread] and LogConsoleManager sections.
+ * Shows all CVar assignments and command output from these sources.
+ */
+function extractCVarOnlyLines(lines) {
+    const cvarLines = [];
+
+    for (const line of lines) {
+        // Match GameThread CVar assignments: [GameThread] ... CVar ... or SetByXXX or assignment patterns
+        if (line.includes('[GameThread]')) {
+            if (/\br\.[a-zA-Z].*[=\s]/i.test(line) || /\bCVar\b/i.test(line) || /\bset\s+(to|by)/i.test(line)) {
+                cvarLines.push(line.trim());
+            }
+        }
+        // Match LogConsoleManager output - typically shows cvar overrides/responses
+        else if (line.includes('LogConsoleManager') || line.includes('[LogConsoleResponse]')) {
+            if (/\br\.[a-zA-Z]/i.test(line) || /override|set|value|response/i.test(line)) {
+                cvarLines.push(line.trim());
+            }
+        }
+    }
+
+    return cvarLines;
+}
+
 function showCVarValues(type) {
     const out = document.getElementById('cvarOutput');
     const wrapper = document.getElementById('cvarOutputWrapper');
     if (!out) return;
     if (!fullDecryptedText) {
-        out.classList.remove('visible');
         if (wrapper) wrapper.style.display = 'none';
         return;
     }
 
     const lines = cachedLogLines.length ? cachedLogLines : fullDecryptedText.split('\n');
-    const cvars = CVAR_GROUPS[type];
     const label = GROUP_LABELS[type];
-
-    // Build HTML output
     const rows = [];
+
     rows.push(`<span class="cvar-line-head">${label}</span>\n`);
 
-    for (const name of cvars) {
-        const val = findLastCVarValue(lines, name);
-        if (val !== null) {
-            rows.push(
-                `<span class="cvar-line-key">${name.padEnd(52)}</span>` +
-                `= <span class="cvar-line-val">${val}</span>\n`
-            );
+    if (type === 'cvars_only') {
+        // Show all CVar lines from GameThread and LogConsoleManager
+        const cvarLines = extractCVarOnlyLines(lines);
+        if (cvarLines.length === 0) {
+            rows.push(`<span class="cvar-line-miss">No CVar lines found in [GameThread] or LogConsoleManager</span>\n`);
         } else {
-            rows.push(
-                `<span class="cvar-line-miss">${name.padEnd(52)}  — not found in log</span>\n`
-            );
+            for (const line of cvarLines) {
+                rows.push(`<span class="cvar-line-vulk">${line}</span>\n`);
+            }
         }
-    }
+    } else {
+        // Show specific CVar groups with last logged values
+        const cvars = CVAR_GROUPS[type];
 
-    // For resolution type, also append Vulkan info
-    if (type === 'resolution') {
-        const { vulkanLine, version } = detectVulkanInfo(lines);
-        rows.push('\n<span class="cvar-line-head">🖥️  Vulkan Renderer</span>\n');
-        if (vulkanLine) {
-            rows.push(`<span class="cvar-line-vulk">${vulkanLine}</span>\n`);
-        } else {
-            rows.push(`<span class="cvar-line-miss">  — No Vulkan RHI confirmation line found</span>\n`);
+        for (const name of cvars) {
+            const val = findLastCVarValue(lines, name);
+            if (val !== null) {
+                rows.push(
+                    `<span class="cvar-line-key">${name.padEnd(52)}</span>` +
+                    `= <span class="cvar-line-val">${val}</span>\n`
+                );
+            } else {
+                rows.push(
+                    `<span class="cvar-line-miss">${name.padEnd(52)}  — not found in log</span>\n`
+                );
+            }
         }
-        if (version) {
-            rows.push(`<span class="cvar-line-key">  Vulkan API Version          </span>` +
-                `= <span class="cvar-line-val">${version}</span>\n`);
-        } else {
-            rows.push(`<span class="cvar-line-miss">  Vulkan API Version          — not found in log</span>\n`);
+
+        // For resolution type, also append Vulkan info
+        if (type === 'resolution') {
+            const { vulkanLine, version } = detectVulkanInfo(lines);
+            rows.push('\n<span class="cvar-line-head">🖥️  Vulkan Renderer</span>\n');
+            if (vulkanLine) {
+                rows.push(`<span class="cvar-line-vulk">${vulkanLine}</span>\n`);
+            } else {
+                rows.push(`<span class="cvar-line-miss">  — No Vulkan RHI confirmation line found</span>\n`);
+            }
+            if (version) {
+                rows.push(`<span class="cvar-line-key">  Vulkan API Version          </span>` +
+                    `= <span class="cvar-line-val">${version}</span>\n`);
+            } else {
+                rows.push(`<span class="cvar-line-miss">  Vulkan API Version          — not found in log</span>\n`);
+            }
         }
     }
 
@@ -693,6 +943,8 @@ function closeDeviceProfilePanel() {
 }
 
 function closeCVarPanel() {
+    const wrapper = document.getElementById('cvarOutputWrapper');
+    if (wrapper) wrapper.style.display = 'none';
     const out = document.getElementById('cvarOutput');
     if (out) out.classList.remove('visible');
 }
@@ -720,12 +972,6 @@ function obtainDeviceProfile() {
     }
 
     // --- Branded device name resolution ---
-    // Priority 1: Look for explicit branded model name in log
-    // WuWa logs often contain lines like:
-    //   DeviceName: Poco X6 Pro 5G
-    //   ProductModel: Poco X6 Pro 5G
-    //   ro.product.model: Poco X6 Pro 5G
-    //   Hardware model: Poco X6 Pro 5G
     let rawModel = "";
 
     const brandedPatterns = [
@@ -781,11 +1027,9 @@ function obtainDeviceProfile() {
         "23013PC75G": "Poco X5 Pro 5G"
     };
 
-    // If rawModel already looks like a branded name (has spaces, not just alphanumeric code), keep it
     const looksLikeBranded = rawModel && /\s/.test(rawModel) && rawModel.length > 4;
 
     if (!looksLikeBranded) {
-        // Try matching against model map from the raw model string or from the profile name
         const searchStr = (rawModel + ' ' + rawProfile).toUpperCase();
         let mapped = false;
         for (const [key, val] of Object.entries(modelMap)) {
@@ -795,7 +1039,6 @@ function obtainDeviceProfile() {
                 break;
             }
         }
-        // Priority 3: Infer from profile name keywords
         if (!mapped) {
             const p = rawProfile.toLowerCase();
             if (p.includes('pocox6pro')) rawModel = "Poco X6 Pro 5G";
@@ -834,13 +1077,11 @@ function extractDeviceInfo() {
         return;
     }
 
-    // Search for the device initialization marker
     if (!source.includes('初始化当前设备基本信息')) {
         showToastPing("Device initialization info not found in log.", "error");
         return;
     }
 
-    // Specific fields to extract and display (in exact order)
     const fieldsToExtract = [
         'VendorName',
         'CPUBrand',
@@ -861,18 +1102,14 @@ function extractDeviceInfo() {
     const outputLines = [];
     let foundAny = false;
 
-    // For each field, search for [FieldName: value]
     for (const fieldName of fieldsToExtract) {
-        // Search for opening bracket + field name + colon
         const searchStr = `[${fieldName}:`;
         const startIdx = source.indexOf(searchStr);
 
         if (startIdx !== -1) {
-            // Find the closing bracket after the opening bracket
             let closingIdx = source.indexOf(']', startIdx);
 
             if (closingIdx !== -1) {
-                // Extract everything between the colon and closing bracket
                 const afterColon = startIdx + searchStr.length;
                 const value = source.substring(afterColon, closingIdx).trim();
                 outputLines.push(`[${fieldName}: ${value}]`);
@@ -886,7 +1123,6 @@ function extractDeviceInfo() {
         return;
     }
 
-    // Display the results
     const resultDiv = document.getElementById('deviceResult');
     const contentDiv = document.getElementById('deviceInfoContent');
 
@@ -904,7 +1140,6 @@ function copyDeviceInfo() {
     const contentDiv = document.getElementById('deviceInfoContent');
     if (!contentDiv) return;
 
-    // Extract text from all divs
     const text = Array.from(contentDiv.querySelectorAll('div'))
         .map(div => div.textContent)
         .join('\n');
@@ -916,6 +1151,7 @@ function copyDeviceInfo() {
     }
 }
 
+// --- Expose to global scope ---
 window.triggerFileInput = triggerFileInput;
 window.handleDragOver = handleDragOver;
 window.handleDragLeave = handleDragLeave;
@@ -925,6 +1161,7 @@ window.decryptFile = decryptFile;
 window.clearDecryptor = clearDecryptor;
 window.debouncedSearchLog = debouncedSearchLog;
 window.toggleErrorFilter = toggleErrorFilter;
+window.toggleCVarFilter = toggleCVarFilter;
 window.copyDecrypted = copyDecrypted;
 window.downloadDecrypted = downloadDecrypted;
 window.obtainDeviceProfile = obtainDeviceProfile;

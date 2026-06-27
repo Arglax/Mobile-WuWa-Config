@@ -15,12 +15,12 @@ A browser-based utility hub for **Wuthering Waves** on Android — no installs, 
 - **Engine.ini Generator** — Launched WIP site. Open for ideas, just tag me on discord.  
 - Updated csv files for mobile selector configs and deviceprofiles.ini builder  
 
-### v2.2.0
+### v2.3.0
 - **Log Decryptor** — Added CVar Quick-View: one-tap buttons to surface the last logged values of Resolution, Forbidden, and Common CVars directly from the decrypted log.
 - **Log Decryptor** — Vulkan renderer detection now reports the active RHI confirmation line and Vulkan API version.
 - **Log Decryptor** — Improved retail device name resolution: branded names (e.g. *Poco X6 Pro 5G*) are now sourced directly from log fields (`DeviceName`, `ro.product.model`, etc.) before falling back to SKU lookup or profile inference. Expanded model map to ~25 devices.
 - **Log Decryptor** — Added tooltip system for CVar buttons: hover on desktop, tap on mobile — no UI breakage.
-
+- **Log Decryptor** — Improved smart decryption and quick cvar search  
 ---
 
 ## 🛠️ Performance & Engine Tools
@@ -63,6 +63,7 @@ A browser-based utility hub for **Wuthering Waves** on Android — no installs, 
 - KRG6187
 - yuri_o2r_22566
 - yuureii
+- Vyrru
 ---
 
 > Auxiliary part of the [Mobile-WuWa-Config](https://github.com/Arglax/Mobile-WuWa-Config) project.

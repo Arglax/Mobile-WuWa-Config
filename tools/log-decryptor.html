@@ -2,11 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>Log Decryptor — WuWa Portal</title>
     <link rel="stylesheet" href="../css/style.css" />
     <style>
-        /* ── Decryptor-specific ── */
+        /* ── Decryptor-specific overrides ── */
         .decryptor-layout {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -122,11 +122,12 @@
         /* Scheme detector */
         .scheme-detector {
             margin-top: 16px;
-            padding: 12px 16px;
+            padding: 16px;
             border: 1px solid var(--border-subtle);
             border-radius: var(--r-md);
             font-size: 12px;
             display: none;
+            background: rgba(7,46,36,0.3);
         }
 
             .scheme-detector.visible {
@@ -215,6 +216,7 @@
             display: flex;
             gap: 8px;
             align-items: center;
+            flex-wrap: wrap;
         }
 
         .search-input {
@@ -302,6 +304,16 @@
             line-height: 1.5;
         }
 
+        .sig-subtext {
+            margin-top: 6px;
+            font-size: 10.5px;
+            color: var(--gold-bright);
+            line-height: 1.5;
+            font-style: italic;
+            border-left: 2px solid var(--border-gold);
+            padding-left: 8px;
+        }
+
         .sig-badge {
             margin-left: auto;
             flex-shrink: 0;
@@ -380,7 +392,6 @@
             cursor: pointer;
             font-family: var(--font-mono);
             transition: all var(--t-fast);
-            position: relative;
         }
 
             .cvar-filter-btn:hover {
@@ -418,58 +429,6 @@
                     border-color: var(--jade-bright);
                     background: rgba(29,158,117,0.08);
                 }
-
-        /* ── Tooltip system ── */
-        [data-tip] {
-            position: relative;
-        }
-
-            [data-tip]::after {
-                content: attr(data-tip);
-                position: absolute;
-                bottom: calc(100% + 7px);
-                left: 50%;
-                transform: translateX(-50%);
-                background: rgba(4,14,10,0.97);
-                border: 1px solid var(--border-mid);
-                border-radius: var(--r-sm);
-                padding: 6px 10px;
-                font-size: 11px;
-                font-family: var(--font-mono);
-                color: var(--text-secondary);
-                white-space: pre-wrap;
-                max-width: 240px;
-                min-width: 160px;
-                line-height: 1.55;
-                text-align: left;
-                pointer-events: none;
-                opacity: 0;
-                transition: opacity 0.15s ease;
-                z-index: 999;
-                box-shadow: 0 4px 16px rgba(0,0,0,0.5);
-            }
-
-            /* arrow */
-            [data-tip]::before {
-                content: '';
-                position: absolute;
-                bottom: calc(100% + 2px);
-                left: 50%;
-                transform: translateX(-50%);
-                border: 5px solid transparent;
-                border-top-color: var(--border-mid);
-                pointer-events: none;
-                opacity: 0;
-                transition: opacity 0.15s ease;
-                z-index: 1000;
-            }
-
-            [data-tip]:hover::after,
-            [data-tip]:hover::before,
-            [data-tip].tip-open::after,
-            [data-tip].tip-open::before {
-                opacity: 1;
-            }
 
         /* CVar output panel */
         #cvarOutput {
@@ -608,7 +567,7 @@
                     <div class="progress-bar" id="progressBar"></div>
                 </div>
 
-                <div class="scheme-detector card card-body" id="schemeDetector" style="padding:16px;">
+                <div class="scheme-detector card card-body" id="schemeDetector">
                     <div class="section-label">Encryption Detection</div>
                     <div class="scheme-row">
                         <div class="scheme-dot" id="dotA"></div>
@@ -675,11 +634,14 @@
                                 </div>
                                 <span class="sig-badge pending">—</span>
                             </div>
-                            <div class="sig-card">
+                            <div class="sig-card" data-sig="puerts">
                                 <span class="sig-icon">📜</span>
                                 <div>
                                     <div class="sig-name">Puerts Race Condition</div>
                                     <div class="sig-desc">Puerts JS runtime race — async JS/C++ boundary violation</div>
+                                    <div class="sig-subtext" id="puertsSubtext" style="display:none;">
+                                        ⚠ This is on Kuro's side — a known scheduling/optimization issue in the Puerts JS↔C++ bridge, not something caused by your device, drivers, or settings.
+                                    </div>
                                 </div>
                                 <span class="sig-badge pending">—</span>
                             </div>
@@ -780,7 +742,7 @@
                         Common
                     </button>
                 </div>
-                <div id="cvarOutputWrapper" style="display:none; margin-top:6px; padding:12px 14px; background:rgba(4,14,10,0.85); border:1px solid var(--border-mid); border-radius:var(--r-md);">
+                <div id="cvarOutputWrapper" style="display:none;">
                     <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px;">
                         <div style="flex:1;"></div>
                         <button class="btn btn-ghost btn-xs" onclick="closeCVarPanel()" style="padding:4px 8px; font-size:12px;">✕</button>
@@ -796,11 +758,14 @@
                     <button class="btn btn-ghost btn-sm" id="filterErrors" onclick="toggleErrorFilter()" disabled>
                         🔴 Errors Only
                     </button>
+                    <button class="btn btn-ghost btn-sm" id="filterCVars" onclick="toggleCVarFilter()" disabled
+                            data-tip="Shows only lines from&#10;[GameThread] CVar assignments and&#10;LogConsoleManager — i.e. which&#10;overrides were applied vs ignored">
+                        🧩 CVars Only
+                    </button>
                 </div>
 
                 <textarea id="decryptedOutput" class="code-output" readonly spellcheck="false"
-                          placeholder="; Decrypted log output will appear here after processing...&#10;;&#10;; Drop a Client.log file on the left to begin.">
-        </textarea>
+                          placeholder="; Decrypted log output will appear here after processing...&#10;;&#10;; Drop a Client.log file on the left to begin."></textarea>
 
                 <div style="display:flex; gap:8px;">
                     <button class="btn btn-primary btn-sm" style="flex:1;" onclick="copyDecrypted()" id="copyDecBtn" disabled>⦾ Copy Output</button>
@@ -821,7 +786,9 @@
                 </div>
 
             </div>
-        </div><footer class="site-footer">
+        </div>
+
+        <footer class="site-footer">
             <span class="footer-text">WuWa Portal · Log Decryptor · Browser-only · No uploads</span>
             <div class="footer-links">
                 <a href="../index.html" class="footer-link">← Hub</a>

@@ -1187,6 +1187,7 @@ img, video {
         color: #f87171;
         box-shadow: 0 0 20px rgba(220,50,50,0.15);
     }
+
 .preview-modal {
     position: fixed;
     inset: 0;
