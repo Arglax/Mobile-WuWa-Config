@@ -1,7 +1,7 @@
 <div align="center">
-  <img src="https://img.shields.io/badge/Updated-JUNE_8-blue?style=plastic&logo=github&logoColor=white" />
+  <img src="https://img.shields.io/badge/Updated-JUNE_28-blue?style=plastic&logo=github&logoColor=white" />
   <img src="https://img.shields.io/badge/🎯_Target_Version-3.4-green?style=plastic" />
-  <img src="https://img.shields.io/badge/Support-Vulkan_&_Non--Vulkan-orange?style=plastic&logo=cog&logoColor=white" />
+  <img src="https://img.shields.io/badge/Support-Vulkan_&_OpenGL-orange?style=plastic&logo=cog&logoColor=white" />
 </div>
 
 <h1 align="center">Mobile WuWa-Config: Mobile Configuration for Wuthering Waves</h1>
