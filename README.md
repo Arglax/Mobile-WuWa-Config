@@ -1,20 +1,20 @@
 <div align="center">
-  <img src="https://img.shields.io/badge/Updated-JUNE_8-blue?style=for-the-badge&logo=github&logoColor=white" />
-  <img src="https://img.shields.io/badge/🎯_Target_Version-3.4-green?style=for-the-badge" />
-  <img src="https://img.shields.io/badge/Support-Vulkan_&_Non--Vulkan-orange?style=for-the-badge&logo=cog&logoColor=white" />
+  <img src="https://img.shields.io/badge/Updated-JUNE_8-blue?style=plastic&logo=github&logoColor=white" />
+  <img src="https://img.shields.io/badge/🎯_Target_Version-3.4-green?style=plastic" />
+  <img src="https://img.shields.io/badge/Support-Vulkan_&_Non--Vulkan-orange?style=plastic&logo=cog&logoColor=white" />
 </div>
 
-<h1 align="center">🎮 WuWa-Config: Mobile Configuration for Wuthering Waves</h1>
+<h1 align="center">Mobile WuWa-Config: Mobile Configuration for Wuthering Waves</h1>
 
 <div align="center">
 
-[![Stars](https://img.shields.io/github/stars/Arglax/WuWa-Config?style=social)](https://github.com/Arglax/WuWa-Config/stargazers) &nbsp;&nbsp;&nbsp;&nbsp; [![License](https://img.shields.io/badge/License-CustomizedMIT-lightgrey)](https://github.com/Arglax/WuWa-Config/blob/main/LICENSE) &nbsp;&nbsp;&nbsp;&nbsp; [![Discord](https://img.shields.io/badge/Discord-7289DA?logo=discord&logoColor=white)](https://discord.gg/renjxYBEZM)
+[![Stars](https://img.shields.io/github/stars/Arglax/WuWa-Config?style=social)](https://github.com/Arglax/WuWa-Config/stargazers) &nbsp;&nbsp;&nbsp;<a href="https://github.com/Arglax/WuWa-Config/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-CustomizedMIT-lightgrey?style=plastic" height="30"></a>&nbsp;&nbsp;&nbsp;<a href="https://discord.gg/renjxYBEZM"><img src="https://img.shields.io/badge/Discord-7289DA?logo=discord&logoColor=white&style=plastic" height="30"></a>
 
 </div>
 
-**WuWa-Config** is a custom-built set of configuration files designed to **boost graphics, stability, and performance** in *Wuthering Waves* on Android devices.
-
-Hopefully, this guide will help you unlock your device's full visual and gameplay potential.
+**Mobile WuWa Config** is a set of configs to help you improve your game's visual graphics, stability, or performance. There are numerous guides below to help you get started. For further help, join the <a href="https://discord.gg/renjxYBEZM">
+  <img src="https://img.shields.io/badge/Discord-7289DA?logo=discord&logoColor=white&style=plastic" height="40">
+</a>
 
 ---
 ## 📢 Announcements — June 17, 2026
@@ -163,7 +163,7 @@ Optimized for **mid-end to flagship Android devices with Vulkan support**
 Big thanks to everyone who contributed through testing, feedback, and sharing knowledge — directly and indirectly:
 
 1. Kuya Thirdy
-2. Brandy (AlteriaX)
+2. Brandy/yuukinyan (AlteriaX)
 3. em00se
 4. Eggsee
 5. RGCloud
@@ -171,10 +171,10 @@ Big thanks to everyone who contributed through testing, feedback, and sharing kn
 7. toldyou_idk
 8. KRG6187
 9. SuiX
-10. yuukinyan (wth Brandy this was u?!)
 ---
 
 ## Forbidden CVars List  
+If you see these cvars in your config, they are ignored and will not work.  
 | Console Variable |
 | :--- |
 | `r.Kuro.SkeletalMesh.LODDistanceScale` |
@@ -226,7 +226,7 @@ Big thanks to everyone who contributed through testing, feedback, and sharing kn
 
 <a href="https://www.buymeacoffee.com/arglaxaqwv" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/arial-violet.png" alt="Optional Support Me" style="height: 60px !important; width: 217px !important;"></a>
 
-> Support is voluntary and does not affect config availability or updates. I will always do what I can to keep improving the experience.
+> Support is voluntary and does not affect config availability or updates. I will always do what I can to keep up with Kuro's patches.  
 
 ---
 
