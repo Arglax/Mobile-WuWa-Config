@@ -8,7 +8,7 @@ OS Version: Android 16 / OriginOS 6
 
 Game Version: 3.4
 
-Config Type: Engine.ink
+Config Type: Engine.ini
 
 Average FPS: 58–60 FPS
 
