@@ -20,5 +20,4 @@ Testing Duration: 30 minutes (combat + open world)
 
 References: UE 4.26 & UE 5 Console Commands
 
-Warning: These configs are modified to provide maximum graphics quality for flagship mobile devices. It's highly advised to
-use a peltier cooler or a fan while playing.
+WARNING: These configs are modified to provide maximum graphics quality for flagship mobile devices. It's highly advised to use a peltier cooler or a fan while playing.
