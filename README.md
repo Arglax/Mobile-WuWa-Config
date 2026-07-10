@@ -17,15 +17,12 @@
 </a>
 
 ---
-## 📢 Announcements — June 17, 2026
+## 📢 Announcements — July 10, 2026
 ---
-Community Config folder is now back! Other config creators can submit a pull request for their configs to be included.  
-
-All DeviceProfiles.ini GPU Lists have been updated to prevent the screen flickering bug at game load.  
-
-> [!IMPORTANT]
-> **Client.log is Now Encrypted**
-> Kuro has encrypted `Client.log` which is our most valuable reference for config development. This is a significant hurdle that may slow down or even halt future config work.
+Configs will be worked on and updated earliest by next week (July 14~).  
+- Stable Configs. 
+- Performance Configs (will be reworked)  
+- High Visual Config  
 
 >[!TIP]
 >[I released a user-friendly log decryptor](https://arglax.github.io/Mobile-WuWa-Config/tools/log-decryptor.html) where you can just upload your log and download the decrypted file.  
