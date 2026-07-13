@@ -1,8 +1,6 @@
-# 🧭 Contributing Guide for Mobile WuWa Config
+# Contributing Guide
 
-Thank you for your interest in contributing! 💡  
-This project aims to **improve Wuthering Waves’ performance and graphics on mobile devices** by tweaking Unreal Engine configuration files (`Engine.ini`, `DeviceProfiles.ini`, etc.) for different devices and performance goals.
-
+Thank you for your interest in contributing!
 ---
 
 ## ⚙️ What You Can Contribute
@@ -22,14 +20,11 @@ You can help by sharing your tested configuration tweaks and reports.
 
 Please follow this folder organization for your contributions:
 
-/CommunityConfigs
+/Community Configs
 ├── Config_YourName  
           ├── DeviceProfiles.ini  
           ├── Engine.ini  
           └── README.md  
-
-
-
 ---
 
 ## 🧪 Testing Guidelines
@@ -71,26 +66,9 @@ Added Engine.ini (Balanced) for POCO X6 Pro – 58 avg FPS
 - A clear title and summary  
 - Screenshot or FPS graph (optional but preferred)  
 - Notes about what was changed and why  
-
----
-
-## 🧠 Config Style Rules
-
-- Use **inline comments** (`;`) to explain unusual cvars or overrides  
-Example:  
-r.Mobile.DynamicResolution=True ; Enables resolution scaling for smoother gameplay  
-
-
-- Use **consistent indentation** (tabs or 4 spaces)  
-- Keep filenames **device-specific or profile-specific**  
-- Always verify config loads properly (no crash or fallback to default)  
-
 ---
 
 ## 🧤 Example Contribution
-
-**Path:**  
-`configs/engine/MaxPerformance/Engine.ini`
 
 **Description:**  
 Max performance config for mid-range phones, disables heavy post-processing and uses dynamic resolution.
@@ -108,29 +86,12 @@ If your config was inspired by another user or community, please credit them in 
 
 ---
 
-## 🧩 Optional but Recommended
-
-- Include **FPS graphs** (PerfDog, GameBench, or similar)  
-- Add **before/after screenshots**  
-- Mention **thermal throttling behavior**  
-
----
-
 ## ✅ Checklist Before Submitting
 
-- [ ] `.ini` files validated and tested in-game  
+- [ ] `.ini` files validated and tested in-game (no crashes) 
 - [ ] FPS, temp, and notes included  
 - [ ] References/credits listed  
 - [ ] Folders and filenames properly named  
-- [ ] No duplicate or conflicting configs  
+- [ ] No duplicate or conflicting configs/cvars  
 
 ---
-
-### 🚀 Repository Link
-
-👉 https://github.com/Arglax/Mobile-WuWa-Config
-
----
-
-Made with ⚡ by contributors & testers of **Mobile WuWa Config**  
-Let’s make Wuthering Waves smoother for everyone 🌊
