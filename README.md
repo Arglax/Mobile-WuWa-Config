@@ -29,7 +29,7 @@ Special thanks to k4irzw67 for the bike artifact on frame gen fix.
 > [!NOTE]
 > ***If KuroGames requests to take down this tool, it will be taken down***.   
 🔔 **Keep an eye on the [forbidden CVars list](#forbidden-cvars-list)** at the bottom of this file. It is also available in the [Discord server](https://discord.gg/renjxYBEZM).
-- ✅ All configs are updated for **Version 3.4**. They may be further optimized throughout the version.  
+- ✅ All configs are updated for **Version 3.5**. They may be further optimized throughout the version.  
 ---
 
 ## 📖 Table of Contents
