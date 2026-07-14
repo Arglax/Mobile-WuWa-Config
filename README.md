@@ -1,6 +1,6 @@
 <div align="center">
-  <img src="https://img.shields.io/badge/Updated-JUNE_28-blue?style=plastic&logo=github&logoColor=white" />
-  <img src="https://img.shields.io/badge/🎯_Target_Version-3.4-green?style=plastic" />
+  <img src="https://img.shields.io/badge/Updated-JULY_14-blue?style=plastic&logo=github&logoColor=white" />
+  <img src="https://img.shields.io/badge/🎯_Target_Version-3.5-green?style=plastic" />
   <img src="https://img.shields.io/badge/Support-Vulkan_&_OpenGL-orange?style=plastic&logo=cog&logoColor=white" />
 </div>
 
@@ -17,12 +17,10 @@
 </a>
 
 ---
-## 📢 Announcements — July 10, 2026
+## 📢 Announcements — July 14, 2026
 ---
-Configs will be worked on and updated earliest by next week (July 14~).  
-- Stable Configs. 
-- Performance Configs (will be reworked)  
-- High Visual Config  
+Configs are updated to v3.5 and will be maintained throughout the patch.  
+Special thanks to k4irzw67 for the bike artifact on frame gen fix.  
 
 >[!TIP]
 >[I released a user-friendly log decryptor](https://arglax.github.io/Mobile-WuWa-Config/tools/log-decryptor.html) where you can just upload your log and download the decrypted file.  
@@ -70,6 +68,9 @@ If a config doesn't work well for your device, many other creators and communiti
 
 ## 🛠️ How to Install (Beginner Friendly)
 
+<details>
+<summary>Click to expand step-by-step instructions</summary>
+
 You can also follow along with the video tutorial: https://youtu.be/bB6C8hp_dFQ
 
 ### ✅ Requirements
@@ -87,6 +88,8 @@ You can also follow along with the video tutorial: https://youtu.be/bB6C8hp_dFQ
 5. Paste the provided `Engine.ini` and `DeviceProfiles.ini` into that folder.
 6. **Overwrite existing files** if prompted.
 7. **Launch Wuthering Waves** and enjoy! 🚀
+
+</details>
 
 ---
 
@@ -155,7 +158,6 @@ If you use AI to help create or modify configs, Claude generally performs well f
 ## 📝 Credits
 
 Maintained by **Arglax**
-Optimized for **mid-end to flagship Android devices with Vulkan support**
 
 Big thanks to everyone who contributed through testing, feedback, and sharing knowledge — directly and indirectly:
 
@@ -168,10 +170,17 @@ Big thanks to everyone who contributed through testing, feedback, and sharing kn
 7. toldyou_idk
 8. KRG6187
 9. SuiX
+10. k4irzw67
+
 ---
 
-## Forbidden CVars List  
+## Forbidden CVars List
+
+<details>
+<summary>Click to expand the full list</summary>
+
 If you see these cvars in your config, they are ignored and will not work.  
+
 | Console Variable |
 | :--- |
 | `r.Kuro.SkeletalMesh.LODDistanceScale` |
@@ -204,10 +213,12 @@ If you see these cvars in your config, they are ignored and will not work.
 | `r.AFME.Enable` |
 | `r.MFRC.Enable` |
 | `r.FEstimation.Option` |
+
 > V3.4 Latest Forbidden CVars credits to yuukinyan
 
----
+</details>
 
+---
 
 ## Disclaimer
 
