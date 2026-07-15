@@ -4,12 +4,12 @@ on:
   push:
     branches: [main]
     paths:
-      - "[V3.x] Working Configs/**"
+      - "\\[V3.x\\] Working Configs/**"
       - ".github/forbidden_cvars.txt"
       - ".github/scripts/strip_forbidden_cvars.py"
   pull_request:
     paths:
-      - "[V3.x] Working Configs/**"
+      - "\\[V3.x\\] Working Configs/**"
       - ".github/forbidden_cvars.txt"
   workflow_dispatch:
 
@@ -32,16 +32,12 @@ jobs:
           python3 .github/scripts/strip_forbidden_cvars.py
         continue-on-error: true
 
-      # On a PR: just report. We don't want to push commits to someone else's
-      # branch — we want the PR author to see what would be stripped and fix it,
-      # or let main auto-clean it after merge.
       - name: Fail PR if forbidden CVars were found
         if: github.event_name == 'pull_request' && steps.scan.outcome == 'failure'
         run: |
           echo "::error::Forbidden CVars were found in this PR. See the log above for details. Remove them before merging (or they will be auto-stripped after merge to main)."
           exit 1
 
-      # On main: actually commit the cleaned files back.
       - name: Commit cleaned files
         if: github.event_name != 'pull_request' && steps.scan.outcome == 'failure'
         run: |
