@@ -1,11 +1,9 @@
-#this should auto release the zip file for all working configs whenever there's an update
-
+#mygod i had identation bug
 name: Create ZIPRelease
-
 on:
   workflow_dispatch:
     inputs:
-    tag:
+      tag:
         description: "Release tag (e.g. v3-5)"
         required: true
         default: "v3-5"
@@ -18,38 +16,30 @@ on:
         required: true
         default: |
           ## High Visuals Configs
-
           | Config | Description |
           |---|---|
           | HighVisual | High quality characters and textures, balanced performance |
           | Z_Experimental | Alternative to HighVisual if you experience issues |
-
           If HighVisual gives you trouble, try Z_Experimental instead.
-
           ## Stable Configs
-
           Configs updated for Wuthering Waves v3.5.
-          
+
           | Config | Target Device |
           |---|---|
           | Stable_A | High-end devices |
           | Stable_B | Mid-end devices |
           | Stable_C | Low-end devices |
-
           ## Performance Configs
-
           Compilation of all performance configs compressed.
-
           | Config | Description |
           |---|---|
           | Config_1 | High quality characters and textures, no shadows, no/minimal reflections |
           | Config_2 | Minimal config (near-vanilla), high TAA |
           | Potato Config | For low-end phones struggling to play WuWa |
-        
+
           All configs are patched with the bike fix for frame-gen enabled gameplay.
           Credits for the fix goes to k4irzw67.
           🙏 Thanks to everyone who tested and reported issues.
-
 jobs:
   release:
     runs-on: ubuntu-latest
@@ -57,7 +47,6 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@v6
-
       - name: Build release zip
         run: |
           cd "[V3.x] Working Configs"
@@ -65,7 +54,6 @@ jobs:
           cd ..
           echo "=== Zip contents ==="
           unzip -l "Mobile-WuWa-Config-${{ inputs.tag }}.zip"
-
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
