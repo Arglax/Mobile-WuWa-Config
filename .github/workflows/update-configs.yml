@@ -1,4 +1,4 @@
-name: Strip Forbidden CVars
+name: Update Configs (CVars + Headers)
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
     paths:
       - "\\[V3.x\\] Working Configs/**"
       - ".github/forbidden_cvars.txt"
-      - ".github/scripts/strip_forbidden_cvars.py"
+      - ".github/scripts/update_configs.py"
   pull_request:
     paths:
       - "\\[V3.x\\] Working Configs/**"
@@ -14,35 +14,40 @@ on:
   workflow_dispatch:
 
 jobs:
-  scan-and-clean:
+  scan-and-update:
     runs-on: ubuntu-latest
+    # Loop guard: skip runs triggered by the bot's own commits, so it doesn't
+    # re-trigger itself forever after pushing a cleanup commit.
+    if: github.actor != 'github-actions[bot]'
     permissions:
       contents: write
     steps:
       - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0   # full history needed for the changelog diff
 
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
 
-      - name: Run forbidden CVar scan
+      - name: Run CVar + header updater
         id: scan
         run: |
-          python3 .github/scripts/strip_forbidden_cvars.py
+          python3 .github/scripts/update_configs.py
         continue-on-error: true
 
-      - name: Fail PR if forbidden CVars were found
+      - name: Fail PR if changes were needed
         if: github.event_name == 'pull_request' && steps.scan.outcome == 'failure'
         run: |
-          echo "::error::Forbidden CVars were found in this PR. See the log above for details. Remove them before merging (or they will be auto-stripped after merge to main)."
+          echo "::error::Forbidden CVars and/or header updates are needed for this PR. See the log above. These will be auto-applied after merge to main."
           exit 1
 
-      - name: Commit cleaned files
+      - name: Commit updated files
         if: github.event_name != 'pull_request' && steps.scan.outcome == 'failure'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add "[V3.x] Working Configs"
-          git commit -m "chore: auto-strip forbidden CVars"
+          git commit -m "chore: auto-update configs (CVars + changelog)"
           git push
