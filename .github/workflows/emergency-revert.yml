@@ -1,0 +1,62 @@
+#in case i fk up LMAO!
+name: Emergency Revert
+
+on:
+  workflow_dispatch:
+    inputs:
+      commit_sha:
+        description: "Commit SHA to revert (leave blank to revert the latest commit on main)"
+        required: false
+        default: ""
+      confirm:
+        description: 'Type REVERT to confirm'
+        required: true
+        default: ""
+
+jobs:
+  revert:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Check confirmation
+        if: github.event.inputs.confirm != 'REVERT'
+        run: |
+          echo "::error::You must type REVERT (exact, all caps) in the 'confirm' field to proceed. Aborting."
+          exit 1
+
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Determine target commit
+        id: target
+        run: |
+          if [ -n "${{ github.event.inputs.commit_sha }}" ]; then
+            TARGET="${{ github.event.inputs.commit_sha }}"
+          else
+            TARGET=$(git rev-parse HEAD)
+          fi
+
+          if ! git cat-file -e "$TARGET^{commit}" 2>/dev/null; then
+            echo "::error::'$TARGET' is not a valid commit in this repo."
+            exit 1
+          fi
+
+          echo "sha=$TARGET" >> "$GITHUB_OUTPUT"
+          echo "Target commit to revert:"
+          git show -s --format="  %H%n  %an <%ae>%n  %ad%n  %s" "$TARGET"
+
+      - name: Revert the commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git revert --no-edit "${{ steps.target.outputs.sha }}"
+
+      - name: Push revert commit
+        run: git push
+
+      - name: Summary
+        run: |
+          echo "✅ Reverted commit ${{ steps.target.outputs.sha }}."
+          echo "A new revert commit has been pushed to main — nothing was force-pushed or rewritten."
