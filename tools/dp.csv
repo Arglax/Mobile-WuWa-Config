@@ -35,6 +35,7 @@ OnePlus 13,Android_Adreno830,Qualcomm,SD 8 Elite · Adreno 830
 OnePlus 15,Android_Adreno840,Qualcomm,SD 8 Elite Gen 5 · Adreno 840
 OnePlus 15T,Android_Adreno840,Qualcomm,SD 8 Elite Gen 5 · Adreno 840
 OnePlus Ace 2 Pro,Android_Adreno740,Qualcomm,SD 8 Gen 2 · Adreno 740
+OnePlus Pad 2,Android_Adreno7xx_High,Qualcomm,SD 8 Gen 3 · Adreno 750
 Oppo A96 4G,Android_Adreno_6xx,Qualcomm,SD 680 · Adreno 610
 Oppo Find X7 Ultra,Android_Adreno_8xx,Qualcomm,SD 8 Gen 3 · Adreno 750
 Oppo Find X8 Pro,Android_Adreno830,Qualcomm,SD 8 Elite · Adreno 830
@@ -58,12 +59,15 @@ Realme GT5 Pro,Android_Adreno_8xx,Qualcomm,SD 8 Gen 3 · Adreno 750
 Realme GT6,Android_Adreno_8xx,Qualcomm,SD 8s Gen 3 · Adreno 735
 Redmagic 10 Pro,Android_Adreno830,Qualcomm,SD 8 Elite · Adreno 830
 Redmagic 11 Pro+,Android_Adreno840,Qualcomm,SD 8 Gen 5 · Adreno 840
+Redmi 13C,Android_Mali_G52,MediaTek,Helio G85 · Mali G52 MC2
+Redmi K50 Pro,Android_Mali_7xx,MediaTek,Dimensity 9000 · Mali G710 MC10
 Redmi Note 10 Pro,Android_Adreno_6xx,Qualcomm,SD 732G · Adreno 618
 Redmi Note 12 Pro 5G,Android_Mali_G68,MediaTek,Dimensity 1080 · Mali G68 MC4
 Redmi Note 12 Turbo,Android_Adreno_7xx,Qualcomm,SD 7+ Gen 2 · Adreno 725
 Redmi Note 13 Pro+ 5G,Android_Mali_G61x,MediaTek,Dimensity 7200 Ultra · Mali G610
 Redmi Note 14 Pro 5G,Android_Adreno810,Qualcomm,SD 7s Gen 3 · Adreno 810
 Redmi Note 14 Pro+ 5G,Android_Adreno810,Qualcomm,SD 7s Gen 3 · Adreno 810
+Redmi Turbo 3,Android_Adreno735,Qualcomm,SD 8s Gen 3 · Adreno 735
 Redmi Turbo 4 Pro,Android_Adreno8xx_High,Qualcomm,SD 8s Gen 4 · Adreno 8xx High
 Samsung Galaxy A54,Android_Mali_G68,Samsung Exynos,Exynos 1380 · Mali G68 MC4
 Samsung Galaxy A55 5G,Android_Xclipse5xx,Samsung Exynos,Exynos 1480 · Xclipse 530
@@ -109,3 +113,4 @@ Xiaomi 15T Pro,MTK_6991,MediaTek,Dimensity 9400+ · Immortalis G925
 Xiaomi 16,Android_Adreno840,Qualcomm,SD 8 Elite Gen 5 · Adreno 840
 Xiaomi 16 Ultra,Android_Adreno840,Qualcomm,SD 8 Elite Gen 5 · Adreno 840
 Xiaomi CIVI 5 Pro,Android_Adreno825,Qualcomm,SD 8s Gen 4 · Adreno 825
+Xiaomi Pad 8 Pro,Android_Adreno830,Qualcomm,SD 8 Elite · Adreno 830
