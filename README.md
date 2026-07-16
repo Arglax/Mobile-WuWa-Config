@@ -12,24 +12,30 @@
 
 </div>
 
-**Mobile WuWa Config** is a set of configs to help you improve your game's visual graphics, stability, or performance. There are numerous guides below to help you get started. For further help, join the <a href="https://discord.gg/renjxYBEZM">
-  <img src="https://img.shields.io/badge/Discord-7289DA?logo=discord&logoColor=white&style=plastic" height="40">
-</a>
+**Mobile WuWa Config** is a set of configs to help you improve your game's visual graphics, stability, or performance. There are numerous guides below to help you get started. For further help, join the <a href="https://discord.gg/renjxYBEZM"><img src="https://img.shields.io/badge/Discord-7289DA?logo=discord&logoColor=white&style=plastic" height="40"></a>
 
 ---
-## 📢 Announcements — July 14, 2026
----
-Configs are updated to v3.5 and will be maintained throughout the patch.  
-Special thanks to k4irzw67 for the bike artifact on frame gen fix.  
 
->[!TIP]
->[I released a user-friendly log decryptor](https://arglax.github.io/Mobile-WuWa-Config/tools/log-decryptor.html) where you can just upload your log and download the decrypted file.  
-> Also, if you need to quickly know what config is recommended for you <a href="https://arglax.github.io/Mobile-WuWa-Config/index.html" target="_blank"> <img src="https://img.shields.io/badge/Launch_Config_Selector-1D9E75?style=for-the-badge&logo=cpu&logoColor=fff" alt="Launch Mobile Config Selector Engine" /> </a>
+## 📢 Announcements — July 17, 2026
+
+🆕 **New:** A utility tool for patching your configs easily is now available.
+
+[![Download WuWa Config Patcher](https://img.shields.io/badge/Download-WuWa%20Config%20Patcher%20v1.0-brightgreen?style=plastic&logo=android)](https://github.com/Arglax/Mobile-WuWa-Config/releases/tag/patcher_v1.0)
+
+See the [Patcher README](Mobile%20Config%20Patcher/README.md) for setup and usage.
+
+**From July 14, 2026:** Configs updated to v3.5 and will be maintained throughout the patch. Special thanks to k4irzw67 for the bike artifact frame-gen fix.
+
+> [!TIP]
+> [A user-friendly log decryptor](https://arglax.github.io/Mobile-WuWa-Config/tools/log-decryptor.html) — just upload your log and download the decrypted file.
+> Need a quick recommendation on which config suits you? <a href="https://arglax.github.io/Mobile-WuWa-Config/index.html" target="_blank"><img src="https://img.shields.io/badge/Launch_Config_Selector-1D9E75?style=for-the-badge&logo=cpu&logoColor=fff" alt="Launch Mobile Config Selector Engine" /></a>
 
 > [!NOTE]
-> ***If KuroGames requests to take down this tool, it will be taken down***.   
-🔔 **Keep an eye on the [forbidden CVars list](#forbidden-cvars-list)** at the bottom of this file. It is also available in the [Discord server](https://discord.gg/renjxYBEZM).
-- ✅ All configs are updated for **Version 3.5**. They may be further optimized throughout the version.  
+> ***If KuroGames requests to take down this tool, it will be taken down.***
+> 🔔 Keep an eye on the [forbidden CVars list](#forbidden-cvars-list) at the bottom of this file — also posted in the [Discord server](https://discord.gg/renjxYBEZM).
+
+✅ All configs are updated for **Version 3.5** and may be further optimized throughout the version.
+
 ---
 
 ## 📖 Table of Contents
@@ -53,7 +59,8 @@ Special thanks to k4irzw67 for the bike artifact on frame gen fix.
 | `Engine.ini` | Core rendering and graphics tweaks — affects visual quality, shadows, post-processing, and draw distances |
 | `DeviceProfiles.ini` | Device-specific overrides — targets GPU-level settings per hardware profile |
 
-> In WuWa, Engine.ini takes higher priority than the DeviceProfiles.ini, hence, cvar-specific tweaks are done in the Engine.ini  
+> In WuWa, Engine.ini takes higher priority than DeviceProfiles.ini, hence cvar-specific tweaks are done in the Engine.ini.
+
 ---
 
 ## 📱 Device Compatibility
@@ -62,11 +69,12 @@ These configs are optimized for **mid-end to flagship Android devices with Vulka
 
 Tested on devices including the **Poco X6 Pro 5G (Mali G615)** and similar Dimensity/Adreno/Mali hardware. Results may vary by device.
 
-If a config doesn't work well for your device, many other creators and communities now develop WuWa mobile configs — feel free to experiment. Or better yet: create and tune your own. 😄
+If a config doesn't work well for your device, many other creators and communities now develop WuWa mobile configs — feel free to experiment, or create and tune your own. 😄
 
 ---
 
 ## 🛠️ How to Install (Beginner Friendly)
+-> In case you're not using the [Config Patcher](https://github.com/Arglax/Mobile-WuWa-Config/releases/tag/patcher_v1.0) , this is the manual mode.
 
 <details>
 <summary>Click to expand step-by-step instructions</summary>
@@ -128,18 +136,23 @@ Join the **Discord** community for support, updates, and discussions:
 
 ## 🎬 Video Tutorials
 
-### Configuration & Setup
+<details>
+<summary>Click to expand tutorial links</summary>
+
+**Configuration & Setup**
 1. [Config Tutorial Playlist](https://youtube.com/playlist?list=PLn_0LF2KcH65tQ-RoqrgS25wqxV8ZTbfG)
 2. [Applying Configs via PC](https://youtu.be/bB6C8hp_dFQ)
 3. [Force Recompiling Shaders](https://youtu.be/uxio8GI85PY)
 
-### DeviceProfile & GPU Configuration
+**DeviceProfile & GPU Configuration**
 1. [Updating or Creating a DeviceProfile](https://youtu.be/gtmyFKGyl1M)
 2. [Creating a Custom DeviceProfile](https://youtu.be/RnHye7emks8)
 3. [Sample: Applying a Custom DeviceProfile](https://youtube.com/shorts/49OGYJ3ERWs)
 4. [Finding Your DeviceProfile / GPU Family Name](https://youtube.com/shorts/ygf6GUBkx18)
 
 > 💡 Tutorials **#1 and #4** above will help you update the DeviceProfile on your own, without waiting for a config creator to push an update.
+
+</details>
 
 ---
 
@@ -179,7 +192,7 @@ Big thanks to everyone who contributed through testing, feedback, and sharing kn
 <details>
 <summary>Click to expand the full list</summary>
 
-If you see these cvars in your config, they are ignored and will not work.  
+If you see these cvars in your config, they are ignored and will not work.
 
 | Console Variable |
 | :--- |
@@ -234,11 +247,12 @@ If you see these cvars in your config, they are ignored and will not work.
 
 <a href="https://www.buymeacoffee.com/arglaxaqwv" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/arial-violet.png" alt="Optional Support Me" style="height: 60px !important; width: 217px !important;"></a>
 
-> Support is voluntary and does not affect config availability or updates. I will always do what I can to keep up with Kuro's patches.  
+> Support is voluntary and does not affect config availability or updates. I will always do what I can to keep up with Kuro's patches.
 
 ---
 
-## 🔎 Tags
+<details>
+<summary>🔎 Tags (for search/SEO purposes)</summary>
 
 `Wuthering Waves config` `WuWa graphics optimization` `Android ini mod`
 `Vulkan shader cache` `increase WuWa FPS` `WuWa Engine.ini tweak`
@@ -248,3 +262,5 @@ If you see these cvars in your config, they are ignored and will not work.
 `mobile configs wuwa` `wuthering waves optimization` `fps boost wuwa`
 `unreal engine 4.27 config` `android fps boost` `dimensity 8300 optimization`
 `arglax tweaks` `wuwa optimization guide` `vulkan optimization` `low-end optimization wuwa` `client log decryptor` `log decryption`
+
+</details>
