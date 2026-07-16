@@ -21,13 +21,14 @@
 🆕 **New:** A utility tool for patching your configs easily is now available.
 
 [![Download WuWa Config Patcher](https://img.shields.io/badge/Download-WuWa%20Config%20Patcher%20v1.0-brightgreen?style=plastic&logo=android)](https://github.com/Arglax/Mobile-WuWa-Config/releases/tag/patcher_v1.0)
-
 See the [Patcher README](Mobile%20Config%20Patcher/README.md) for setup and usage.
 
-**From July 14, 2026:** Configs updated to v3.5 and will be maintained throughout the patch. Special thanks to k4irzw67 for the bike artifact frame-gen fix.
+**From July 14, 2026:** 
+- Configs updated to v3.5 and will be maintained throughout the patch.   
+- Special thanks to k4irzw67 for the bike artifact frame-gen fix.
 
 > [!TIP]
-> [A user-friendly log decryptor](https://arglax.github.io/Mobile-WuWa-Config/tools/log-decryptor.html) — just upload your log and download the decrypted file.
+> [A user-friendly log decryptor](https://arglax.github.io/Mobile-WuWa-Config/tools/log-decryptor.html) — just upload your log and download the decrypted file.  
 > Need a quick recommendation on which config suits you? <a href="https://arglax.github.io/Mobile-WuWa-Config/index.html" target="_blank"><img src="https://img.shields.io/badge/Launch_Config_Selector-1D9E75?style=for-the-badge&logo=cpu&logoColor=fff" alt="Launch Mobile Config Selector Engine" /></a>
 
 > [!NOTE]
