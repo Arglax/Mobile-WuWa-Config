@@ -80,10 +80,12 @@ Want to undo your changes? Tap **Revert back to Default Config**, confirm the pr
 
 | Feature | Description |
 |---|---|
-| **Sync Files** | Downloads the latest config release. |
+| **Sync Files** | Downloads the latest config release/Obtains config files from a repository. |
+| **1-Click Patch** | Applies the patch directly to your config folder. Selecting advanced will apply ALL .ini files found. |
 | **Config Selector** | Opens a web browser to a tool for checking recommended config preset. |
 | **Log Decryptor** | Decrypts your uploaded Client.Log + some QoL features. |
 | **Revert to Vanilla** | Deletes modified files. The game will automatically recreate default files on your next launch. |
+| **(Advanced) Revert to Vanilla** | Deletes DeviceProfiles,Engine,Scalability, and GameUserSettings .ini files. |
 
 ---
 
