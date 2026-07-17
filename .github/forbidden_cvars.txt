@@ -19,11 +19,11 @@ r.RayTracing.LimitDevice
 r.DetailMode
 r.MaterialQualityLevel
 r.KuroMaterialQualityLevel
-r.ViewDistancescale
+r.ViewDistanceScale
 Kuro.CppEffectsystem.UseLowMemoryPlayerEffectLruCapacity
 r.AsyncComputePSO
 r.Streamline.DLSSG.RetainResourceswhenoff
-r.MobileContentscaleFactor
+r.MobileContentScaleFactor
 r.SecondaryScreenPercentage.GameViewport
 r.ScreenPercentage
 r.AFME.Enable
