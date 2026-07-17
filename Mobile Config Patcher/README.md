@@ -2,18 +2,20 @@
 
 An average, light-weight android application to improve streamlining of the quality of life in applying mobile configuration for Wuthering Waves.  
 
-[![Download WuWa Config Patcher](https://img.shields.io/badge/Download-WuWa%20Config%20Patcher%20v1.0-brightgreen?style=plastic&logo=android)](https://github.com/Arglax/Mobile-WuWa-Config/releases/tag/patcher_v1.0)
+[![Download WuWa Config Patcher](https://img.shields.io/badge/Download-WuWa%20Config%20Patcher%20v1.1-brightgreen?style=plastic&logo=android)](https://github.com/Arglax/Mobile-WuWa-Config/releases/tag/patcher_v1.1)
 ---
 
 ## 🚀 Key Features
-
+- **[New] Get configs from any download URL(must be .zip)**
+- **[New] Get configs from any local repository(folder or zip)**
+- **[New] Advanced patching and reverting options**
 - **Repository Sync** — Instantly fetch the latest configs from this GitHub.
 - **1-Click Patching** — Uses the Shizuku service to write game configurations directly to the protected game data folder. You no longer need to waste time going into the config folder.
 - **Safe Revert** — Accidentally break your graphics settings? Use **Revert to Vanilla** to instantly restore default game files.
 - **External Utilities** — Quick Link access to the **Mobile Config Selector** and **Client Log Decryptor**  
 - **Shareable Patches** — Export your generated patches as `.zip` files to share with friends.
 >[!NOTE]
->In the future, I'll add a custom line so you can get your configs somewhere else in the internet, from different config creators!
+> An auto-update on startup feature will be added in v1.2.0  
 ---
 
 ## 🛠 Prerequisites
