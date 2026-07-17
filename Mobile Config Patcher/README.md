@@ -1,21 +1,21 @@
 # WuWa Config Patcher
 
-An average, light-weight android application to improve streamlining of the quality of life in applying mobile configuration for Wuthering Waves.  
+An average, light-weight android application to improve streamlining of the quality of life in applying mobile configuration for Wuthering Waves.
 
-[![Download WuWa Config Patcher](https://img.shields.io/badge/Download-WuWa%20Config%20Patcher%20v1.1-brightgreen?style=plastic&logo=android)](https://github.com/Arglax/Mobile-WuWa-Config/releases/tag/patcher_v1.1)
+[![Download WuWa Config Patcher](https://img.shields.io/badge/Download-WuWa%20Config%20Patcher%20v1.2-brightgreen?style=plastic&logo=android)](https://github.com/Arglax/Mobile-WuWa-Config/releases/tag/patcher_v1.2)
 ---
 
 ## 🚀 Key Features
-- **[New] Get configs from any download URL(must be .zip)**
-- **[New] Get configs from any local repository(folder or zip)**
-- **[New] Advanced patching and reverting options**
+- **[New] Automatic update checker** — Get notified on startup when a newer version is available, with a one-tap link to update.
+- **Get configs from any download URL** (must be `.zip`)
+- **Get configs from any local repository** (folder or zip)
+- **Advanced patching and reverting options**
 - **Repository Sync** — Instantly fetch the latest configs from this GitHub.
 - **1-Click Patching** — Uses the Shizuku service to write game configurations directly to the protected game data folder. You no longer need to waste time going into the config folder.
 - **Safe Revert** — Accidentally break your graphics settings? Use **Revert to Vanilla** to instantly restore default game files.
-- **External Utilities** — Quick Link access to the **Mobile Config Selector** and **Client Log Decryptor**  
+- **External Utilities** — Quick Link access to the **Mobile Config Selector** and **Client Log Decryptor**
 - **Shareable Patches** — Export your generated patches as `.zip` files to share with friends.
->[!NOTE]
-> An auto-update on startup feature will be added in v1.2.0  
+
 ---
 
 ## 🛠 Prerequisites
@@ -23,56 +23,81 @@ An average, light-weight android application to improve streamlining of the qual
 This app requires **[Shizuku](https://shizuku.rikka.app/) / [Shizuku_GitHub](https://github.com/RikkaApps/Shizuku/releases/tag/v13.6.0)** to function. Shizuku bypasses Android's scoped storage restrictions and grants the app permission to modify your game files.
 
 1. Install Shizuku from the Google Play Store or the official website.
-2. Enable Shizuku via **Wireless Debugging** or **PC-Terminal** (non-rooted devices) or **Root access**.
+2. Enable Shizuku via **Wireless Debugging**, **PC-Terminal** (non-rooted devices), or **Root access**.
 3. Ensure the Shizuku daemon is active before opening the Patcher.
 
 ---
 
-## 📖 How to Use
+<details>
+<summary><strong>📖 Usage Guide</strong> (click to expand)</summary>
 
-### For Users with Shizuku Already Set Up
+<br>
+
+<details>
+<summary><strong>Installation</strong></summary>
+
+Since this app isn't from the Play Store, Android will flag it as unrecognized. This is expected.
+
+1. Tap **Install anyway** when prompted.
+
+   <img src="assets/img_appblock.jpg" width="280">
+
+2. Play Protect will scan and confirm the app is clean and safe to use.
+
+   <img src="assets/img_security_passed.jpg" width="280">
+
+3. On first launch, the Setup Wizard will prompt you to grant Shizuku permissions — tap **Allow all the time**.
+
+   <img src="assets/img_allowshizuku.jpg" width="280">
+
+</details>
+
+<details>
+<summary><strong>Applying a Patch</strong></summary>
+
+**If Shizuku is already running:**
 1. Open WuWa Config Patcher.
-2. Tap **Sync Files & Refresh** to download the latest configs.
-3. Select your preferred graphics preset from the dropdown menu.
-4. Tap **1-Click Patch** to apply the settings immediately.
+2. Tap **Sync Files & Refresh** (or pull down to refresh) to fetch the latest configs.
+3. Select your preferred graphics preset from **Engine Presets**.
+4. Tap **1-Click Patch** — you'll get a confirmation once it's applied.
 
-### For New Users
+   <img src="assets/img_configpatch_success.jpg" width="280">
+
+**If Shizuku isn't set up yet:**
 1. Open the app and trigger the **Setup Wizard** from the main screen.
-2. Follow the instructions to install and authorize Shizuku.
-3. Once the Shizuku icon shows as **"Running"** and permissions are granted, the **1-Click Patch** button will become enabled.
+2. Follow the prompts to install and authorize Shizuku.
+3. Once Shizuku shows as **Running** and permission is granted, **1-Click Patch** unlocks automatically.
 
-## 📲 Quick Start Guide
+**To undo a patch:**
+Tap **Revert back to Default Config**, confirm the prompt, and you're back to stock settings. The game recreates its default files automatically on next launch.
 
-### 1️⃣ Install the App
-Since this app isn't from the Play Store, Android will flag it as unrecognized. This is expected — just tap **Install anyway**.
+<img src="assets/img_reverttoVanilla.jpg" width="280"> <img src="assets/img_configDeleted.jpg" width="280">
 
-<img src="assets/img_appblock.jpg" width="300">
+<details>
+<summary>Selecting an Online Repository (Custom URL)</summary>
 
-Once scanned, Play Protect will confirm the app is clean and safe to use.
+<br>
 
-<img src="assets/img_security_passed.jpg" width="300">
+Switch the repository source to **Custom Online Repository** and paste in a direct **.zip download link**.
 
----
+> 💡 To get the link: find the config's download button on its host page, then **right-click (or long-press) → Copy Link Address**. Paste that URL into the app and tap **Sync Files & Refresh**.
 
-### 2️⃣ Allow Shizuku Access
-On first launch, the Setup Wizard will prompt you to grant Shizuku permissions. Tap **Allow all the time**.
+</details>
 
-<img src="assets/img_allowshizuku.jpg" width="300">
+<details>
+<summary>Selecting a Local Repository</summary>
 
----
+<br>
 
-### 3️⃣ Apply a Config Patch
-Pick your preset from **Engine Presets** and tap **1-Click Patch**. You'll see a confirmation once it's applied.
+Switch the repository source to **Local Repository** and select a folder containing your `.ini` files.
 
-<img src="assets/img_configpatch_success.jpg" width="300">
+> ⚠️ Android's scoped storage rules mean you must pick a **specific sub-folder** (e.g. a Downloads folder or a dedicated configs folder) — selecting the root of Internal Storage will be rejected by the system picker.
 
----
+</details>
 
-### 4️⃣ Revert to Vanilla
-Want to undo your changes? Tap **Revert back to Default Config**, confirm the prompt, and you're back to stock settings.
+</details>
 
-<img src="assets/img_reverttoVanilla.jpg" width="300">
-<img src="assets/img_configDeleted.jpg" width="300">
+</details>
 
 ---
 
@@ -80,18 +105,18 @@ Want to undo your changes? Tap **Revert back to Default Config**, confirm the pr
 
 | Feature | Description |
 |---|---|
-| **Sync Files** | Downloads the latest config release/Obtains config files from a repository. |
-| **1-Click Patch** | Applies the patch directly to your config folder. Selecting advanced will apply ALL .ini files found. |
+| **Sync Files** | Downloads the latest config release, or pulls files from a custom URL / local repository. |
+| **1-Click Patch** | Applies the patch directly to your config folder. Selecting Advanced will apply ALL `.ini` files found. |
 | **Config Selector** | Opens a web browser to a tool for checking recommended config preset. |
-| **Log Decryptor** | Decrypts your uploaded Client.Log + some QoL features. |
+| **Log Decryptor** | Decrypts your uploaded Client.log + some QoL features. |
 | **Revert to Vanilla** | Deletes modified files. The game will automatically recreate default files on your next launch. |
-| **(Advanced) Revert to Vanilla** | Deletes DeviceProfiles,Engine,Scalability, and GameUserSettings .ini files. |
+| **(Advanced) Revert to Vanilla** | Deletes `DeviceProfiles.ini`, `Engine.ini`, `Scalability.ini`, and `GameUserSettings.ini`. |
 
 ---
 
 ## 🛡 Disclaimer
 
-This tool is for optimization purposes only. By using this app, you acknowledge that modifying game files is done at your own discretion. Always ensure you have a backup if you are unsure about the changes you are applying, especially if you have your own **customized** config or else it will be lost. The application does not tamper with your data except to patch the config file and all tools included runs locally on your device. No data is being transmitted to an external, online server.
+This tool is for optimization purposes only. By using this app, you acknowledge that modifying game files is done at your own discretion. Always ensure you have a backup if you are unsure about the changes you are applying, especially if you have your own **customized** config — otherwise it will be lost. The application does not tamper with your data except to patch the config file, and all included tools run locally on your device. No data is transmitted to an external, online server.
 
 ---
 
