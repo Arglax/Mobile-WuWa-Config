@@ -2,7 +2,7 @@
 
 An average, light-weight android application to improve streamlining of the quality of life in applying mobile configuration for Wuthering Waves.
 
-[![Download WuWa Config Patcher](https://img.shields.io/badge/Download-WuWa%20Config%20Patcher%20v1.3-brightgreen?style=plastic&logo=android)](https://github.com/Arglax/Mobile-WuWa-Config/releases/tag/patcher_v1.3)
+[![Download WuWa Config Patcher](https://img.shields.io/badge/Download-WuWa%20Config%20Patcher%20v1.3.1-brightgreen?style=plastic&logo=android)](https://github.com/Arglax/Mobile-WuWa-Config/releases/tag/patcher_v1.3)
 ---
 
 ## Key Features
@@ -18,6 +18,12 @@ An average, light-weight android application to improve streamlining of the qual
 ---
 
 ## 🛠 Prerequisites
+>[!IMPORTANT]
+>Minimum Requirements:
+> - Android 11.0 (API 30) or higher
+> - Shizuku installed and activated (ADB wireless pairing or root — root NOT required)
+> - ~150MB free storage
+> - Internet connection (for online repositories)
 
 This app requires **[Shizuku](https://shizuku.rikka.app/) / [Shizuku_GitHub](https://github.com/RikkaApps/Shizuku/releases/tag/v13.6.0)** to function. Shizuku bypasses Android's scoped storage restrictions and grants the app permission to modify your game files.
 
