@@ -57,11 +57,11 @@ See the [Patcher README](Mobile%20Config%20Patcher/README.md) for setup and usag
 
 | File | Purpose |
 |---|---|
-| `Engine.ini` | Core rendering and graphics tweaks — affects visual quality, shadows, post-processing, and draw distances |
+| `Engine.ini` | General fine-tuning for default or preset scalability groups. |
 | `DeviceProfiles.ini` | Device-specific overrides — targets GPU-level settings per hardware profile |
 
-> In WuWa, Engine.ini takes higher priority than DeviceProfiles.ini, hence cvar-specific tweaks are done in the Engine.ini.
-
+> In WuWa, `sg.*` are set in the DeviceProfiles.ini, which are then fine tuned by the cvars in Engine.ini.
+**However**, cvars placed under a specific DeviceProfile name will take authority and will be the final value.  
 ---
 
 ## 📱 Device Compatibility
