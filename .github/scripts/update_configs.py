@@ -52,12 +52,20 @@ def extract_key_value(line: str) -> tuple[str, str] | None:
     return key, value
 
 
+def is_line_forbidden(line: str, forbidden: set[str]) -> bool:
+    """Return True if line is active (not commented) and contains any forbidden CVar (supports CVars= prefix etc)."""
+    stripped = line.strip()
+    if not stripped or stripped.startswith(("#", ";", "[")):
+        return False
+    line_lower = stripped.lower()
+    return any(cvar in line_lower for cvar in forbidden)
+
+
 def strip_forbidden(lines: list[str], forbidden: set[str]) -> tuple[list[str], list[str]]:
-    """Returns (kept_lines, removed_raw_lines)."""
+    """Returns (kept_lines, removed_raw_lines). Obliterates whole line for forbidden CVars."""
     kept, removed = [], []
     for line in lines:
-        parsed = extract_key_value(line)
-        if parsed and parsed[0].lower() in forbidden:
+        if is_line_forbidden(line, forbidden):
             removed.append(line.rstrip("\n"))
             continue
         kept.append(line)
@@ -187,6 +195,49 @@ def insert_changelog_entry(header_lines: list[str], bullet_messages: list[str]) 
     return header_lines[:insert_at] + new_block + header_lines[insert_at:]
 
 
+def limit_changelog_blocks(header_lines: list[str]) -> list[str]:
+    """Keep only up to 2 most recent changelog dated blocks (current + most recent past)."""
+    if not header_lines:
+        return header_lines
+
+    changelog_idx = None
+    changelog_pattern = re.compile(r"^;[\s]*changelog[\s]*:?[\s]*$", re.IGNORECASE)
+    for i, line in enumerate(header_lines):
+        if changelog_pattern.match(line.rstrip("\n")):
+            changelog_idx = i
+            break
+    if changelog_idx is None:
+        return header_lines
+
+    end_marker_idx = len(header_lines)
+    for i, line in enumerate(header_lines):
+        if END_MARKER_SNIPPET in line:
+            end_marker_idx = i + 1
+            break
+
+    date_pattern = re.compile(r"^;\s*[A-Za-z]{3,9} \d{1,2}, \d{4}")
+    result = header_lines[:changelog_idx + 1]
+    block_count = 0
+    for j in range(changelog_idx + 1, end_marker_idx):
+        line = header_lines[j]
+        stripped = line.strip()
+        is_date_line = bool(date_pattern.match(stripped))
+        if is_date_line:
+            block_count += 1
+            if block_count > 2:
+                break
+        if block_count <= 2:
+            result.append(line)
+
+    # Append END marker if present and not already included (broke early on excess blocks)
+    if end_marker_idx < len(header_lines):
+        end_line = header_lines[end_marker_idx - 1]
+        if END_MARKER_SNIPPET in end_line and (not result or END_MARKER_SNIPPET not in result[-1]):
+            result.append(end_line)
+
+    return result
+
+
 # --------------------------------------------------------------------------
 # Git helpers
 # --------------------------------------------------------------------------
@@ -258,6 +309,8 @@ def process_file(path: Path, forbidden: set[str]) -> bool:
         else:
             print(f"\nℹ️  {repo_relative_path} has no prior commit — skipping changelog diff, link still refreshed.")
 
+        header_updated = limit_changelog_blocks(header_updated)
+
     new_lines = header_updated + cleaned_body
     if new_lines != original_lines:
         path.write_text("".join(new_lines), encoding="utf-8")
@@ -271,18 +324,18 @@ def main() -> int:
         return 2
 
     forbidden = load_forbidden_cvars(FORBIDDEN_LIST_PATH)
-    config_dir = REPO_ROOT / CONFIG_DIR_NAME
-
-    if not config_dir.exists():
-        print(f'Config folder "{CONFIG_DIR_NAME}" not found — nothing to scan.')
-        return 0
 
     any_changes = False
-    for ini_path in sorted(config_dir.rglob("*.ini")):
-        if ini_path.name.lower() not in TARGET_FILENAMES:
+    for dir_name in ["[V3.x] Working Configs", "Community Configs"]:
+        config_dir = REPO_ROOT / dir_name
+        if not config_dir.exists():
+            print(f'Config folder "{dir_name}" not found — skipping.')
             continue
-        if process_file(ini_path, forbidden):
-            any_changes = True
+        for ini_path in sorted(config_dir.rglob("*.ini")):
+            if ini_path.name.lower() not in TARGET_FILENAMES:
+                continue
+            if process_file(ini_path, forbidden):
+                any_changes = True
 
     if not any_changes:
         print("✅ No forbidden CVars and no CVar changes detected. Nothing to update.")

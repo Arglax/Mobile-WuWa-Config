@@ -21,9 +21,7 @@ jobs:
 
       - name: Build release zip
         run: |
-          cd "[V3.x] Working Configs"
-          zip -r "../Mobile-WuWa-Config-${{ inputs.tag }}.zip" . -x "*.DS_Store"
-          cd ..
+          zip -r "Mobile-WuWa-Config-${{ inputs.tag }}.zip" "[V3.x] Working Configs" "Community Configs" -x "*.DS_Store"
           echo "=== Zip contents ==="
           unzip -l "Mobile-WuWa-Config-${{ inputs.tag }}.zip"
 
