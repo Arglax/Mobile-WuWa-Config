@@ -75,7 +75,7 @@ If a config doesn't work well for your device, many other creators and communiti
 ---
 
 ## 🛠️ How to Install (Beginner Friendly)
--> In case you're not using the [Config Patcher](https://github.com/Arglax/Mobile-WuWa-Config/releases/tag/patcher_v1.0) , this is the manual mode.
+-> In case you're not using the [Config Patcher](https://github.com/Arglax/Mobile-WuWa-Config/releases/tag/patcher_v1.3) , this is the manual mode.
 
 <details>
 <summary>Click to expand step-by-step instructions</summary>
@@ -150,8 +150,11 @@ Join the **Discord** community for support, updates, and discussions:
 2. [Creating a Custom DeviceProfile](https://youtu.be/RnHye7emks8)
 3. [Sample: Applying a Custom DeviceProfile](https://youtube.com/shorts/49OGYJ3ERWs)
 4. [Finding Your DeviceProfile / GPU Family Name](https://youtube.com/shorts/ygf6GUBkx18)
-
 > 💡 Tutorials **#1 and #4** above will help you update the DeviceProfile on your own, without waiting for a config creator to push an update.
+
+**Mobile Config Patcher**
+1. [Tiktok Basic Showcase patcher_v1.0](https://www.tiktok.com/@7106281291503502337/video/7663327329669680402)
+2. [YouTube Basic Showcase patcher_v1.0](https://www.youtube.com/watch?v=slsT_nL4Oow&lc=UgzHJHEfQGmlr-JtGCF4AaABAg)
 
 </details>
 
