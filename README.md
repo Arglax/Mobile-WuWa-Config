@@ -20,7 +20,7 @@
 
 🆕 **New:** A utility tool for patching your configs easily is now available.
 
-[![Download WuWa Config Patcher](https://img.shields.io/badge/Download-WuWa%20Config%20Patcher%20v1.2-brightgreen?style=plastic&logo=android)](https://github.com/Arglax/Mobile-WuWa-Config/releases/tag/patcher_v1.2)
+[![Download WuWa Config Patcher](https://img.shields.io/badge/Download-WuWa%20Config%20Patcher%20v1.3-brightgreen?style=plastic&logo=android)](https://github.com/Arglax/Mobile-WuWa-Config/releases/tag/patcher_v1.3)
 See the [Patcher README](Mobile%20Config%20Patcher/README.md) for setup and usage.
 
 **From July 14, 2026:** 
