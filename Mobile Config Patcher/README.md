@@ -2,20 +2,19 @@
 
 An average, light-weight android application to improve streamlining of the quality of life in applying mobile configuration for Wuthering Waves.
 
-[![Download WuWa Config Patcher](https://img.shields.io/badge/Download-WuWa%20Config%20Patcher%20v1.2-brightgreen?style=plastic&logo=android)](https://github.com/Arglax/Mobile-WuWa-Config/releases/tag/patcher_v1.2)
+[![Download WuWa Config Patcher](https://img.shields.io/badge/Download-WuWa%20Config%20Patcher%20v1.3-brightgreen?style=plastic&logo=android)](https://github.com/Arglax/Mobile-WuWa-Config/releases/tag/patcher_v1.3)
 ---
 
-## 🚀 Key Features
-- **[New] Automatic update checker** — Get notified on startup when a newer version is available, with a one-tap link to update.
-- **Get configs from any download URL** (must be `.zip`)
-- **Get configs from any local repository** (folder or zip)
-- **Advanced patching and reverting options**
-- **Repository Sync** — Instantly fetch the latest configs from this GitHub.
-- **1-Click Patching** — Uses the Shizuku service to write game configurations directly to the protected game data folder. You no longer need to waste time going into the config folder.
+## Key Features
+- **1-Click Patching** — Uses the Shizuku service to write game configurations directly to the protected game data folder. No more wasting time navigating through Android's restricted data folders.
 - **Safe Revert** — Accidentally break your graphics settings? Use **Revert to Vanilla** to instantly restore default game files.
-- **External Utilities** — Quick Link access to the **Mobile Config Selector** and **Client Log Decryptor**
-- **Shareable Patches** — Export your generated patches as `.zip` files to share with friends.
-
+- **[New] Advanced Multi-Select Patching** — Freely select specific combinations of `.ini` files to patch (e.g., just `Engine.ini` and `DeviceProfiles.ini`), or use the quick toggle to apply everything at once.
+- **Flexible Config Sources** — Easily load configuration files from any direct download URL (`.zip`), a local folder, or a local `.zip` file.
+- **[New] Custom Repository Management** — Add, manage, and delete your own custom repositories with built-in setup guides. (The default Arglax repository is protected and always available).
+- **Repository Sync** — Instantly fetch the latest configs via pull-to-refresh, which also automatically verifies your Shizuku connection status.
+- **[New] Expanded Utilities Toolkit** — Access a clean 2x2 grid to easily **Extract `Client.log`** for crash diagnosis, **Delete Logs** to clean up oversized files, and export/share your generated `.zip` patches with friends.
+- **Streamlined UI & Quality of Life** — Enjoy a less cluttered main screen with collapsible cards, detailed tooltips for all utilities, and a clearer preset selector that displays parent folder paths.
+- **Automatic Update Checker** — Get notified on startup when a newer version is available, with a one-tap link to update.
 ---
 
 ## 🛠 Prerequisites
@@ -101,7 +100,7 @@ Switch the repository source to **Local Repository** and select a folder contain
 
 ---
 
-## 📋 Help & Troubleshooting
+## Help & Troubleshooting
 
 | Feature | Description |
 |---|---|
@@ -114,9 +113,9 @@ Switch the repository source to **Local Repository** and select a folder contain
 
 ---
 
-## 🛡 Disclaimer
-
-This tool is for optimization purposes only. By using this app, you acknowledge that modifying game files is done at your own discretion. Always ensure you have a backup if you are unsure about the changes you are applying, especially if you have your own **customized** config — otherwise it will be lost. The application does not tamper with your data except to patch the config file, and all included tools run locally on your device. No data is transmitted to an external, online server.
+## Disclaimer
+>[!IMPORTANT]
+>This tool is for optimization purposes only. By using this app, you acknowledge that modifying game files is done at your own discretion. Always ensure you have a backup if you are unsure about the changes you are applying, especially if you have your own **customized** config — otherwise it will be lost. The application does not tamper with your data except to patch the config file, and all included tools run locally on your device. No data is transmitted to an external, online server.
 
 ---
 
