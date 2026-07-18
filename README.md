@@ -153,8 +153,7 @@ Join the **Discord** community for support, updates, and discussions:
 > 💡 Tutorials **#1 and #4** above will help you update the DeviceProfile on your own, without waiting for a config creator to push an update.
 
 **Mobile Config Patcher**
-1. [Tiktok Basic Showcase patcher_v1.0](https://www.tiktok.com/@7106281291503502337/video/7663327329669680402)
-2. [YouTube Basic Showcase patcher_v1.0](https://www.youtube.com/watch?v=slsT_nL4Oow&lc=UgzHJHEfQGmlr-JtGCF4AaABAg)
+1. [Mobile Config Patcher v1.3 Showcase](https://youtu.be/NCYLjgMLzq0)
 
 </details>
 
