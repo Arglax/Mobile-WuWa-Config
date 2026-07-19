@@ -19,7 +19,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
-- name: Build release zip
+      - name: Build release zip
         run: |
           zip -r "Mobile-WuWa-Config-${{ inputs.tag }}.zip" "[V3.x] Working Configs" "Community Configs" -x "*.DS_Store"
           zip -j "Mobile-WuWa-Config-${{ inputs.tag }}.zip" ".github/custom-metadata.txt"
