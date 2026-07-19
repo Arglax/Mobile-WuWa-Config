@@ -2,7 +2,7 @@
 
 An ultra light-weight (3.2MB) android application to improve streamlining of the quality of life in applying mobile configuration for Wuthering Waves.
 
-[![Download WuWa Config Patcher](https://img.shields.io/badge/Download-WuWa%20Config%20Patcher%20v1.3.2-brightgreen?style=plastic&logo=android)](https://github.com/Arglax/Mobile-WuWa-Config/releases/tag/patcher_v1.3)
+[![Download WuWa Config Patcher](https://img.shields.io/badge/Download-WuWa%20Config%20Patcher%20v1.3.3-brightgreen?style=plastic&logo=android)](https://github.com/Arglax/Mobile-WuWa-Config/releases/tag/patcher_v1.3)
 ---
 
 ## Key Features
@@ -19,11 +19,12 @@ An ultra light-weight (3.2MB) android application to improve streamlining of the
 | **Streamlined UI & Quality of Life** | Enjoy a less cluttered main screen with collapsible cards, detailed tooltips for all utilities, and a clearer preset selector that displays parent folder paths. |
 | **Automatic Update Checker** | Get notified on startup when a newer version is available, with a one-tap link to update. |
 | **Automatic Client.Log Extract and Decrypt** | When you extract your client.log, it also makes it readable. |
+| **Custom Metadata Reader** | Showcase your ownership and config notes (For config creators/distributors) | 
 
 ## 🛠 Prerequisites
 >[!IMPORTANT]
 > ### Minimum
-> - **Android 11 (API 30)** or higher — matches `minSdk = 30`
+> - **Android 11 (API 30)** or higher
 > - **Shizuku** installed and running (required for direct game folder access without root)
 >  - Via wireless debugging (Android 11+) or a PC/ADB connection at least once for setup
 > - **~50 MB free storage** for the app + your exported patch backups
@@ -33,7 +34,6 @@ An ultra light-weight (3.2MB) android application to improve streamlining of the
 > - **Android 13+ (API 33)** or higher — smoother Shizuku wireless debugging pairing, matches modern devices better
 > - **Shizuku running persistently** (auto-start on boot via wireless debugging, where supported)
 > - **Stable Wi-Fi** for repository sync and patch downloads
-> - Any device capable of running Wuthering Waves comfortably (the patcher itself is lightweight — ~3 MB installed — so if your device runs the game, it'll run this app with no issue)
 
 This app requires **[Shizuku](https://shizuku.rikka.app/) / [Shizuku_GitHub](https://github.com/RikkaApps/Shizuku/releases/tag/v13.6.0)** to function. Shizuku bypasses Android's scoped storage restrictions and grants the app permission to modify your game files.
 
