@@ -2,7 +2,7 @@ name: { Arglax }
 version: { v3.5 }
 version-name: { aio }
 sections: { "Stable Configs": "Stable Configs", "Performance Configs": "Performance Configs", "High-Visual Configs": "[V3.x] Working Configs", "High-Visual Config", "Community Configs": "Community Configs" }
-subsec: { "Stable Configs": "Stable Configs", "Performance Configs": "Performance Configs", "High-Visual Config": "[V3.x] Working Configs", "High-Visual Config (Experimental)": "High-Visual Config", "Community Configs": "Community Configs" }
+subsec: { }
 notes: {
 [gold]Section Guide:[/gold]
 - [green]Stable Configs:[/green] A/B/C tiers by device performance and ram
