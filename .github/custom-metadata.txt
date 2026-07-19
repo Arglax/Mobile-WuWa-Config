@@ -5,8 +5,8 @@ sections: { "Stable Configs": "A High-End", "B Mid-End", "C Low-End", "Performan
 subsec: { "A High-End": "Stable Configs", "B Mid-End": "Stable Configs", "C Low-End": "Stable Configs", "Config_1": "Performance Configs", "Config_2": "Performance Configs", "Potato Config": "Performance Configs", "High-Visual Config": "High-Visual Configs", "Z_Experimental Config": "High-Visual Configs (Experimental)", "Mythos Overdrive Config": "Community Configs" }
 notes: {
 [gold]Section Guide:[/gold]
-- [green] Stable Configs: [/green] A/B/C tiers by device performance and ram
-- [orange] Performance Configs: [/orange] fps-focused presets, includes Potato/lowest-end tier
+- [green] Stable Configs: [/green] A/B/C tiers by device [u]performance and ram[/u]
+- [orange] Performance Configs: [/orange] fps-focused presets, includes [u]Potato/lowest-end tier[/u]
 - [red] High-Visual Configs: [/red] visual-priority preset
 - [white] Community Configs: [/white] submitted by the community
 
