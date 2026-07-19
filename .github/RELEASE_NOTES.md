@@ -31,3 +31,6 @@ All configs are patched with the bike fix for frame-gen enabled gameplay.
 Credits for the fix goes to k4irzw67.
 
 🙏 Thanks to everyone who tested and reported issues.
+
+Final Notes:
+I just added a custom-metadata for those who are using the mobile config patcher.
