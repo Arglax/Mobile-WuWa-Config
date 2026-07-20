@@ -1,6 +1,6 @@
 name: { Arglax }
 version: { v3.5 }
-version-name: { aio }
+version-name: { 21-07-26 }
 sections: { "Stable Configs": "Stable Configs", "Performance Configs": "Performance Configs", "High-Visual Configs": "[V3.x] Working Configs", "High-Visual Config", "Community Configs": "Community Configs" }
 subsec: { }
 notes: {
@@ -11,4 +11,5 @@ notes: {
 - [white]Community Configs:[/white] submitted by the community
 
 [gray]Folders not listed here fall under "Other Configs" automatically.[/gray]
+[green]Final Notes:[/green] [gold]Optimization patch[/gold] for [blue]non-high end devices[/blue]
 }
