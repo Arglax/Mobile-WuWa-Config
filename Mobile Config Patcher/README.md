@@ -1,8 +1,8 @@
 # WuWa Config Patcher
 
-An ultra light-weight (3.2MB) android application to improve streamlining of the quality of life in applying mobile configuration for Wuthering Waves.
+An ultra light-weight (4.7MB) android application to improve streamlining of the quality of life in applying mobile configuration for Wuthering Waves.
 
-[![Download WuWa Config Patcher](https://img.shields.io/badge/Download-WuWa%20Config%20Patcher%20v1.3.6-brightgreen?style=plastic&logo=android)](https://github.com/Arglax/Mobile-WuWa-Config/releases/tag/patcher_v1.3)
+[![Download WuWa Config Patcher](https://img.shields.io/badge/Download-WuWa%20Config%20Patcher%20v1.3.7-brightgreen?style=plastic&logo=android)](https://github.com/Arglax/Mobile-WuWa-Config/releases/tag/patcher_v1.3)
 ---
 
 ## Key Features
