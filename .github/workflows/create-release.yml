@@ -17,7 +17,7 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v4
 
       - name: Build release zip
         run: |
@@ -33,3 +33,17 @@ jobs:
           name: ${{ inputs.title }}
           body_path: .github/RELEASE_NOTES.md
           files: Mobile-WuWa-Config-${{ inputs.tag }}.zip
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install google-auth requests
+
+      - name: Send FCM notification
+        env:
+          FCM_SERVICE_ACCOUNT_JSON: ${{ secrets.FCM_SERVICE_ACCOUNT_JSON }}
+        # Notice we use inputs.tag here instead of github.event.release.tag_name
+        run: python .github/scripts/send_fcm.py "${{ inputs.tag }}"
