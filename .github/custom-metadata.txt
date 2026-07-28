@@ -1,6 +1,6 @@
 name: { Arglax }
 version: { v3.5 }
-version-name: { 23-07-26 }
+version-name: { 28-07-26 }
 sections: { "Stable Configs": "Stable Configs", "Performance Configs": "Performance Configs", "High-Visual Configs": "[V3.x] Working Configs", "High-Visual Config", "Community Configs": "Community Configs" }
 subsec: { }
 notes: {
@@ -12,6 +12,7 @@ notes: {
 
 [gray]Folders not listed here fall under "Other Configs" automatically.[/gray]
 [green]Final Notes:
-[/green] [gold]Optimization patch[/gold] for [blue]Stable Config C[/blue]
-Performance improvement for all stable configs to follow.
+[/green] [gold]Optimization patch[/gold] for [blue]Stable Configs [/blue]
+GC is handled by game now, configs reverted to liken vanilla for stability
+For custom deviceprofiles, I recommend creating your own using the deviceprofiles.ini generator
 }
