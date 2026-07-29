@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="https://img.shields.io/badge/Updated-JULY_14-blue?style=plastic&logo=github&logoColor=white" />
+  <img src="https://img.shields.io/badge/Updated-JULY_29-blue?style=plastic&logo=github&logoColor=white" />
   <img src="https://img.shields.io/badge/🎯_Target_Version-3.5-green?style=plastic" />
   <img src="https://img.shields.io/badge/Support-Vulkan_&_OpenGL-orange?style=plastic&logo=cog&logoColor=white" />
 </div>
@@ -16,20 +16,13 @@
 
 ---
 
-## 📢 Announcements — July 17, 2026
+## 📢 Announcements — July 29, 2026
 
-🆕 **New:** A utility tool for patching your configs easily is now available.
-
-[![Download WuWa Config Patcher](https://img.shields.io/badge/Download-WuWa%20Config%20Patcher%20v1.3.6-brightgreen?style=plastic&logo=android)](https://github.com/Arglax/Mobile-WuWa-Config/releases/tag/patcher_v1.3)
-See the [Patcher README](Mobile%20Config%20Patcher/README.md) for setup and usage.
+🆕 **Update:** All patchers, web tools, and companion applications are now organized in the unified **[Tools & Utilities](#-tools--utilities)** section below!
 
 **From July 14, 2026:** 
 - Configs updated to v3.5 and will be maintained throughout the patch.   
 - Special thanks to k4irzw67 for the bike artifact frame-gen fix.
-
-> [!TIP]
-> [A user-friendly log decryptor](https://arglax.github.io/Mobile-WuWa-Config/tools/log-decryptor.html) — just upload your log and download the decrypted file.  
-> Need a quick recommendation on which config suits you? <a href="https://arglax.github.io/Mobile-WuWa-Config/index.html" target="_blank"><img src="https://img.shields.io/badge/Launch_Config_Selector-1D9E75?style=for-the-badge&logo=cpu&logoColor=fff" alt="Launch Mobile Config Selector Engine" /></a>
 
 > [!NOTE]
 > ***If KuroGames requests to take down this tool, it will be taken down.***
@@ -42,13 +35,16 @@ See the [Patcher README](Mobile%20Config%20Patcher/README.md) for setup and usag
 ## 📖 Table of Contents
 
 - [What's Inside](#-whats-inside)
+- [Tools & Utilities](#-tools--utilities)
 - [Device Compatibility](#-device-compatibility)
 - [How to Install](#️-how-to-install-beginner-friendly)
 - [File Location](#-file-location)
+- [Frequently Asked Questions (FAQ)](#-frequently-asked-questions-faq)
 - [Need Help?](#-need-help)
 - [Video Tutorials](#-video-tutorials)
 - [AI-Assisted Config Notes](#-ai-assisted-config-creation)
 - [Credits](#-credits)
+- [Forbidden CVars List](#forbidden-cvars-list)
 - [Disclaimer](#disclaimer)
 
 ---
@@ -62,6 +58,26 @@ See the [Patcher README](Mobile%20Config%20Patcher/README.md) for setup and usag
 
 > In WuWa, `sg.*` are set in the DeviceProfiles.ini, which are then fine tuned by the cvars in Engine.ini.
 **However**, cvars placed under a specific DeviceProfile name will take authority and will be the final value.  
+
+---
+
+## 🧰 Tools & Utilities
+
+<details open>
+<summary><b>Click to expand/collapse official suite & tools</b></summary>
+<br>
+
+All companion applications, patching tools, and web services are grouped here for easier navigation and utilization:
+
+| Tool | Type | Description | Link |
+|---|---|---|---|
+| **WuWa Config Patcher** | Android App | Automated config patcher tool with built-in log decryption. | [Download Release](https://github.com/Arglax/Mobile-WuWa-Config/releases/tag/patcher_v1.3) \| [Patcher Docs](Mobile%20Config%20Patcher/README.md) |
+| **WuWaLab** | Open Source | Open-source companion app for Wuthering Waves configuration. | [Get Latest Release](https://github.com/Arglax/WuWaLab/releases) |
+| **WuWa Custom Metadata Editor** | Auxiliary Utility | Desktop metadata editor for config distributors. Works solely for WuWa Config Patcher. | [Get Latest Release](https://github.com/Arglax/Custom-Metadata-Builder/releases) |
+| **WuWa Portal Web Suite** | Web Application | Includes the Config Selector Engine, Online Log Decryptor, and DeviceProfiles.ini Generator. | [Launch WuWa Portal](https://arglax.github.io/Mobile-WuWa-Config/index.html) \| [Online Log Decryptor](https://arglax.github.io/Mobile-WuWa-Config/tools/log-decryptor.html) |
+
+</details>
+
 ---
 
 ## 📱 Device Compatibility
@@ -75,7 +91,7 @@ If a config doesn't work well for your device, many other creators and communiti
 ---
 
 ## 🛠️ How to Install (Beginner Friendly)
--> In case you're not using the [Config Patcher](https://github.com/Arglax/Mobile-WuWa-Config/releases/tag/patcher_v1.3) , this is the manual mode.
+-> In case you're not using the [Config Patcher](https://github.com/Arglax/Mobile-WuWa-Config/releases/tag/patcher_v1.3), this is the manual mode.
 
 <details>
 <summary>Click to expand step-by-step instructions</summary>
@@ -106,7 +122,7 @@ You can also follow along with the video tutorial: https://youtu.be/bB6C8hp_dFQ
 
 Navigate to this folder on your Android device:
 
-```
+```text
 Internal Storage/
 └── Android/
     └── data/
@@ -122,15 +138,37 @@ Internal Storage/
 
 The full path will look something like this (example using Poco X6 Pro 5G):
 
-```
-This PC\POCO X6 Pro 5G\Internal shared storage\Android\data\com.kurogame.wutheringwaves.global\files\UE4Game\Client\Client\Saved\Config\Android
-```
+`This PC\POCO X6 Pro 5G\Internal shared storage\Android\data\com.kurogame.wutheringwaves.global\files\UE4Game\Client\Client\Saved\Config\Android`
+
+---
+
+## ❓ Frequently Asked Questions (FAQ)
+
+<details>
+<summary><b>Q: I am having issues with my <code>Client.log</code> or need to analyze crash logs?</b></summary>
+<br>
+
+If you encounter log errors or need to inspect game logs, you can easily decrypt them using either option:
+* **Web:** Use the online [WuWa Portal Log Decryptor](https://arglax.github.io/Mobile-WuWa-Config/tools/log-decryptor.html) — upload your log and download the decrypted file directly.
+* **App:** Use the **Mobile Config Patcher**, which features a built-in internal log decryptor.
+
+</details>
+
+<details>
+<summary><b>Q: How do I fix black screen flickering?</b></summary>
+<br>
+
+Black screen flickering is usually caused by conflicting or incompatible hardware profiles. You can resolve this by:
+1. Generating a fresh profile using the **`DeviceProfiles.ini` Generator** available on the [WuWa Portal](https://arglax.github.io/Mobile-WuWa-Config/index.html).
+2. Or simply **deleting your current `DeviceProfiles.ini` file** in your game config folder and letting the game regenerate the default file.
+
+</details>
 
 ---
 
 ## 📬 Need Help?
 
-Join the **Discord** community for support, updates, and discussions:
+Join the **Discord** community for support, updates, and discussions:  
 👉 https://discord.gg/renjxYBEZM
 
 ---
