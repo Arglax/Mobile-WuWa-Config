@@ -1,6 +1,6 @@
 <div align="center">
-  <img src="https://img.shields.io/badge/Updated-JULY_29-blue?style=plastic&logo=github&logoColor=white" />
-  <img src="https://img.shields.io/badge/🎯_Target_Version-3.5-green?style=plastic" />
+  <img src="https://img.shields.io/badge/Updated-AUG_22-blue?style=plastic&logo=github&logoColor=white" />
+  <img src="https://img.shields.io/badge/🎯_Target_Version-3.6-green?style=plastic" />
   <img src="https://img.shields.io/badge/Support-Vulkan_&_OpenGL-orange?style=plastic&logo=cog&logoColor=white" />
 </div>
 
@@ -16,20 +16,17 @@
 
 ---
 
-## 📢 Announcements — July 29, 2026
+## 📢 Announcements — August 22, 2026
+🆕 **Update:** Configs will be worked on until next week and will be optimized throughout the patch. We're currently testing C# environment.
 
-🆕 **Update:** All patchers, web tools, and companion applications are now organized in the unified **[Tools & Utilities](#-tools--utilities)** section below!
-
-**From July 14, 2026:** 
-- Configs updated to v3.5 and will be maintained throughout the patch.   
-- Special thanks to k4irzw67 for the bike artifact frame-gen fix.
+**From July 29, 2026:** 
+- All patchers, web tools, and companion applications are now organized in the unified **[Tools & Utilities](#-tools--utilities)** section below!
 
 > [!NOTE]
 > ***If KuroGames requests to take down this tool, it will be taken down.***
-> 🔔 Keep an eye on the [forbidden CVars list](#forbidden-cvars-list) at the bottom of this file — also posted in the [Discord server](https://discord.gg/renjxYBEZM).
+> 🔔 Keep an eye on the [forbidden CVars list](#forbidden-cvars-list) at the bottom of this file
 
 ✅ All configs are updated for **Version 3.5** and may be further optimized throughout the version.
-
 ---
 
 ## 📖 Table of Contents
@@ -71,7 +68,7 @@ All companion applications, patching tools, and web services are grouped here fo
 
 | Tool | Type | Description | Link |
 |---|---|---|---|
-| **WuWa Config Patcher** | Android App | Automated config patcher tool with built-in log decryption. | [Download Release](https://github.com/Arglax/Mobile-WuWa-Config/releases/tag/patcher_v1.3) \| [Patcher Docs](Mobile%20Config%20Patcher/README.md) |
+| **WuWa Config Patcher** | Android App | Automated config patcher tool with built-in log decryption. | [Download Release](https://github.com/Arglax/Mobile-WuWa-Config/releases/tag/patcher_v1.4) \| [Patcher Docs](Mobile%20Config%20Patcher/README.md) |
 | **WuWaLab** | Open Source | Open-source companion app for Wuthering Waves. | [Get Latest Release](https://github.com/Arglax/WuWaLab/releases) |
 | **WuWa Custom Metadata Editor** | Auxiliary Utility | Android metadata editor for config distributors. Works solely for WuWa Config Patcher. | [Get Latest Release](https://github.com/Arglax/Custom-Metadata-Builder/releases) |
 | **WuWa Portal Web Suite** | Web Application | Includes the Config Selector Engine, Online Log Decryptor, and DeviceProfiles.ini Generator. | [Launch WuWa Portal](https://arglax.github.io/Mobile-WuWa-Config/index.html) \| [Online Log Decryptor](https://arglax.github.io/Mobile-WuWa-Config/tools/log-decryptor.html) |
@@ -91,7 +88,7 @@ If a config doesn't work well for your device, many other creators and communiti
 ---
 
 ## 🛠️ How to Install (Beginner Friendly)
--> In case you're not using the [Config Patcher](https://github.com/Arglax/Mobile-WuWa-Config/releases/tag/patcher_v1.3), this is the manual mode.
+-> In case you're not using the [Config Patcher](https://github.com/Arglax/Mobile-WuWa-Config/releases/tag/patcher_v1.4), this is the manual mode.
 
 <details>
 <summary>Click to expand step-by-step instructions</summary>
@@ -198,7 +195,6 @@ Join the **Discord** community for support, updates, and discussions:
 ---
 
 ## 🤖 AI-Assisted Config Creation
-
 If you use AI to help create or modify configs, Claude generally performs well for this task.
 
 > 🛑 **Always verify that your CVars are real, registered, and supported by the game version you're using.** Check your `Client.log` files regularly. AI hallucinations are real.
@@ -225,53 +221,13 @@ Big thanks to everyone who contributed through testing, feedback, and sharing kn
 8. KRG6187
 9. SuiX
 10. k4irzw67
-
+11. RabbyDevs
 ---
 
 ## Forbidden CVars List
 
-<details>
-<summary>Click to expand the full list</summary>
-
-If you see these cvars in your config, they are ignored and will not work.
-
-| Console Variable |
-| :--- |
-| `r.Kuro.SkeletalMesh.LODDistanceScale` |
-| `r.Streaming.Boost` |
-| `r.Streaming.PoolSize` |
-| `r.Streaming.LimitPoolSizeTOVRAM` |
-| `r.Shadow.MaxCSMResolution` |
-| `r.Streaming.MinBoost` |
-| `r.MipMapLODBias` |
-| `r.TextureGroup.Landscape.TextureLODBias` |
-| `r.Kuro.TexturePool.ExtraBudgetMB` |
-| `r.Streaming.CPUReadback` |
-| `r.Streaming.UseAsyncCPUReadback` |
-| `r.Streaming.MaxNumTexturesTostreamPerFrame` |
-| `r.Streaming.MinMipForSplitRequest` |
-| `r.Streaming.UseFixedPoolsize` |
-| `r.Streaming.UseAllMips` |
-| `r.Streaming.MaxTempMemoryAllowed` |
-| `r.RayTracing.LimitDevice` |
-| `r.DetailMode` |
-| `r.MaterialQualityLevel` |
-| `r.KuroMaterialQualityLevel` |
-| `r.ViewDistancescale` |
-| `Kuro.CppEffectsystem.UseLowMemoryPlayerEffectLruCapacity` |
-| `r.AsyncComputePSO` |
-| `r.Streamline.DLSSG.RetainResourceswhenoff` |
-| `r.MobileContentscaleFactor` |
-| `r.SecondaryScreenPercentage.GameViewport` |
-| `r.ScreenPercentage` |
-| `r.AFME.Enable` |
-| `r.MFRC.Enable` |
-| `r.FEstimation.Option` |
-
-> V3.4 Latest Forbidden CVars credits to yuukinyan
-
-</details>
-
+> V3.6 Latest Forbidden CVars credits to Brandy's Server  
+> https://github.com/Arglax/Mobile-WuWa-Config/blob/main/.github/forbidden_cvars.txt
 ---
 
 ## Disclaimer
