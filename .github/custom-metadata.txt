@@ -1,18 +1,18 @@
 name: { Arglax }
-version: { v3.5 }
-version-name: { 28-07-26 }
+version: { v3.6 }
+version-name: { 22-08-26 }
 sections: { "Stable Configs": "Stable Configs", "Performance Configs": "Performance Configs", "High-Visual Configs": "[V3.x] Working Configs", "High-Visual Config", "Community Configs": "Community Configs" }
 subsec: { }
 notes: {
 [gold]Section Guide:[/gold]
-- [green]Stable Configs:[/green] A/B/C tiers by device performance and ram
-- [orange]Performance Configs:[/orange] fps-focused presets, includes Potato/lowest-end tier
-- [red]High-Visual Configs:[/red] visual-priority preset
+- [green]Stable Configs:[/green] A/B/C Tiers by Device Chipset/RAM
+- [orange]Performance Configs:[/orange] Performance Focused
+- [red]High-Visual Configs:[/red] Visuals-focused
 - [white]Community Configs:[/white] submitted by the community
 
 [gray]Folders not listed here fall under "Other Configs" automatically.[/gray]
 [green]Final Notes:
-[/green] [gold]Optimization patch[/gold] for [blue]Stable Configs [/blue]
-GC is handled by game now, configs reverted to liken vanilla for stability
-For custom deviceprofiles, I recommend creating your own using the deviceprofiles.ini generator
+[/green] [gold]Initial Patch[/gold] for [blue]ALL Configs [/blue]
+1. Use the new method for C# Environment. Even vanilla/no-config play performance is improved.  
+2. Report crashes in Discord or Submit an Issue on GitHub.  
 }

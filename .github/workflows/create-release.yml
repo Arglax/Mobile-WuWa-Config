@@ -5,11 +5,11 @@ on:
       tag:
         description: "Release tag (e.g. v3-5)"
         required: true
-        default: "v3-5"
+        default: "v3-6"
       title:
         description: "Release title"
         required: true
-        default: "Version 3.5 — Stable Release"
+        default: "Version 3.6 — Initial Release"
 
 jobs:
   release:
