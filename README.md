@@ -18,7 +18,9 @@
 
 ## 📢 Announcements — August 22, 2026
 🆕 **Update:** Configs will be worked on until next week and will be optimized throughout the patch. We're currently testing C# environment.
-
+-> Configs are updated for version 3.6 (Stable configs will be the first to get reworked to adapt to the new C# Environment)  
+-> Minor patches done to resolve force close/crashing on some devices. Please report if crashes are still experienced.  
+  
 **From July 29, 2026:** 
 - All patchers, web tools, and companion applications are now organized in the unified **[Tools & Utilities](#-tools--utilities)** section below!
 
@@ -26,7 +28,7 @@
 > ***If KuroGames requests to take down this tool, it will be taken down.***
 > 🔔 Keep an eye on the [forbidden CVars list](#forbidden-cvars-list) at the bottom of this file
 
-✅ All configs are updated for **Version 3.5** and may be further optimized throughout the version.
+✅ All configs are updated for **Version 3.6** and may be further optimized throughout the version.
 ---
 
 ## 📖 Table of Contents
