@@ -16,10 +16,11 @@
 
 ---
 
-## 📢 Announcements — August 22, 2026
-🆕 **Update:** Configs will be worked on until next week and will be optimized throughout the patch. We're currently testing C# environment.
+# 📢 Announcements — August 22, 2026
+🆕 **Update:** Configs will be worked on until next week and will be optimized throughout the patch. We're currently testing C# environment.  
 -> Configs are updated for version 3.6 (Stable configs will be the first to get reworked to adapt to the new C# Environment)  
 -> Minor patches done to resolve force close/crashing on some devices. Please report if crashes are still experienced.  
+-> Kindly test the game with no configs first but using C#Environment. Kuro cooked well with the performance this time.  
   
 **From July 29, 2026:** 
 - All patchers, web tools, and companion applications are now organized in the unified **[Tools & Utilities](#-tools--utilities)** section below!
