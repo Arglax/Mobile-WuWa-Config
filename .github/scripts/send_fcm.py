@@ -30,9 +30,9 @@ def main() -> int:
         "message": {
             "topic": TOPIC,
             "notification": {
-                "title": "Stable Config C Updated",
+                "title": "Configs Updated for C#",
 #                "body": f"Arglax released a new patch ({tag}) - tap to check it out!",
-                 "body": f"Patch: All Stable Configs - v ({tag}) - tap to check it out!",
+                 "body": f"Patch: All Configs for C# - v ({tag}) - tap to check it out!",
             },
             "data": {
                 "release_tag": tag,

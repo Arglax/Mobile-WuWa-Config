@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="https://img.shields.io/badge/Updated-AUG_22-blue?style=plastic&logo=github&logoColor=white" />
+  <img src="https://img.shields.io/badge/Updated-AUG_24-blue?style=plastic&logo=github&logoColor=white" />
   <img src="https://img.shields.io/badge/🎯_Target_Version-3.6-green?style=plastic" />
   <img src="https://img.shields.io/badge/Support-Vulkan_&_OpenGL-orange?style=plastic&logo=cog&logoColor=white" />
 </div>
@@ -82,9 +82,7 @@ All companion applications, patching tools, and web services are grouped here fo
 
 ## 📱 Device Compatibility
 
-These configs are optimized for **mid-end to flagship Android devices with Vulkan support**.
-
-Tested on devices including the **Poco X6 Pro 5G (Mali G615)** and similar Dimensity/Adreno/Mali hardware. Results may vary by device.
+These configs are tested mainly on MD8300 chipset, with community inputs to continuously optimize the file. Results may vary per device, especially for those with less than 8GB of Physical RAM.
 
 If a config doesn't work well for your device, many other creators and communities now develop WuWa mobile configs — feel free to experiment, or create and tune your own. 😄
 
@@ -225,6 +223,7 @@ Big thanks to everyone who contributed through testing, feedback, and sharing kn
 9. SuiX
 10. k4irzw67
 11. RabbyDevs
+12. nagasemana5608
 ---
 
 ## Forbidden CVars List

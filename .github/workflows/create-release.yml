@@ -3,13 +3,13 @@ on:
   workflow_dispatch:
     inputs:
       tag:
-        description: "Release tag (e.g. v3-5)"
+        description: "Release tag (e.g. v3-6)"
         required: true
         default: "v3-6"
       title:
         description: "Release title"
         required: true
-        default: "Version 3.6 — Initial Release"
+        default: "Version 3.6 — C# Release"
 
 jobs:
   release:

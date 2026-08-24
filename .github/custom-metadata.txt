@@ -1,18 +1,21 @@
 name: { Arglax }
 version: { v3.6 }
-version-name: { 22-08-26 }
+version-name: { 24-08-2026 }
 sections: { "Stable Configs": "Stable Configs", "Performance Configs": "Performance Configs", "High-Visual Configs": "[V3.x] Working Configs", "High-Visual Config", "Community Configs": "Community Configs" }
 subsec: { }
 notes: {
+[green][b]Kindly use the C# Environment then apply a config.[/b][/green]
+
 [gold]Section Guide:[/gold]
 - [green]Stable Configs:[/green] A/B/C Tiers by Device Chipset/RAM
 - [orange]Performance Configs:[/orange] Performance Focused
 - [red]High-Visual Configs:[/red] Visuals-focused
 - [white]Community Configs:[/white] submitted by the community
 
-[gray]Folders not listed here fall under "Other Configs" automatically.[/gray]
 [green]Final Notes:
 [/green] [gold]Initial Patch[/gold] for [blue]ALL Configs [/blue]
 1. Use the new method for C# Environment. Even vanilla/no-config play performance is improved.  
 2. Report crashes in Discord or Submit an Issue on GitHub.  
+3. All configs now use dp.Override.
+4. Potato Phones (<8GB Physical RAM) might not be able to utilize the C#. I recommend turning off background processes to free up your RAM.
 }
