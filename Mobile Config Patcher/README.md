@@ -1,8 +1,8 @@
 # WuWa Config Patcher
 
-An ultra light-weight (4.7MB) android application to improve streamlining of the quality of life in applying mobile configuration for Wuthering Waves.
+An ultra light-weight (5.5MB) android application to improve streamlining of the quality of life in applying mobile configuration for Wuthering Waves.
 
-[![Download WuWa Config Patcher](https://img.shields.io/badge/Download-WuWa%20Config%20Patcher%20v1.4.0-brightgreen?style=plastic&logo=android)](https://github.com/Arglax/Mobile-WuWa-Config/releases/tag/patcher_v1.4)
+[![Download WuWa Config Patcher](https://img.shields.io/badge/Download-WuWa%20Config%20Patcher%20v1.4.3-brightgreen?style=plastic&logo=android)](https://github.com/Arglax/Mobile-WuWa-Config/releases/tag/patcher_v1.4)
 ---
 
 ## Key Features
@@ -11,7 +11,7 @@ An ultra light-weight (4.7MB) android application to improve streamlining of the
 |---|---|
 | **1-Click Patching** | Uses the Shizuku service to write game configurations directly to the protected game data folder. No more wasting time navigating through Android's restricted data folders. |
 | **Safe Revert** | Accidentally break your graphics settings? Use **Revert to Vanilla** to instantly restore default game files. |
-| **[New] Advanced Multi-Select Patching** | Freely select specific combinations of `.ini` files to patch (e.g., just `Engine.ini` and `DeviceProfiles.ini`), or use the quick toggle to apply everything at once. |
+| **Advanced Multi-Select Patching** | Freely select specific combinations of `.ini` files to patch (e.g., just `Engine.ini` and `DeviceProfiles.ini`), or use the quick toggle to apply everything at once. |
 | **Flexible Config Sources** | Easily load configuration files from any direct download URL (`.zip`), a local folder, or a local `.zip` file. |
 | **Custom Repository Management** | Add, manage, and delete your own custom repositories with built-in setup guides. (The default Arglax repository is protected and always available). |
 | **Repository Sync** | Instantly fetch the latest configs via pull-to-refresh, which also automatically verifies your Shizuku connection status. |
