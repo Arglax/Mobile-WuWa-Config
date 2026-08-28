@@ -9,8 +9,6 @@ OS Version: Android 14/15
 
 Game Version: 3.6
 
-Config Type: Engine.ini
-
 Average FPS: Around 30 FPS on Tecno Camon 30 pro 5g
 (Might be Different to Everyone)
 
