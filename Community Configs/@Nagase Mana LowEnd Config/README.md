@@ -26,6 +26,6 @@ These configs are modified for Performance(depends but hit or miss)Cant Promise 
 It's highly advised to use a peltier cooler or a fan while playing.
 
 Other Processors Tested:
-Helio G99
-Snapdragon 8s Gen3
+Helio G99,
+Snapdragon 8s Gen3,
 Dimensity 8050
