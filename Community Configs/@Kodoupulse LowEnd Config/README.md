@@ -1,9 +1,11 @@
 Im @Kodoupulse From YouTube Thats Where I Upload The Gameplays
 
-Device Model: Tecno Camon 30 pro 5g
-Chipset: Dimensity 8200
+Device Model: Tecno Camon 30 pro 5g,
+Chipset: Dimensity 8200,
 RAM: 12 GB
+
 This Config is Tested Both 8gb and 12gb.
+
 OS Version: Android 14/15
 
 Game Version: 3.6
