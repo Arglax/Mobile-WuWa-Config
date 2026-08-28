@@ -1,4 +1,4 @@
-@Kodoupulse From YouTube Thats Where I Upload The Gameplays
+Im @Kodoupulse From YouTube Thats Where I Upload The Gameplays
 
 Device Model: Tecno Camon 30 pro 5g
 Chipset: Dimensity 8200
