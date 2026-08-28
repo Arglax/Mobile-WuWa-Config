@@ -12,7 +12,7 @@ Game Version: 3.6
 Average FPS: Around 30 FPS on Tecno Camon 30 pro 5g
 (Might be Different to Everyone)
 
-Lowest FPS: It Depends on What Device You're Using.
+Lowest FPS: It Depends on What Device You're Using or Temperature.
 
 Temperature Range: 35°C – 45°C
 
