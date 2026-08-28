@@ -4,12 +4,12 @@ on:
   push:
     branches: [main]
     paths:
-      - "\[V3.x\] Working Configs/**"
+      - "\\[V3.x\\] Working Configs/**"
       - ".github/forbidden_cvars.txt"
       - ".github/scripts/update_configs.py"
   pull_request:
     paths:
-      - "\[V3.x\] Working Configs/**"
+      - "\\[V3.x\\] Working Configs/**"
       - ".github/forbidden_cvars.txt"
   workflow_dispatch:
 
