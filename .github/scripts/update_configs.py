@@ -326,11 +326,12 @@ def main() -> int:
     forbidden = load_forbidden_cvars(FORBIDDEN_LIST_PATH)
 
     any_changes = False
-    for dir_name in ["[V3.x] Working Configs", "Community Configs"]:
-        config_dir = REPO_ROOT / dir_name
-        if not config_dir.exists():
-            print(f'Config folder "{dir_name}" not found — skipping.')
-            continue
+    
+    # Changed: Explicitly restricted to only scan the V3.x Working Configs directory
+    config_dir = REPO_ROOT / CONFIG_DIR_NAME
+    if not config_dir.exists():
+        print(f'Config folder "{CONFIG_DIR_NAME}" not found — skipping.')
+    else:
         for ini_path in sorted(config_dir.rglob("*.ini")):
             if ini_path.name.lower() not in TARGET_FILENAMES:
                 continue

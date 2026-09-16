@@ -9,7 +9,7 @@ on:
       title:
         description: "Release title"
         required: true
-        default: "Version 3.6 — C# Release"
+        default: "Version 3.6 — Added CC: LowEnd Configs"
 
 jobs:
   release:

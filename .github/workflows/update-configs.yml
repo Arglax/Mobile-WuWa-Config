@@ -48,6 +48,12 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          
+          # 1. Stage only the intended directory
           git add "[V3.x] Working Configs"
-          git commit -m "chore: auto-update configs (CVars + changelog)"
-          git push
+          
+          # 2. Revert any accidental unstaged changes elsewhere (safety net)
+          git checkout -- .
+          
+          # 3. Commit and push only if changes are staged
+          git diff --cached --quiet || (git commit -m "chore: auto-update configs (CVars + changelog)" && git push)

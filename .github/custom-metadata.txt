@@ -1,10 +1,10 @@
 name: { Arglax }
 version: { v3.6 }
-version-name: { 24-08-2026 }
+version-name: { 29-08-2026 }
 sections: { "Stable Configs": "Stable Configs", "Performance Configs": "Performance Configs", "High-Visual Configs": "[V3.x] Working Configs", "High-Visual Config", "Community Configs": "Community Configs" }
 subsec: { }
 notes: {
-[green][b]Kindly use the C# Environment then apply a config.[/b][/green]
+[b]Added LowEnd Configs by Kudoupulse in Community Configs.[/b]
 
 [gold]Section Guide:[/gold]
 - [green]Stable Configs:[/green] A/B/C Tiers by Device Chipset/RAM
