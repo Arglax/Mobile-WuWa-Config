@@ -1,10 +1,11 @@
 name: { Arglax }
 version: { v3.6 }
-version-name: { 29-08-2026 }
+version-name: { 19-09-2026 }
 sections: { "Stable Configs": "Stable Configs", "Performance Configs": "Performance Configs", "High-Visual Configs": "[V3.x] Working Configs", "High-Visual Config", "Community Configs": "Community Configs" }
 subsec: { }
 notes: {
-[b]Added LowEnd Configs by Kudoupulse in Community Configs.[/b]
+[b]Updated Stable Configs B and C.[/b]
+[b]Updated Configs by Kudoupulse in Community Configs.[/b]
 
 [gold]Section Guide:[/gold]
 - [green]Stable Configs:[/green] A/B/C Tiers by Device Chipset/RAM
