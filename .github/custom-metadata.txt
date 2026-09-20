@@ -1,11 +1,11 @@
 name: { Arglax }
 version: { v3.6 }
-version-name: { 19-09-2026 }
+version-name: { 20-09-2026 }
 sections: { "Stable Configs": "Stable Configs", "Performance Configs": "Performance Configs", "High-Visual Configs": "[V3.x] Working Configs", "High-Visual Config", "Community Configs": "Community Configs" }
 subsec: { }
 notes: {
-[b]Updated Stable Configs B and C.[/b]
 [b]Updated Configs by Kudoupulse in Community Configs.[/b]
+[b]Devices with or less than 8GB RAM is recommended to pick SD graphics on the next WuWa Update.
 
 [gold]Section Guide:[/gold]
 - [green]Stable Configs:[/green] A/B/C Tiers by Device Chipset/RAM
@@ -15,8 +15,6 @@ notes: {
 
 [green]Final Notes:
 [/green] [gold]Initial Patch[/gold] for [blue]ALL Configs [/blue]
-1. Use the new method for C# Environment. Even vanilla/no-config play performance is improved.  
-2. Report crashes in Discord or Submit an Issue on GitHub.  
-3. All configs now use dp.Override.
-4. Potato Phones (<8GB Physical RAM) might not be able to utilize the C#. I recommend turning off background processes to free up your RAM.
+1. Report crashes in Discord or Submit an Issue on GitHub.  
+2. Potato Phones (<8GB Physical RAM) might not be able to utilize the C#. I recommend turning off background processes to free up your RAM.
 }

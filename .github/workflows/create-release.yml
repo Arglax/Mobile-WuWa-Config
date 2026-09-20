@@ -9,7 +9,7 @@ on:
       title:
         description: "Release title"
         required: true
-        default: "Version 3.6 — Added CC: LowEnd Configs"
+        default: "Version 3.6.3 — Added CC: LowEnd Configs"
 
 jobs:
   release:
