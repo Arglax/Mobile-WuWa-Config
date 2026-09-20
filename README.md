@@ -16,8 +16,12 @@
 
 ---
 
-# 📢 Announcements — August 31, 2026
-🆕 **Update:** Mobile config patcher will be moved to [a different repository](https://github.com/Arglax/WuWa-Mobile-Config-Patcher/tree/main)  
+# 📢 Announcements — September 20, 2026
+🆕 Updated Stable B and C configs.
+🆕 Updated Community Configs-Kudoupulse
+> For devices with less than or equal to 8GB of RAM, as well as chipsets running around the minimum requirements of WuWa for mobile, kindly choose SD graphics paired with configs.  
+
+> **Update:** Mobile config patcher will be moved to [a different repository](https://github.com/Arglax/WuWa-Mobile-Config-Patcher/tree/main)  
 
 > [!NOTE]
 > ***If KuroGames requests to take down this tool, it will be taken down.***
