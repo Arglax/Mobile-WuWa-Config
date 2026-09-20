@@ -8,4 +8,5 @@ You Can Compare The "Thread Statistics" From "Scene App"
 Or
 If You Can Find The Vulkan Folder "VulkanProgramBinaryCache"
 Or
-The Game Starts "Compiling Shaders"
+The Game Starts "Compiling Shaders".
+Do Keep In Mind That Both This "Vulkan And My Other Vulkan Folder with Switch/Toggle" Might Not Work In The Future Compared to "Default Folder".
