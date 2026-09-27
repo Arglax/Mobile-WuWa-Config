@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="https://img.shields.io/badge/Updated-AUG_24-blue?style=plastic&logo=github&logoColor=white" />
+  <img src="https://img.shields.io/badge/Updated-SEP_20-blue?style=plastic&logo=github&logoColor=white" />
   <img src="https://img.shields.io/badge/🎯_Target_Version-3.6-green?style=plastic" />
   <img src="https://img.shields.io/badge/Support-Vulkan_&_OpenGL-orange?style=plastic&logo=cog&logoColor=white" />
 </div>
