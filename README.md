@@ -69,7 +69,7 @@ All companion applications, patching tools, and web services are grouped here fo
 
 | Tool | Type | Description | Link |
 |---|---|---|---|
-| **WuWa Config Patcher** | Android App | Automated config patcher tool with built-in log decryption. | [Download Release](https://github.com/Arglax/Mobile-WuWa-Config/releases/tag/patcher_v1.4) \| [Patcher Docs](Mobile%20Config%20Patcher/README.md) |
+| **WuWa Config Patcher** | Android App | Automated config patcher tool with built-in log decryption. | [Download Release](https://github.com/Arglax/WuWa-Mobile-Config-Patcher/releases#release-v1.7.0) \| [Patcher Docs](Mobile%20Config%20Patcher/README.md) |
 | **WuWaLab** | Open Source | Open-source companion app for Wuthering Waves. | [Get Latest Release](https://github.com/Arglax/WuWaLab/releases) |
 | **WuWa Custom Metadata Editor** | Auxiliary Utility | Android metadata editor for config distributors. Works solely for WuWa Config Patcher. | [Get Latest Release](https://github.com/Arglax/Custom-Metadata-Builder/releases) |
 | **WuWa Portal Web Suite** | Web Application | Includes the Config Selector Engine, Online Log Decryptor, and DeviceProfiles.ini Generator. | [Launch WuWa Portal](https://arglax.github.io/Mobile-WuWa-Config/index.html) \| [Online Log Decryptor](https://arglax.github.io/Mobile-WuWa-Config/tools/log-decryptor.html) |
@@ -87,7 +87,7 @@ If a config doesn't work well for your device, many other creators and communiti
 ---
 
 ## 🛠️ How to Install (Beginner Friendly)
--> In case you're not using the [Config Patcher](https://github.com/Arglax/Mobile-WuWa-Config/releases/tag/patcher_v1.4), this is the manual mode.
+-> In case you're not using the [Config Patcher](https://github.com/Arglax/WuWa-Mobile-Config-Patcher/releases#release-v1.7.0), this is the manual mode.
 
 <details>
 <summary>Click to expand step-by-step instructions</summary>
