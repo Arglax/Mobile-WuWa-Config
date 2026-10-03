@@ -1,6 +1,6 @@
 <div align="center">
-  <img src="https://img.shields.io/badge/Updated-SEP_20-blue?style=plastic&logo=github&logoColor=white" />
-  <img src="https://img.shields.io/badge/🎯_Target_Version-3.6-green?style=plastic" />
+  <img src="https://img.shields.io/badge/Updated-OCT_4-blue?style=plastic&logo=github&logoColor=white" />
+  <img src="https://img.shields.io/badge/🎯_Target_Version-3.7-green?style=plastic" />
   <img src="https://img.shields.io/badge/Support-Vulkan_&_OpenGL-orange?style=plastic&logo=cog&logoColor=white" />
 </div>
 
@@ -16,12 +16,12 @@
 
 ---
 
-# 📢 Announcements — September 20, 2026
-🆕 Updated Stable B and C configs.
-🆕 Updated Community Configs-Kudoupulse
+# 📢 Announcements — October 4, 2026
+Configs will be updated within October 4 to October 12. Kuro kept on releasing micro-fixes/micro-patches so I waited it out.  
+For crashing configs, try removing any garbage collection cvar for now, as well as fx cvars.  
 > For devices with less than or equal to 8GB of RAM, as well as chipsets running around the minimum requirements of WuWa for mobile, kindly choose SD graphics paired with configs.  
-
-> **Update:** Mobile config patcher will be moved to [a different repository](https://github.com/Arglax/WuWa-Mobile-Config-Patcher/tree/main)  
+  
+> Mobile config patcher is moved to [a different repository](https://github.com/Arglax/WuWa-Mobile-Config-Patcher/tree/main)  
 
 > [!NOTE]
 > ***If KuroGames requests to take down this tool, it will be taken down.***
