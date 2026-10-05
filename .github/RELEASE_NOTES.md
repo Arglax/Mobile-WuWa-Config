@@ -1,6 +1,5 @@
 
-# Configs updated for Wuthering Waves v3.6.
-## Added Community Configs - LowEnd from Kodoupulse
+# Configs updated for Wuthering Waves v3.7.
 
 ## High Visuals Configs
 
@@ -28,10 +27,9 @@
 | Potato Config | For low-end phones struggling to play WuWa | ~8GB |
 | Community Configs - Kudoupulse Low End Config| For Low end units | <8GB | 
 
-All configs are patched with the bike fix for frame-gen enabled gameplay.
 Credits to everyone in the README.md, in the config servers and to the reddit community.  
 
 🙏 Thanks to everyone who tested and reported issues.
 
 Final Notes:
-We're trying to find a possible workaround for C# for those who does not have at least 8GB.  
+Use SD if you're on 8GB RAM or AnTuTu Score is less than 1.2 million.

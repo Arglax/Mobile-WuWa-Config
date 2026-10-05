@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="https://img.shields.io/badge/Updated-OCT_4-blue?style=plastic&logo=github&logoColor=white" />
+  <img src="https://img.shields.io/badge/Updated-OCT_6-blue?style=plastic&logo=github&logoColor=white" />
   <img src="https://img.shields.io/badge/🎯_Target_Version-3.7-green?style=plastic" />
   <img src="https://img.shields.io/badge/Support-Vulkan_&_OpenGL-orange?style=plastic&logo=cog&logoColor=white" />
 </div>
@@ -16,7 +16,11 @@
 
 ---
 
-# 📢 Announcements — October 4, 2026
+# 📢 Announcements — October 6, 2026
+- All configs updated for v3.7 except PerfConfig2 and Potato Config
+- Will still update in the future to improve visual clarity for lower end configs
+
+### October 4, 2026  
 Configs will be updated within October 4 to October 12. Kuro kept on releasing micro-fixes/micro-patches so I waited it out.  
 For crashing configs, try removing any garbage collection cvar for now, as well as fx cvars.  
 > For devices with less than or equal to 8GB of RAM, as well as chipsets running around the minimum requirements of WuWa for mobile, kindly choose SD graphics paired with configs.  

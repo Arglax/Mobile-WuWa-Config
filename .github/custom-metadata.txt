@@ -1,20 +1,21 @@
 name: { Arglax }
-version: { v3.6 }
-version-name: { 20-09-2026 }
+version: { v3.7 }
+version-name: { 06-OCT-2026 }
 sections: { "Stable Configs": "Stable Configs", "Performance Configs": "Performance Configs", "High-Visual Configs": "[V3.x] Working Configs", "High-Visual Config", "Community Configs": "Community Configs" }
 subsec: { }
 notes: {
-[b]Updated Configs by Kudoupulse in Community Configs.[/b]
-[b]Devices with or less than 8GB RAM is recommended to pick SD graphics on the next WuWa Update.
+[b]Use SD resources if your AnTuTu Score is below 1.2M .[/b]
+[b]LandscapeSSR is back on Z_Experimental[/b]
 
 [gold]Section Guide:[/gold]
 - [green]Stable Configs:[/green] A/B/C Tiers by Device Chipset/RAM
-- [orange]Performance Configs:[/orange] Performance Focused
-- [red]High-Visual Configs:[/red] Visuals-focused
-- [white]Community Configs:[/white] submitted by the community
+- [orange]Performance Configs:[/orange] Performance-Focused
+- [red]High-Visual Configs:[/red] Visuals-Focused
+- [white]Community Configs:[/white] contributed by the community
 
-[green]Final Notes:
-[/green] [gold]Initial Patch[/gold] for [blue]ALL Configs [/blue]
+[green]Final Notes:[/green]
+[gold]First 3.7 Patch[/gold] for [blue]ALL Configs [/blue]
 1. Report crashes in Discord or Submit an Issue on GitHub.  
-2. Potato Phones (<8GB Physical RAM) might not be able to utilize the C#. I recommend turning off background processes to free up your RAM.
+2. In theory, you can use any config. So choose the one that suits you the best.
+3. You can send your feedback through the mobile config patcher app, or Discord.
 }

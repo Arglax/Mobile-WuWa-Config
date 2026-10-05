@@ -3,13 +3,13 @@ on:
   workflow_dispatch:
     inputs:
       tag:
-        description: "Release tag (e.g. v3-6)"
+        description: "Release tag (e.g. v3-7)"
         required: true
         default: "v3-6"
       title:
         description: "Release title"
         required: true
-        default: "Version 3.6.3 — Added CC: LowEnd Configs"
+        default: "Version 3.7 — Updated Configs"
 
 jobs:
   release:
