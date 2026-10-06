@@ -1,11 +1,10 @@
 name: { Arglax }
-version: { v3.7 }
-version-name: { 06-OCT-2026 }
+version: { v3.7.1 }
+version-name: { 07-OCT-2026 }
 sections: { "Stable Configs": "Stable Configs", "Performance Configs": "Performance Configs", "High-Visual Configs": "[V3.x] Working Configs", "High-Visual Config", "Community Configs": "Community Configs" }
 subsec: { }
 notes: {
-[b]Use SD resources if your AnTuTu Score is below 1.2M .[/b]
-[b]LandscapeSSR is back on Z_Experimental[/b]
+[i]Updated Z_Experimental Config and Kudoupulse Configs[/i]
 
 [gold]Section Guide:[/gold]
 - [green]Stable Configs:[/green] A/B/C Tiers by Device Chipset/RAM
@@ -15,7 +14,10 @@ notes: {
 
 [green]Final Notes:[/green]
 [gold]First 3.7 Patch[/gold] for [blue]ALL Configs [/blue]
-1. Report crashes in Discord or Submit an Issue on GitHub.  
-2. In theory, you can use any config. So choose the one that suits you the best.
-3. You can send your feedback through the mobile config patcher app, or Discord.
+1. [b]Use SD resources if your AnTuTu Score is below 1.2M .[/b]
+2. [b]LandscapeSSR (puddle reflections) is back on Z_Experimental[/b]
+3. Report crashes in Discord or Submit an Issue on GitHub.  
+4. In theory, you can use any config. So choose the one that suits you the best.
+5. You can send your feedback through the mobile config patcher app, or Discord.
+
 }
