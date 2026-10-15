@@ -16,16 +16,8 @@
 
 ---
 
-# 📢 Announcements — October 6, 2026
-- All configs updated for v3.7 except PerfConfig2 and Potato Config
-- Will still update in the future to improve visual clarity for lower end configs
-
-### October 4, 2026  
-Configs will be updated within October 4 to October 12. Kuro kept on releasing micro-fixes/micro-patches so I waited it out.  
-For crashing configs, try removing any garbage collection cvar for now, as well as fx cvars.  
-> For devices with less than or equal to 8GB of RAM, as well as chipsets running around the minimum requirements of WuWa for mobile, kindly choose SD graphics paired with configs.  
-  
-> Mobile config patcher is moved to [a different repository](https://github.com/Arglax/WuWa-Mobile-Config-Patcher/tree/main)  
+# 📢 Announcements — October 15. 2026  
+1. Configs will be updated this weekend (v3.7.3)
 
 > [!NOTE]
 > ***If KuroGames requests to take down this tool, it will be taken down.***
@@ -73,7 +65,7 @@ All companion applications, patching tools, and web services are grouped here fo
 
 | Tool | Type | Description | Link |
 |---|---|---|---|
-| **WuWa Config Patcher** | Android App | Automated config patcher tool with built-in log decryption. | [Download Release](https://github.com/Arglax/WuWa-Mobile-Config-Patcher/releases#release-v1.7.0) \| [Patcher Docs](Mobile%20Config%20Patcher/README.md) |
+| **WuWa Config Patcher** | Android App | Automated config patcher tool with built-in log decryption. | [Download Release](https://github.com/Arglax/WuWa-Mobile-Config-Patcher/releases) \| [Patcher Docs](https://arglax.github.io/WuWa-Mobile-Config-Patcher/) |
 | **WuWaLab** | Open Source | Open-source companion app for Wuthering Waves. | [Get Latest Release](https://github.com/Arglax/WuWaLab/releases) |
 | **WuWa Custom Metadata Editor** | Auxiliary Utility | Android metadata editor for config distributors. Works solely for WuWa Config Patcher. | [Get Latest Release](https://github.com/Arglax/Custom-Metadata-Builder/releases) |
 | **WuWa Portal Web Suite** | Web Application | Includes the Config Selector Engine, Online Log Decryptor, and DeviceProfiles.ini Generator. | [Launch WuWa Portal](https://arglax.github.io/Mobile-WuWa-Config/index.html) \| [Online Log Decryptor](https://arglax.github.io/Mobile-WuWa-Config/tools/log-decryptor.html) |
@@ -91,7 +83,7 @@ If a config doesn't work well for your device, many other creators and communiti
 ---
 
 ## 🛠️ How to Install (Beginner Friendly)
--> In case you're not using the [Config Patcher](https://github.com/Arglax/WuWa-Mobile-Config-Patcher/releases#release-v1.7.0), this is the manual mode.
+-> In case you're not using the [Config Patcher](https://github.com/Arglax/WuWa-Mobile-Config-Patcher/releases), this is the manual mode.
 
 <details>
 <summary>Click to expand step-by-step instructions</summary>
@@ -138,8 +130,10 @@ Internal Storage/
 
 The full path will look something like this (example using Poco X6 Pro 5G):
 
-`This PC\POCO X6 Pro 5G\Internal shared storage\Android\data\com.kurogame.wutheringwaves.global\files\UE4Game\Client\Client\Saved\Config\Android`
-
+`This PC\POCO X6 Pro 5G\Internal shared storage\Android\data\com.kurogame.wutheringwaves.global\files\UE4Game\Client\Client\Saved\Config\Android`  
+but if on Android,
+`...\Android\data\com.kurogame.wutheringwaves.global\files\UE4Game\Client\Client\Saved\Config\Android`
+  
 ---
 
 ## ❓ Frequently Asked Questions (FAQ)
@@ -196,11 +190,6 @@ Join the **Discord** community for support, updates, and discussions:
 </details>
 
 ---
-
-## 🤖 AI-Assisted Config Creation
-If you use AI to help create or modify configs, Claude generally performs well for this task.
-
-> 🛑 **Always verify that your CVars are real, registered, and supported by the game version you're using.** Check your `Client.log` files regularly. AI hallucinations are real.
 
 **Useful references for tweaking your own configs:**
 - [Epic Games Unreal Engine Console Variables Reference](https://dev.epicgames.com/documentation/en-us/unreal-engine/unreal-engine-console-variables-reference)
