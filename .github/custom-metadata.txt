@@ -1,12 +1,13 @@
 name: { Arglax }
-version: { v3.7.3 }
-version-name: { 17-10-2026 }
+version: { v3.7.4 }
+version-name: { 18-10-2026 }
 sections: { "Stable Configs": "Stable Configs", "Performance Configs": "Performance Configs", "High-Visual Configs": "[V3.x] Working Configs", "High-Visual Config", "Community Configs": "Community Configs" }
 subsec: { }
 notes: {
 [i]Updated all Stable Configs[/i]
 [gold]Now comes with better graphics![/gold]
 [i]Added New Community Config - Siesta[/i]
+[b][green]-Frame Gen for HighVisuals and Stable A/B [/green][/b]
 
 [gold]Section Guide:[/gold]
 - [green]Stable Configs:[/green] A/B/C Tiers by Device Chipset/RAM
