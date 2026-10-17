@@ -16,8 +16,8 @@
 
 ---
 
-# 📢 Announcements — October 17. 2026  
-1. Stable Configs updated. (v3.7.3)
+# 📢 Announcements — October 18. 2026  
+1. Frame gen for Highvisual configs and Stable Config A/B. (v3.7.4)
 
 > [!NOTE]
 > ***If KuroGames requests to take down this tool, it will be taken down.***  
