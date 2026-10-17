@@ -1,5 +1,6 @@
-
-# Configs updated for Wuthering Waves v3.7.
+# Configs updated for Wuthering Waves v3.7. (3rd revision)
+>[!NOTE]
+> Did a patch on deviceprofiles so you should now have the frame gen back (if not, I will outsource the naming from other people, expect a 3.7.4 update for that)
 
 ## High Visuals Configs
 
@@ -8,15 +9,15 @@
 | HighVisual | High quality characters and textures, balanced performance | 16GB|
 | Z_Experimental | Alternative to HighVisual if you experience issues | 12GB|
 | Community Configs - Mythos Overdrive | Custom High-visual config| 16GB |
-> Both use dp.Override to Adreno840, in case frame gen is not working for you because you use mediatek, switch the name from Adreno840 to MTK_6991
 
 ## Stable Configs
 
-| Config | Target Device | Recomm. RAM |
-|---|---|---|
-| Stable_A | High-end devices| 12GB |
-| Stable_B | Mid-end devices | 12GB |
-| Stable_C | Low-end devices | 8GB |
+| Config | Target Device | Recomm. RAM | Pack |
+|---|---|---|---|
+| Stable_A | High-end devices| 12GB | HD* ,SD |
+| Stable_B | Mid-end devices | 12GB | HD*, SD* |
+| Stable_C | Low-end devices | 8GB | SD* |
+> '*' is the recommended pack to use
 
 ## Performance Configs
 
@@ -32,4 +33,6 @@ Credits to everyone in the README.md, in the config servers and to the reddit co
 🙏 Thanks to everyone who tested and reported issues.
 
 Final Notes:
-Use SD if you're on 8GB RAM or AnTuTu Score is less than 1.2 million.
+> Use SD if you're on 8GB RAM or AnTuTu Score is less than 1.2 million.
+> Also found out that if you have a really low device score and dp override to a weak chipset, SD is forced upon you (well they said this anyways so you might actually get an HD pack if you dp override to a stronger unit)
+> All configs are working at least for Poco X6 Pro (MD8300) so please tag me in Discord if anything is broken so I can fix it this weekend.

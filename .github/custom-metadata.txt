@@ -1,10 +1,12 @@
 name: { Arglax }
-version: { v3.7.1 }
-version-name: { 13-10-2026 }
+version: { v3.7.3 }
+version-name: { 17-10-2026 }
 sections: { "Stable Configs": "Stable Configs", "Performance Configs": "Performance Configs", "High-Visual Configs": "[V3.x] Working Configs", "High-Visual Config", "Community Configs": "Community Configs" }
 subsec: { }
 notes: {
-[i]Updated all Configs[/i]
+[i]Updated all Stable Configs[/i]
+[gold]Now comes with better graphics![/gold]
+[i]Added New Community Config - Siesta[/i]
 
 [gold]Section Guide:[/gold]
 - [green]Stable Configs:[/green] A/B/C Tiers by Device Chipset/RAM
@@ -13,7 +15,6 @@ notes: {
 - [white]Community Configs:[/white] contributed by the community
 
 [green]Final Notes:[/green]
-[gold]Second 3.7 Patch[/gold] for [blue]ALL Configs [/blue]
 1. [b]Use SD resources if your AnTuTu Score is below 1.2M .[/b]
 2. [b]LandscapeSSR (puddle reflections) is back on Z_Experimental[/b]
 3. Report crashes in Discord or Submit an Issue on GitHub.  

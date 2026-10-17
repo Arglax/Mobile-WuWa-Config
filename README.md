@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="https://img.shields.io/badge/Updated-OCT_6-blue?style=plastic&logo=github&logoColor=white" />
+  <img src="https://img.shields.io/badge/Updated-OCT_17-blue?style=plastic&logo=github&logoColor=white" />
   <img src="https://img.shields.io/badge/🎯_Target_Version-3.7-green?style=plastic" />
   <img src="https://img.shields.io/badge/Support-Vulkan_&_OpenGL-orange?style=plastic&logo=cog&logoColor=white" />
 </div>
@@ -16,14 +16,14 @@
 
 ---
 
-# 📢 Announcements — October 15. 2026  
-1. Configs will be updated this weekend (v3.7.3)
+# 📢 Announcements — October 17. 2026  
+1. Stable Configs updated. (v3.7.3)
 
 > [!NOTE]
-> ***If KuroGames requests to take down this tool, it will be taken down.***
+> ***If KuroGames requests to take down this tool, it will be taken down.***  
 > 🔔 Keep an eye on the [forbidden CVars list](#forbidden-cvars-list) at the bottom of this file
 
-✅ All configs are updated for **Version 3.6** and may be further optimized throughout the version.
+✅ All configs are updated for **Version 3.7** and may be further optimized throughout the version.
 ---
 
 ## 📖 Table of Contents
