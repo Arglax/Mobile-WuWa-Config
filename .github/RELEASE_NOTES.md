@@ -1,4 +1,4 @@
-# Configs updated for Wuthering Waves v3.7. (3rd revision)
+# Configs updated for Wuthering Waves v3.7. (4th revision)
 >[!NOTE]
 > Did a patch on deviceprofiles so you should now have the frame gen back (if not, I will outsource the naming from other people, expect a 3.7.4 update for that)
 
