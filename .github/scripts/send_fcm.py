@@ -30,7 +30,7 @@ def main() -> int:
         "message": {
             "topic": TOPIC,
             "notification": {
-                "title": "Configs Updated for C#",
+                "title": "Frame Gen Patch",
 #                "body": f"Arglax released a new patch ({tag}) - tap to check it out!",
                  "body": f"FrameGen for HighVisuals + Stable A/B - v ({tag}) - tap to check it out!",
             },
