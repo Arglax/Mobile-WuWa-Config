@@ -8,7 +8,7 @@ This Config is Tested Both 8gb and 12gb.
 
 OS Version: Android 14/15
 
-Game Version: 3.6
+Game Version: any version(im currently at 3.7 and hope still working in 3.8 above)
 
 Average FPS: Around 30 FPS on Tecno Camon 30 pro 5g
 (Might be Different to Everyone)
