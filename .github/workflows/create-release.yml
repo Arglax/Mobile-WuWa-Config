@@ -5,7 +5,7 @@ on:
       tag:
         description: "Release tag (e.g. v3-7)"
         required: true
-        default: "v3-7"
+        default: "v3-7-x"
       title:
         description: "Release title"
         required: true

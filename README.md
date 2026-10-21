@@ -16,7 +16,10 @@
 
 ---
 
-# 📢 Announcements — October 18. 2026  
+# 📢 Announcements — October 22, 2026  
+-> Updated Community Configs - Kudoupulse Configs
+
+Oct 18, 2026  
 1. Frame gen for Highvisual configs and Stable Config A/B. (v3.7.4)
 
 > [!NOTE]

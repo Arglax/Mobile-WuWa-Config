@@ -30,9 +30,8 @@ def main() -> int:
         "message": {
             "topic": TOPIC,
             "notification": {
-                "title": "Frame Gen Patch",
-#                "body": f"Arglax released a new patch ({tag}) - tap to check it out!",
-                 "body": f"FrameGen for HighVisuals + Stable A/B - v ({tag}) - tap to check it out!",
+                "title": "Community Config Update",
+                 "body": f"Updated Kudoupulse Configs - v ({tag}) - tap to check it out!",
             },
             "data": {
                 "release_tag": tag,

@@ -1,6 +1,6 @@
-# Configs updated for Wuthering Waves v3.7. (4th revision)
+# Configs updated for Wuthering Waves v3.7 (5th revision)
 >[!NOTE]
-> Did a patch on deviceprofiles so you should now have the frame gen back (if not, I will outsource the naming from other people, expect a 3.7.4 update for that)
+> If frame gen does not appear for you, just delete the DeviceProfiles.ini
 
 ## High Visuals Configs
 
