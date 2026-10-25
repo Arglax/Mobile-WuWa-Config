@@ -16,7 +16,7 @@
 
 ---
 
-# 📢 Announcements — October 22, 2026  
+# 📢 Announcements — October 25, 2026  
 With the new release of the final version of the [Mobile Config Patcher (v2.1.0)](https://github.com/Arglax/WuWa-Mobile-Config-Patcher/releases/tag/v2.1.0), you may now play at a resized resolution for an FPS boost + less heating combination. I recommend running at these scales:
 
 | Scale | Use Case |
