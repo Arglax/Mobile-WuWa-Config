@@ -17,17 +17,27 @@
 ---
 
 # 📢 Announcements — October 22, 2026  
--> Updated Community Configs - Kudoupulse Configs
+With the new release of the final version of the [Mobile Config Patcher (v2.1.0)](https://github.com/Arglax/WuWa-Mobile-Config-Patcher/releases/tag/v2.1.0), you may now play at a resized resolution for an FPS boost + less heating combination. I recommend running at these scales:
 
-Oct 18, 2026  
-1. Frame gen for Highvisual configs and Stable Config A/B. (v3.7.4)
-
-> [!NOTE]
-> ***If KuroGames requests to take down this tool, it will be taken down.***  
-> 🔔 Keep an eye on the [forbidden CVars list](#forbidden-cvars-list) at the bottom of this file
+| Scale | Use Case |
+| :--- | :--- |
+| **`> 1.0`** | Better-best crisp visuals. Would greatly affect performance |
+| **`1.0`** | This is your normal scale |
+| **`0.9`** | A bit of downscale, OK perf, nice visuals |
+| **`0.8`** | OK perf, OK visuals |
+| **`0.6 - 0.75`** | Sweet spot for performance and visuals (can get slightly jaggedy/blurry) |
+| **`0.4 - 0.55`** | Aiming for performance, visuals may be bad |
+| **`< 0.4`** | Use if you're trolling or wanna play at microscopic subatomic parti-pixels |
+  
+^ With these scalings, even a low-tier mobile unit ***may*** run heavier config presets.
 
 ✅ All configs are updated for **Version 3.7** and may be further optimized throughout the version.
 ---
+> [!NOTE]
+> ***If KuroGames requests to take down this tool, it will be taken down.***  
+> 🔔 Keep an eye on the [forbidden CVars list](#forbidden-cvars-list) at the bottom of this file
+ 
+--- 
 
 ## 📖 Table of Contents
 
