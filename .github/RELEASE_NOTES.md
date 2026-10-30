@@ -1,6 +1,8 @@
-# Configs updated for Wuthering Waves v3.7 (5th revision)
+# Configs updated for Wuthering Waves v3.7 (6th revision)
 >[!NOTE]
+> DeviceProfiles.ini updated so people retain frame gen.
 > If frame gen does not appear for you, just delete the DeviceProfiles.ini
+> Stable Config C's setup will **Always** enforce SD graphics. To bypass this, remove the `DeviceProfiles.ini` file and the `dp.Override` in the engine.ini.
 
 ## High Visuals Configs
 

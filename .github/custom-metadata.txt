@@ -1,13 +1,11 @@
 name: { Arglax }
-version: { v3.7.5 }
-version-name: { 22-10-2026 }
+version: { v3.7.6 }
+version-name: { 30-10-2026 }
 sections: { "Stable Configs": "Stable Configs", "Performance Configs": "Performance Configs", "High-Visual Configs": "[V3.x] Working Configs", "High-Visual Config", "Community Configs": "Community Configs" }
 subsec: { }
 notes: {
-[b]New[/b]Updated Community Configs - Kudoupulse    
-[i]Added New Community Config - Siesta[/i]
-[b][green]-Frame Gen for HighVisuals and Stable A/B [/green][/b]
-- If frame gen does not appear for you, delete the DeviceProfiles.ini only.
+[b][green]Updated DeviceProfiles.ini[/green][/b]
+- If frame gen still does not appear for you, delete the DeviceProfiles.ini only.
 
 [gold]Section Guide:[/gold]
 - [green]Stable Configs:[/green] A/B/C Tiers by Device Chipset/RAM
@@ -22,4 +20,5 @@ notes: {
 4. In theory, you can use any config. So choose the one that suits you the best.
 5. You can send your feedback through the mobile config patcher app, or Discord.
 
+[gold][/gold]
 }

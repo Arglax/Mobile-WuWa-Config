@@ -9,7 +9,7 @@ on:
       title:
         description: "Release title"
         required: true
-        default: "Version 3.7 — Updated Configs"
+        default: "Version 3.7.x — Updated Configs"
 
 jobs:
   release:

@@ -30,8 +30,8 @@ def main() -> int:
         "message": {
             "topic": TOPIC,
             "notification": {
-                "title": "Community Config Update",
-                 "body": f"Updated Kudoupulse Configs - v ({tag}) - tap to check it out!",
+                "title": "Very Minor Patch Only",
+                 "body": f"DeviceProfiles.ini Update - v({tag})",
             },
             "data": {
                 "release_tag": tag,
